@@ -15,6 +15,7 @@
                05 RC-MESSAGE-BODY PIC X(300).
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
+
        PROCEDURE DIVISION.
            OPEN INPUT F-MESSAGES-FILE.
 
@@ -25,11 +26,12 @@
                    FUNCTION TRIM(RC-MESSAGE-TITLE)
                  END-DISPLAY
                AT END  
-                 MOVE 1 WS-FILE-IS-ENDED
+                 MOVE 1 TO WS-FILE-IS-ENDED
              END-READ      
            END-PERFORM.
 
            CLOSE F-MESSAGES-FILE.
        
+
        
        
