@@ -26,6 +26,13 @@
              05 MENU-CHOICE-FIELD LINE 20 COLUMN 16 PIC X
                 USING MENU-CHOICE.
 
+           01-MESSAGES-MENU-SCREEN.
+
+           01-VIEW-MESSAGE-SCREEN.
+
+           01-WRITE-MESSAGE-SCREEN.     
+
+
        PROCEDURE DIVISION.
 
        0110-DISPLAY-LOGIN.
@@ -45,3 +52,13 @@
            ELSE IF MENU-CHOICE = "n" THEN
              PERFORM 0120-DISPLAY-MENU
            END-IF.
+
+       0130-MESSAGES-MENU.
+           CALL MESSAGES-MENU.
+
+       0140-VIEW-MESSAGE.
+           CALL VIEW-MESSAGE
+
+       0150-WRITE-MESSAGE.
+           CALL WRITE-MESSAGE
+               
