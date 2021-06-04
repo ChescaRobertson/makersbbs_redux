@@ -21,8 +21,9 @@
            01 MENU-CHOICE PIC X.
            01 WS-COUNTER PIC 9(2).
            01 MSG-MENU-CHOICE PIC X.
+           01 MSG-MENU-CHOICE2 PIC X.
            01 WS-MESSAGES.
-               05 WS-MESSAGE OCCURS 10 TIMES
+               05 WS-MESSAGE OCCURS 25 TIMES
                ASCENDING KEY IS WS-TITLE
                INDEXED BY MSG-IDX.
                    10 WS-TITLE PIC X(60).
@@ -81,10 +82,39 @@
              05 MSG-MENU-CHOICE-FIELD LINE 32 COLUMN 16 PIC X
                 USING MSG-MENU-CHOICE.
 
-
-      *    01-VIEW-MESSAGE-SCREEN.
-
-      *    01-WRITE-MESSAGE-SCREEN.     
+           01 MSG-MENU-SCREEN2
+             BACKGROUND-COLOR IS 1.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
+             05 LINE 4 COLUMN 10 VALUE "Here are the last 10 messages:".
+             05 LINE 6 COLUMN 10 VALUE "11. ".
+             05 LINE 6 COLUMN 10 PIC X(60) USING WS-TITLE(20).
+             05 LINE 7 COLUMN 10 VALUE "12. ".
+             05 LINE 7 COLUMN 10 PIC X(60) USING WS-TITLE(19).
+             05 LINE 8 COLUMN 10 VALUE "13. ".
+             05 LINE 8 COLUMN 10 PIC X(60) USING WS-TITLE(18).
+             05 LINE 9 COLUMN 10 VALUE "14. ".
+             05 LINE 9 COLUMN 10 PIC X(60) USING WS-TITLE(17).
+             05 LINE 10 COLUMN 10 VALUE "15. ".
+             05 LINE 10 COLUMN 10 PIC X(60) USING WS-TITLE(16).
+             05 LINE 11 COLUMN 10 VALUE "16. ".
+             05 LINE 11 COLUMN 10 PIC X(60) USING WS-TITLE(15).
+             05 LINE 12 COLUMN 10 VALUE "17. ".
+             05 LINE 12 COLUMN 10 PIC X(60) USING WS-TITLE(14).
+             05 LINE 13 COLUMN 10 VALUE "18. ".
+             05 LINE 13 COLUMN 10 PIC X(60) USING WS-TITLE(13).
+             05 LINE 14 COLUMN 10 VALUE "19. ".
+             05 LINE 14 COLUMN 10 PIC X(60) USING WS-TITLE(12).
+             05 LINE 15 COLUMN 10 VALUE "20. ".
+             05 LINE 15 COLUMN 10 PIC X(60) USING WS-TITLE(11).
+             05 LINE 26 COLUMN 10 VALUE "( ) Read Message".
+             05 LINE 28 COLUMN 10 VALUE "(w) Write your own message".
+             05 LINE 30 COLUMN 10 VALUE "(n) Next Page".
+             05 LINE 30 COLUMN 30 VALUE "(p) Previous Page".
+             05 LINE 30 COLUMN 50 VALUE "(g) Go back".
+             05 LINE 32 COLUMN 10 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE2-FIELD LINE 32 COLUMN 16 PIC X
+                USING MSG-MENU-CHOICE2.     
 
 
        PROCEDURE DIVISION.
@@ -109,6 +139,30 @@
 
        0130-MSG-MENU.
       *    CALL MESSAGES-MENU.
+           PERFORM 0100-INITIALIZE.
+           
+           INITIALIZE MSG-MENU-CHOICE.
+           DISPLAY MSG-MENU-SCREEN.
+           ACCEPT MSG-MENU-CHOICE-FIELD.
+           IF MSG-MENU-CHOICE = "g" THEN
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF MSG-MENU-CHOICE = "n" then
+               PERFORM 0140-MSG-MENU2    
+           END-IF.
+
+           0140-MSG-MENU2.
+           
+           PERFORM 0100-INITIALIZE.
+
+           INITIALIZE MSG-MENU-CHOICE2.
+           DISPLAY MSG-MENU-SCREEN2.
+           ACCEPT MSG-MENU-CHOICE2-FIELD.
+           IF MSG-MENU-CHOICE2 = "g" THEN
+               PERFORM 0120-DISPLAY-MENU
+           END-IF.
+
+           0100-INITIALIZE.
+
            SET MSG-IDX TO 0.
            OPEN INPUT F-MESSAGES-FILE.
            PERFORM UNTIL WS-FILE-IS-ENDED = 1
@@ -122,11 +176,4 @@
            END-PERFORM.
 
            CLOSE F-MESSAGES-FILE.
-           
-           INITIALIZE MSG-MENU-CHOICE.
-           DISPLAY MSG-MENU-SCREEN.
-           ACCEPT MSG-MENU-CHOICE-FIELD.
-           IF MSG-MENU-CHOICE = "g" THEN
-               PERFORM 0120-DISPLAY-MENU
-           END-IF.
                
