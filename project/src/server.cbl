@@ -22,8 +22,8 @@
            01 MSG-MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE2 PIC X.
            01 WRITE-MSG-MENU-CHOICE PIC X.
-           01 WS-MSG-TITLE PIC X(60).
-           01 WS-MSG-BODY PIC X(300).
+           01 MSG-TITLE PIC X(60).
+           01 MSG-BODY PIC X(300).
            01 WS-MESSAGES.
                05 WS-MESSAGE OCCURS 25 TIMES
                ASCENDING KEY IS WS-TITLE
@@ -32,108 +32,108 @@
            SCREEN SECTION.
            01 LOGIN-SCREEN.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
-             05 LINE 4 COLUMN 10 VALUE "What's your name?".
-             05 USER-NAME-FIELD LINE 6 COLUMN 10 PIC X(10)
+             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 4 COL 10 VALUE "What's your name?".
+             05 USER-NAME-FIELD LINE 6 COL 10 PIC X(10)
                 USING USER-NAME.
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 1.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
-             05 LINE 4 COLUMN 10 VALUE "Welcome, ".
-             05 LINE 4 COLUMN 19 PIC X(10) USING USER-NAME.
-             05 LINE 8 COLUMN 10 VALUE "(m) Messages".
-             05 LINE 8 COLUMN 30 VALUE "(l) Logout".
-             05 LINE 8 COLUMN 48 VALUE "(q) Quit".
-             05 LINE 20 COLUMN 10 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 20 COLUMN 16 PIC X
+             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 4 COL 10 VALUE "Welcome, ".
+             05 LINE 4 COL 19 PIC X(10) USING USER-NAME.
+             05 LINE 8 COL 10 VALUE "(m) Messages".
+             05 LINE 8 COL 30 VALUE "(l) Logout".
+             05 LINE 8 COL 48 VALUE "(q) Quit".
+             05 LINE 20 COL 10 VALUE "Pick: ".
+             05 MENU-CHOICE-FIELD LINE 20 COL 16 PIC X
                 USING MENU-CHOICE.
 
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 1.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
-             05 LINE 4 COLUMN 10 VALUE "Here are the last 10 messages:".
-             05 LINE 6 COLUMN 10 VALUE "1. ".
-             05 LINE 6 COLUMN 10 PIC X(60) USING WS-TITLE(10).
-             05 LINE 7 COLUMN 10 VALUE "2. ".
-             05 LINE 7 COLUMN 10 PIC X(60) USING WS-TITLE(9).
-             05 LINE 8 COLUMN 10 VALUE "3. ".
-             05 LINE 8 COLUMN 10 PIC X(60) USING WS-TITLE(8).
-             05 LINE 9 COLUMN 10 VALUE "4. ".
-             05 LINE 9 COLUMN 10 PIC X(60) USING WS-TITLE(7).
-             05 LINE 10 COLUMN 10 VALUE "5. ".
-             05 LINE 10 COLUMN 10 PIC X(60) USING WS-TITLE(6).
-             05 LINE 11 COLUMN 10 VALUE "6. ".
-             05 LINE 11 COLUMN 10 PIC X(60) USING WS-TITLE(5).
-             05 LINE 12 COLUMN 10 VALUE "7. ".
-             05 LINE 12 COLUMN 10 PIC X(60) USING WS-TITLE(4).
-             05 LINE 13 COLUMN 10 VALUE "8. ".
-             05 LINE 13 COLUMN 10 PIC X(60) USING WS-TITLE(3).
-             05 LINE 14 COLUMN 10 VALUE "9. ".
-             05 LINE 14 COLUMN 10 PIC X(60) USING WS-TITLE(2).
-             05 LINE 15 COLUMN 10 VALUE "10. ".
-             05 LINE 15 COLUMN 10 PIC X(60) USING WS-TITLE(1).
-             05 LINE 26 COLUMN 10 VALUE "( ) Read Message".
-             05 LINE 28 COLUMN 10 VALUE "(w) Write your own message".
-             05 LINE 30 COLUMN 10 VALUE "(n) Next Page".
-             05 LINE 30 COLUMN 30 VALUE "(p) Previous Page".
-             05 LINE 30 COLUMN 50 VALUE "(g) Go back".
-             05 LINE 32 COLUMN 10 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE-FIELD LINE 32 COLUMN 16 PIC X
+             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 4 COL 10 VALUE "Here are the last 10 messages:".
+             05 LINE 6 COL 10 VALUE "1. ".
+             05 LINE 6 COL 13 PIC X(60) USING WS-TITLE(10).
+             05 LINE 7 COL 10 VALUE "2. ".
+             05 LINE 7 COL 13 PIC X(60) USING WS-TITLE(9).
+             05 LINE 8 COL 10 VALUE "3. ".
+             05 LINE 8 COL 13 PIC X(60) USING WS-TITLE(8).
+             05 LINE 9 COL 10 VALUE "4. ".
+             05 LINE 9 COL 13 PIC X(60) USING WS-TITLE(7).
+             05 LINE 10 COL 10 VALUE "5. ".
+             05 LINE 10 COL 13 PIC X(60) USING WS-TITLE(6).
+             05 LINE 11 COL 10 VALUE "6. ".
+             05 LINE 11 COL 13 PIC X(60) USING WS-TITLE(5).
+             05 LINE 12 COL 10 VALUE "7. ".
+             05 LINE 12 COL 13 PIC X(60) USING WS-TITLE(4).
+             05 LINE 13 COL 10 VALUE "8. ".
+             05 LINE 13 COL 13 PIC X(60) USING WS-TITLE(3).
+             05 LINE 14 COL 10 VALUE "9. ".
+             05 LINE 14 COL 13 PIC X(60) USING WS-TITLE(2).
+             05 LINE 15 COL 10 VALUE "10. ".
+             05 LINE 15 COL 13 PIC X(60) USING WS-TITLE(1).
+             05 LINE 26 COL 10 VALUE "( ) Read Message".
+             05 LINE 28 COL 10 VALUE "(w) Write your own message".
+             05 LINE 30 COL 10 VALUE "(n) Next Page".
+             05 LINE 30 COL 30 VALUE "(p) Previous Page".
+             05 LINE 30 COL 50 VALUE "(g) Go back".
+             05 LINE 32 COL 10 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE-FIELD LINE 32 COL 16 PIC X
                 USING MSG-MENU-CHOICE.
 
            01 MSG-MENU-SCREEN2
              BACKGROUND-COLOR IS 1.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
-             05 LINE 4 COLUMN 10 VALUE "Here are the last 10 messages:".
-             05 LINE 6 COLUMN 10 VALUE "11. ".
-             05 LINE 6 COLUMN 10 PIC X(60) USING WS-TITLE(20).
-             05 LINE 7 COLUMN 10 VALUE "12. ".
-             05 LINE 7 COLUMN 10 PIC X(60) USING WS-TITLE(19).
-             05 LINE 8 COLUMN 10 VALUE "13. ".
-             05 LINE 8 COLUMN 10 PIC X(60) USING WS-TITLE(18).
-             05 LINE 9 COLUMN 10 VALUE "14. ".
-             05 LINE 9 COLUMN 10 PIC X(60) USING WS-TITLE(17).
-             05 LINE 10 COLUMN 10 VALUE "15. ".
-             05 LINE 10 COLUMN 10 PIC X(60) USING WS-TITLE(16).
-             05 LINE 11 COLUMN 10 VALUE "16. ".
-             05 LINE 11 COLUMN 10 PIC X(60) USING WS-TITLE(15).
-             05 LINE 12 COLUMN 10 VALUE "17. ".
-             05 LINE 12 COLUMN 10 PIC X(60) USING WS-TITLE(14).
-             05 LINE 13 COLUMN 10 VALUE "18. ".
-             05 LINE 13 COLUMN 10 PIC X(60) USING WS-TITLE(13).
-             05 LINE 14 COLUMN 10 VALUE "19. ".
-             05 LINE 14 COLUMN 10 PIC X(60) USING WS-TITLE(12).
-             05 LINE 15 COLUMN 10 VALUE "20. ".
-             05 LINE 15 COLUMN 10 PIC X(60) USING WS-TITLE(11).
-             05 LINE 26 COLUMN 10 VALUE "( ) Read Message".
-             05 LINE 28 COLUMN 10 VALUE "(w) Write your own message".
-             05 LINE 30 COLUMN 10 VALUE "(n) Next Page".
-             05 LINE 30 COLUMN 30 VALUE "(p) Previous Page".
-             05 LINE 30 COLUMN 50 VALUE "(g) Go back".
-             05 LINE 32 COLUMN 10 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE2-FIELD LINE 32 COLUMN 16 PIC X
+             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 4 COL 10 VALUE "Here are the last 10 messages:".
+             05 LINE 6 COL 10 VALUE "11. ".
+             05 LINE 6 COL 13 PIC X(60) USING WS-TITLE(20).
+             05 LINE 7 COL 10 VALUE "12. ".
+             05 LINE 7 COL 13 PIC X(60) USING WS-TITLE(19).
+             05 LINE 8 COL 10 VALUE "13. ".
+             05 LINE 8 COL 13 PIC X(60) USING WS-TITLE(18).
+             05 LINE 9 COL 10 VALUE "14. ".
+             05 LINE 9 COL 13 PIC X(60) USING WS-TITLE(17).
+             05 LINE 10 COL 10 VALUE "15. ".
+             05 LINE 10 COL 13 PIC X(60) USING WS-TITLE(16).
+             05 LINE 11 COL 10 VALUE "16. ".
+             05 LINE 11 COL 13 PIC X(60) USING WS-TITLE(15).
+             05 LINE 12 COL 10 VALUE "17. ".
+             05 LINE 12 COL 13 PIC X(60) USING WS-TITLE(14).
+             05 LINE 13 COL 10 VALUE "18. ".
+             05 LINE 13 COL 13 PIC X(60) USING WS-TITLE(13).
+             05 LINE 14 COL 10 VALUE "19. ".
+             05 LINE 14 COL 13 PIC X(60) USING WS-TITLE(12).
+             05 LINE 15 COL 10 VALUE "20. ".
+             05 LINE 15 COL 13 PIC X(60) USING WS-TITLE(11).
+             05 LINE 26 COL 10 VALUE "( ) Read Message".
+             05 LINE 28 COL 10 VALUE "(w) Write your own message".
+             05 LINE 30 COL 10 VALUE "(n) Next Page".
+             05 LINE 30 COL 30 VALUE "(p) Previous Page".
+             05 LINE 30 COL 50 VALUE "(g) Go back".
+             05 LINE 32 COL 10 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE2-FIELD LINE 32 COL 16 PIC X
                 USING MSG-MENU-CHOICE2.
 
-           01 WRITE-MSG-SCREEN.
+           01 WRITE-MSG-SCREEN
+             BACKGROUND-COLOR IS 1.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
-             05 LINE 4 COLUMN 10 VALUE "Title: ".
-             05 TITLE-FIELD LINE 6 COLUMN 10 PIC X(60)
-                USING WS-MSG-TITLE.
-             05 LINE 6 COLUMN 10 VALUE "Body: ".
-             05 BODY-FIELD LINE 8 COLUMN 10 PIC X(300)
-                USING WS-MSG-BODY.
-             05 LINE 30 COLUMN 50 VALUE "(g) Go back".
-             05 LINE 31 COLUMN 50 VALUE "(q) Quit".
-             05 LINE 34 COLUMN 10 VALUE "Pick: ".
-             05 WRITE-MSG-CHOICE-FIELD LINE 32 COLUMN 16 PIC X
-                USING WRITE-MSG-MENU-CHOICE.          
-
-
+             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 4 COL 10 VALUE "Title: ".
+             05 MSG-TITLE-FIELD LINE 4 COL 17 PIC X(60)
+                USING MSG-TITLE.
+             05 LINE 6 COL 10 VALUE "Body: ".
+             05 MSG-BODY-FIELD LINE 6 COL 16 PIC X(300)
+                USING MSG-BODY.
+             05 LINE 30 COL 50 VALUE "(g) Go back".
+             05 LINE 31 COL 50 VALUE "(q) Quit".
+             05 LINE 34 COL 10 VALUE "Pick: ".             
+             05 WRITE-MSG-CHOICE-FIELD LINE 34 COL 16 PIC X
+                USING WRITE-MSG-MENU-CHOICE.  
+                             
        PROCEDURE DIVISION.
 
        0100-INITIALIZE.
@@ -193,13 +193,16 @@
            END-IF.
 
            0150-WRITE-MSG.
+           INITIALIZE MSG-TITLE.
+           INITIALIZE MSG-BODY.
+           INITIALIZE WRITE-MSG-MENU-CHOICE.
            DISPLAY WRITE-MSG-SCREEN.
-           ACCEPT WS-MSG-TITLE.
-           ACCEPT WS-MSG-BODY.
+           ACCEPT MSG-TITLE-FIELD.
+           ACCEPT MSG-BODY-FIELD.
            ACCEPT WRITE-MSG-CHOICE-FIELD.
             OPEN EXTEND F-MESSAGES-FILE.
-               MOVE WS-MSG-TITLE TO RC-MESSAGE-TITLE.
-               MOVE WS-MSG-BODY TO RC-MESSAGE-BODY.
+               MOVE MSG-TITLE TO RC-MESSAGE-TITLE.
+               MOVE MSG-BODY TO RC-MESSAGE-BODY.
                WRITE RC-MESSAGE
                END-WRITE.
            CLOSE F-MESSAGES-FILE.
