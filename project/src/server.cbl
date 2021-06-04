@@ -11,7 +11,6 @@
            FILE SECTION.
            FD F-MESSAGES-FILE.
            01 RC-MESSAGE.
-               05 RC-MESSAGE-ID-NUM PIC 99.
                05 RC-MESSAGE-TITLE PIC X(60).
                05 RC-MESSAGE-BODY PIC X(300).
 
@@ -22,6 +21,9 @@
            01 WS-COUNTER PIC 9(2).
            01 MSG-MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE2 PIC X.
+           01 WRITE-MSG-MENU-CHOICE PIC X.
+           01 WS-MSG-TITLE PIC X(60).
+           01 WS-MSG-BODY PIC X(300).
            01 WS-MESSAGES.
                05 WS-MESSAGE OCCURS 25 TIMES
                ASCENDING KEY IS WS-TITLE
@@ -114,11 +116,40 @@
              05 LINE 30 COLUMN 50 VALUE "(g) Go back".
              05 LINE 32 COLUMN 10 VALUE "Pick: ".
              05 MSG-MENU-CHOICE2-FIELD LINE 32 COLUMN 16 PIC X
-                USING MSG-MENU-CHOICE2.     
+                USING MSG-MENU-CHOICE2.
+
+           01 WRITE-MSG-SCREEN.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "Makers BBS".
+             05 LINE 4 COLUMN 10 VALUE "Title: ".
+             05 TITLE-FIELD LINE 6 COLUMN 10 PIC X(60)
+                USING WS-MSG-TITLE.
+             05 LINE 6 COLUMN 10 VALUE "Body: ".
+             05 BODY-FIELD LINE 8 COLUMN 10 PIC X(300)
+                USING WS-MSG-BODY.
+             05 LINE 30 COLUMN 50 VALUE "(g) Go back".
+             05 LINE 31 COLUMN 50 VALUE "(q) Quit".
+             05 LINE 34 COLUMN 10 VALUE "Pick: ".
+             05 WRITE-MSG-CHOICE-FIELD LINE 32 COLUMN 16 PIC X
+                USING WRITE-MSG-MENU-CHOICE.          
 
 
        PROCEDURE DIVISION.
 
+       0100-INITIALIZE.
+           SET MSG-IDX TO 0.
+           OPEN INPUT F-MESSAGES-FILE.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+             READ F-MESSAGES-FILE
+               NOT AT END
+                 ADD 1 TO MSG-IDX
+                 MOVE RC-MESSAGE-TITLE TO WS-MESSAGE(MSG-IDX)
+               AT END  
+                 MOVE 1 TO WS-FILE-IS-ENDED
+             END-READ      
+           END-PERFORM.
+           CLOSE F-MESSAGES-FILE.
+       
        0110-DISPLAY-LOGIN.
            INITIALIZE USER-NAME.
            DISPLAY LOGIN-SCREEN.
@@ -138,42 +169,42 @@
            END-IF.
 
        0130-MSG-MENU.
-      *    CALL MESSAGES-MENU.
            PERFORM 0100-INITIALIZE.
-           
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
            IF MSG-MENU-CHOICE = "g" THEN
                PERFORM 0120-DISPLAY-MENU
            ELSE IF MSG-MENU-CHOICE = "n" then
-               PERFORM 0140-MSG-MENU2    
+               PERFORM 0140-MSG-MENU2
+            ELSE IF MSG-MENU-CHOICE = "w" then
+               PERFORM 0150-WRITE-MSG          
            END-IF.
 
            0140-MSG-MENU2.
-           
            PERFORM 0100-INITIALIZE.
-
            INITIALIZE MSG-MENU-CHOICE2.
            DISPLAY MSG-MENU-SCREEN2.
            ACCEPT MSG-MENU-CHOICE2-FIELD.
            IF MSG-MENU-CHOICE2 = "g" THEN
                PERFORM 0120-DISPLAY-MENU
+           ELSE IF MSG-MENU-CHOICE2 = "w" then
+               PERFORM 0150-WRITE-MSG     
            END-IF.
 
-           0100-INITIALIZE.
-
-           SET MSG-IDX TO 0.
-           OPEN INPUT F-MESSAGES-FILE.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-             READ F-MESSAGES-FILE
-               NOT AT END
-                 ADD 1 TO MSG-IDX
-                 MOVE RC-MESSAGE-TITLE TO WS-MESSAGE(MSG-IDX)
-               AT END  
-                 MOVE 1 TO WS-FILE-IS-ENDED
-             END-READ      
-           END-PERFORM.
-
+           0150-WRITE-MSG.
+           DISPLAY WRITE-MSG-SCREEN.
+           ACCEPT WS-MSG-TITLE.
+           ACCEPT WS-MSG-BODY.
+           ACCEPT WRITE-MSG-CHOICE-FIELD.
+            OPEN EXTEND F-MESSAGES-FILE.
+               MOVE WS-MSG-TITLE TO RC-MESSAGE-TITLE.
+               MOVE WS-MSG-BODY TO RC-MESSAGE-BODY.
+               WRITE RC-MESSAGE
+               END-WRITE.
            CLOSE F-MESSAGES-FILE.
-               
+           IF WRITE-MSG-CHOICE-FIELD = "g" THEN
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF WRITE-MSG-CHOICE-FIELD = "q" then
+               STOP RUN   
+           END-IF.
