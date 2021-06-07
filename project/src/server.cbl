@@ -2,33 +2,39 @@
        PROGRAM-ID. server.
 
        ENVIRONMENT DIVISION.
+           CONFIGURATION SECTION.
+           REPOSITORY.
+               FUNCTION MESSAGE-NUM.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
              SELECT F-MESSAGES-FILE ASSIGN TO "messages.dat"
                  ORGANISATION IS LINE SEQUENTIAL.
- 
        DATA DIVISION.
            FILE SECTION.
            FD F-MESSAGES-FILE.
            01 RC-MESSAGE.
                05 RC-MESSAGE-TITLE PIC X(60).
                05 RC-MESSAGE-BODY PIC X(300).
-
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
            01 USER-NAME PIC X(10).
            01 MENU-CHOICE PIC X.
-           01 WS-COUNTER PIC 9(2).
+           01 COUNTER UNSIGNED-INT.
+           01 OFFSET UNSIGNED-INT.
            01 MSG-MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE2 PIC X.
            01 WRITE-MSG-MENU-CHOICE PIC X.
            01 MSG-TITLE PIC X(60).
            01 MSG-BODY PIC X(300).
            01 WS-MESSAGES.
-               05 WS-MESSAGE OCCURS 25 TIMES
+               05 WS-MESSAGE OCCURS 100 TIMES
                ASCENDING KEY IS WS-TITLE
                INDEXED BY MSG-IDX.
                    10 WS-TITLE PIC X(60).
+           LINKAGE SECTION.
+           01 LS-COUNTER UNSIGNED-INT.
+           01 LS-NUM UNSIGNED-INT.
+           01 LS-MESSAGE PIC X(60).       
            SCREEN SECTION.
            01 LOGIN-SCREEN.
              05 BLANK SCREEN.
@@ -56,25 +62,25 @@
              05 LINE 2 COL 10 VALUE "Makers BBS".
              05 LINE 4 COL 10 VALUE "Here are the last 10 messages:".
              05 LINE 6 COL 10 VALUE "1. ".
-             05 LINE 6 COL 13 PIC X(60) USING WS-TITLE(10).
+             05 LINE 6 COL 13 PIC X(60) USING WS-TITLE(OFFSET).
              05 LINE 7 COL 10 VALUE "2. ".
-             05 LINE 7 COL 13 PIC X(60) USING WS-TITLE(9).
+             05 LINE 7 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 1).
              05 LINE 8 COL 10 VALUE "3. ".
-             05 LINE 8 COL 13 PIC X(60) USING WS-TITLE(8).
+             05 LINE 8 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 2).
              05 LINE 9 COL 10 VALUE "4. ".
-             05 LINE 9 COL 13 PIC X(60) USING WS-TITLE(7).
+             05 LINE 9 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 3).
              05 LINE 10 COL 10 VALUE "5. ".
-             05 LINE 10 COL 13 PIC X(60) USING WS-TITLE(6).
+             05 LINE 10 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 4).
              05 LINE 11 COL 10 VALUE "6. ".
-             05 LINE 11 COL 13 PIC X(60) USING WS-TITLE(5).
+             05 LINE 11 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 5).
              05 LINE 12 COL 10 VALUE "7. ".
-             05 LINE 12 COL 13 PIC X(60) USING WS-TITLE(4).
+             05 LINE 12 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 6).
              05 LINE 13 COL 10 VALUE "8. ".
-             05 LINE 13 COL 13 PIC X(60) USING WS-TITLE(3).
+             05 LINE 13 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 7).
              05 LINE 14 COL 10 VALUE "9. ".
-             05 LINE 14 COL 13 PIC X(60) USING WS-TITLE(2).
+             05 LINE 14 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 8).
              05 LINE 15 COL 10 VALUE "10. ".
-             05 LINE 15 COL 13 PIC X(60) USING WS-TITLE(1).
+             05 LINE 15 COL 13 PIC X(60) USING WS-TITLE(OFFSET - 9).
              05 LINE 26 COL 10 VALUE "( ) Read Message".
              05 LINE 28 COL 10 VALUE "(w) Write your own message".
              05 LINE 30 COL 10 VALUE "(n) Next Page".
@@ -132,23 +138,28 @@
              05 LINE 31 COL 50 VALUE "(q) Quit".
              05 LINE 34 COL 10 VALUE "Pick: ".             
              05 WRITE-MSG-CHOICE-FIELD LINE 34 COL 16 PIC X
-                USING WRITE-MSG-MENU-CHOICE.  
+                USING WRITE-MSG-MENU-CHOICE.
+
+           
+
                              
        PROCEDURE DIVISION.
 
-       0100-INITIALIZE.
-           SET MSG-IDX TO 0.
+       0100-CREATE-TABLE.
+           SET COUNTER TO 0.
            OPEN INPUT F-MESSAGES-FILE.
            PERFORM UNTIL WS-FILE-IS-ENDED = 1
              READ F-MESSAGES-FILE
                NOT AT END
-                 ADD 1 TO MSG-IDX
-                 MOVE RC-MESSAGE-TITLE TO WS-MESSAGE(MSG-IDX)
+                 ADD 1 TO COUNTER
+                 MOVE RC-MESSAGE-TITLE TO WS-MESSAGE(COUNTER)
                AT END  
                  MOVE 1 TO WS-FILE-IS-ENDED
+                 MOVE COUNTER TO OFFSET
              END-READ      
            END-PERFORM.
            CLOSE F-MESSAGES-FILE.
+
        
        0110-DISPLAY-LOGIN.
            INITIALIZE USER-NAME.
@@ -169,30 +180,23 @@
            END-IF.
 
        0130-MSG-MENU.
-           PERFORM 0100-INITIALIZE.
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
            IF MSG-MENU-CHOICE = "g" THEN
                PERFORM 0120-DISPLAY-MENU
            ELSE IF MSG-MENU-CHOICE = "n" then
-               PERFORM 0140-MSG-MENU2
-            ELSE IF MSG-MENU-CHOICE = "w" then
+               IF OFFSET > 20
+                    COMPUTE OFFSET = OFFSET - 10
+               ELSE MOVE 10 TO OFFSET
+               END-IF
+               PERFORM 0130-MSG-MENU       
+           ELSE IF MSG-MENU-CHOICE = "w" then
                PERFORM 0150-WRITE-MSG          
            END-IF.
 
-           0140-MSG-MENU2.
-           PERFORM 0100-INITIALIZE.
-           INITIALIZE MSG-MENU-CHOICE2.
-           DISPLAY MSG-MENU-SCREEN2.
-           ACCEPT MSG-MENU-CHOICE2-FIELD.
-           IF MSG-MENU-CHOICE2 = "g" THEN
-               PERFORM 0120-DISPLAY-MENU
-           ELSE IF MSG-MENU-CHOICE2 = "w" then
-               PERFORM 0150-WRITE-MSG     
-           END-IF.
 
-           0150-WRITE-MSG.
+       0150-WRITE-MSG.
            INITIALIZE MSG-TITLE.
            INITIALIZE MSG-BODY.
            INITIALIZE WRITE-MSG-MENU-CHOICE.
