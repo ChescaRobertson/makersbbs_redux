@@ -19,7 +19,7 @@
 
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
-           01 USER-NAME PIC X(10).
+           01 USER-NAME PIC X(16).
            01 MENU-CHOICE PIC X.
            01 COUNTER UNSIGNED-INT.
            01 OFFSET UNSIGNED-INT.
@@ -41,29 +41,63 @@
 
            SCREEN SECTION.
            01 LOGIN-SCREEN.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 4 COL 10 VALUE "What's your name?".
-             05 USER-NAME-FIELD LINE 6 COL 10 PIC X(10)
-                USING USER-NAME. 
+                 05 BLANK SCREEN.
+                 05 LINE 2 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
+                 05 LINE 08 COl 12 VALUE
+           "COBOL The Barbarian presents:".                       
+                 05 LINE 10 COl 12 VALUE   
+           "______       _ _      _   _" FOREGROUND-COLOR IS 3.
+                 05 LINE 11 COl 10 VALUE         
+           "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 4.
+                 05 LINE 12 COl 10 VALUE  
+           "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 3.
+                 05 LINE 13 COl 10 VALUE    
+           "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 2.
+                 05 LINE 14 COl 10 VALUE   
+           "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 4.
+                 05 LINE 15 COl 10 VALUE  
+           "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 3.
+                 05 LINE 18 COl 10 VALUE                                                                        
+           "    ______                     _" FOREGROUND-COLOR IS 3.
+                 05 LINE 19 COl 10 VALUE      
+           "    | ___ \                   | |" FOREGROUND-COLOR IS 4.
+                 05 LINE 20 COl 10 VALUE     
+           "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 3.
+                 05 LINE 21 COl 10 VALUE     
+           "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 2.
+                 05 LINE 22 COl 10 VALUE     
+           "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 4.
+                 05 LINE 23 COl 10 VALUE     
+           "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
+                 05 LINE 27 COL 14 VALUE "What's your name?".
+                 05 USER-NAME-FIELD LINE 29 COL 14 PIC X(16)
+                    USING USER-NAME.                       
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 1.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK.
-             05 LINE 4 COL 10 VALUE "Welcome, ".
-             05 LINE 4 COL 19 PIC X(10) USING USER-NAME.
-             05 LINE 10 COL 10 VALUE "(m) Messages"
+             05 LINE  2 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK.
+             05 LINE  4 COL 10 VALUE "Hi, ".
+             05 LINE  4 COL 14 PIC X(16) USING USER-NAME.
+             05 LINE  6 COL 10 VALUE "Welcome to COBOL The Barbarian's s
+      -      "tate of the art Bulletin Board.".  
+             05 LINE  7 COL 10 VALUE "Feel free to:".
+             05 LINE  8 COL 24 VALUE "* read our message board".
+             05 LINE  9 COL 24 VALUE "* play a few games".
+             05 LINE 10 COL 24 VALUE "* leave a message of your own". 
+             05 LINE 11 COL 24 VALUE "* most importantly. HAVE FUN!". 
+
+             05 LINE 15 COL 24 VALUE "(m) Messages"
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 10 COL 30 VALUE "(g) Games"
+             05 LINE 15 COL 44 VALUE "(g) Games"
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 4.
-             05 LINE 12 COL 10 VALUE "(l)   Logout"
+             05 LINE 17 COL 24 VALUE "(l)   Logout"
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 12 COL 30 VALUE "(q)  Quit"
+             05 LINE 17 COL 44 VALUE "(q)  Quit"
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 20 COL 10 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 20 COL 16 PIC X
+             05 LINE 21 COL 24 VALUE "Pick: ".
+             05 MENU-CHOICE-FIELD LINE 21 COL 30 PIC X
                 USING MENU-CHOICE.
 
            01 MSG-MENU-SCREEN
@@ -91,19 +125,19 @@
              05 LINE 14 COL 14 PIC X(50) USING WS-TITLE(OFFSET - 8).
              05 LINE 15 COL 10 VALUE "10.  ".
              05 LINE 15 COL 14 PIC X(50) USING WS-TITLE(OFFSET - 9).
-             05 LINE 26 COL 10 VALUE "( ) Read Message by Number"
+             05 LINE 20 COL 10 VALUE "( ) Read Message by Number"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
-             05 LINE 28 COL 10 VALUE "(w) Write your own message"
+             05 LINE 22 COL 10 VALUE "(w) Write your own message"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.               
-             05 LINE 30 COL 10 VALUE "(n) Next Page"
+             05 LINE 24 COL 10 VALUE "(n) Next Page"
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.  
-             05 LINE 30 COL 30 VALUE "(p) Previous Page"
+             05 LINE 24 COL 30 VALUE "(p) Previous Page"
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6. 
-             05 LINE 32 COL 10 VALUE "(g)   Go back"
+             05 LINE 26 COL 10 VALUE "(g)   Go back"
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 32 COL 30 VALUE "(q) Quit"
+             05 LINE 26 COL 30 VALUE "(q) Quit         "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 34 COL 10 VALUE "Pick: ".
+             05 LINE 28 COL 10 VALUE "Pick: ".
              05 MSG-MENU-CHOICE-FIELD LINE 34 COL 16 PIC X
                 USING MSG-MENU-CHOICE.
 
