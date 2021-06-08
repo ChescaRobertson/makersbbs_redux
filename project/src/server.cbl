@@ -216,32 +216,53 @@
                 USING MSG-MENU-CHOICE.
 
            01 MESSAGE-VIEW-SCREEN
-             BACKGROUND-COLOR IS 1.
+             BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "Makers BBS".
-             05 LINE 4 COL 10 VALUE "Welcome, ".
-             05 LINE 4 COL 19 PIC X(10) USING USER-NAME.
-             05 LINE 6 COL 10 VALUE 'Displaying Message: '.
-             05 LINE 6 COL 31 PIC X(50) USING LIST-TITLE(MSG-SELECT).
-             05 LINE 10 COL 10 PIC X(60) USING LS-PART-1.
-             05 LINE 11 COL 10 PIC X(60) USING LS-PART-2.
-             05 LINE 12 COL 10 PIC X(60) USING LS-PART-3.
-             05 LINE 13 COL 10 PIC X(60) USING LS-PART-4.
-             05 LINE 14 COL 10 PIC X(60) USING LS-PART-5.
-             05 LINE 20 COL 10 VALUE 'Press b to go back'.
-             05 MSG-VIEW-CHOICE-FIELD LINE 22 COL 10 PIC X 
+             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
+             05 LINE 4 COL 10 VALUE "          \|/             '%%%'         
+      -      "         (((" FOREGROUND-COLOR IS 6.
+             05 LINE 5 COL 10 VALUE "         (o o)            (o o)            
+      -      "        (o o)" FOREGROUND-COLOR IS 3.
+             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
+
+             05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
+      -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
+             IS 2.
+             05 LINE 8 COL 10 VALUE "-----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE  9 COL 10 VALUE "Title: ".
+             05 LINE  9 COL 19 PIC X(50) USING LIST-TITLE(MSG-SELECT).
+             05 LINE 11 COL 10 VALUE "Message: ".
+             05 LINE 11 COL 19 PIC X(60) USING LS-PART-1.
+             05 LINE 12 COL 19 PIC X(60) USING LS-PART-2.
+             05 LINE 13 COL 19 PIC X(60) USING LS-PART-3.
+             05 LINE 14 COL 19 PIC X(60) USING LS-PART-4.
+             05 LINE 15 COL 19 PIC X(60) USING LS-PART-5.
+             05 LINE 16 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 17 COL 10 VALUE "*********************CHOSEN MESSAG
+      -      "E********************" FOREGROUND-COLOR IS 2.
+             05 LINE 18 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.  
+             05 LINE 21 COL 25 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+             05 LINE 21 COL 39 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 23 COL 25 VALUE "Pick: ".
+             05 MSG-VIEW-CHOICE-FIELD LINE 23 COL 31 PIC X 
                USING MSG-VIEW-CHOICE.
 
            01 WRITE-MSG-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "Makers BBS".
+             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE 4 COL 10 VALUE "Welcome, ".
              05 LINE 4 COL 19 PIC X(10) USING USER-NAME.
-             05 LINE 6 COL 10 VALUE 'Compose Message: '.
-             05 LINE 8 COL 10 VALUE 'TITLE: '.
+             05 LINE 6 COL 10 VALUE "Compose Message: ".
+             05 LINE 8 COL 10 VALUE "TITLE:   ".
              05 WS-TITLE-FIELD LINE 8 COL 18 PIC X(50) USING WS-TITLE.
-             05 LINE 10 COL 10 VALUE 'MESSAGE BODY: '.
+             05 LINE 10 COL 10 VALUE "MESSAGE: ".
              05 LINE-1-FIELD LINE 12 COL 10 PIC X(60) USING LS-PART-1.
              05 LINE-2-FIELD LINE 13 COL 10 PIC X(60) USING LS-PART-2.
              05 LINE-3-FIELD LINE 14 COL 10 PIC X(60) USING LS-PART-3.
@@ -569,8 +590,10 @@
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
            ACCEPT MSG-VIEW-CHOICE-FIELD.
-           IF MSG-VIEW-CHOICE = 'b' OR 'B' THEN
+           IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
+           ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
+              STOP RUN  
            END-IF.
 
        0150-MESSAGE-WRITE.
