@@ -26,6 +26,7 @@
            01 MSG-MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE2 PIC X.
            01 WRITE-MSG-MENU-CHOICE PIC X.
+           01 GAMES-MENU-CHOICE PIC X.
            01 MSG-TITLE PIC X(50).
            01 MSG-BODY PIC X(50).
            01 WS-MESSAGES.
@@ -40,7 +41,8 @@
            01 LS-MESSAGE PIC X(60).  
 
            SCREEN SECTION.
-           01 LOGIN-SCREEN.
+           01 LOGIN-SCREEN
+                 BACKGROUND-COLOR IS 0.
                  05 BLANK SCREEN.
                  05 LINE 2 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
@@ -75,7 +77,7 @@
                     USING USER-NAME.                       
 
            01 MENU-SCREEN
-             BACKGROUND-COLOR IS 1.
+             BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
              05 LINE  2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE  4 COL 10 VALUE "Hi, ".
@@ -101,17 +103,21 @@
                 USING MENU-CHOICE.
 
            01 MSG-MENU-SCREEN
-             BACKGROUND-COLOR IS 1.
+             BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
              05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE 4 COL 10 VALUE "Here are the last 10 messages:".
-             05 LINE 6 COL 10 VALUE "-----------------------------------
-      -      "---------------------".
+             05 LINE 4 COL 10 VALUE "          +++             -`^'-         
+      -      "         )))" FOREGROUND-COLOR IS 6.
+             05 LINE 5 COL 10 VALUE "         (o o)            (o o)            
+      -      "        (o o)" FOREGROUND-COLOR IS 3.
+             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
+
              05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
              05 LINE 8 COL 10 VALUE "-----------------------------------
-      -      "---------------------".
+      -      "---------------------" FOREGROUND-COLOR IS 3.
              05 LINE  9 COL 10 VALUE "1.  ".
              05 LINE  9 COL 14 PIC X(50) USING WS-TITLE(OFFSET).
              05 LINE 10 COL 10 VALUE "2.  ".
@@ -133,11 +139,11 @@
              05 LINE 18 COL 10 VALUE "10. ".
              05 LINE 18 COL 14 PIC X(50) USING WS-TITLE(OFFSET - 9).
              05 LINE 19 COL 10 VALUE "----------------------------------
-      -      "---------------------".
-             05 LINE 20 COL 10 VALUE "**********************************
-      -      "*********************" FOREGROUND-COLOR IS 2.
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 20 COL 10 VALUE "*********************LAST 10 MESSA
+      -      "GES******************" FOREGROUND-COLOR IS 2.
              05 LINE 21 COL 10 VALUE "----------------------------------
-      -      "---------------------".
+      -      "---------------------" FOREGROUND-COLOR IS 3.
              05 LINE 24 COL 10 VALUE "( ) Read Message by Number"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
              05 LINE 26 COL 10 VALUE "(w) Write your own message"
@@ -155,7 +161,7 @@
                 USING MSG-MENU-CHOICE.
 
            01 WRITE-MSG-SCREEN
-             BACKGROUND-COLOR IS 1.
+             BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
              05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE 6 COL 10 VALUE "Title:   ".
@@ -170,7 +176,56 @@
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 18 COL 10 VALUE "Pick: ".             
              05 WRITE-MSG-CHOICE-FIELD LINE 18 COL 16 PIC X
-                USING WRITE-MSG-MENU-CHOICE.        
+                USING WRITE-MSG-MENU-CHOICE.   
+           
+           01 GAMES-MENU-SCREEN
+             BACKGROUND-COLOR IS 0.
+             05 BLANK SCREEN.
+             05 LINE 4 COL 10 VALUE".------..------..------..------..---
+      -      "---.".
+             05 LINE 5 COL 10 VALUE"|G.--. ||A.--. ||M.--. ||E.--. ||S.-
+      -      "-. |".
+             05 LINE 6 COL 10 VALUE"| :/\: || (\/) || :/\: || (\/) || :/
+      -      "\: |".
+             05 LINE 7 COL 10 VALUE"| :\/: || :\/: || :\/: || :\/: || :\
+      -      "/: |".
+             05 LINE 8 COL 10 VALUE"| '--'G|| '--'A|| '--'M|| '--'E|| '-
+      -      "-'S|".
+             05 LINE 9 COL 10 VALUE"`------'`------'`------'`------'`---
+      -      "---'".
+             05 LINE 10 COL 18 VALUE"          ___"
+             FOREGROUND-COLOR IS 4.
+             05 LINE 11 COL 18 VALUE"        ,'---'."
+             FOREGROUND-COLOR IS 4.
+             05 LINE 12 COL 18 VALUE"        :     ;"
+             FOREGROUND-COLOR IS 4.
+             05 LINE 13 COL 18 VALUE"         `-.-'"
+             FOREGROUND-COLOR IS 4.
+             05 LINE 14 COL 18 VALUE"          | |".
+             05 LINE 15 COL 18 VALUE"          | |".
+             05 LINE 16 COL 18 VALUE"          | |".
+             05 LINE 17 COL 18 VALUE"       _.-\_/-._".
+             05 LINE 18 COL 18 VALUE"    _ / |     | \ _".
+             05 LINE 19 COL 18 VALUE"   / /   `---'   \ \".
+             05 LINE 20 COL 18 VALUE"  /  `-----------'  \".
+             05 LINE 21 COL 18 VALUE" /,-''-.       ,-''-.\".
+             05 LINE 22 COL 18 VALUE"( i-..-i       i-..-i )".
+             05 LINE 23 COL 18 VALUE"|`|    |-------|    |'|".
+             05 LINE 24 COL 18 VALUE"\ `-..-'  ,=.  `-..-'/".
+             05 LINE 25 COL 18 VALUE" `--------|=|-------'".
+             05 LINE 26 COL 18 VALUE"          | |".
+             05 LINE 27 COL 18 VALUE"          \ \".
+             05 LINE 28 COL 18 VALUE"           ) )". 
+             05 LINE 29 COL 18 VALUE"          / /".
+             05 LINE 30 COL 18 VALUE"         ( (".
+
+             05 LINE 34 COL 10 VALUE "(g) Go back"
+             REVERSE-VIDEO, HIGHLIGHT.
+             05 LINE 34 COL 30 VALUE "(q)    Quit"
+             REVERSE-VIDEO, HIGHLIGHT.
+             05 LINE 36 COL 10 VALUE "Pick: ".
+             05 GAMES-MENU-CHOICE-FIELD LINE 36 COL 16 PIC X
+                USING GAMES-MENU-CHOICE.     
                            
        PROCEDURE DIVISION.
 
@@ -206,6 +261,8 @@
              PERFORM 0110-DISPLAY-LOGIN
            ELSE IF MENU-CHOICE = "m" or "M" THEN
              PERFORM 0130-MSG-MENU
+           ELSE IF MENU-CHOICE = "g" or "G" THEN
+             PERFORM 0150-GAMES-MENU
            END-IF.
 
        0130-MSG-MENU.
@@ -248,3 +305,14 @@
            ELSE IF WRITE-MSG-CHOICE-FIELD = "g" or "G" then
                PERFORM 0120-DISPLAY-MENU
            END-IF.
+
+       0150-GAMES-MENU.
+           INITIALIZE GAMES-MENU-CHOICE.
+           DISPLAY GAMES-MENU-SCREEN.
+           ACCEPT GAMES-MENU-CHOICE-FIELD
+           IF GAMES-MENU-CHOICE = "q" or "Q" THEN
+               STOP RUN
+           ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
+               PERFORM 0120-DISPLAY-MENU     
+           END-IF.
+           
