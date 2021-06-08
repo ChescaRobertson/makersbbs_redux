@@ -145,18 +145,26 @@
              05 LINE  11 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
              05 LINE  11 COL 26 VALUE "Most importantly. HAVE FUN!". 
 
-             05 LINE 15 COL 24 VALUE "(m)  Messages"
+             05 LINE 17 COL 24 VALUE "(m) Messages    "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 15 COL 44 VALUE "(g)     Games"
+             05 LINE 17 COL 42 VALUE "(f) Fun & games "
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 17 COL 24 VALUE "(l)    Logout"
+             05 LINE 19 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 17 COL 44 VALUE "(q)      Quit"
+             05 LINE 19 COL 42 VALUE "(q) Quit        "
                 REVERSE-VIDEO, HIGHLIGHT.  
              05 LINE 21 COL 24 VALUE "Pick: ".
              05 MENU-CHOICE-FIELD LINE 21 COL 30 PIC X
                 USING MENU-CHOICE.
 
+             05 LINE 25 COL 25 VALUE "     [.. [....... [..       [..".
+             05 LINE 26 COL 25 VALUE "     [.. [..      [. [..   [...".
+             05 LINE 27 COL 25 VALUE "     [.. [..      [.. [.. [ [..".
+             05 LINE 28 COL 25 VALUE "     [.. [......  [..  [..  [..".
+             05 LINE 29 COL 25 VALUE "     [.. [..      [..   [.  [..".
+             05 LINE 30 COL 25 VALUE " [.  [.. [..      [..       [..".
+             05 LINE 31 COL 25 VALUE " [...... [....... [..       [.. ".        
+           
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
@@ -199,20 +207,20 @@
       -      "ES*******************" FOREGROUND-COLOR IS 2.
              05 LINE 21 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 24 COL 19 VALUE "( )  Read Message"
+             05 LINE 24 COL 24 VALUE "( ) Read Message by Number "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
-             05 LINE 24 COL 39 VALUE "(w) Write message"
+             05 LINE 26 COL 24 VALUE "(w) Write your own message "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.               
-             05 LINE 26 COL 19 VALUE "(n)     Next Page"
+             05 LINE 28 COL 18 VALUE "(n) Next Page     "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.  
-             05 LINE 26 COL 39 VALUE "(p) Previous Page"
+             05 LINE 28 COL 41 VALUE "(p) Previous Page "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6. 
-             05 LINE 28 COL 19 VALUE "(g)       Go back"
+             05 LINE 30 COL 18 VALUE "(g) Go back       "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 28 COL 39 VALUE "(q) Quit         "
+             05 LINE 30 COL 41 VALUE "(q) Quit          "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 30 COL 19 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE-FIELD LINE 30 COL 25 PIC XXX
+             05 LINE 32 COL 18 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE-FIELD LINE 32 COL 24 PIC XXX
                 USING MSG-MENU-CHOICE.
 
            01 MESSAGE-VIEW-SCREEN
@@ -221,7 +229,7 @@
              05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE 4 COL 10 VALUE "          \|/             '%%%'         
       -      "         (((" FOREGROUND-COLOR IS 6.
-             05 LINE 5 COL 10 VALUE "         (o o)            (o o)            
+             05 LINE 5 COL 10 VALUE "         (o o)            (> o)            
       -      "        (o o)" FOREGROUND-COLOR IS 3.
              05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
       -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
@@ -257,17 +265,32 @@
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
              05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE 4 COL 10 VALUE "Welcome, ".
-             05 LINE 4 COL 19 PIC X(10) USING USER-NAME.
-             05 LINE 6 COL 10 VALUE "Compose Message: ".
-             05 LINE 8 COL 10 VALUE "TITLE:   ".
-             05 WS-TITLE-FIELD LINE 8 COL 18 PIC X(50) USING WS-TITLE.
-             05 LINE 10 COL 10 VALUE "MESSAGE: ".
-             05 LINE-1-FIELD LINE 12 COL 10 PIC X(60) USING LS-PART-1.
-             05 LINE-2-FIELD LINE 13 COL 10 PIC X(60) USING LS-PART-2.
-             05 LINE-3-FIELD LINE 14 COL 10 PIC X(60) USING LS-PART-3.
-             05 LINE-4-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-4.
-             05 LINE-5-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-5. 
+             05 LINE 4 COL 10 VALUE "         ~@@@~            '^^^'         
+      -      "        .:;:." FOREGROUND-COLOR IS 6.
+             05 LINE 5 COL 10 VALUE "         (o-o)            (> <)            
+      -      "        (> o)" FOREGROUND-COLOR IS 3.
+             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
+
+             05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
+      -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
+             IS 2.
+             05 LINE 8 COL 10 VALUE "-----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 10 COL 10 VALUE "TITLE:   ".
+             05 WS-TITLE-FIELD LINE 10 COL 18 PIC X(50) USING WS-TITLE.
+             05 LINE 12 COL 10 VALUE "MESSAGE: ".
+             05 LINE-1-FIELD LINE 14 COL 10 PIC X(60) USING LS-PART-1.
+             05 LINE-2-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-2.
+             05 LINE-3-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-3.
+             05 LINE-4-FIELD LINE 17 COL 10 PIC X(60) USING LS-PART-4.
+             05 LINE-5-FIELD LINE 18 COL 10 PIC X(60) USING LS-PART-5. 
+             05 LINE 20 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 21 COL 10 VALUE "*********************LEAVE A MESSA
+      -      "GE*******************" FOREGROUND-COLOR IS 2.
+             05 LINE 22 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
            
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -317,13 +340,13 @@
              05 LINE 25 COL 18 VALUE" `--------|=|--------'"
              FOREGROUND-COLOR IS 3.
 
-             05 LINE 32 COL 18 VALUE "(o) O and X" 
+             05 LINE 32 COL 18 VALUE "(o) O and X " 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 32 COL 30 VALUE "(m) Monkey?" 
+             05 LINE 32 COL 32 VALUE "(m) Monkey? " 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 18 VALUE "(g) Go back"
+             05 LINE 34 COL 18 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 34 COL 30 VALUE "(q)    Quit"
+             05 LINE 34 COL 32 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 36 COL 18 VALUE "Pick: ".
              05 GAMES-MENU-CHOICE-FIELD LINE 36 COL 24 PIC X
@@ -544,6 +567,8 @@
              PERFORM 0160-GAMES-MENU
            END-IF.
 
+           PERFORM 0120-DISPLAY-MENU.
+
        0130-MSG-MENU.
            CALL 'number-of-file-lines' USING NUM-FILE-LINES.
            CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
@@ -565,8 +590,7 @@
                  PERFORM 0130-MSG-MENU
                ELSE
                    PERFORM 0130-MSG-MENU
-               END-IF
-               
+               END-IF               
                
            ELSE IF MSG-MENU-CHOICE = 'p' OR 'P' THEN
              COMPUTE ID-NUM = ID-NUM - 10
@@ -584,8 +608,9 @@
               STOP RUN  
            END-IF.
 
-       0140-MESSAGE-VIEW.
-           
+           PERFORM 0130-MSG-MENU.
+
+       0140-MESSAGE-VIEW.           
            MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
@@ -595,6 +620,8 @@
            ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
               STOP RUN  
            END-IF.
+           
+           PERFORM 0140-MESSAGE-VIEW. 
 
        0150-MESSAGE-WRITE.
            INITIALIZE WS-TITLE.
@@ -620,8 +647,7 @@
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
-           
-
+       
        0160-GAMES-MENU.
            INITIALIZE GAMES-MENU-CHOICE.
            DISPLAY GAMES-MENU-SCREEN.
@@ -636,6 +662,8 @@
                PERFORM 0170-MONKEY-MENU        
            END-IF.
 
+           PERFORM 0160-GAMES-MENU.
+
        0170-MONKEY-MENU.
            INITIALIZE MONKEY-MENU-CHOICE.
            DISPLAY MONKEY-MENU-SCREEN.
@@ -643,6 +671,8 @@
            IF MONKEY-MENU-CHOICE = "q" or "Q" THEN
              PERFORM 0180-HIDDEN-MENU
            END-IF.
+
+           PERFORM 0170-MONKEY-MENU.
 
        0180-HIDDEN-MENU.
            INITIALIZE HIDDEN-MENU-CHOICE.
@@ -801,3 +831,5 @@
                        MOVE "LOSE" TO WS-MOVE-OUTCOME
                    END-IF
                END-IF.
+
+           PERFORM 0190-O-AND-X-GAME.
