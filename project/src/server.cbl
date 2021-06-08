@@ -590,10 +590,14 @@
            ACCEPT LINE-5-FIELD.
            
            MOVE WS-CONTENT-DISPLAY TO WS-CONTENT.
-           
-           CALL 'post-message' USING NEW-MESSAGE.
-           PERFORM 0130-MSG-MENU.
+
+           IF WS-TITLE-FIELD NOT = SPACE AND LOW-VALUE THEN
+             CALL 'post-message' USING NEW-MESSAGE
+             PERFORM 0130-MSG-MENU
+           END-IF.
+
            PERFORM 0120-DISPLAY-MENU.
+           
 
        0160-GAMES-MENU.
            INITIALIZE GAMES-MENU-CHOICE.
