@@ -928,7 +928,6 @@
                    END-IF
                END-IF.
 
-                  
        0200-TIME-AND-DATE.
            MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
            MOVE WS-DATETIME(1:4)  TO WS-FORMATTED-YEAR.
