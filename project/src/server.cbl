@@ -105,6 +105,7 @@
                01 WS-FLAT-GAME-GRID PIC X(9).
            *>-----RANDOM-NUM-GAME WS-SECTION-----
            01 SEED PIC 9(8).
+           01 GUESS-INPUT PIC XX.
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
@@ -387,16 +388,18 @@
              05 LINE 25 COL 18 VALUE" `--------|=|--------'"
              FOREGROUND-COLOR IS 3.
 
-             05 LINE 32 COL 18 VALUE "(o) O and X " 
+             05 LINE 30 COL 21 VALUE "(n) Guess The Number" 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 32 COL 32 VALUE "(m) Monkey? " 
+             05 LINE 32 COL 21 VALUE "(o) O and X         "  
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 18 VALUE "(g) Go back "
+             05 LINE 34 COL 21 VALUE "(m) Monkey?         " 
+             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.
+             05 LINE 36 COL 18 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 34 COL 32 VALUE "(q) Quit    "
+             05 LINE 36 COL 32 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 36 COL 18 VALUE "Pick: ".
-             05 GAMES-MENU-CHOICE-FIELD LINE 36 COL 24 PIC X
+             05 LINE 38 COL 18 VALUE "Pick: ".
+             05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 24 PIC X
                 USING GAMES-MENU-CHOICE.     
 
            01 MONKEY-MENU-SCREEN
@@ -591,16 +594,44 @@
                    05 WINS PIC 9(2) FROM WS-WINS.
                05 LINE 28 COLUMN 45 VALUE IS "/".
                    05 GAMES PIC 9(2) FROM WS-GAMES. 
+
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
-           05 LINE 5 COLUMN 27 VALUE IS "GUESS THE NUMBER GAME".
-           05 LINE 6 COLUMN 27 VALUE IS "Message: ".
+               05 LINE 2 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 3 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 4 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 6 COl 14 VALUE  " __    __ __ __   ___    __     
+      -        "        _  __ _" FOREGROUND-COLOR IS 3.
+               05 LINE 7 COl 14 VALUE  "/__| ||_ (_ (_     | |_||_    |\
+      -        "|| ||V||_)|_ |_)" FOREGROUND-COLOR IS 5.
+               05 LINE 8 COl 14 VALUE  "\_||_||____)__)    | | ||__   | 
+      -        "||_|| ||_)|__| \" FOREGROUND-COLOR IS 2.
+               05 LINE 10 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 11 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 12 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 14 COLUMN 14 VALUE IS "Message: "
+               FOREGROUND-COLOR IS 6.
                05 MSG PIC X(128) FROM WS-RANDOM-NUM-MSG.
-            05 GUESS-FIELD LINE 8 COLUMN 27 PIC 99 USING GUESS.
-               05 LINE 20 COLUMN 27 VALUE IS "Stats: ".
-               05 LINE 21 COLUMN 27 VALUE IS " > Total Guesses = ".
-                   05 GUESSES PIC 99 FROM TOTAL-GUESSES.                       
-                           
+               05 GUESS-FIELD LINE 16 COLUMN 14 PIC XX USING GUESS-INPUT
+               .
+               05 LINE 20 COLUMN 14 VALUE IS "Stats: "
+               FOREGROUND-COLOR IS 6.
+               05 LINE 22 COLUMN 14 VALUE IS "Total Guesses = "
+               FOREGROUND-COLOR IS 5.
+                   05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
+               05 LINE 24 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 25 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 26 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+
        PROCEDURE DIVISION.
 
        0110-DISPLAY-LOGIN.
@@ -897,8 +928,7 @@
                    END-IF
                END-IF.
 
-           PERFORM 0190-O-AND-X-GAME.
-       
+                  
        0200-TIME-AND-DATE.
            MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
            MOVE WS-DATETIME(1:4)  TO WS-FORMATTED-YEAR.
@@ -922,9 +952,10 @@
            PERFORM GAME-LOOP.
        
            GAME-LOOP.
-           INITIALIZE GUESS.
+           INITIALIZE GUESS-INPUT.
            DISPLAY GUESS-SCREEN END-DISPLAY
            ACCEPT GUESS-SCREEN END-ACCEPT
+           MOVE GUESS-INPUT TO GUESS.
            ADD 1 TO TOTAL-GUESSES.
            IF GUESS > ANSWER
                MOVE "Your guess is too high! Guess again." 
@@ -935,17 +966,21 @@
                TO WS-RANDOM-NUM-MSG
                GO TO GAME-LOOP
            ELSE   
-               MOVE "You Win! Go Again?(yes=01/no=02)"
+               MOVE "You Win! Go Again?(Y/N)"
                TO WS-RANDOM-NUM-MSG
                GO TO WIN-LOOP
            END-IF.
            
            WIN-LOOP.
-           INITIALIZE GUESS.
+           INITIALIZE GUESS-INPUT.
            DISPLAY GUESS-SCREEN END-DISPLAY
            ACCEPT GUESS-SCREEN END-ACCEPT
-               IF GUESS = 01
+               IF GUESS-INPUT = "y" OR "Y"
                    GO TO INITIALIZE-RANDOM-NUM-GAME
-               ELSE 
+               ELSE IF GUESS-INPUT = "n" OR "N"
                    PERFORM 0160-GAMES-MENU
+               ELSE 
+                   MOVE "INVALID ENTRY! Enter Y or N"
+                   TO WS-RANDOM-NUM-MSG
+                   GO TO WIN-LOOP
                END-IF.     
