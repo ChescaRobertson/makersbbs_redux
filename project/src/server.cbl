@@ -583,17 +583,27 @@
                05 LINE 19 COLUMN 40 PIC A(1) FROM WS-CELL(3,3)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
 
-               05 LINE 23 COLUMN 27 VALUE IS "Message: ".
+               05 LINE 23 COLUMN 27 VALUE IS "Message: "
+                   FOREGROUND-COLOR IS 6.
                    05 MSG PIC X(128) FROM WS-OANDXMESSAGE.
-               05 LINE 24 COLUMN 27 PIC X(16) FROM WS-INSTRUCTION.
+               05 LINE 25 COLUMN 27 PIC X(16) FROM WS-INSTRUCTION.
                    05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
-               05 LINE 26 COLUMN 27 VALUE IS "Stats: ".
-               05 LINE 27 COLUMN 27 VALUE IS " > Moves played = ".
+               05 LINE 27 COLUMN 27 VALUE IS "Stats: "
+                   FOREGROUND-COLOR IS 6.
+               05 LINE 28 COLUMN 27 VALUE IS "Moves played = "
+                   FOREGROUND-COLOR IS 2.
                    05 MOVES PIC 9(1) FROM WS-MOVES.
-               05 LINE 28 COLUMN 27 VALUE IS " > Games won = ".
+               05 LINE 29 COLUMN 27 VALUE IS "Games won = "
+                   FOREGROUND-COLOR IS 5.
                    05 WINS PIC 9(2) FROM WS-WINS.
-               05 LINE 28 COLUMN 45 VALUE IS "/".
+               05 LINE 29 COLUMN 41 VALUE IS "/".
                    05 GAMES PIC 9(2) FROM WS-GAMES. 
+               05 LINE 31 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 32 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 33 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
 
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
