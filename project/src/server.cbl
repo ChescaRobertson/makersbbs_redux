@@ -111,7 +111,10 @@
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
                  05 BLANK SCREEN.
-                 05 LINE 2 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+                 05 LINE 2 COL 4 VALUE ":".
+                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 12 VALUE
            "COBOL The Barbarian presents:".                       
@@ -142,163 +145,174 @@
                  05 LINE 27 COL 14 VALUE "What's your name?".
                  05 USER-NAME-FIELD LINE 29 COL 14 PIC X(16)
                     USING USER-NAME.
-                 05 LINE 32 COL 14 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 32 COL 16 VALUE ":".
-                 05 LINE 32 COL 17 PIC X(2) USING WS-FORMATTED-MINS.                     
+                              
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE  4 COL 10 VALUE "Hi, ".
-             05 LINE  4 COL 14 PIC X(16) USING USER-NAME.
-             05 LINE  6 COL 10 VALUE "Welcome to COBOL The Barbarian's s
+             05 BLANK SCREEN.
+             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE  2 COL 4 VALUE ":".
+             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
+             05 LINE  6 COL 10 VALUE "Hi, ".
+             05 LINE  6 COL 14 PIC X(16) USING USER-NAME.
+             05 LINE  8 COL 10 VALUE "Welcome to COBOL The Barbarian's s
       -      "tate of the art Bulletin Board.".  
-             05 LINE  7 COL 10 VALUE "Feel free to:".
-             05 LINE  8 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE  8 COL 26 VALUE "Read our message board.".
-             05 LINE  9 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE  9 COL 26 VALUE "Play a few games.".
-             05 LINE  10 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE  10 COL 26 VALUE "Leave a message of your own.". 
-             05 LINE  11 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE  11 COL 26 VALUE "Most importantly. HAVE FUN!". 
+             05 LINE  9 COL 10 VALUE "Feel free to:".
+             05 LINE 10 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
+             05 LINE 10 COL 26 VALUE "Read our message board.".
+             05 LINE 11 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
+             05 LINE 11 COL 26 VALUE "Play a few games.".
+             05 LINE 12 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
+             05 LINE 12 COL 26 VALUE "Leave a message of your own.". 
+             05 LINE 13 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
+             05 LINE 13 COL 26 VALUE "Most importantly. HAVE FUN!". 
 
-             05 LINE 17 COL 24 VALUE "(m) Messages    "
+             05 LINE 19 COL 24 VALUE "(m) Messages    "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 17 COL 42 VALUE "(f) Fun & games "
+             05 LINE 19 COL 42 VALUE "(f) Fun & games "
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 19 COL 24 VALUE "(l) Logout      "
+             05 LINE 21 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 19 COL 42 VALUE "(q) Quit        "
+             05 LINE 21 COL 42 VALUE "(q) Quit        "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 21 COL 24 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 21 COL 30 PIC X
+             05 LINE 23 COL 24 VALUE "Pick: ".
+             05 MENU-CHOICE-FIELD LINE 23 COL 30 PIC X
                 USING MENU-CHOICE.
 
-             05 LINE 25 COL 25 VALUE "     [.. [....... [..       [..".
-             05 LINE 26 COL 25 VALUE "     [.. [..      [. [..   [...".
-             05 LINE 27 COL 25 VALUE "     [.. [..      [.. [.. [ [..".
-             05 LINE 28 COL 25 VALUE "     [.. [......  [..  [..  [..".
-             05 LINE 29 COL 25 VALUE "     [.. [..      [..   [.  [..".
-             05 LINE 30 COL 25 VALUE " [.  [.. [..      [..       [..".
-             05 LINE 31 COL 25 VALUE " [...... [....... [..       [.. ".        
+             05 LINE 27 COL 25 VALUE "     [.. [....... [..       [..".
+             05 LINE 28 COL 25 VALUE "     [.. [..      [. [..   [...".
+             05 LINE 29 COL 25 VALUE "     [.. [..      [.. [.. [ [..".
+             05 LINE 30 COL 25 VALUE "     [.. [......  [..  [..  [..".
+             05 LINE 31 COL 25 VALUE "     [.. [..      [..   [.  [..".
+             05 LINE 32 COL 25 VALUE " [.  [.. [..      [..       [..".
+             05 LINE 33 COL 25 VALUE " [...... [....... [..       [.. ".        
            
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE 4 COL 10 VALUE "          +++             -`^'-         
+             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE  2 COL 4 VALUE ":".
+             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
+             05 LINE  6 COL 10 VALUE "          +++             -`^'-         
       -      "         )))" FOREGROUND-COLOR IS 6.
-             05 LINE 5 COL 10 VALUE "         (o o)            (o o)            
+             05 LINE 7 COL 10 VALUE "         (o o)            (o o)            
       -      "        (o o)" FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+             05 LINE 8 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
       -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
 
-             05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
+             05 LINE 9 COL 10 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 8 COL 10 VALUE "-----------------------------------
+             05 LINE 10 COL 10 VALUE "-----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE  9 COL 10 PIC XXX USING LIST-ID(ID-NUM).
-             05 LINE  9 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM).
-             05 LINE 10 COL 10 PIC XXX USING LIST-ID(ID-NUM + 1).
-             05 LINE 10 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 1).
-             05 LINE 11 COL 10 PIC XXX USING LIST-ID(ID-NUM + 2).
-             05 LINE 11 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 2).
-             05 LINE 12 COL 10 PIC XXX USING LIST-ID(ID-NUM + 3).
-             05 LINE 12 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 3).
-             05 LINE 13 COL 10 PIC XXX USING LIST-ID(ID-NUM + 4).
-             05 LINE 13 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 4).
-             05 LINE 14 COL 10 PIC XXX USING LIST-ID(ID-NUM + 5).
-             05 LINE 14 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 5).
-             05 LINE 15 COL 10 PIC XXX USING LIST-ID(ID-NUM + 6).
-             05 LINE 15 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 6).
-             05 LINE 16 COL 10 PIC XXX USING LIST-ID(ID-NUM + 7).
-             05 LINE 16 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 7).
-             05 LINE 17 COL 10 PIC XXX USING LIST-ID(ID-NUM + 8).
-             05 LINE 17 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 8).
-             05 LINE 18 COL 10 PIC XXX USING LIST-ID(ID-NUM + 9).
-             05 LINE 18 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 9).
-             05 LINE 19 COL 10 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 20 COL 10 VALUE "*********************RECENT MESSAG
-      -      "ES*******************" FOREGROUND-COLOR IS 2.
+             05 LINE  11 COL 10 PIC XXX USING LIST-ID(ID-NUM).
+             05 LINE  11 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM).
+             05 LINE 12 COL 10 PIC XXX USING LIST-ID(ID-NUM + 1).
+             05 LINE 12 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 1).
+             05 LINE 13 COL 10 PIC XXX USING LIST-ID(ID-NUM + 2).
+             05 LINE 13 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 2).
+             05 LINE 14 COL 10 PIC XXX USING LIST-ID(ID-NUM + 3).
+             05 LINE 14 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 3).
+             05 LINE 15 COL 10 PIC XXX USING LIST-ID(ID-NUM + 4).
+             05 LINE 15 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 4).
+             05 LINE 16 COL 10 PIC XXX USING LIST-ID(ID-NUM + 5).
+             05 LINE 16 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 5).
+             05 LINE 17 COL 10 PIC XXX USING LIST-ID(ID-NUM + 6).
+             05 LINE 17 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 6).
+             05 LINE 18 COL 10 PIC XXX USING LIST-ID(ID-NUM + 7).
+             05 LINE 18 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 7).
+             05 LINE 19 COL 10 PIC XXX USING LIST-ID(ID-NUM + 8).
+             05 LINE 19 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 8).
+             05 LINE 20 COL 10 PIC XXX USING LIST-ID(ID-NUM + 9).
+             05 LINE 20 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 9).
              05 LINE 21 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 24 COL 24 VALUE "( ) Read Message by Number "
+             05 LINE 22 COL 10 VALUE "*********************RECENT MESSAG
+      -      "ES*******************" FOREGROUND-COLOR IS 2.
+             05 LINE 23 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 25 COL 24 VALUE "( ) Read Message by Number "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
-             05 LINE 26 COL 24 VALUE "(w) Write your own message "
+             05 LINE 27 COL 24 VALUE "(w) Write your own message "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.               
-             05 LINE 28 COL 18 VALUE "(n) Next Page     "
+             05 LINE 29 COL 18 VALUE "(n) Next Page     "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.  
-             05 LINE 28 COL 41 VALUE "(p) Previous Page "
+             05 LINE 29 COL 41 VALUE "(p) Previous Page "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6. 
-             05 LINE 30 COL 18 VALUE "(g) Go back       "
+             05 LINE 31 COL 18 VALUE "(g) Go back       "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 30 COL 41 VALUE "(q) Quit          "
+             05 LINE 31 COL 41 VALUE "(q) Quit          "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 32 COL 18 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE-FIELD LINE 32 COL 24 PIC XXX
+             05 LINE 33 COL 18 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE-FIELD LINE 33 COL 24 PIC XXX
                 USING MSG-MENU-CHOICE.
 
            01 MESSAGE-VIEW-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE 4 COL 10 VALUE "          \|/             '%%%'         
+             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE  2 COL 4 VALUE ":".
+             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
+             05 LINE  6 COL 10 VALUE "          \|/             '%%%'         
       -      "         (((" FOREGROUND-COLOR IS 6.
-             05 LINE 5 COL 10 VALUE "         (o o)            (> o)            
+             05 LINE  7 COL 10 VALUE "         (o o)            (> o)            
       -      "        (o o)" FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+             05 LINE 8 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
       -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
 
-             05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
+             05 LINE 9 COL 10 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 8 COL 10 VALUE "-----------------------------------
+             05 LINE 10 COL 10 VALUE "-----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE  9 COL 10 VALUE "Title: ".
-             05 LINE  9 COL 19 PIC X(50) USING LIST-TITLE(MSG-SELECT).
-             05 LINE 11 COL 10 VALUE "Message: ".
-             05 LINE 11 COL 19 PIC X(60) USING LS-PART-1.
-             05 LINE 12 COL 19 PIC X(60) USING LS-PART-2.
-             05 LINE 13 COL 19 PIC X(60) USING LS-PART-3.
-             05 LINE 14 COL 19 PIC X(60) USING LS-PART-4.
-             05 LINE 15 COL 19 PIC X(60) USING LS-PART-5.
-             05 LINE 16 COL 10 VALUE "----------------------------------
+             05 LINE 12 COL 10 VALUE "Title: ".
+             05 LINE 12 COL 19 PIC X(50) USING LIST-TITLE(MSG-SELECT).
+             05 LINE 14 COL 10 VALUE "Message: ".
+             05 LINE 15 COL 19 PIC X(60) USING LS-PART-1.
+             05 LINE 16 COL 19 PIC X(60) USING LS-PART-2.
+             05 LINE 17 COL 19 PIC X(60) USING LS-PART-3.
+             05 LINE 18 COL 19 PIC X(60) USING LS-PART-4.
+             05 LINE 19 COL 19 PIC X(60) USING LS-PART-5.
+             05 LINE 20 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 17 COL 10 VALUE "*********************CHOSEN MESSAG
+             05 LINE 21 COL 10 VALUE "*********************CHOSEN MESSAG
       -      "E********************" FOREGROUND-COLOR IS 2.
-             05 LINE 18 COL 10 VALUE "----------------------------------
+             05 LINE 22 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.  
-             05 LINE 21 COL 25 VALUE "(g) Go back"
+             05 LINE 25 COL 25 VALUE "(g) Go back"
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 39 VALUE "(q) Quit   "
+             05 LINE 25 COL 39 VALUE "(q) Quit   "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 23 COL 25 VALUE "Pick: ".
-             05 MSG-VIEW-CHOICE-FIELD LINE 23 COL 31 PIC X 
+             05 LINE 27 COL 25 VALUE "Pick: ".
+             05 MSG-VIEW-CHOICE-FIELD LINE 27 COL 31 PIC X 
                USING MSG-VIEW-CHOICE.
 
            01 WRITE-MSG-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE 4 COL 10 VALUE "         ~@@@~            '^^^'         
+             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE  2 COL 4 VALUE ":".
+             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
+             05 LINE  6 COL 10 VALUE "         ~@@@~            '^^^'         
       -      "        .:;:." FOREGROUND-COLOR IS 6.
-             05 LINE 5 COL 10 VALUE "         (o-o)            (> <)            
+             05 LINE  7 COL 10 VALUE "         (o-o)            (> <)            
       -      "        (> o)" FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
+             05 LINE  6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
       -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
 
-             05 LINE 7 COL 10 VALUE "*********************BULLETIN BOARD
+             05 LINE 8 COL 10 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 8 COL 10 VALUE "-----------------------------------
+             05 LINE 9 COL 10 VALUE "-----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 10 COL 10 VALUE "TITLE:   ".
-             05 WS-TITLE-FIELD LINE 10 COL 18 PIC X(50) USING WS-TITLE.
-             05 LINE 12 COL 10 VALUE "MESSAGE: ".
+             05 LINE 11 COL 10 VALUE "TITLE:   ".
+             05 WS-TITLE-FIELD LINE 11 COL 18 PIC X(50) USING WS-TITLE.
+             05 LINE 13 COL 10 VALUE "MESSAGE: ".
              05 LINE-1-FIELD LINE 14 COL 10 PIC X(60) USING LS-PART-1.
              05 LINE-2-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-2.
              05 LINE-3-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-3.
@@ -314,6 +328,9 @@
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
+             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE  2 COL 4 VALUE ":".
+             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
              05 LINE 4 COL 10 VALUE".------..------..------..------..---
       -      "---." FOREGROUND-COLOR IS 3.
              05 LINE 5 COL 10 VALUE"|G.--. ||A.--. ||M.--. ||E.--. ||S.-
@@ -574,6 +591,7 @@
            PERFORM 0120-DISPLAY-MENU.
 
        0120-DISPLAY-MENU.
+           PERFORM 0200-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
            DISPLAY MENU-SCREEN.
            ACCEPT MENU-CHOICE-FIELD.
@@ -583,13 +601,14 @@
              PERFORM 0110-DISPLAY-LOGIN
            ELSE IF MENU-CHOICE = "m" or "M" THEN
              PERFORM 0130-MSG-MENU
-           ELSE IF MENU-CHOICE = "g" or "G" THEN
+           ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
 
        0130-MSG-MENU.
+           PERFORM 0200-TIME-AND-DATE.
            CALL 'number-of-file-lines' USING NUM-FILE-LINES.
            CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
           *>  CALL 'id-sort' USING WS-LIST-TABLE.
@@ -601,7 +620,7 @@
            IF MSG-SELECT > 0 THEN
              PERFORM 0140-MESSAGE-VIEW
            END-IF. 
-           IF MSG-MENU-CHOICE = "f" OR 'F' THEN
+           IF MSG-MENU-CHOICE = "g" OR 'G' THEN
                PERFORM 0120-DISPLAY-MENU
            ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
              COMPUTE ID-NUM = ID-NUM + 10
@@ -630,7 +649,8 @@
 
            PERFORM 0130-MSG-MENU.
 
-       0140-MESSAGE-VIEW.           
+       0140-MESSAGE-VIEW. 
+           PERFORM 0200-TIME-AND-DATE.          
            MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
@@ -644,6 +664,7 @@
            PERFORM 0140-MESSAGE-VIEW. 
 
        0150-MESSAGE-WRITE.
+           PERFORM 0200-TIME-AND-DATE.
            INITIALIZE WS-TITLE.
            INITIALIZE LS-PART-1.
            INITIALIZE LS-PART-2.
@@ -669,6 +690,7 @@
            PERFORM 0120-DISPLAY-MENU.
        
        0160-GAMES-MENU.
+           PERFORM 0200-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
            DISPLAY GAMES-MENU-SCREEN.
            ACCEPT GAMES-MENU-CHOICE-FIELD
