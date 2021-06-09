@@ -581,7 +581,7 @@
            IF MSG-SELECT > 0 THEN
              PERFORM 0140-MESSAGE-VIEW
            END-IF. 
-           IF MSG-MENU-CHOICE = "g" OR 'G' THEN
+           IF MSG-MENU-CHOICE = "f" OR 'F' THEN
                PERFORM 0120-DISPLAY-MENU
            ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
              COMPUTE ID-NUM = ID-NUM + 10
