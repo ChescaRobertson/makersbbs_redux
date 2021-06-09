@@ -9,9 +9,11 @@
                    10 WS-ID PIC XXX.
                    10 WS-TITLE PIC X(50).
                    10 WS-CONTENT PIC X(300).
+                   10 WS-USERNAME PIC X(16).
            01 TEMP-ID PIC XXX.
            01 TEMP-TITLE PIC X(50).
            01 TEMP-CONTENT PIC X(300).
+           01 TEMP-USERNAME PIC X(16).
            01 SUPPRESS-ZEROS PIC ZZZ.
            01 SEARCH-ID PIC XXX.
            01 LOOP-COUNTER PIC 999.
@@ -24,15 +26,16 @@
                    10 LS-ID PIC XXX.
                    10 LS-TITLE PIC X(50).
                    10 LS-CONTENT PIC X(300).
+                   10 LS-USERNAME PIC X(16).
            01 NUM-LINES PIC 999.
        PROCEDURE DIVISION USING NUM-LINES LS-RETURN-TABLE.
            
            MOVE NUM-LINES TO NUM-OF-LINES.
-         *>  DISPLAY 'LOOP COUNTER IS: ' LOOP-COUNTER.
-           DISPLAY 'NUMBER OF LINES: ' NUM-OF-LINES.
-          *>  ----------------------------------------------------------
-               
-          *> -----------------------------------------------------------
+           
+          *>  ------------------------DEBUG-----------------------------
+          *>  DISPLAY 'LOOP COUNTER IS: ' LOOP-COUNTER.
+          *>  DISPLAY 'NUMBER OF LINES: ' NUM-OF-LINES.
+          *> -----------------------DEBUG END---------------------------
            
           
            PERFORM UNTIL LOOP-COUNTER = NUM-OF-LINES
@@ -42,10 +45,11 @@
              MOVE SUPPRESS-ZEROS TO SEARCH-ID
              MOVE FUNCTION TRIM(SEARCH-ID) TO SEARCH-ID 
             CALL 'list-message' USING SEARCH-ID TEMP-ID TEMP-TITLE 
-              TEMP-CONTENT
+              TEMP-CONTENT TEMP-USERNAME
             MOVE TEMP-ID TO WS-ID(LOOP-COUNTER)
             MOVE TEMP-TITLE TO WS-TITLE(LOOP-COUNTER)
             MOVE TEMP-CONTENT TO WS-CONTENT(LOOP-COUNTER)
+            MOVE TEMP-USERNAME TO WS-USERNAME(LOOP-COUNTER)
                
            END-PERFORM.
           
@@ -58,5 +62,7 @@
            CALL 'id-sort' USING LS-RETURN-TABLE.
            MOVE 1 TO LOOP-COUNTER.
            
+           
+          
            
           

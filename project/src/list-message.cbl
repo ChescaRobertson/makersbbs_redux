@@ -12,6 +12,7 @@
                05 RC-ID PIC XXX.
                05 RC-MESSAGE-TITLE PIC X(50).
                05 RC-MESSAGE-CONTENT PIC X(300).
+               05 RC-USERNAME PIC X(16).
            WORKING-STORAGE SECTION.
            01 SUPPRESS-ZEROS PIC ZZZ.
            01 NEW-ID PIC XXX.
@@ -21,9 +22,10 @@
            01 LS-RETURN-ID PIC XXX.
            01 LS-RETURN-TITLE PIC X(50).
            01 LS-RETURN-CONTENT PIC X(300).
+           01 LS-USERNAME PIC X(16).
  
            PROCEDURE DIVISION USING LS-ID LS-RETURN-ID LS-RETURN-TITLE 
-             LS-RETURN-CONTENT.
+             LS-RETURN-CONTENT LS-USERNAME.
            OPEN INPUT F-MESSAGES-FILE.
           *> *>  ACCOUNTING FOR PIC 9s:
           *>  MOVE LS-ID TO SUPPRESS-ZEROS.
@@ -48,6 +50,7 @@
                    MOVE RC-ID TO LS-RETURN-ID
                    MOVE RC-MESSAGE-TITLE TO LS-RETURN-TITLE
                    MOVE RC-MESSAGE-CONTENT TO LS-RETURN-CONTENT
+                   MOVE RC-USERNAME TO LS-USERNAME
                  MOVE FUNCTION TRIM(LS-RETURN-ID) TO LS-RETURN-ID  
                  MOVE FUNCTION TRIM(LS-RETURN-TITLE) TO LS-RETURN-TITLE
                  MOVE FUNCTION TRIM(LS-RETURN-CONTENT) TO 
@@ -64,5 +67,6 @@
           
       
       *> I would love to know why passing in a non variable as the first
-      *> argument completely breaks everything. Cobol is strange at times.
+      *> argument completely breaks everything. 
+      *> Cobol is strange at times.
       

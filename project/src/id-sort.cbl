@@ -13,6 +13,7 @@
                    10 HOLD-ID PIC XXX.
                    10 HOLD-TITLE PIC X(50).
                    10 HOLD-CONTENT PIC X(300).
+                   10 HOLD-USERNAME PIC X(16).
            LINKAGE SECTION.
            01 SORTED-TABLE.
                05 S-ENTRY OCCURS 10 TO 999 TIMES DEPENDING ON 
@@ -20,12 +21,11 @@
                    10 S-ID PIC XXX.
                    10 S-TITLE PIC X(50).
                    10 S-CONTENT PIC X(300).
+                   10 S-USERNAME PIC X(16).
            PROCEDURE DIVISION USING SORTED-TABLE.
            CALL 'number-of-file-lines' USING NUM-OF-LINES.
            MOVE NUM-OF-LINES TO REVERSE-ID.
-          *>  ADD 1 TO NUM-OF-LINES.
-          *>  IF THE YOU SEE AN EMPTY VALUE BUT AN ID PRESENT, 
-          *>  CHECK THIS CONDITION. I ADDED 1 TO NUM-OF-LINES.
+      
            PERFORM UNTIL LOOP-COUNT = NUM-OF-LINES
                ADD 1 TO LOOP-COUNT
                MOVE REVERSE-ID TO SUPPRESS-ZEROS
@@ -37,13 +37,7 @@
           *>  REMEMBER to put these moves after the loops!!!!!!!!!!!
            MOVE 0 TO LOOP-COUNT.
            MOVE NUM-OF-LINES TO REVERSE-ID.
-          *>  TO DO:
-          *> Make a new array in the exact format of the linked one.
-          *> move the last array item of the linked array 
-          *> to the first entry of the new array
-          *> at the end, replace the returned array with the new one.
-          *> THEN put this sub routine at the bottom of the 
-          *> get-list-page-alt.cbl
+          
           *> SOLUTION BELOW VVVVVVV ------------------------------------
            PERFORM UNTIL LOOP-COUNT = NUM-OF-LINES
              ADD 1 TO LOOP-COUNT
@@ -59,7 +53,7 @@
               *>  DISPLAY 'Now the first value in HOLD-ENTRY TABLE:'.
               *>  DISPLAY HOLD-ID(1) HOLD-TITLE(1).
                
-          *>  ----------------------------------------------------------
+          *>  ------------------------END-DEBUG-------------------------
            MOVE 0 TO LOOP-COUNT.
            MOVE NUM-OF-LINES TO REVERSE-ID.
            MOVE HOLDER-TABLE TO SORTED-TABLE.

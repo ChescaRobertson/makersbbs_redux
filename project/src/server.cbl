@@ -48,6 +48,7 @@
                    10 LIST-ID PIC XXX.
                    10 LIST-TITLE PIC X(50).
                    10 LIST-CONTENT PIC X(300).
+                   10 LIST-USERNAME PIC X(16).        
            01 WS-CONTENT-DISPLAY.
                05 LS-PART-1 PIC X(60).
                05 LS-PART-2 PIC X(60).
@@ -60,6 +61,7 @@
            01 NEW-MESSAGE.
              05 WS-TITLE PIC X(50).
              05 WS-CONTENT PIC X(300).
+             05 WS-USERNAME PIC X(16).
 
            *>-----X AND O WS-SECTION-----   
            01 WS-PLAYER PIC A(1).
@@ -277,6 +279,9 @@
              05 LINE 16 COL 19 PIC X(60) USING LS-PART-3.
              05 LINE 17 COL 19 PIC X(60) USING LS-PART-4.
              05 LINE 18 COL 19 PIC X(60) USING LS-PART-5.
+             05 LINE 20 COL 10 VALUE "Author: ".
+             05 LINE 20 COL 19 PIC X(16) 
+                USING LIST-USERNAME(MSG-SELECT).
              05 LINE 22 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
              05 LINE 23 COL 10 VALUE "*********************CHOSEN MESSAG
@@ -313,16 +318,16 @@
              05 LINE 11 COL 10 VALUE "TITLE:   ".
              05 WS-TITLE-FIELD LINE 11 COL 18 PIC X(50) USING WS-TITLE.
              05 LINE 13 COL 10 VALUE "MESSAGE: ".
-             05 LINE-1-FIELD LINE 14 COL 10 PIC X(60) USING LS-PART-1.
-             05 LINE-2-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-2.
-             05 LINE-3-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-3.
-             05 LINE-4-FIELD LINE 17 COL 10 PIC X(60) USING LS-PART-4.
-             05 LINE-5-FIELD LINE 18 COL 10 PIC X(60) USING LS-PART-5. 
-             05 LINE 20 COL 10 VALUE "----------------------------------
+             05 LINE-1-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-1.
+             05 LINE-2-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-2.
+             05 LINE-3-FIELD LINE 17 COL 10 PIC X(60) USING LS-PART-3.
+             05 LINE-4-FIELD LINE 18 COL 10 PIC X(60) USING LS-PART-4.
+             05 LINE-5-FIELD LINE 19 COL 10 PIC X(60) USING LS-PART-5. 
+             05 LINE 21 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 21 COL 10 VALUE "*********************LEAVE A MESSA
+             05 LINE 22 COL 10 VALUE "*********************LEAVE A MESSA
       -      "GE*******************" FOREGROUND-COLOR IS 2.
-             05 LINE 22 COL 10 VALUE "----------------------------------
+             05 LINE 23 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
            
            01 GAMES-MENU-SCREEN
@@ -681,6 +686,7 @@
            ACCEPT LINE-5-FIELD.
            
            MOVE WS-CONTENT-DISPLAY TO WS-CONTENT.
+           MOVE USER-NAME TO WS-USERNAME.
 
            IF WS-TITLE-FIELD NOT = SPACE AND LOW-VALUE THEN
              CALL 'post-message' USING NEW-MESSAGE
