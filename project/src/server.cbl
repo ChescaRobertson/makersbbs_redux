@@ -25,6 +25,22 @@
            01 WS-COUNTER PIC 99.
            01 NUM-FILE-LINES PIC 999.
            01 ID-NUM PIC 999 VALUE 1.
+           01 WS-DATETIME PIC X(21).
+           01 WS-FORMATTED-DT.
+             05 WS-FORMATTED-DTE-TME.
+               15 WS-FORMATTED-YEAR  PIC  X(4). 
+               15 FILLER             PIC X VALUE '-'.
+               15 WS-FORMATTED-MONTH PIC  X(2).
+               15 FILLER             PIC X VALUE '-'.
+               15 WS-FORMATTED-DY    PIC  X(2).
+               15 FILLER             PIC X VALUE '-'.
+               15 WS-FORMATTED-HOUR  PIC  X(2).
+               15 FILLER             PIC X VALUE ':'.
+               15 WS-FORMATTED-MINS  PIC  X(2).
+               15 FILLER             PIC X VALUE ':'.
+               15 WS-FORMATTED-SEC   PIC  X(2).
+               15 FILLER             PIC X VALUE ':'.
+               15 WS-FORMATTED-MS    PIC  X(2).
                    
            01 WS-LIST-TABLE.
                05 WS-LIST-ENTRY OCCURS 10 TO 999 TIMES DEPENDING ON 
@@ -125,7 +141,10 @@
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
                  05 LINE 27 COL 14 VALUE "What's your name?".
                  05 USER-NAME-FIELD LINE 29 COL 14 PIC X(16)
-                    USING USER-NAME.                       
+                    USING USER-NAME.
+                 05 LINE 32 COL 14 PIC X(2) USING WS-FORMATTED-HOUR.
+                 05 LINE 32 COL 16 VALUE ":".
+                 05 LINE 32 COL 17 PIC X(2) USING WS-FORMATTED-MINS.                     
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -548,6 +567,7 @@
        PROCEDURE DIVISION.
 
        0110-DISPLAY-LOGIN.
+           PERFORM 0200-TIME-AND-DATE.
            INITIALIZE USER-NAME.
            DISPLAY LOGIN-SCREEN.
            ACCEPT USER-NAME-FIELD.
@@ -833,3 +853,13 @@
                END-IF.
 
            PERFORM 0190-O-AND-X-GAME.
+       
+       0200-TIME-AND-DATE.
+           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
+           MOVE WS-DATETIME(1:4)  TO WS-FORMATTED-YEAR.
+           MOVE WS-DATETIME(5:2)  TO WS-FORMATTED-MONTH.
+           MOVE WS-DATETIME(7:2)  TO WS-FORMATTED-DY.
+           MOVE WS-DATETIME(9:2)  TO WS-FORMATTED-HOUR.
+           MOVE WS-DATETIME(11:2) TO WS-FORMATTED-MINS.
+           MOVE WS-DATETIME(13:2) TO WS-FORMATTED-SEC.
+           MOVE WS-DATETIME(15:2) TO WS-FORMATTED-MS.
