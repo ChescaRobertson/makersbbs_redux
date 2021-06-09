@@ -272,23 +272,23 @@
              05 LINE 12 COL 10 VALUE "Title: ".
              05 LINE 12 COL 19 PIC X(50) USING LIST-TITLE(MSG-SELECT).
              05 LINE 14 COL 10 VALUE "Message: ".
-             05 LINE 15 COL 19 PIC X(60) USING LS-PART-1.
-             05 LINE 16 COL 19 PIC X(60) USING LS-PART-2.
-             05 LINE 17 COL 19 PIC X(60) USING LS-PART-3.
-             05 LINE 18 COL 19 PIC X(60) USING LS-PART-4.
-             05 LINE 19 COL 19 PIC X(60) USING LS-PART-5.
-             05 LINE 20 COL 10 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 21 COL 10 VALUE "*********************CHOSEN MESSAG
-      -      "E********************" FOREGROUND-COLOR IS 2.
+             05 LINE 14 COL 19 PIC X(60) USING LS-PART-1.
+             05 LINE 15 COL 19 PIC X(60) USING LS-PART-2.
+             05 LINE 16 COL 19 PIC X(60) USING LS-PART-3.
+             05 LINE 17 COL 19 PIC X(60) USING LS-PART-4.
+             05 LINE 18 COL 19 PIC X(60) USING LS-PART-5.
              05 LINE 22 COL 10 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 23 COL 10 VALUE "*********************CHOSEN MESSAG
+      -      "E********************" FOREGROUND-COLOR IS 2.
+             05 LINE 24 COL 10 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.  
-             05 LINE 25 COL 25 VALUE "(g) Go back"
+             05 LINE 27 COL 25 VALUE "(g) Go back"
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 25 COL 39 VALUE "(q) Quit   "
+             05 LINE 27 COL 39 VALUE "(q) Quit   "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 27 COL 25 VALUE "Pick: ".
-             05 MSG-VIEW-CHOICE-FIELD LINE 27 COL 31 PIC X 
+             05 LINE 28 COL 25 VALUE "Pick: ".
+             05 MSG-VIEW-CHOICE-FIELD LINE 28 COL 31 PIC X 
                USING MSG-VIEW-CHOICE.
 
            01 WRITE-MSG-SCREEN
