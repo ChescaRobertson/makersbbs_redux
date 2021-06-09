@@ -103,6 +103,12 @@
                01 WS-OANDXMESSAGE PIC X(128).
                01 WS-INSTRUCTION PIC X(16).
                01 WS-FLAT-GAME-GRID PIC X(9).
+           *>-----RANDOM-NUM-GAME WS-SECTION-----
+           01 SEED PIC 9(8).
+           01 GUESS PIC 99.
+           01 ANSWER PIC 99.
+           01 TOTAL-GUESSES PIC 99.
+           01 WS-RANDOM-NUM-MSG PIC X(128).    
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -515,7 +521,7 @@
              05 HIDDEN-MENU-CHOICE-FIELD LINE 32 COL 16 PIC X
                 USING HIDDEN-MENU-CHOICE.  
 
-       01 BOARD-SCREEN.
+           01 BOARD-SCREEN.
                05 BLANK SCREEN.
                05 LINE 1 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
@@ -584,7 +590,16 @@
                05 LINE 28 COLUMN 27 VALUE IS " > Games won = ".
                    05 WINS PIC 9(2) FROM WS-WINS.
                05 LINE 28 COLUMN 45 VALUE IS "/".
-                   05 GAMES PIC 9(2) FROM WS-GAMES.           
+                   05 GAMES PIC 9(2) FROM WS-GAMES. 
+           01 GUESS-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 5 COLUMN 27 VALUE IS "GUESS THE NUMBER GAME".
+           05 LINE 6 COLUMN 27 VALUE IS "Message: ".
+               05 MSG PIC X(128) FROM WS-RANDOM-NUM-MSG.
+            05 GUESS-FIELD LINE 8 COLUMN 27 PIC 99 USING GUESS.
+               05 LINE 20 COLUMN 27 VALUE IS "Stats: ".
+               05 LINE 21 COLUMN 27 VALUE IS " > Total Guesses = ".
+                   05 GUESSES PIC 99 FROM TOTAL-GUESSES.                       
                            
        PROCEDURE DIVISION.
 
@@ -707,7 +722,9 @@
            ELSE IF GAMES-MENU-CHOICE = "o" OR "O" THEN
                PERFORM 0190-O-AND-X-GAME  
            ELSE IF GAMES-MENU-CHOICE = "m" or "M" THEN
-               PERFORM 0170-MONKEY-MENU        
+               PERFORM 0170-MONKEY-MENU
+           ELSE IF GAMES-MENU-CHOICE = "n" or "N" THEN 
+               PERFORM 0210-RANDOM-NUMBER-GAME           
            END-IF.
 
            PERFORM 0160-GAMES-MENU.
@@ -891,3 +908,44 @@
            MOVE WS-DATETIME(11:2) TO WS-FORMATTED-MINS.
            MOVE WS-DATETIME(13:2) TO WS-FORMATTED-SEC.
            MOVE WS-DATETIME(15:2) TO WS-FORMATTED-MS.
+
+       0210-RANDOM-NUMBER-GAME.
+           PERFORM INITIALIZE-RANDOM-NUM-GAME.
+
+           INITIALIZE-RANDOM-NUM-GAME.
+           DISPLAY GUESS-SCREEN.
+           COMPUTE TOTAL-GUESSES = 0.
+           ACCEPT SEED FROM TIME
+           COMPUTE ANSWER =
+               FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1   
+           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG    
+           PERFORM GAME-LOOP.
+       
+           GAME-LOOP.
+           INITIALIZE GUESS.
+           DISPLAY GUESS-SCREEN END-DISPLAY
+           ACCEPT GUESS-SCREEN END-ACCEPT
+           ADD 1 TO TOTAL-GUESSES.
+           IF GUESS > ANSWER
+               MOVE "Your guess is too high! Guess again." 
+               TO WS-RANDOM-NUM-MSG
+               GO TO GAME-LOOP
+           ELSE IF GUESS < ANSWER
+               MOVE "Your guess is too low! Guess again."
+               TO WS-RANDOM-NUM-MSG
+               GO TO GAME-LOOP
+           ELSE   
+               MOVE "You Win! Go Again?(yes=01/no=02)"
+               TO WS-RANDOM-NUM-MSG
+               GO TO WIN-LOOP
+           END-IF.
+           
+           WIN-LOOP.
+           INITIALIZE GUESS.
+           DISPLAY GUESS-SCREEN END-DISPLAY
+           ACCEPT GUESS-SCREEN END-ACCEPT
+               IF GUESS = 01
+                   GO TO INITIALIZE-RANDOM-NUM-GAME
+               ELSE 
+                   PERFORM 0160-GAMES-MENU
+               END-IF.     
