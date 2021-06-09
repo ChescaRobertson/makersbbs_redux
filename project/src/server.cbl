@@ -897,7 +897,7 @@
                    END-IF
                END-IF.
 
-           PERFORM 0190-O-AND-X-GAME.
+           
        
        0200-TIME-AND-DATE.
            MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
