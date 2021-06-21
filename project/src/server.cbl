@@ -8,15 +8,40 @@
              SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
                        ORGANIZATION IS LINE SEQUENTIAL.
 
+             SELECT F-USERS-FILE ASSIGN TO 'users.dat'
+                 ORGANIZATION IS LINE SEQUENTIAL. 
+
        DATA DIVISION.
            FILE SECTION.
            *>----- X AND O F-Section-----   
            FD FD-WINMASKS.
            01 FD-WINMASK PIC X(9).
+
+           FD F-USERS-FILE.
+           01 USERS.
+              05 USERNAME PIC X(16).
+              05 USER-PASSWORD PIC X(20).   
            
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
+           01 START-CHOICE PIC X.
            01 USER-NAME PIC X(16).
+           01 WS-PASSWORD PIC X(20).
+
+           01 WS-USERS.
+               05 WS-USER OCCURS 100 TIMES
+               ASCENDING KEY IS WS-USER-NAME
+               INDEXED BY USER-IDX.
+                   10 WS-USER-NAME PIC X(16).
+                   10 WS-PWORD PIC X(20).
+           01 WS-FOUND PIC 9. 
+           01 WS-IDX UNSIGNED-INT. 
+           01 COUNTER UNSIGNED-INT. 
+
+           01 NEW-USER-NAME PIC X(16).
+           01 NEW-PASSWORD PIC X(20).
+           01 REGISTER-CHOICE PIC X.
+           01 ERROR-CHOICE PIC X. 
            01 MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE PIC XXX.
            01 GAMES-MENU-CHOICE PIC X.
@@ -117,6 +142,38 @@
            01 LS-MESSAGE PIC X(60).  
 
            SCREEN SECTION.
+
+           01 START-SCREEN. 
+            05 BLANK SCREEN.
+            05 LINE 2 COLUMN 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            HIGHLIGHT, FOREGROUND-COLOR IS 3.
+            05 LINE 4 COLUMN 10 VALUE "(l) Go to Log-in.".
+            05 LINE 5 COLUMN 10 VALUE "(c) Create an account.".
+            05 LINE 6 COLUMN 10 VALUE "(q) Quit.".
+            05 LINE 8 COLUMN 10 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 8 COLUMN 16 PIC X
+                USING START-CHOICE.
+           
+           01 REGISTER-NEW-USER-SCREEN
+             BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "MAKERS BBS"UNDERLINE, BLINK
+             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 4 COLUMN 10 VALUE "Create an account.".
+             05 LINE 6 COLUMN 10 VALUE "Enter a username:".
+             05 NEW-USER-NAME-FIELD LINE 8 COLUMN 10 PIC X(10)
+                USING NEW-USER-NAME.
+             05 LINE 10 COLUMN 10 VALUE "Enter a password:".
+             05 LINE 10 COLUMN 28 VALUE "(password can be a ".
+             05 LINE 10 COLUMN 56 VALUE "maximum of 20 characters)".
+             05 NEW-PASSWORD-FIELD LINE 12 COLUMN 10 PIC X(20)
+                USING NEW-PASSWORD.
+             05 LINE 14 COLUMN 10 VALUE "(s) Submit".
+             05 LINE 15 COLUMN 10 VALUE "(q) Go Back".
+             05 LINE 17 COLUMN 10 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 17 COLUMN 16 PIC X
+                USING REGISTER-CHOICE.
+
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
                  05 BLANK SCREEN.
@@ -126,7 +183,7 @@
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 12 VALUE
-           "COBOL The Barbarian presents:".                       
+           "The TMNCT present:".                       
                  05 LINE 10 COl 12 VALUE   
            "______       _ _      _   _" FOREGROUND-COLOR IS 3.
                  05 LINE 11 COl 10 VALUE         
@@ -151,10 +208,25 @@
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
                  05 LINE 23 COl 10 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-                 05 LINE 27 COL 14 VALUE "What's your name?".
+                 05 LINE 27 COL 14 VALUE "Enter your username:".
                  05 USER-NAME-FIELD LINE 29 COL 14 PIC X(16)
                     USING USER-NAME.
+                 05 LINE 31 COL 14 VALUE "Enter your password:".
+                 05 PASSWORD-FIELD LINE 33 COLUMN 14 PIC X(20)
+                    USING WS-PASSWORD.   
                               
+           01 ERROR-SCREEN
+             BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 4 COLUMN 10 VALUE "Incorrect Username or Password".
+             05 LINE 6 COLUMN 10 VALUE "(l) Back to Log-in.".
+             05 LINE 7 COLUMN 10 VALUE "(c) Create an account.".
+             05 LINE 8 COLUMN 10 VALUE "(q) Go Back." .
+             05 LINE 10 COLUMN 10 VALUE "Pick: ".
+             05 ERROR-CHOICE-FIELD LINE 10 COLUMN 16 PIC X
+                USING ERROR-CHOICE.
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -644,12 +716,93 @@
 
        PROCEDURE DIVISION.
 
+       0100-DISPLAY-START.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE START-CHOICE.
+           DISPLAY START-SCREEN.
+           ACCEPT START-CHOICE-FIELD.
+           IF START-CHOICE = "l" THEN 
+               PERFORM 0110-DISPLAY-LOGIN 
+           ELSE IF START-CHOICE = "c" THEN 
+               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
+           ELSE IF START-CHOICE = "q" THEN 
+               STOP RUN
+           ELSE 
+               PERFORM 0100-DISPLAY-START
+           END-IF.
+       
+       0105-DISPLAY-REGISTER-NEW-USER.
+           INITIALIZE NEW-USER-NAME.
+           INITIALIZE NEW-PASSWORD.
+           INITIALIZE REGISTER-CHOICE
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT NEW-USER-NAME-FIELD.
+           ACCEPT NEW-PASSWORD-FIELD.
+           ACCEPT REGISTER-CHOICE-FIELD.
+           IF REGISTER-CHOICE = "q" THEN 
+               PERFORM 0110-DISPLAY-LOGIN
+           ELSE IF REGISTER-CHOICE = "s" THEN 
+               OPEN EXTEND F-USERS-FILE
+               MOVE NEW-USER-NAME TO USERNAME
+               MOVE NEW-PASSWORD TO USER-PASSWORD
+               WRITE USERS
+               END-WRITE               
+           END-IF.
+           CLOSE F-USERS-FILE.
+           PERFORM 0110-DISPLAY-LOGIN.
+
        0110-DISPLAY-LOGIN.
            PERFORM 0200-TIME-AND-DATE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-USERS-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-USERS-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
+                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-USERS-FILE.
            INITIALIZE USER-NAME.
+           INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
            ACCEPT USER-NAME-FIELD.
-           PERFORM 0120-DISPLAY-MENU.
+           ACCEPT PASSWORD-FIELD. 
+            MOVE 0 TO WS-FOUND.
+           MOVE 1 TO WS-IDX.
+           ADD 1 TO COUNTER.
+           PERFORM UNTIL WS-IDX = COUNTER
+               IF USER-NAME = WS-USER-NAME(WS-IDX) AND 
+               WS-PASSWORD = WS-PWORD(WS-IDX) THEN
+                   MOVE 1 TO WS-FOUND 
+               END-IF
+               ADD 1 TO WS-IDX 
+           END-PERFORM.
+
+           IF WS-FOUND = 1 THEN
+               PERFORM 0120-DISPLAY-MENU 
+           ELSE 
+               PERFORM 0115-ERROR-PAGE 
+           END-IF. 
+       
+       0115-ERROR-PAGE.
+           INITIALIZE ERROR-CHOICE.
+           DISPLAY ERROR-SCREEN.
+           ACCEPT ERROR-CHOICE-FIELD.
+           IF ERROR-CHOICE = "l" THEN 
+               PERFORM 0110-DISPLAY-LOGIN
+           ELSE IF ERROR-CHOICE = "c" THEN 
+               PERFORM 0105-DISPLAY-REGISTER-NEW-USER 
+           ELSE IF ERROR-CHOICE = "q" THEN 
+               PERFORM 0100-DISPLAY-START
+           ELSE 
+               PERFORM 0115-ERROR-PAGE 
+           END-IF.
+       
 
        0120-DISPLAY-MENU.
            PERFORM 0200-TIME-AND-DATE.
