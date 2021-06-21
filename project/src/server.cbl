@@ -109,7 +109,9 @@
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
-           01 WS-RANDOM-NUM-MSG PIC X(128).    
+           01 WS-RANDOM-NUM-MSG PIC X(128).
+      *    --------Library Section---------
+           01 LIBRARY-CHOICE PIC X.     
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -177,7 +179,9 @@
              05 LINE 12 COL 26 VALUE "Leave a message of your own.". 
              05 LINE 13 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
              05 LINE 13 COL 26 VALUE "Most importantly. HAVE FUN!". 
-
+             
+             05 LINE 19 COL 20 VALUE "(l) Library"
+                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 19 COL 24 VALUE "(m) Messages    "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 19 COL 42 VALUE "(f) Fun & games "
@@ -642,6 +646,50 @@
                05 LINE 26 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
 
+           01 LIBRARY-SCREEN.
+           05 BLANK SCREEN.
+              05 LINE 2 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 3 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 4 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 5 COL 10 VALUE 
+               "           __...--~~~~~-._   _.-~~~~~--...__" 
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 6 COL 10 VALUE 
+               "         //               `V'               \\ "
+               FOREGROUND-COLOR IS 3.
+               05 LINE 7 COL 10 VALUE 
+               "        //                 |                 \\ " 
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 8 COL 10 VALUE
+               "       //__...--~~~~~~-._  |  _.-~~~~~~--...__\\ "
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 9 COL 10 VALUE 
+               "      //__.....----~~~~._\ | /_.~~~~----.....__\\"
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 10 COL 10 VALUE
+               "     ====================\\|//===================="
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 11 COL 10 VALUE 
+               "                         `---`"
+                 FOREGROUND-COLOR IS 3.
+               05 LIBRARY-FIELD LINE 30 COLUMN 14 PIC X 
+               USING LIBRARY-CHOICE.
+               05 LINE 12 COL 10 VALUE 
+           "---------------------------------------------------------".
+               05 LINE 13 COL 27 VALUE
+               "WELCOME TO THE LIBRARY".
+               05 LINE 14 COL 10 VALUE
+           "---------------------------------------------------------"
+             .
+               05 LINE 15 COL 10 VALUE "||   AUTHOR   ||".
+               05 LINE 15 COL 24 VALUE 
+               "||                  TITLE                ||".
+           
+
+
        PROCEDURE DIVISION.
 
        0110-DISPLAY-LOGIN.
@@ -664,8 +712,10 @@
              PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
+           ELSE IF MENU-CHOICE = "b" or "B" THEN
+             PERFORM 0220-LIBRARY-MENU
            END-IF.
-
+      
            PERFORM 0120-DISPLAY-MENU.
 
        0130-MSG-MENU.
@@ -993,3 +1043,9 @@
                    TO WS-RANDOM-NUM-MSG
                    GO TO WIN-LOOP
                END-IF.     
+           
+       0220-LIBRARY-MENU.
+           INITIALIZE LIBRARY-CHOICE.
+           DISPLAY LIBRARY-SCREEN.
+           ACCEPT LIBRARY-CHOICE.
+           
