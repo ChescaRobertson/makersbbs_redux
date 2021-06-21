@@ -458,72 +458,14 @@
              05 LINE 29 COL 10 VALUE "            '.,___.'"
              FOREGROUND-COLOR IS 2.
      
-             05 LINE 34 COL 10 VALUE "(q)    Quit"
+             05 LINE 34 COL 10 VALUE "(g)    Go Back"
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 36 COL 10 VALUE "Pick: ".
-             05 MONKEY-MENU-CHOICE-FIELD LINE 36 COL 16 PIC X
-                USING MONKEY-MENU-CHOICE.   
-
-           01 HIDDEN-MENU-SCREEN
-             BACKGROUND-COLOR IS 0  BLINK.
-               05 BLANK SCREEN.
-               05 LINE 1 COL 10 VALUE "---------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 2 COL 10 VALUE "---------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 3 COl 10 VALUE  " __  __     ______     __  __
-      -         "  ______     __  __     ______"  FOREGROUND-COLOR IS 5.
-                 05 LINE 4 COl 10 VALUE "/\ \_\ \   /\  __ \   /\ \_\ \
-      -           "  /\  __ \   /\ \_\ \   /\  __ \"
-                 FOREGROUND-COLOR IS 2.
-                 05 LINE 5 COl 10 VALUE "\ \  __ \  \ \  __ \  \ \  __ \
-      -           "  \ \  __ \  \ \  __ \  \ \  __ \"
-                 FOREGROUND-COLOR IS 3.
-                 05 LINE 6 COl 10 VALUE " \ \_\ \_\  \ \_\ \_\  \ \_\ \_
-      -           "\  \ \_\ \_\  \ \_\ \_\  \ \_\ \_\"
-                 FOREGROUND-COLOR IS 5.
-                 05 LINE 7 COl 10 VALUE "  \/_/\/_/   \/_/\/_/   \/_/\/_
-      -          "/   \/_/\/_/   \/_/\/_/   \/_/\/_/"
-                 FOREGROUND-COLOR IS 6.
-                 05 LINE 9 COL 10 VALUE "-------------------------------
-      -      "----------------------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 10 COL 10 VALUE "--------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 12 COL 15 VALUE "_                         _"
-                    FOREGROUND-COLOR IS 2.
-               05 LINE 13 COL 10 VALUE "    |_|                       |_
-      -        "|" FOREGROUND-COLOR IS 2.
-              05 LINE 14 COL 11 VALUE "   | |         /^^^\         | |"
-                FOREGROUND-COLOR IS 3.
-              05 LINE 15 COL 13 VALUE  "_| |_      (| 'o' |)      _| |_"
-                   FOREGROUND-COLOR IS 3.
-              05 LINE 16 COL 10 VALUE " _| | | | _    (_---_)    _ | | |
-      -         " |_" FOREGROUND-COLOR IS 5.
-              05 LINE 17 COL 10 VALUE "| | | | |' |    _| |_    | `| | |
-      -        " | |" FOREGROUND-COLOR IS 5.
-               05 LINE 18 COL 10 VALUE "\          /   /     \   \
-      -         "   /" FOREGROUND-COLOR IS 6.
-               05 LINE 19 COL 11 VALUE "\        /  / /(. .)\ \  \
-      -         " /" FOREGROUND-COLOR IS 6.
-              05 LINE 20 COL 12 VALUE " \    /  / /  | . |  \ \  \    /"
-                   FOREGROUND-COLOR IS 2.
-              05 LINE 21 COL 10 VALUE "     \  \/ /    ||Y||    \ \/  /"
-                   FOREGROUND-COLOR IS 2.
-                05 LINE 22 COL 10 VALUE "       \_/      || ||      \_/"
-                   FOREGROUND-COLOR IS 3.
-                05 LINE 23 COL 10 VALUE "                () ()"
-                   FOREGROUND-COLOR IS 3.
-                05 LINE 24 COL 10 VALUE "                || ||"
-                   FOREGROUND-COLOR IS 5.
-                05 LINE 25 COL 10 VALUE "               ooO Ooo"
-                   FOREGROUND-COLOR IS 5.
-
-             05 LINE 30 COL 10 VALUE "(q)    Quit"
+             05 LINE 36 COL 10 VALUE "(q)    Quit"
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 32 COL 10 VALUE "Pick: ".
-             05 HIDDEN-MENU-CHOICE-FIELD LINE 32 COL 16 PIC X
-                USING HIDDEN-MENU-CHOICE.  
-
+             05 LINE 38 COL 10 VALUE "Pick: ".
+             05 MONKEY-MENU-CHOICE-FIELD LINE 38 COL 16 PIC X
+                USING MONKEY-MENU-CHOICE.
+      
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
                05 LINE 1 COL 10 VALUE "---------------------------------
@@ -775,22 +717,12 @@
            DISPLAY MONKEY-MENU-SCREEN.
            ACCEPT MONKEY-MENU-CHOICE-FIELD.
            IF MONKEY-MENU-CHOICE = "q" or "Q" THEN
-             PERFORM 0180-HIDDEN-MENU
+               STOP RUN
+           ELSE IF MONKEY-MENU-CHOICE-FIELD = "g" or "G" THEN
+                PERFORM 0160-GAMES-MENU
            END-IF.
 
            PERFORM 0170-MONKEY-MENU.
-
-       0180-HIDDEN-MENU.
-           INITIALIZE HIDDEN-MENU-CHOICE.
-           DISPLAY HIDDEN-MENU-SCREEN.
-           ACCEPT HIDDEN-MENU-CHOICE-FIELD.
-           IF HIDDEN-MENU-CHOICE = "j" or "J" THEN
-             STOP RUN
-           ELSE IF HIDDEN-MENU-CHOICE = "q" or "Q" THEN
-             PERFORM 0180-HIDDEN-MENU
-           END-IF.
-
-           PERFORM 0180-HIDDEN-MENU.
 
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
