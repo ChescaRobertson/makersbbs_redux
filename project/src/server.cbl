@@ -180,8 +180,8 @@
              05 LINE 13 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
              05 LINE 13 COL 26 VALUE "Most importantly. HAVE FUN!". 
              
-             05 LINE 19 COL 20 VALUE "(l) Library"
-                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 19 COL 60 VALUE "(b) Library     "
+                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 19 COL 24 VALUE "(m) Messages    "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 19 COL 42 VALUE "(f) Fun & games "
