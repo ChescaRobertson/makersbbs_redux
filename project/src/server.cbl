@@ -384,8 +384,8 @@
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COLUMN 12 VALUE "Administrator details not recogn
-      -       "ised." HIGHLIGHT, FOREGROUND-COLOR IS 4.
+             05 LINE 6 COLUMN 12 VALUE "* Administrator details not reco
+      -       "gnised *." HIGHLIGHT, FOREGROUND-COLOR IS 4.
              05 LINE 8 COLUMN 12 VALUE "(a) Administrator Log-in.".
              05 LINE 9 COLUMN 12 VALUE "(q) Go Back." .
              05 LINE 11 COLUMN 12 VALUE "Pick: ".
