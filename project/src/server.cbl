@@ -7,12 +7,20 @@
            *>----- X AND O File Control-----    
              SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
                        ORGANIZATION IS LINE SEQUENTIAL.
+           *>------Library Control-----------------------
+             SELECT F-LIBRARY-FILE ASSIGN TO "library.dat"
+                       ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
            FILE SECTION.
            *>----- X AND O F-Section-----   
            FD FD-WINMASKS.
            01 FD-WINMASK PIC X(9).
+           *>------Library Section------
+           FD F-LIBRARY-FILE.
+           01 LIBRARY.
+               05 BOOK-AUTHOR PIC X(20).
+               05 BOOK-TITLE PIC X(30).
            
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
@@ -111,7 +119,16 @@
            01 TOTAL-GUESSES PIC 99.
            01 WS-RANDOM-NUM-MSG PIC X(128).
       *    --------Library Section---------
-           01 LIBRARY-CHOICE PIC X.     
+           01 LIBRARY-CHOICE PIC X.
+           
+           01 WS-BOOKS.
+               05 WS-BOOK OCCURS 100 TIMES
+               ASCENDING KEY IS WS-BOOK-AUTHOR-NAME
+               INDEXED BY BOOK-IDX.
+                   10 WS-BOOK-AUTHOR-NAME PIC X(20).
+                   10 WS-BOOK-TITLE PIC X(30).
+           01 COUNTER UNSIGNED-INT.
+           01 OFFSET UNSIGNED-INT.     
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -687,7 +704,91 @@
                05 LINE 15 COL 10 VALUE "||   AUTHOR   ||".
                05 LINE 15 COL 24 VALUE 
                "||                  TITLE                ||".
-           
+               05 LINE 16 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET).
+               05 LINE 16 COL 26 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
+               05 LINE 17 COL 10 VALUE 
+           "---------------------------------------------------------".
+               05 LINE 18 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
+               .
+               05 LINE 18 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 1)
+               .
+               05 LINE 18 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 19 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
+               .
+               05 LINE 19 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 2)
+               .
+               05 LINE 20 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 21 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
+               .
+               05 LINE 21 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 3)
+               .
+               05 LINE 22 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 23 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
+               .
+               05 LINE 23 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 4)
+               .
+               05 LINE 24 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 25 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 5)
+               .
+               05 LINE 25 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 5)
+               .
+               05 LINE 26 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 27 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 6)
+               .
+               05 LINE 27 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 6)
+               .
+               05 LINE 28 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 29 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 7)
+               .
+               05 LINE 29 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 7)
+               .
+               05 LINE 30 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 31 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 8)
+               .
+               05 LINE 31 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 8)
+               .
+               05 LINE 32 COL 10 VALUE
+           "---------------------------------------------------------".
+               05 LINE 33 COL 12 PIC X(20) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 9)
+               .
+               05 LINE 33 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 9)
+               .
+               05 LINE 34 COL 10 VALUE
+           "---------------------------------------------------------".
+              05 LINE 35 COL 12 PIC X(20) 
+              USING WS-BOOK-AUTHOR-NAME(OFFSET - 10)
+               .
+               05 LINE 35 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 10)
+               .
+               05 LINE 36 COL 10 VALUE
+           "---------------------------------------------------------".
 
 
        PROCEDURE DIVISION.
@@ -713,7 +814,7 @@
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
            ELSE IF MENU-CHOICE = "b" or "B" THEN
-             PERFORM 0220-LIBRARY-MENU
+             PERFORM 0220-GENERATE-LIBRARY-TABLE
            END-IF.
       
            PERFORM 0120-DISPLAY-MENU.
@@ -1044,8 +1145,31 @@
                    GO TO WIN-LOOP
                END-IF.     
            
-       0220-LIBRARY-MENU.
+       
+
+       0220-GENERATE-LIBRARY-TABLE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-LIBRARY-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-LIBRARY-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE BOOK-AUTHOR 
+                       TO WS-BOOK-AUTHOR-NAME(COUNTER)
+                       MOVE BOOK-TITLE
+                       TO WS-BOOK-TITLE(COUNTER)
+                   AT END
+                       MOVE 1 TO WS-FILE-IS-ENDED
+                       MOVE COUNTER TO OFFSET
+               END-READ
+           END-PERFORM.
+           CLOSE F-LIBRARY-FILE.
+           PERFORM 0230-LIBRARY-MENU.
+
+       0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
            DISPLAY LIBRARY-SCREEN.
            ACCEPT LIBRARY-CHOICE.
+
            
