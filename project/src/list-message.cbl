@@ -9,7 +9,7 @@
            FILE SECTION.
            FD F-MESSAGES-FILE.
            01 RC-MESSAGE.
-               05 RC-ID PIC XXX.
+               05 RC-ID PIC 999.
                05 RC-MESSAGE-TITLE PIC X(50).
                05 RC-MESSAGE-CONTENT PIC X(300).
                05 RC-USERNAME PIC X(16).
@@ -18,7 +18,7 @@
            01 NEW-ID PIC XXX.
            01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
            LINKAGE SECTION.
-           01 LS-ID PIC XXX.
+           01 LS-ID PIC 999.
            01 LS-RETURN-ID PIC XXX.
            01 LS-RETURN-TITLE PIC X(50).
            01 LS-RETURN-CONTENT PIC X(300).

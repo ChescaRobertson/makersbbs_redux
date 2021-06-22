@@ -48,7 +48,7 @@
            01 WS-LIST-TABLE.
                05 WS-LIST-ENTRY OCCURS 10 TO 999 TIMES DEPENDING ON 
                  NUM-FILE-LINES.
-                   10 LIST-ID PIC XXX.
+                   10 LIST-ID PIC 999.
                    10 LIST-TITLE PIC X(50).
                    10 LIST-CONTENT PIC X(300).
                    10 LIST-USERNAME PIC X(16).        
@@ -628,7 +628,7 @@
            PERFORM 0200-TIME-AND-DATE.
            CALL 'number-of-file-lines' USING NUM-FILE-LINES.
            CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
-          *>  CALL 'id-sort' USING WS-LIST-TABLE.
+           SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
