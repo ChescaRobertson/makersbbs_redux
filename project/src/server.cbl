@@ -19,7 +19,7 @@
            *>------Library Section------
            FD F-LIBRARY-FILE.
            01 LIBRARY.
-               05 BOOK-AUTHOR PIC X(20).
+               05 BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
            
            WORKING-STORAGE SECTION.
@@ -125,7 +125,7 @@
                05 WS-BOOK OCCURS 100 TIMES
                ASCENDING KEY IS WS-BOOK-AUTHOR-NAME
                INDEXED BY BOOK-IDX.
-                   10 WS-BOOK-AUTHOR-NAME PIC X(20).
+                   10 WS-BOOK-AUTHOR-NAME PIC X(12).
                    10 WS-BOOK-TITLE PIC X(30).
            01 COUNTER UNSIGNED-INT.
            01 OFFSET UNSIGNED-INT.     
@@ -709,89 +709,90 @@
                05 LINE 18 COL 10 VALUE "||   AUTHOR   ||".
                05 LINE 18 COL 24 VALUE 
                "||                  TITLE                ||".
-               05 LINE 19 COL 12 PIC X(20) 
+               05 LINE 19 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET).
                05 LINE 19 COL 26 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
-               
-               05 LINE 20 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
-               .
-               05 LINE 20 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 1)
-               .
                05 LINE 20 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 21 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
+               05 LINE 21 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
                05 LINE 21 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 2)
+               USING WS-BOOK-TITLE(OFFSET - 1)
                .
                05 LINE 22 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 23 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
+               05 LINE 23 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
                .
                05 LINE 23 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 3)
+               USING WS-BOOK-TITLE(OFFSET - 2)
                .
                05 LINE 24 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 25 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
+               05 LINE 25 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
                .
                05 LINE 25 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 4)
+               USING WS-BOOK-TITLE(OFFSET - 3)
                .
                05 LINE 26 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 27 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 5)
+               05 LINE 27 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
                .
                05 LINE 27 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 5)
+               USING WS-BOOK-TITLE(OFFSET - 4)
                .
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 29 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 6)
+               05 LINE 29 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 5)
                .
                05 LINE 29 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 6)
+               USING WS-BOOK-TITLE(OFFSET - 5)
                .
                05 LINE 30 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 31 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 7)
+               05 LINE 31 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 6)
                .
                05 LINE 31 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 7)
+               USING WS-BOOK-TITLE(OFFSET - 6)
                .
                05 LINE 32 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 33 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 8)
+               05 LINE 33 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 7)
                .
                05 LINE 33 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 8)
+               USING WS-BOOK-TITLE(OFFSET - 7)
                .
                05 LINE 34 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 35 COL 12 PIC X(20) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 9)
+               05 LINE 35 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 8)
                .
                05 LINE 35 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 9)
+               USING WS-BOOK-TITLE(OFFSET - 8)
                .
                05 LINE 36 COL 10 VALUE
            "---------------------------------------------------------".
-              05 LINE 37 COL 12 PIC X(20) 
-              USING WS-BOOK-AUTHOR-NAME(OFFSET - 10)
+               05 LINE 37 COL 12 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 9)
                .
                05 LINE 37 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 10)
+               USING WS-BOOK-TITLE(OFFSET - 9)
                .
                05 LINE 38 COL 10 VALUE
+           "---------------------------------------------------------".
+              05 LINE 39 COL 12 PIC X(12) 
+              USING WS-BOOK-AUTHOR-NAME(OFFSET - 10)
+               .
+               05 LINE 39 COL 26 PIC X(30) 
+               USING WS-BOOK-TITLE(OFFSET - 10)
+               .
+               05 LINE 40 COL 10 VALUE
            "---------------------------------------------------------".
            .
 
