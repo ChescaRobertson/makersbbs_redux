@@ -15,16 +15,15 @@
            01 FD-WINMASK PIC X(9).
            
            WORKING-STORAGE SECTION.
+           *>----- General Variables -----
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
+           01 WS-COUNTER PIC 99.
+
+           *>----- Login Variables -----
            01 USER-NAME PIC X(16).
            01 MENU-CHOICE PIC X.
-           01 MSG-MENU-CHOICE PIC XXX.
-           01 GAMES-MENU-CHOICE PIC X.
-           01 MONKEY-MENU-CHOICE PIC X.
-           01 HIDDEN-MENU-CHOICE PIC X.
-           01 WS-COUNTER PIC 99.
-           01 NUM-FILE-LINES PIC 999.
-           01 ID-NUM PIC 999 VALUE 1.
+         
+           *>----- Date Variables -----
            01 WS-DATETIME PIC X(21).
            01 WS-FORMATTED-DT.
              05 WS-FORMATTED-DTE-TME.
@@ -41,7 +40,11 @@
                15 WS-FORMATTED-SEC   PIC  X(2).
                15 FILLER             PIC X VALUE ':'.
                15 WS-FORMATTED-MS    PIC  X(2).
-                   
+
+           *>----- Message Board Variables -----   
+           01 MSG-MENU-CHOICE PIC XXX.
+           01 NUM-FILE-LINES PIC 999.
+           01 ID-NUM PIC 999 VALUE 1.
            01 WS-LIST-TABLE.
                05 WS-LIST-ENTRY OCCURS 10 TO 999 TIMES DEPENDING ON 
                  NUM-FILE-LINES.
@@ -62,6 +65,11 @@
              05 WS-TITLE PIC X(50).
              05 WS-CONTENT PIC X(300).
              05 WS-USERNAME PIC X(16).
+
+           *>----- Arcade Variables -----
+           01 GAMES-MENU-CHOICE PIC X.
+           01 MONKEY-MENU-CHOICE PIC X.
+           01 HIDDEN-MENU-CHOICE PIC X.
 
            *>-----X AND O WS-SECTION-----   
            01 WS-PLAYER PIC A(1).
@@ -103,13 +111,19 @@
                01 WS-OANDXMESSAGE PIC X(128).
                01 WS-INSTRUCTION PIC X(16).
                01 WS-FLAT-GAME-GRID PIC X(9).
+
            *>-----RANDOM-NUM-GAME WS-SECTION-----
            01 SEED PIC 9(8).
            01 GUESS-INPUT PIC XX.
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
-           01 WS-RANDOM-NUM-MSG PIC X(128).    
+           01 WS-RANDOM-NUM-MSG PIC X(128). 
+
+           *>----- Library Variables -----
+
+
+           *>----- Admin Variables -----   
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
