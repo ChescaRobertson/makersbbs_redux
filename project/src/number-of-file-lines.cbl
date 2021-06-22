@@ -8,7 +8,7 @@
        DATA DIVISION.
            FILE SECTION.
            FD MESSAGES-FILE.
-           01 RC-ID PIC XXX.
+           01 RC-ID PIC 999.
            WORKING-STORAGE SECTION.
            01 WS-COUNTER PIC 999.
            01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
@@ -25,8 +25,9 @@
                COMPUTE WS-COUNTER = WS-COUNTER + 1
              AT END MOVE 1 TO WS-FILE-IS-ENDED
            END-PERFORM.
+
+           CLOSE MESSAGES-FILE.
            
-           MOVE WS-COUNTER TO LS-RETURN-COUNTER.
            MOVE WS-COUNTER TO WS-SUPPRESS-ZEROS.
            MOVE WS-SUPPRESS-ZEROS TO LS-RETURN-COUNTER.
            MOVE FUNCTION TRIM(LS-RETURN-COUNTER) TO LS-RETURN-COUNTER.
@@ -34,5 +35,5 @@
            MOVE 0 TO WS-COUNTER.
            MOVE 0 TO WS-FILE-IS-ENDED.
 
-           CLOSE MESSAGES-FILE.
+           
  

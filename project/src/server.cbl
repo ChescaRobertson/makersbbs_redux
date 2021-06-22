@@ -33,8 +33,14 @@
                05 ADMIN-PWORD PIC X(20).
            
            WORKING-STORAGE SECTION.
+           *>----- General Variables -----
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
+
            01 START-CHOICE PIC X.
+           01 WS-COUNTER PIC 99.
+
+           *>----- Login Variables -----
+
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
            01 ACCOUNT-NUM PIC X(10).
@@ -76,13 +82,8 @@
            01 ADMIN-CHOICE PIC X.
 
            01 MENU-CHOICE PIC X.
-           01 MSG-MENU-CHOICE PIC XXX.
-           01 GAMES-MENU-CHOICE PIC X.
-           01 MONKEY-MENU-CHOICE PIC X.
-           01 HIDDEN-MENU-CHOICE PIC X.
-           01 WS-COUNTER PIC 99.
-           01 NUM-FILE-LINES PIC 999.
-           01 ID-NUM PIC 999 VALUE 1.
+         
+           *>----- Date Variables -----
            01 WS-DATETIME PIC X(21).
            01 WS-FORMATTED-DT.
              05 WS-FORMATTED-DTE-TME.
@@ -99,11 +100,15 @@
                15 WS-FORMATTED-SEC   PIC  X(2).
                15 FILLER             PIC X VALUE ':'.
                15 WS-FORMATTED-MS    PIC  X(2).
-                   
+
+           *>----- Message Board Variables -----   
+           01 MSG-MENU-CHOICE PIC XXX.
+           01 NUM-FILE-LINES PIC 999.
+           01 ID-NUM PIC 999 VALUE 1.
            01 WS-LIST-TABLE.
                05 WS-LIST-ENTRY OCCURS 10 TO 999 TIMES DEPENDING ON 
                  NUM-FILE-LINES.
-                   10 LIST-ID PIC XXX.
+                   10 LIST-ID PIC 999.
                    10 LIST-TITLE PIC X(50).
                    10 LIST-CONTENT PIC X(300).
                    10 LIST-USERNAME PIC X(16).        
@@ -120,6 +125,11 @@
              05 WS-TITLE PIC X(50).
              05 WS-CONTENT PIC X(300).
              05 WS-USERNAME PIC X(16).
+
+           *>----- Arcade Variables -----
+           01 GAMES-MENU-CHOICE PIC X.
+           01 MONKEY-MENU-CHOICE PIC X.
+           01 HIDDEN-MENU-CHOICE PIC X.
 
            *>-----X AND O WS-SECTION-----   
            01 WS-PLAYER PIC A(1).
@@ -161,13 +171,19 @@
                01 WS-OANDXMESSAGE PIC X(128).
                01 WS-INSTRUCTION PIC X(16).
                01 WS-FLAT-GAME-GRID PIC X(9).
+
            *>-----RANDOM-NUM-GAME WS-SECTION-----
            01 SEED PIC 9(8).
            01 GUESS-INPUT PIC XX.
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
-           01 WS-RANDOM-NUM-MSG PIC X(128).    
+           01 WS-RANDOM-NUM-MSG PIC X(128). 
+
+           *>----- Library Variables -----
+
+
+           *>----- Admin Variables -----   
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -707,72 +723,14 @@
              05 LINE 29 COL 10 VALUE "            '.,___.'"
              FOREGROUND-COLOR IS 2.
      
-             05 LINE 34 COL 10 VALUE "(q)    Quit"
+             05 LINE 34 COL 10 VALUE "(g)    Go Back"
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 36 COL 10 VALUE "Pick: ".
-             05 MONKEY-MENU-CHOICE-FIELD LINE 36 COL 16 PIC X
-                USING MONKEY-MENU-CHOICE.   
-
-           01 HIDDEN-MENU-SCREEN
-             BACKGROUND-COLOR IS 0  BLINK.
-               05 BLANK SCREEN.
-               05 LINE 1 COL 10 VALUE "---------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 2 COL 10 VALUE "---------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 3 COl 10 VALUE  " __  __     ______     __  __
-      -         "  ______     __  __     ______"  FOREGROUND-COLOR IS 5.
-                 05 LINE 4 COl 10 VALUE "/\ \_\ \   /\  __ \   /\ \_\ \
-      -           "  /\  __ \   /\ \_\ \   /\  __ \"
-                 FOREGROUND-COLOR IS 2.
-                 05 LINE 5 COl 10 VALUE "\ \  __ \  \ \  __ \  \ \  __ \
-      -           "  \ \  __ \  \ \  __ \  \ \  __ \"
-                 FOREGROUND-COLOR IS 3.
-                 05 LINE 6 COl 10 VALUE " \ \_\ \_\  \ \_\ \_\  \ \_\ \_
-      -           "\  \ \_\ \_\  \ \_\ \_\  \ \_\ \_\"
-                 FOREGROUND-COLOR IS 5.
-                 05 LINE 7 COl 10 VALUE "  \/_/\/_/   \/_/\/_/   \/_/\/_
-      -          "/   \/_/\/_/   \/_/\/_/   \/_/\/_/"
-                 FOREGROUND-COLOR IS 6.
-                 05 LINE 9 COL 10 VALUE "-------------------------------
-      -      "----------------------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 10 COL 10 VALUE "--------------------------------
-      -      "---------------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 12 COL 15 VALUE "_                         _"
-                    FOREGROUND-COLOR IS 2.
-               05 LINE 13 COL 10 VALUE "    |_|                       |_
-      -        "|" FOREGROUND-COLOR IS 2.
-              05 LINE 14 COL 11 VALUE "   | |         /^^^\         | |"
-                FOREGROUND-COLOR IS 3.
-              05 LINE 15 COL 13 VALUE  "_| |_      (| 'o' |)      _| |_"
-                   FOREGROUND-COLOR IS 3.
-              05 LINE 16 COL 10 VALUE " _| | | | _    (_---_)    _ | | |
-      -         " |_" FOREGROUND-COLOR IS 5.
-              05 LINE 17 COL 10 VALUE "| | | | |' |    _| |_    | `| | |
-      -        " | |" FOREGROUND-COLOR IS 5.
-               05 LINE 18 COL 10 VALUE "\          /   /     \   \
-      -         "   /" FOREGROUND-COLOR IS 6.
-               05 LINE 19 COL 11 VALUE "\        /  / /(. .)\ \  \
-      -         " /" FOREGROUND-COLOR IS 6.
-              05 LINE 20 COL 12 VALUE " \    /  / /  | . |  \ \  \    /"
-                   FOREGROUND-COLOR IS 2.
-              05 LINE 21 COL 10 VALUE "     \  \/ /    ||Y||    \ \/  /"
-                   FOREGROUND-COLOR IS 2.
-                05 LINE 22 COL 10 VALUE "       \_/      || ||      \_/"
-                   FOREGROUND-COLOR IS 3.
-                05 LINE 23 COL 10 VALUE "                () ()"
-                   FOREGROUND-COLOR IS 3.
-                05 LINE 24 COL 10 VALUE "                || ||"
-                   FOREGROUND-COLOR IS 5.
-                05 LINE 25 COL 10 VALUE "               ooO Ooo"
-                   FOREGROUND-COLOR IS 5.
-
-             05 LINE 30 COL 10 VALUE "(q)    Quit"
+             05 LINE 36 COL 10 VALUE "(q)    Quit"
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 32 COL 10 VALUE "Pick: ".
-             05 HIDDEN-MENU-CHOICE-FIELD LINE 32 COL 16 PIC X
-                USING HIDDEN-MENU-CHOICE.  
-
+             05 LINE 38 COL 10 VALUE "Pick: ".
+             05 MONKEY-MENU-CHOICE-FIELD LINE 38 COL 16 PIC X
+                USING MONKEY-MENU-CHOICE.
+      
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
                05 LINE 1 COL 10 VALUE "---------------------------------
@@ -1105,7 +1063,7 @@
            PERFORM 0200-TIME-AND-DATE.
            CALL 'number-of-file-lines' USING NUM-FILE-LINES.
            CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
-          *>  CALL 'id-sort' USING WS-LIST-TABLE.
+           SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
@@ -1208,22 +1166,12 @@
            DISPLAY MONKEY-MENU-SCREEN.
            ACCEPT MONKEY-MENU-CHOICE-FIELD.
            IF MONKEY-MENU-CHOICE = "q" or "Q" THEN
-             PERFORM 0180-HIDDEN-MENU
+               STOP RUN
+           ELSE IF MONKEY-MENU-CHOICE-FIELD = "g" or "G" THEN
+                PERFORM 0160-GAMES-MENU
            END-IF.
 
            PERFORM 0170-MONKEY-MENU.
-
-       0180-HIDDEN-MENU.
-           INITIALIZE HIDDEN-MENU-CHOICE.
-           DISPLAY HIDDEN-MENU-SCREEN.
-           ACCEPT HIDDEN-MENU-CHOICE-FIELD.
-           IF HIDDEN-MENU-CHOICE = "j" or "J" THEN
-             STOP RUN
-           ELSE IF HIDDEN-MENU-CHOICE = "q" or "Q" THEN
-             PERFORM 0180-HIDDEN-MENU
-           END-IF.
-
-           PERFORM 0180-HIDDEN-MENU.
 
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
