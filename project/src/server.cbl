@@ -6,7 +6,10 @@
            FILE-CONTROL.
            *>----- X AND O File Control-----    
              SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
-                       ORGANIZATION IS LINE SEQUENTIAL.
+                 ORGANIZATION IS LINE SEQUENTIAL.
+
+             SELECT F-USERS-FILE ASSIGN TO 'users.dat'
+                 ORGANIZATION IS LINE SEQUENTIAL. 
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
@@ -20,20 +23,30 @@
            FD F-USERS-FILE.
            01 USERS.
               05 USERNAME PIC X(16).
-              05 USER-PASSWORD PIC X(20).   
+              05 FILLER PIC XX VALUE SPACES.  
+              05 USER-PASSWORD PIC X(20).
+              05 FILLER PIC XX VALUE SPACES.    
+              05 USER-ACNT-NUM PIC X(8).
+              05 FILLER PIC XX VALUE SPACES.  
+              05 USER-CREDIT PIC 99. 
            
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
            01 START-CHOICE PIC X.
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
+           01 ACCOUNT-NUM PIC X(8).
+           01 CREDIT PIC 99.
 
            01 WS-USERS.
                05 WS-USER OCCURS 100 TIMES
                ASCENDING KEY IS WS-USER-NAME
                INDEXED BY USER-IDX.
-                   10 WS-USER-NAME PIC X(16).
+                   10 WS-USER-NAME PIC X(16).    
                    10 WS-PWORD PIC X(20).
+                   10 WS-ACNT-NUM PIC X(8).
+                   10 WS-CREDIT PIC 99. 
+
            01 WS-FOUND PIC 9. 
            01 WS-IDX UNSIGNED-INT. 
            01 COUNTER UNSIGNED-INT. 
@@ -41,7 +54,12 @@
            01 NEW-USER-NAME PIC X(16).
            01 NEW-PASSWORD PIC X(20).
            01 REGISTER-CHOICE PIC X.
+
            01 ERROR-CHOICE PIC X. 
+
+           01 ADMIN-NAME PIC X(16).
+           01 ADMIN-PASSWORD PIC X(20).
+
            01 MENU-CHOICE PIC X.
            01 MSG-MENU-CHOICE PIC XXX.
            01 GAMES-MENU-CHOICE PIC X.
@@ -145,33 +163,70 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 2 COLUMN 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            05 LINE 2 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 4 COLUMN 10 VALUE "(l) Go to Log-in.".
-            05 LINE 5 COLUMN 10 VALUE "(c) Create an account.".
-            05 LINE 6 COLUMN 10 VALUE "(q) Quit.".
-            05 LINE 8 COLUMN 10 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 8 COLUMN 16 PIC X
+            05 LINE 4 COLUMN 12 VALUE "(l) Go to Log-in.".
+            05 LINE 5 COLUMN 12 VALUE "(c) Create an account.".
+            05 LINE 6 COLUMN 12 VALUE "(q) Quit.". 
+            05 LINE 8 COLUMN 12 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 8 COLUMN 18 PIC X
                 USING START-CHOICE.
+            05 LINE 12 COLUMN 12 VALUE "(a) Admin.".
            
            01 REGISTER-NEW-USER-SCREEN
-             BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "MAKERS BBS"UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 4 COLUMN 10 VALUE "Create an account.".
-             05 LINE 6 COLUMN 10 VALUE "Enter a username:".
-             05 NEW-USER-NAME-FIELD LINE 8 COLUMN 10 PIC X(10)
+              BACKGROUND-COLOR IS 0.
+                 05 BLANK SCREEN.
+                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+                 05 LINE 2 COL 4 VALUE ":".
+                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
+                 05 LINE 08 COl 12 VALUE
+           "The TMNCT present:".                       
+                 05 LINE 10 COl 12 VALUE   
+           "______       _ _      _   _" FOREGROUND-COLOR IS 3.
+                 05 LINE 11 COl 10 VALUE         
+           "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
+                 05 LINE 12 COl 10 VALUE  
+           "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
+                 05 LINE 13 COl 10 VALUE    
+           "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
+                 05 LINE 14 COl 10 VALUE   
+           "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
+                 05 LINE 15 COl 10 VALUE  
+           "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
+                 05 LINE 18 COl 10 VALUE                                                                        
+           "    ______                     _" FOREGROUND-COLOR IS 2.
+                 05 LINE 19 COl 10 VALUE      
+           "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
+                 05 LINE 20 COl 10 VALUE     
+           "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
+                 05 LINE 21 COl 10 VALUE     
+           "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
+                 05 LINE 22 COl 10 VALUE     
+           "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
+                 05 LINE 23 COl 10 VALUE     
+           "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
+             05 LINE 27 COLUMN 12 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
+             FOREGROUND-COLOR IS 3.
+             05 LINE 29 COLUMN 12 VALUE "input intro text explaining" 
+             FOREGROUND-COLOR IS 5.
+             05 LINE 33 COLUMN 12 VALUE "Enter a username:".
+             05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 10 COLUMN 10 VALUE "Enter a password:".
-             05 LINE 10 COLUMN 28 VALUE "(password can be a ".
-             05 LINE 10 COLUMN 56 VALUE "maximum of 20 characters)".
-             05 NEW-PASSWORD-FIELD LINE 12 COLUMN 10 PIC X(20)
+             05 LINE 37 COLUMN 12 VALUE "Enter a password ".
+             05 LINE 37 COLUMN 30 VALUE "(password can be a maximum of".
+             05 LINE 37 COLUMN 58 VALUE " 20 characters):".
+             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
                 USING NEW-PASSWORD.
-             05 LINE 14 COLUMN 10 VALUE "(s) Submit".
-             05 LINE 15 COLUMN 10 VALUE "(q) Go Back".
-             05 LINE 17 COLUMN 10 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 17 COLUMN 16 PIC X
+             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
+      -      "er :".
+             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
+                USING ACCOUNT-NUM.
+             05 LINE 45 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 46 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 48 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 48 COLUMN 18 PIC X
                 USING REGISTER-CHOICE.
 
            01 LOGIN-SCREEN
@@ -208,25 +263,71 @@
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
                  05 LINE 23 COl 10 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-                 05 LINE 27 COL 14 VALUE "Enter your username:".
-                 05 USER-NAME-FIELD LINE 29 COL 14 PIC X(16)
+                 05 LINE 27 COL 12 VALUE "Enter your username:".
+                 05 USER-NAME-FIELD LINE 29 COL 12 PIC X(16)
                     USING USER-NAME.
-                 05 LINE 31 COL 14 VALUE "Enter your password:".
-                 05 PASSWORD-FIELD LINE 33 COLUMN 14 PIC X(20)
+                 05 LINE 31 COL 12 VALUE "Enter your password:".
+                 05 PASSWORD-FIELD LINE 33 COLUMN 12 PIC X(20)
                     USING WS-PASSWORD.   
                               
            01 ERROR-SCREEN
-             BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
-                HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 4 COLUMN 10 VALUE "Incorrect Username or Password".
-             05 LINE 6 COLUMN 10 VALUE "(l) Back to Log-in.".
-             05 LINE 7 COLUMN 10 VALUE "(c) Create an account.".
-             05 LINE 8 COLUMN 10 VALUE "(q) Go Back." .
-             05 LINE 10 COLUMN 10 VALUE "Pick: ".
-             05 ERROR-CHOICE-FIELD LINE 10 COLUMN 16 PIC X
+                 BACKGROUND-COLOR IS 0.
+                 05 BLANK SCREEN.
+                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+                 05 LINE 2 COL 4 VALUE ":".
+                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
+                 05 LINE 08 COl 12 VALUE
+           "The TMNCT present:".                       
+                 05 LINE 10 COl 12 VALUE   
+           "______       _ _      _   _" FOREGROUND-COLOR IS 3.
+                 05 LINE 11 COl 10 VALUE         
+           "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
+                 05 LINE 12 COl 10 VALUE  
+           "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
+                 05 LINE 13 COl 10 VALUE    
+           "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
+                 05 LINE 14 COl 10 VALUE   
+           "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
+                 05 LINE 15 COl 10 VALUE  
+           "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
+                 05 LINE 18 COl 10 VALUE                                                                        
+           "    ______                     _" FOREGROUND-COLOR IS 2.
+                 05 LINE 19 COl 10 VALUE      
+           "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
+                 05 LINE 20 COl 10 VALUE     
+           "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
+                 05 LINE 21 COl 10 VALUE     
+           "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
+                 05 LINE 22 COl 10 VALUE     
+           "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
+                 05 LINE 23 COl 10 VALUE     
+           "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
+             05 LINE 27 COLUMN 12 VALUE "Incorrect Username or Password"
+             HIGHLIGHT, FOREGROUND-COLOR IS 4.
+             05 LINE 29 COLUMN 12 VALUE "(l) Back to Log-in.".
+             05 LINE 30 COLUMN 12 VALUE "(c) Create an account.".
+             05 LINE 31 COLUMN 12 VALUE "(q) Go Back." .
+             05 LINE 33 COLUMN 12 VALUE "Pick: ".
+             05 ERROR-CHOICE-FIELD LINE 33 COLUMN 18 PIC X
                 USING ERROR-CHOICE.
+
+           01 ADMIN-LOGIN-SCREEN
+             BACKGROUND-COLOR IS 0.
+             05 BLANK SCREEN.
+             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+             05 LINE 2 COL 4 VALUE ":".
+             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 6 COL 12 VALUE "Enter Administrator username:".
+             05 ADMIN-NAME-FIELD LINE 8 COL 12 PIC X(16)
+                USING ADMIN-NAME.
+             05 LINE 10 COL 12 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 12 COLUMN 12 PIC X(20)
+                USING ADMIN-PASSWORD.  
+
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -238,8 +339,8 @@
              05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE  6 COL 10 VALUE "Hi, ".
              05 LINE  6 COL 14 PIC X(16) USING USER-NAME.
-             05 LINE  8 COL 10 VALUE "Welcome to COBOL The Barbarian's s
-      -      "tate of the art Bulletin Board.".  
+             05 LINE  8 COL 10 VALUE "Welcome to TMNCT's state of the ar
+      -      "t Bulletin Board.".  
              05 LINE  9 COL 10 VALUE "Feel free to:".
              05 LINE 10 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
              05 LINE 10 COL 26 VALUE "Read our message board.".
@@ -734,10 +835,12 @@
        0105-DISPLAY-REGISTER-NEW-USER.
            INITIALIZE NEW-USER-NAME.
            INITIALIZE NEW-PASSWORD.
+           INITIALIZE ACCOUNT-NUM.
            INITIALIZE REGISTER-CHOICE
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
            ACCEPT NEW-PASSWORD-FIELD.
+           ACCEPT ACCOUNT-NUM-FIELD.
            ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0110-DISPLAY-LOGIN
@@ -745,6 +848,7 @@
                OPEN EXTEND F-USERS-FILE
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
+               MOVE ACCOUNT-NUM TO USER-ACNT-NUM
                WRITE USERS
                END-WRITE               
            END-IF.
