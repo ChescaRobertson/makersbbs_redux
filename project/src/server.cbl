@@ -24,7 +24,8 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).  
+              05 USER-ACNT-NUM PIC X(8). 
+              05 GAP PIC XX.  
               05 USER-CREDIT PIC 99. 
 
            FD F-ADMIN-FILE.
@@ -62,10 +63,11 @@
            01 NEW-USER-NAME PIC X(16).
            01 NEW-PASSWORD PIC X(20).
            01 REGISTER-CHOICE PIC X.
+           01 RAISE-ERROR PIC 9.
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 ERROR-MSG-3 PIC X(50).
-           01 NEW-CHOICE PIC X.
+           01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
 
            01 ADMIN-NAME PIC X(16).
@@ -260,20 +262,20 @@
              05 REGISTER-CHOICE-FIELD LINE 48 COLUMN 18 PIC X
                 USING REGISTER-CHOICE.
                
-           01 NEW-MENU. 
+           01 USER-VALIDATION-ERROR. 
              05 LINE 45 COLUMN 12 VALUE "(r) Re-Enter Details" HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 LINE 46 COLUMN 12 VALUE "(q) Go Back" HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 LINE 48 COLUMN 12 VALUE "Pick: " HIGHLIGHT 
              FOREGROUND-COLOR is 4.
-             05 NEW-CHOICE-FIELD  LINE 48 COLUMN 18 PIC X USING 
-             NEW-CHOICE HIGHLIGHT FOREGROUND-COLOR is 4.
-             05 LINE 36 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             05 VALID-CHOICE-FIELD  LINE 48 COLUMN 18 PIC X USING 
+             VALID-CHOICE HIGHLIGHT FOREGROUND-COLOR is 4.
+             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 LINE 40 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 LINE 44 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
+             05 LINE 42 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
              FOREGROUND-COLOR is 4.
              
 
@@ -851,22 +853,6 @@
 
        PROCEDURE DIVISION.
            
-       0090-GENERATE-USER-TABLE.
-           SET COUNTER TO 0.
-           OPEN INPUT F-USERS-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-USERS-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
-                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-USERS-FILE.
-
        0100-DISPLAY-START.
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
@@ -883,10 +869,42 @@
            ELSE 
                PERFORM 0100-DISPLAY-START
            END-IF.
+
+       0101-GENERATE-USER-TABLE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-USERS-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-USERS-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
+                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-USERS-FILE.
+
+       0102-GENERATE-ADMIN-TABLE. 
+           SET COUNTER TO 0.
+           OPEN INPUT F-ADMIN-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ADMIN-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
+                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-ADMIN-FILE.
        
        0105-DISPLAY-REGISTER-NEW-USER.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE.
+           PERFORM 0101-GENERATE-USER-TABLE.
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO ERROR-MSG-3.
@@ -899,46 +917,51 @@
            ACCEPT NEW-PASSWORD-FIELD.
            ACCEPT ACCOUNT-NUM-FIELD.
            ACCEPT REGISTER-CHOICE-FIELD.
-           MOVE 0 TO WS-FOUND.
+           MOVE 0 TO RAISE-ERROR. 
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF NEW-USER-NAME = WS-USER-NAME(WS-IDX) 
                    MOVE "USER NAME IN USE" TO ERROR-MSG-1 
-                   ADD 1 TO WS-FOUND
+                   ADD 1 TO RAISE-ERROR
                END-IF
                    ADD 1 TO WS-IDX
            END-PERFORM.
+           CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
+           RAISE-ERROR.
+           CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
+           RAISE-ERROR.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND > 0 
-               PERFORM 0106-NEW-MENU
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND = 0
+           ELSE IF REGISTER-CHOICE = "s" AND RAISE-ERROR > 0 
+               PERFORM 0106-VALIDATION-ERROR
+           ELSE IF REGISTER-CHOICE = "s" AND RAISE-ERROR = 0
                OPEN EXTEND F-USERS-FILE
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
+               MOVE "  " TO GAP
                WRITE USERS
                END-WRITE 
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
 
-       0106-NEW-MENU.
-           INITIALIZE NEW-CHOICE.
-           DISPLAY NEW-MENU 
-           ACCEPT NEW-CHOICE-FIELD. 
-           IF NEW-CHOICE = "r" THEN 
+       0106-VALIDATION-ERROR.
+           INITIALIZE VALID-CHOICE.
+           DISPLAY USER-VALIDATION-ERROR 
+           ACCEPT VALID-CHOICE-FIELD. 
+           IF VALID-CHOICE = "r" THEN 
                PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF NEW-CHOICE = "q" THEN 
+           ELSE IF VALID-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
            ELSE 
-               PERFORM 0106-NEW-MENU
+               PERFORM 0106-VALIDATION-ERROR
            END-IF.
 
        0110-DISPLAY-LOGIN.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE
+           PERFORM 0101-GENERATE-USER-TABLE
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
@@ -978,20 +1001,7 @@
        
        0116-ADMIN-LOGIN-PAGE.
            PERFORM 0200-TIME-AND-DATE.
-           SET COUNTER TO 0.
-           OPEN INPUT F-ADMIN-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-ADMIN-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
-                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-ADMIN-FILE.
+           PERFORM 0102-GENERATE-ADMIN-TABLE.
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
            DISPLAY ADMIN-LOGIN-SCREEN.
@@ -1019,9 +1029,9 @@
            INITIALIZE ADMIN-ERROR.
            DISPLAY ADMIN-ERROR-SCREEN.
            ACCEPT ADMIN-ERROR-FIELD.
-           IF ADMIN-ERROR = "a" THEN 
+           IF ADMIN-ERROR = "a" or "A" THEN 
                PERFORM 0116-ADMIN-LOGIN-PAGE 
-           ELSE IF ADMIN-ERROR = "q" THEN 
+           ELSE IF ADMIN-ERROR = "q" or "Q" THEN 
                PERFORM 0100-DISPLAY-START
            ELSE 
                PERFORM 0117-ADMIN-ERROR-PAGE 
