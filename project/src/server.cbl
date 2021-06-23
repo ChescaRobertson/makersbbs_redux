@@ -80,7 +80,8 @@
                    10 WS-ADMIN-NAME PIC X(16).    
                    10 WS-ADMIN-PWORD PIC X(20).
 
-           01 ADMIN-ERROR PIC X.
+           01 ADMIN-ENTER PIC X.
+           01 ADMIN-ERR-MSG PIC X(50).
            01 ADMIN-CHOICE PIC X.
 
            01 MENU-CHOICE PIC X.
@@ -196,15 +197,15 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 2 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            05 LINE 4 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 4 COLUMN 12 VALUE "(l) Go to Log-in.".
-            05 LINE 5 COLUMN 12 VALUE "(c) Create an account.".
-            05 LINE 6 COLUMN 12 VALUE "(q) Quit.". 
-            05 LINE 8 COLUMN 12 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 8 COLUMN 18 PIC X
+            05 LINE 6 COLUMN 12 VALUE "(l) Go to Log-in.".
+            05 LINE 7 COLUMN 12 VALUE "(c) Create an account.".
+            05 LINE 8 COLUMN 12 VALUE "(q) Quit.". 
+            05 LINE 10 COLUMN 12 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 10 COLUMN 18 PIC X
                 USING START-CHOICE.
-            05 LINE 12 COLUMN 12 VALUE "(a) Administrator.".
+            05 LINE 14 COLUMN 12 VALUE "(a) Administrator.".
            
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
@@ -371,28 +372,19 @@
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 12 VALUE "Enter Administrator username:".
-             05 ADMIN-NAME-FIELD LINE 8 COL 12 PIC X(16)
+             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
+             FOREGROUND-COLOR IS 4 . 
+             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
+             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
                 USING ADMIN-NAME.
-             05 LINE 10 COL 12 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 12 COLUMN 12 PIC X(20)
+             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
                 USING ADMIN-PASSWORD.  
-
-           01 ADMIN-ERROR-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COLUMN 12 VALUE "* Administrator details not reco
-      -       "gnised *." HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 8 COLUMN 12 VALUE "(a) Administrator Log-in.".
-             05 LINE 9 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 11 COLUMN 12 VALUE "Pick: ".
-             05 ADMIN-ERROR-FIELD LINE 11 COLUMN 18 PIC X
-                USING ADMIN-ERROR.
+             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
+             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
+             05 LINE 19 COLUMN 12 VALUE "Pick: ".
+             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
+                USING ADMIN-ENTER.
            
            01 ADMIN-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -865,6 +857,7 @@
            ELSE IF START-CHOICE = "q" THEN 
                STOP RUN
            ELSE IF START-CHOICE = "a" THEN 
+               MOVE SPACES TO ADMIN-ERR-MSG
                PERFORM 0116-ADMIN-LOGIN-PAGE
            ELSE 
                PERFORM 0100-DISPLAY-START
@@ -1004,9 +997,11 @@
            PERFORM 0102-GENERATE-ADMIN-TABLE.
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE ADMIN-ENTER.
            DISPLAY ADMIN-LOGIN-SCREEN.
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
+           ACCEPT ADMIN-ENTER-FIELD. 
            MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
@@ -1018,24 +1013,15 @@
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
-           IF WS-FOUND = 1 THEN
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF. 
-
-       0117-ADMIN-ERROR-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-ERROR.
-           DISPLAY ADMIN-ERROR-SCREEN.
-           ACCEPT ADMIN-ERROR-FIELD.
-           IF ADMIN-ERROR = "a" or "A" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE 
-           ELSE IF ADMIN-ERROR = "q" or "Q" THEN 
+           ELSE IF  ADMIN-ENTER = "q" THEN 
                PERFORM 0100-DISPLAY-START
            ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF.
+               MOVE "* Administrator details not recognised *" TO 
+               ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           END-IF. 
 
        0118-DISPLAY-ADMIN-MENU.
            PERFORM 0200-TIME-AND-DATE.
