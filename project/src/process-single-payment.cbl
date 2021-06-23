@@ -6,6 +6,7 @@
        
            SELECT F-USERS-FILE ASSIGN TO "users.dat".
       *       ORGANISATION IS LINE SEQUENTIAL.
+             
        DATA DIVISION.
            FILE SECTION.
            FD F-USERS-FILE.
@@ -26,14 +27,18 @@
        PROCEDURE DIVISION USING LS-USER-BANK-ACCOUNT, LS-CREDIT-AMOUNT.
 
            OPEN I-O F-USERS-FILE.
-           PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
-               READ F-USERS-FILE
-                 NOT AT END
+      *     PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
+              *>  READ F-USERS-FILE
+              *>    NOT AT END
                     IF LS-USER-BANK-ACCOUNT = USER-ACNT-NUM
                           ADD LS-CREDIT-AMOUNT TO USER-CREDIT
+                 
+                      
                      END-IF 
-                  AT END MOVE 1 TO WS-USER-FILE-IS-ENDED
+                     
+      *            AT END MOVE 1 TO WS-USER-FILE-IS-ENDED
                
-           END-PERFORM.
+      *     END-PERFORM.
+      *     END WRITE.
 
            CLOSE F-USERS-FILE.

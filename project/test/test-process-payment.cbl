@@ -9,9 +9,12 @@
          
 
        PROCEDURE DIVISION.
-           
-  
+       
        TEST-CONV-MON-TO-CRED.
            CALL "assert-equals" USING CONV-MON-TO-CRED("030.00")'300'.
+
+       TEST-PROCESS-SINGLE-PAYMENT.
+           CALL 'process-single-payment' USING "12345678", "300".
+          
 
     
