@@ -46,6 +46,8 @@
            01 ACCOUNT-NUM PIC X(10).
            01 CREDIT PIC 99.
 
+           01 LOGGED-IN PIC X(15).
+
            01 WS-USERS.
                05 WS-USER OCCURS 100 TIMES
                ASCENDING KEY IS WS-USER-NAME
@@ -191,6 +193,14 @@
            01 LS-MESSAGE PIC X(60).  
 
            SCREEN SECTION.
+           01 USER-INFO-SCREEN.
+            05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+            05 LINE 2 COL 4 VALUE ":".
+            05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+            05 LINE 2 COL 66 PIC X(15) USING LOGGED-IN.
+            05 LINE 3 COL 75 PIC X(16) USING USER-NAME HIGHLIGHT,
+            FOREGROUND-COLOR IS 2.
+               
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
@@ -206,10 +216,7 @@
            
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 BLANK SCREEN. 
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 12 VALUE
@@ -279,10 +286,7 @@
 
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 BLANK SCREEN.  
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 12 VALUE
@@ -320,10 +324,7 @@
                               
            01 ERROR-SCREEN
                  BACKGROUND-COLOR IS 0.
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 BLANK SCREEN.                
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 12 VALUE
@@ -363,10 +364,7 @@
 
            01 ADMIN-LOGIN-SCREEN
              BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+             05 BLANK SCREEN. 
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 6 COL 12 VALUE "Enter Administrator username:".
@@ -378,10 +376,7 @@
 
            01 ADMIN-ERROR-SCREEN
              BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+             05 BLANK SCREEN.         
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 6 COLUMN 12 VALUE "* Administrator details not reco
@@ -395,9 +390,6 @@
            01 ADMIN-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS. 
              05 LINE 4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 8 COL 10 VALUE "Welcome, ".
@@ -423,10 +415,6 @@
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
              05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE  6 COL 10 VALUE "Hi, ".
@@ -466,9 +454,6 @@
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
              05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE  6 COL 10 VALUE "          +++             -`^'-         
       -      "         )))" FOREGROUND-COLOR IS 6.
@@ -527,9 +512,6 @@
            01 MESSAGE-VIEW-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
              05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE  6 COL 10 VALUE "          \|/             '%%%'         
       -      "         (((" FOREGROUND-COLOR IS 6.
@@ -571,9 +553,6 @@
            01 WRITE-MSG-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
              05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
              05 LINE  6 COL 10 VALUE "         ~@@@~            '^^^'         
       -      "        .:;:." FOREGROUND-COLOR IS 6.
@@ -605,9 +584,6 @@
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
              05 LINE 4 COL 10 VALUE".------..------..------..------..---
       -      "---." FOREGROUND-COLOR IS 3.
              05 LINE 5 COL 10 VALUE"|G.--. ||A.--. ||M.--. ||E.--. ||S.-
@@ -871,6 +847,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
            DISPLAY START-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT START-CHOICE-FIELD.
            IF START-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN 
@@ -895,6 +872,7 @@
            INITIALIZE ACCOUNT-NUM.
            INITIALIZE REGISTER-CHOICE
            DISPLAY REGISTER-NEW-USER-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
            ACCEPT NEW-PASSWORD-FIELD.
            ACCEPT ACCOUNT-NUM-FIELD.
@@ -927,6 +905,7 @@
        0106-NEW-MENU.
            INITIALIZE NEW-CHOICE.
            DISPLAY NEW-MENU 
+           DISPLAY USER-INFO-SCREEN
            ACCEPT NEW-CHOICE-FIELD. 
            IF NEW-CHOICE = "r" THEN 
                PERFORM 0105-DISPLAY-REGISTER-NEW-USER
@@ -942,8 +921,10 @@
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT USER-NAME-FIELD.
-           ACCEPT PASSWORD-FIELD. 
+           ACCEPT PASSWORD-FIELD.
+           MOVE "Logged in as:" TO LOGGED-IN.
            MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
@@ -965,6 +946,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE ERROR-CHOICE.
            DISPLAY ERROR-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT ERROR-CHOICE-FIELD.
            IF ERROR-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN
@@ -995,6 +977,7 @@
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
            DISPLAY ADMIN-LOGIN-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
            MOVE 0 TO WS-FOUND.
@@ -1018,6 +1001,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE ADMIN-ERROR.
            DISPLAY ADMIN-ERROR-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT ADMIN-ERROR-FIELD.
            IF ADMIN-ERROR = "a" THEN 
                PERFORM 0116-ADMIN-LOGIN-PAGE 
@@ -1031,6 +1015,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE ADMIN-CHOICE.
            DISPLAY ADMIN-MENU-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT ADMIN-CHOICE-FIELD.
            IF ADMIN-CHOICE = "q" or "Q" THEN
              STOP RUN
@@ -1046,6 +1031,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
            DISPLAY MENU-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT MENU-CHOICE-FIELD.
            IF MENU-CHOICE = "q" or "Q" THEN
              STOP RUN
@@ -1066,6 +1052,7 @@
            SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
            MOVE MSG-MENU-CHOICE TO MSG-SELECT.
          
@@ -1106,14 +1093,13 @@
            MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT MSG-VIEW-CHOICE-FIELD.
            IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
            ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
               STOP RUN  
            END-IF.
-           
-           PERFORM 0140-MESSAGE-VIEW. 
 
        0150-MESSAGE-WRITE.
            PERFORM 0200-TIME-AND-DATE.
@@ -1124,6 +1110,7 @@
            INITIALIZE LS-PART-4.
            INITIALIZE LS-PART-5.
            DISPLAY WRITE-MSG-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            
            ACCEPT WS-TITLE-FIELD.
            ACCEPT LINE-1-FIELD.
@@ -1146,6 +1133,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
            DISPLAY GAMES-MENU-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
            ACCEPT GAMES-MENU-CHOICE-FIELD
            IF GAMES-MENU-CHOICE = "q" or "Q" THEN
                STOP RUN
@@ -1205,6 +1193,7 @@
                MOVE "One more (y/n)? " TO WS-INSTRUCTION
                MOVE "y" TO WS-NEXT-MOVE
                DISPLAY BOARD-SCREEN END-DISPLAY
+               DISPLAY USER-INFO-SCREEN.
                ACCEPT BOARD-SCREEN END-ACCEPT.
            GAME-FRAME-PARAGRAPH.
                MOVE "Move to square: " TO WS-INSTRUCTION
@@ -1330,17 +1319,14 @@
            MOVE WS-DATETIME(15:2) TO WS-FORMATTED-MS.
 
        0210-RANDOM-NUMBER-GAME.
-           PERFORM INITIALIZE-RANDOM-NUM-GAME.
-
-           INITIALIZE-RANDOM-NUM-GAME.
            DISPLAY GUESS-SCREEN.
            COMPUTE TOTAL-GUESSES = 0.
            ACCEPT SEED FROM TIME
            COMPUTE ANSWER =
                FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1   
-           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG    
+           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG.
            PERFORM GAME-LOOP.
-       
+
            GAME-LOOP.
            INITIALIZE GUESS-INPUT.
            DISPLAY GUESS-SCREEN END-DISPLAY
@@ -1366,7 +1352,7 @@
            DISPLAY GUESS-SCREEN END-DISPLAY
            ACCEPT GUESS-SCREEN END-ACCEPT
                IF GUESS-INPUT = "y" OR "Y"
-                   GO TO INITIALIZE-RANDOM-NUM-GAME
+                   GO TO 0210-RANDOM-NUMBER-GAME
                ELSE IF GUESS-INPUT = "n" OR "N"
                    PERFORM 0160-GAMES-MENU
                ELSE 
