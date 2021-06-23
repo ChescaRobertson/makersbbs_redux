@@ -2,6 +2,9 @@
        PROGRAM-ID. server.
 
        ENVIRONMENT DIVISION.
+           CONFIGURATION SECTION.
+           REPOSITORY.
+               FUNCTION CONV-CRED-TO-MON.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
            *>----- X AND O File Control-----    
@@ -125,6 +128,12 @@
 
            *>----- Admin Variables -----   
 
+            *>----- Buy Credits Variables ----- 
+           01 CREDIT-AMOUNT PIC 999.
+           01 MON-AMOUNT PIC 999.99.
+           01 BUY-CREDITS-CHOICE PIC X.
+           01 CONFIRM-CHOICE PIC X.
+
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -198,9 +207,11 @@
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 21 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 42 VALUE "(q) Quit        "
+             05 LINE 21 COL 42 VALUE "(b) Buy Credits        "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 23 COL 24 VALUE "Pick: ".
+             05 LINE 23 COL 42 VALUE "(q) Quit        "
+                REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 25 COL 24 VALUE "Pick: ".
              05 MENU-CHOICE-FIELD LINE 23 COL 30 PIC X
                 USING MENU-CHOICE.
 
@@ -598,6 +609,49 @@
                05 LINE 26 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
 
+
+           01 BUY-CREDITS-SCREEN.
+           05 BLANK SCREEN.
+      *     05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+      *           HIGHLIGHT, FOREGROUND-COLOR IS 3.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Please enter the amount of credits".
+           05 LINE 8 COL 47 VALUE  "you would like to purchase: ".
+           05 CREDIT LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
+               .
+           05 LINE 12 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 12 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 12 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 14 COL 25 VALUE "Pick: ".
+           05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
+               USING BUY-CREDITS-CHOICE.
+
+           01 CONFIRM-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 8 COL 16 VALUE "Credits will cost: £".
+           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 9 COL 12 VALUE "Money must be transferred by the". 
+           05 LINE 9 COL 45 VALUE " end of the day for credits to be".
+           05 LINE 9 COL 79 VALUE " added to your account tomorrow". 
+           05 LINE 10 COL 12 VALUE  "Would you like to proceed?: ".
+           05 LINE 14 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 14 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 14 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 16 COL 25 VALUE "Pick: ".
+           05 CONFIRM-CHOICE-FIELD LINE 1 COL 31 PIC X 
+               USING CONFIRM-CHOICE.
+
+            
+
+
        PROCEDURE DIVISION.
 
        0110-DISPLAY-LOGIN.
@@ -620,6 +674,8 @@
              PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
+           ELSE IF MENU-CHOICE = 'b' or 'B' THEN 
+               PERFORM 0400-BUY-CREDITS
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
@@ -939,3 +995,40 @@
                    TO WS-RANDOM-NUM-MSG
                    GO TO WIN-LOOP
                END-IF.     
+
+       0400-BUY-CREDITS.
+           INITIALIZE CREDIT-AMOUNT.
+           INITIALIZE BUY-CREDITS-CHOICE.
+           DISPLAY BUY-CREDITS-SCREEN.
+           ACCEPT CREDIT.
+           ACCEPT BUY-CREDITS-CHOICE-FIELD.
+           IF BUY-CREDITS-CHOICE = 's'or 'S'
+              PERFORM 0450-CONFIRM
+           ELSE IF BUY-CREDITS-CHOICE = 'g' OR 'G'
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
+              STOP RUN  
+           ELSE
+              PERFORM 0400-BUY-CREDITS
+           END-IF.
+              
+       0450-CONFIRM.
+           INITIALIZE CONFIRM-CHOICE
+           MOVE CONV-CRED-TO-MON(CREDIT) TO MON-AMOUNT
+           DISPLAY CONFIRM-SCREEN
+           ACCEPT CONFIRM-CHOICE-FIELD
+           IF CONFIRM-CHOICE = 's' OR 'S'  
+               CALL 'add-to-transactions' USING USER-NAME, CREDIT,
+               MON-AMOUNT
+           ELSE IF CONFIRM-CHOICE = 'g' OR 'G'
+               PERFORM 0400-BUY-CREDITS
+           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
+              STOP RUN 
+           ELSE
+               PERFORM 0450-CONFIRM
+           END-IF.
+
+  
+           
+               
+               
