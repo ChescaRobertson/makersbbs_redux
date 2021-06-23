@@ -4,8 +4,8 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
-               FUNCTION CONV-CRED-TO-MON.
-      *         FUNCTION VERIFY-PASSWORD.
+               FUNCTION CONV-CRED-TO-MON
+               FUNCTION VERIFY-PASSWORD.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
            *>----- X AND O File Control-----    
@@ -870,7 +870,7 @@
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
            05 LINE 8 COL 12 VALUE "Please enter the amount of credits".
            05 LINE 8 COL 47 VALUE  "you would like to purchase: ".
-           05 CREDIT LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
+           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
                .
            05 LINE 12 COL 25 VALUE "(s) Submit "
                 REVERSE-VIDEO, HIGHLIGHT. 
@@ -891,9 +891,10 @@
            05 LINE 9 COL 12 VALUE "Please enter your password to ". 
            05 LINE 9 COL 42 VALUE "confirm payment".
            05 LINE 12 COL 12 VALUE "Password: ".
-           05 PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
+           05 BUY-PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
                USING PASSWORD-ENTRY.
-           05 LINE 14 COL 12 PIC X(20) USING INC-PASSWORD.
+           05 LINE 14 COL 12 PIC X(20) USING INC-PASSWORD 
+           HIGHLIGHT, FOREGROUND-COLOR IS 4.
            05 LINE 16 COL 25 VALUE "(s) Submit "
                 REVERSE-VIDEO, HIGHLIGHT. 
            05 LINE 16 COL 39 VALUE "(g) Go back"
@@ -910,8 +911,8 @@
            05 LINE 8 COL 12 VALUE "Processing payment of: £".
            05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
            05 LINE 9 COL 12 VALUE "Confirming payment with your bank ". 
-           05 LINE 10 COL 12 VALUE "This page will refresh in a few ".
-           05 LINE 10 COL 44 VALUE "seconds". 
+           05 LINE 10 COL 12 VALUE "This page will redirect in a few ".
+           05 LINE 10 COL 45 VALUE "seconds". 
        
 
        01 PAY-CONFIRMATION-SCREEN.
@@ -919,7 +920,7 @@
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
            05 LINE 8 COL 12 VALUE "Thank you for your purchase ".
            05 LINE 9 COL 12 VALUE "Your transaction is pending".
-           05 LINE 10 COL 12 PIC 999 USING CREDIT.
+           05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 10 COL 16 VALUE "credits will be added to your ".
            05 LINE 10 COL 46 VALUE "account within 24 hours".
            05 LINE 14 COL 39 VALUE "(g) Go back"
@@ -1463,7 +1464,7 @@
            INITIALIZE CREDIT-AMOUNT.
            INITIALIZE BUY-CREDITS-CHOICE.
            DISPLAY BUY-CREDITS-SCREEN.
-           ACCEPT CREDIT.
+           ACCEPT CREDIT-FIELD.
            ACCEPT BUY-CREDITS-CHOICE-FIELD.
            IF BUY-CREDITS-CHOICE = 's'or 'S'
               PERFORM 0450-CONFIRM
@@ -1477,26 +1478,25 @@
               
        0450-CONFIRM.
            INITIALIZE CONFIRM-CHOICE
-           MOVE CONV-CRED-TO-MON(CREDIT) TO MON-AMOUNT
+           INITIALIZE PASSWORD-ENTRY
+           MOVE CONV-CRED-TO-MON(CREDIT-AMOUNT) TO MON-AMOUNT
            DISPLAY CONFIRM-SCREEN
-           ACCEPT PASSWORD-FIELD
+           ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
-           IF CONFIRM-CHOICE = 's' OR 'S'
-             CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
-             MON-AMOUNT
-             PERFORM 0460-PAYMENT-PROCESS
+          *>  IF CONFIRM-CHOICE = 's' OR 'S'
+          *>    CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
+          *>    MON-AMOUNT
+          *>    PERFORM 0460-PAYMENT-PROCESS
            
-          *>  CALL 'verify-password' USING USER-NAME, PASSWORD-ENTRY, 
-          *>  RESULT
-          *>  IF 
-          *>  IF CONFIRM-CHOICE = 's' OR 'S' AND VERIFY-PASSWORD = 'TRUE' 
-          *>      CALL 'add-to-transactions' USING USER-NAME, CREDIT,
-          *>      MON-AMOUNT
-          *>      PERFORM 0460-PAYMENT-PROCESS
-          *>  ELSE IF CONFIRM-CHOICE = 's' OR 'S' 
-          *>    AND VERIFY-PASSWORD = 'FALSE'
-          *>    MOVE "INCORRECT PASSWORD" TO INC-PASSWORD
-          *>    PERFORM 0450-CONFIRM
+           IF CONFIRM-CHOICE = ('s' OR 'S') AND 
+                VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
+               CALL 'add-to-transactions' USING USER-NAME, 
+               CREDIT-AMOUNT, MON-AMOUNT
+               PERFORM 0460-PAYMENT-PROCESS
+           ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
+             AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'
+             MOVE "INCORRECT PASSWORD" TO INC-PASSWORD
+             PERFORM 0450-CONFIRM
            ELSE IF CONFIRM-CHOICE = 'g' OR 'G'
                PERFORM 0400-BUY-CREDITS
            ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN

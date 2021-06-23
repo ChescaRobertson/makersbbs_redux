@@ -3,7 +3,8 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
-               FUNCTION CONV-CRED-TO-MON.
+               FUNCTION CONV-CRED-TO-MON
+               FUNCTION VERIFY-PASSWORD.
        DATA DIVISION.
            WORKING-STORAGE SECTION.
            01 LS-USERNAME PIC X(16).
@@ -26,3 +27,10 @@
 
        TEST-CONV-CRED-TO-MON.
            CALL "assert-equals" USING CONV-CRED-TO-MON("300")'030.00'.
+
+       TEST-VERIFY-PASSWORD.
+           CALL "assert-equals" USING VERIFY-PASSWORD("Correct-Password"
+             , "Incorrect-Password") "FALSE".
+
+           CALL "assert-equals" USING VERIFY-PASSWORD("Correct-Password"
+             ,"Correct-Password") "TRUE".
