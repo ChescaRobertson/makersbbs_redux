@@ -955,21 +955,29 @@
            "!!!!!!;".  
 
              05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   ".
+           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   ".
+           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   ".
+           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 8 COLUMN 60 VALUE
-           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   ".
+           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 7 COLUMN 60 VALUE
-           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   ".
+           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 6 COLUMN 60 VALUE
-           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   ".
+           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 5 COLUMN 60 VALUE
-           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|".
+           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 4 COLUMN 60 VALUE
-           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ ".
+           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
             05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
              05 LINE 2 COLUMN 37 VALUE "Turtles Guessing Game".
              05 LINE 34 COLUMN 10 VALUE "Guess this word: ".
@@ -1044,21 +1052,29 @@
              05 LINE 4 COLUMN 10 VALUE
            "!!;                      .,,,,,,.".  
            05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   ".
+           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   ".
+           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   ".
+           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 8 COLUMN 60 VALUE
-           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   ".
+           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 7 COLUMN 60 VALUE
-           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   ".
+           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 6 COLUMN 60 VALUE
-           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   ".
+           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 5 COLUMN 60 VALUE
-           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|".
+           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 4 COLUMN 60 VALUE
-           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ ".
+           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ "
+           HIGHLIGHT, FOREGROUND-COLOR IS 2.
             05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
              05 LINE 2 COLUMN 37 VALUE "Turtles Guessing Game".
              05 LINE 34 COLUMN 10 VALUE "You guessed the word!".
@@ -1135,30 +1151,46 @@
              05 LINE 4 COLUMN 10 VALUE
            "                       .,;;<!!!!! /  <!!!;;".  
            05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   ".
+           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   ".
+           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   ".
+           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 8 COLUMN 60 VALUE
-           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   ".
+           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 7 COLUMN 60 VALUE
-           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   ".
+           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 6 COLUMN 60 VALUE
-           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   ".
+           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 5 COLUMN 60 VALUE
-           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|".
+           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 4 COLUMN 60 VALUE
-           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ ".
+           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ "
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+
             05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
              05 LINE 2 COLUMN 37 VALUE "Turtles Guessing Game".
-             05 LINE 34 COLUMN 10 VALUE "You lost!".
-             05 LINE 36 COLUMN 10 PIC X(20) USING WS-WORD.
+             05 LINE 34 COLUMN 10 VALUE "You lost!" BLINK.
+             05 LINE 36 COLUMN 10 PIC X(20) USING WS-WORD
+             HIGHLIGHT, FOREGROUND-COLOR IS 4.
+             05 LINE 34 COLUMN 35 VALUE "The correct word was:".
+             05 LINE 36 COLUMN 35 PIC X(20) USING WS-ANSWERWORD 
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 38 COLUMN 10 VALUE "Guesses left: ".
              05 LINE 38 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 39 COLUMN 10 VALUE "(p) Play again".
-             05 LINE 40 COLUMN 10 VALUE "(h) See high scores".
-             05 LINE 41 COLUMN 10 VALUE "(!) Quit game".
+             05 LINE 39 COLUMN 10 VALUE "(p) Play again" 
+               REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
+             05 LINE 40 COLUMN 10 VALUE "(h) See high scores"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
+             05 LINE 41 COLUMN 10 VALUE "(!) Quit game"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
              05 LINE 42 COLUMN 10 VALUE "Pick: ".
              05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 42 COLUMN 16 PIC X
                USING WS-GUESSING-LOSING-CHOICE.
@@ -1225,19 +1257,26 @@
              05 LINE 4 COLUMN 10 VALUE
            "   ::: <!!!!!!!! ::::::::::::::::::::::::::::::: i!!!!>".  
            05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   ".
+           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   ".
+           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   ".
+           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 8 COLUMN 60 VALUE
-           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   ".
+           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 7 COLUMN 60 VALUE
-           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   ".
+           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 6 COLUMN 60 VALUE
-           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   ".
+           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 5 COLUMN 60 VALUE
-           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|".
+           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 4 COLUMN 60 VALUE
            "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ ".
             05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
