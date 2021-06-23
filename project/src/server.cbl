@@ -816,7 +816,7 @@
                .
                05 LINE 40 COL 10 VALUE
            "---------------------------------------------------------".
-           .
+           
                05 LINE 41 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
                05 LINE 41 COL 25 PIC 99 USING PAGE-NUM.
@@ -1285,7 +1285,7 @@
                  PERFORM 0230-LIBRARY-MENU
                ELSE
                  COMPUTE OFFSET = OFFSET + 10
-                 COMPUTE PAGE-NUM = PAGE-NUM -1
+                 COMPUTE PAGE-NUM = PAGE-NUM - 1
                    PERFORM 0230-LIBRARY-MENU
                END-IF
            ELSE IF LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5'
