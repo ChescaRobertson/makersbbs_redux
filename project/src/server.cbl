@@ -243,18 +243,26 @@
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
              05 LINE 27 COLUMN 12 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
              FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 12 VALUE "input intro text explaining" 
+             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
              05 LINE 33 COLUMN 12 VALUE "Enter a username:".
+             05 LINE 33 COLUMN 30 VALUE " (Usernames must be unique.)".
              05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 37 COLUMN 12 VALUE "Enter a password ".
-             05 LINE 37 COLUMN 30 VALUE "(password can be a maximum of".
-             05 LINE 37 COLUMN 58 VALUE " 20 characters):".
+             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
+             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+      -      "um of 6 characters and include at least 1 number.) ".
              05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
                 USING NEW-PASSWORD.
              05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
-      -      "er :".
+      -      "er:".
              05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
                 USING ACCOUNT-NUM.
              05 LINE 45 COLUMN 12 VALUE "(s) Submit".
