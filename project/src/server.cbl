@@ -702,11 +702,13 @@
              05 LINE 25 COL 18 VALUE" `--------|=|--------'"
              FOREGROUND-COLOR IS 3.
 
+             05 LINE 28 COL 21 VALUE "(h) Hangman"
+             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 30 COL 21 VALUE "(n) Guess The Number" 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 32 COL 21 VALUE "(o) O and X         "  
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 21 VALUE "(m) Monkey?         " 
+             05 LINE 34 COL 21 VALUE "(m) Monkey?       " 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.
              05 LINE 36 COL 18 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
@@ -779,6 +781,87 @@
              05 LINE 38 COL 10 VALUE "Pick: ".
              05 MONKEY-MENU-CHOICE-FIELD LINE 38 COL 16 PIC X
                 USING MONKEY-MENU-CHOICE.
+
+           01 BOARD-SCREEN.
+               05 BLANK SCREEN.
+               05 LINE 1 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 2 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 3 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 4 COl 18 VALUE  "  ___       _    _   _ ____   __
+      -        "  __" FOREGROUND-COLOR IS 3.
+               05 LINE 5 COl 18 VALUE " / _ \     / \  | \ | |  _ \  \ \
+      -        "/ /" FOREGROUND-COLOR IS 5.
+               05 LINE 6 COl 18 VALUE "| | | |   / _ \ |  \| | | | |  \  
+      -        " /" FOREGROUND-COLOR IS 3.
+               05 LINE 7 COl 18 VALUE "| |_| |  / ___ \| |\  | |_| |  /  
+      -         " \" FOREGROUND-COLOR IS 2.
+               05 LINE 8 COl 18 VALUE " \___/  /_/   \_\_| \_|____/  /_/
+      -        "\_\" FOREGROUND-COLOR IS 5.
+               05 LINE 10 COL 10 VALUE "---------------------------------
+      -      "----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 11 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 12 COL 10 VALUE "--------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 14 COLUMN 27 VALUE IS "   +---+---+---+   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 15 COLUMN 27 VALUE IS " A |   |   |   |   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 16 COLUMN 27 VALUE IS "   +---+---+---+   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 17 COLUMN 27 VALUE IS " B |   |   |   |   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 18 COLUMN 27 VALUE IS "   +---+---+---+   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 19 COLUMN 27 VALUE IS " C |   |   |   |   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 20 COLUMN 27 VALUE IS "   +---+---+---+   "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 21 COLUMN 27 VALUE IS "     1   2   3     "
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 15 COLUMN 32 PIC A(1) FROM WS-CELL(1,1)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 15 COLUMN 36 PIC A(1) FROM WS-CELL(1,2)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 15 COLUMN 40 PIC A(1) FROM WS-CELL(1,3)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 17 COLUMN 32 PIC A(1) FROM WS-CELL(2,1)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 17 COLUMN 36 PIC A(1) FROM WS-CELL(2,2)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 17 COLUMN 40 PIC A(1) FROM WS-CELL(2,3)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 19 COLUMN 32 PIC A(1) FROM WS-CELL(3,1)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 19 COLUMN 36 PIC A(1) FROM WS-CELL(3,2)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 19 COLUMN 40 PIC A(1) FROM WS-CELL(3,3)
+                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+
+               05 LINE 23 COLUMN 27 VALUE IS "Message: "
+                   FOREGROUND-COLOR IS 6.
+                   05 MSG PIC X(128) FROM WS-OANDXMESSAGE.
+               05 LINE 25 COLUMN 27 PIC X(16) FROM WS-INSTRUCTION.
+                   05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
+               05 LINE 27 COLUMN 27 VALUE IS "Stats: "
+                   FOREGROUND-COLOR IS 6.
+               05 LINE 28 COLUMN 27 VALUE IS "Moves played = "
+                   FOREGROUND-COLOR IS 2.
+                   05 MOVES PIC 9(1) FROM WS-MOVES.
+               05 LINE 29 COLUMN 27 VALUE IS "Games won = "
+                   FOREGROUND-COLOR IS 5.
+                   05 WINS PIC 9(2) FROM WS-WINS.
+               05 LINE 29 COLUMN 41 VALUE IS "/".
+                   05 GAMES PIC 9(2) FROM WS-GAMES. 
+               05 LINE 31 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 32 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 33 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
       
            01 WORD-GUESSING-SCREEN
                BACKGROUND-COLOR IS 8.
@@ -1171,86 +1254,6 @@
              05 WS-HIGH-SCORE-FIELD LINE 44 COLUMN 16 PIC X
                USING WS-HIGH-SCORE-CHOICE.
         
-           01 BOARD-SCREEN
-             05 BLANK SCREEN.
-             05 LINE 1 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 2 COL 10 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 3 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-             05 LINE 4 COl 18 VALUE  "  ___       _    _   _ ____   __
-      -      "  __" FOREGROUND-COLOR IS 3.
-             05 LINE 5 COl 18 VALUE " / _ \     / \  | \ | |  _ \  \ \
-      -      "/ /" FOREGROUND-COLOR IS 5.
-             05 LINE 6 COl 18 VALUE "| | | |   / _ \ |  \| | | | |  \  
-      -      " /" FOREGROUND-COLOR IS 3.
-             05 LINE 7 COl 18 VALUE "| |_| |  / ___ \| |\  | |_| |  /  
-      -      " \" FOREGROUND-COLOR IS 2.
-             05 LINE 8 COl 18 VALUE " \___/  /_/   \_\_| \_|____/  /_/
-      -      "\_\" FOREGROUND-COLOR IS 5.
-             05 LINE 10 COL 10 VALUE "---------------------------------
-      -      "----------------------" FOREGROUND-COLOR IS 2.
-             05 LINE 11 COL 10 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 12 COL 10 VALUE "--------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 14 COLUMN 27 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 15 COLUMN 27 VALUE IS " A |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 16 COLUMN 27 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 17 COLUMN 27 VALUE IS " B |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 18 COLUMN 27 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 19 COLUMN 27 VALUE IS " C |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 20 COLUMN 27 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 21 COLUMN 27 VALUE IS "     1   2   3     "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 15 COLUMN 32 PIC A(1) FROM WS-CELL(1,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 15 COLUMN 36 PIC A(1) FROM WS-CELL(1,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 15 COLUMN 40 PIC A(1) FROM WS-CELL(1,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 32 PIC A(1) FROM WS-CELL(2,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 36 PIC A(1) FROM WS-CELL(2,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 40 PIC A(1) FROM WS-CELL(2,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 32 PIC A(1) FROM WS-CELL(3,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 36 PIC A(1) FROM WS-CELL(3,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 40 PIC A(1) FROM WS-CELL(3,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 23 COLUMN 27 VALUE IS "Message: "
-                   FOREGROUND-COLOR IS 6.
-                   05 MSG PIC X(128) FROM WS-OANDXMESSAGE.
-               05 LINE 25 COLUMN 27 PIC X(16) FROM WS-INSTRUCTION.
-                   05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
-               05 LINE 27 COLUMN 27 VALUE IS "Stats: "
-                   FOREGROUND-COLOR IS 6.
-               05 LINE 28 COLUMN 27 VALUE IS "Moves played = "
-                   FOREGROUND-COLOR IS 2.
-                   05 MOVES PIC 9(1) FROM WS-MOVES.
-             05 LINE 29 COLUMN 27 VALUE IS "Games won = "
-                   FOREGROUND-COLOR IS 5.
-                   05 WINS PIC 9(2) FROM WS-WINS.
-             05 LINE 29 COLUMN 41 VALUE IS "/".
-                   05 GAMES PIC 9(2) FROM WS-GAMES. 
-             05 LINE 31 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 32 COL 10 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 33 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
              05 LINE 2 COL 10 VALUE "---------------------------------
