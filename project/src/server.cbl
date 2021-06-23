@@ -29,7 +29,7 @@
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
               05 USER-ACNT-NUM PIC X(10).  
-              05 USER-CREDIT PIC 99. 
+              05 USER-CREDIT PIC 999. 
 
            FD F-ADMIN-FILE.
            01 ADMINS. 
@@ -48,7 +48,7 @@
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
            01 ACCOUNT-NUM PIC X(10).
-           01 CREDIT PIC 99.
+           01 CREDIT PIC 999.
 
            01 WS-USERS.
                05 WS-USER OCCURS 100 TIMES
@@ -57,8 +57,8 @@
                    10 WS-USER-NAME PIC X(16).    
                    10 WS-PWORD PIC X(20).
                    10 WS-ACNT-NUM PIC X(10).
-                   10 WS-CREDIT PIC 99. 
-
+                   10 WS-CREDIT PIC 999. 
+ 
            01 WS-FOUND PIC 9. 
            01 WS-IDX UNSIGNED-INT. 
            01 COUNTER UNSIGNED-INT. 
@@ -1092,7 +1092,8 @@
            END-PERFORM.
 
            IF WS-FOUND = 1 THEN
-               PERFORM 0118-DISPLAY-ADMIN-MENU 
+               CALL "admin-server" USING ADMIN-NAME
+      *         PERFORM 0118-DISPLAY-ADMIN-MENU 
            ELSE 
                PERFORM 0117-ADMIN-ERROR-PAGE 
            END-IF. 
@@ -1491,7 +1492,7 @@
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 
-               CREDIT-AMOUNT, MON-AMOUNT
+                ACCOUNT-NUM, CREDIT-AMOUNT, MON-AMOUNT
                PERFORM 0460-PAYMENT-PROCESS
            ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
              AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'

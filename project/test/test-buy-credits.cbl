@@ -8,22 +8,31 @@
        DATA DIVISION.
            WORKING-STORAGE SECTION.
            01 LS-USERNAME PIC X(16).
+           01 LS-ACCOUNT-NUM PIC X(10).
            01 LS-CREDITS PIC 999.
            01 GAP1 PIC X(10).
            01 LS-MON-AMOUNT PIC 999.99.
            01 GAP2 PIC X(10).
+           01 LS-DATE-OF-TRANS PIC X(10).
+           01 LS-PAYMENT-STATUS PIC X(20).
+
 
        PROCEDURE DIVISION.
            
        TEST-ADD-TO-TRANSACTIONS.
-           MOVE "Jim" TO LS-USERNAME.
-           MOVE "300" TO LS-CREDITS.
-           MOVE "          " TO GAP1.
-           MOVE "030.00" TO LS-MON-AMOUNT.
-           MOVE "          " TO GAP2.
+           MOVE "Jim" TO LS-USERNAME
+           MOVE "12345678" TO LS-ACCOUNT-NUM
+           MOVE "300" TO LS-CREDITS
+           MOVE "          " TO GAP1
+           MOVE "030.00" TO LS-MON-AMOUNT
+           MOVE "          " TO GAP2
+           MOVE "20210623" TO LS-DATE-OF-TRANS
+           MOVE "PENDING" TO LS-PAYMENT-STATUS
+
            SET ENVIRONMENT "transactions_dat" TO "transactions.dat".
-           CALL "add-to-transactions" USING LS-USERNAME, LS-CREDITS, 
-           GAP1, LS-MON-AMOUNT, GAP2.
+           CALL "add-to-transactions" USING LS-USERNAME, LS-ACCOUNT-NUM,
+           LS-CREDITS, GAP1, LS-MON-AMOUNT, GAP2, LS-DATE-OF-TRANS,
+           LS-PAYMENT-STATUS.
 
        TEST-CONV-CRED-TO-MON.
            CALL "assert-equals" USING CONV-CRED-TO-MON("300")'030.00'.
