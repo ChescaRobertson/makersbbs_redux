@@ -17,7 +17,7 @@
                05 DATE-OF-TRANS PIC X(8).
 
            WORKING-STORAGE SECTION.
-            01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
+           01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
 
            LINKAGE SECTION.
            01 LS-USERNAME PIC X(16).
