@@ -2,6 +2,12 @@
        PROGRAM-ID. server.
 
        ENVIRONMENT DIVISION.
+           CONFIGURATION SECTION.
+           REPOSITORY.
+               FUNCTION DISPLAY-LIBRARY-TITLE
+               FUNCTION LIBRARY-CHOICE-TO-NUM
+               FUNCTION DISPLAY-BOOK-BODY
+               FUNCTION DISPLAY-BOOK-AUTHOR.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
            *>----- X AND O File Control-----    
@@ -119,8 +125,13 @@
            01 TOTAL-GUESSES PIC 99.
            01 WS-RANDOM-NUM-MSG PIC X(128).
       *    --------Library Section---------
-           01 LIBRARY-CHOICE PIC X.
-           
+           01 LIBRARY-CHOICE PIC x(2).
+           01 PAGE-NUM PIC 99.
+           01 LIBRARY-DISPLAY-MESSAGE PIC X(40).
+           01 LIBRARY-NUM PIC 99.
+           01 TITLE PIC X(50).
+           01 BODY PIC X(500).
+      *     01 BOOK-AUTHOR PIC X(40).
            01 WS-BOOKS.
                05 WS-BOOK OCCURS 100 TIMES
                ASCENDING KEY IS WS-BOOK-AUTHOR-NAME
@@ -128,7 +139,8 @@
                    10 WS-BOOK-AUTHOR-NAME PIC X(12).
                    10 WS-BOOK-TITLE PIC X(30).
            01 COUNTER UNSIGNED-INT.
-           01 OFFSET UNSIGNED-INT.     
+           01 OFFSET UNSIGNED-INT.
+           01 READ-CHOICE PIC X.     
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -692,8 +704,7 @@
                05 LINE 11 COL 10 VALUE 
                "                         `---`"
                  FOREGROUND-COLOR IS 3.
-               05 LIBRARY-FIELD LINE 30 COLUMN 14 PIC X 
-               USING LIBRARY-CHOICE.
+               
                05 LINE 12 COL 10 VALUE 
            "---------------------------------------------------------".
                05 LINE 13 COL 27 VALUE
@@ -709,11 +720,13 @@
                05 LINE 18 COL 10 VALUE "||   AUTHOR   ||".
                05 LINE 18 COL 24 VALUE 
                "||                  TITLE                ||".
+               05 LINE 18 COL 10 VALUE '1.'.
                05 LINE 19 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET).
                05 LINE 19 COL 26 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
                05 LINE 20 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 21 COL 10 VALUE '2.'.
                05 LINE 21 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
@@ -722,6 +735,7 @@
                .
                05 LINE 22 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 23 COL 10 VALUE '3.'.
                05 LINE 23 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
                .
@@ -730,6 +744,7 @@
                .
                05 LINE 24 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 25 COL 10 VALUE '4.'.
                05 LINE 25 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
                .
@@ -738,6 +753,7 @@
                .
                05 LINE 26 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 27 COL 10 VALUE '5.'.
                05 LINE 27 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
                .
@@ -746,6 +762,7 @@
                .
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 29 COL 10 VALUE '6.'.
                05 LINE 29 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 5)
                .
@@ -754,6 +771,7 @@
                .
                05 LINE 30 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 31 COL 10 VALUE '7.'.
                05 LINE 31 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 6)
                .
@@ -762,6 +780,7 @@
                .
                05 LINE 32 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 33 COL 10 VALUE '8.'.
                05 LINE 33 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 7)
                .
@@ -770,6 +789,7 @@
                .
                05 LINE 34 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 35 COL 10 VALUE '9.'.
                05 LINE 35 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 8)
                .
@@ -778,6 +798,7 @@
                .
                05 LINE 36 COL 10 VALUE
            "---------------------------------------------------------".
+               05 LINE 18 COL 10 VALUE '10.'.
                05 LINE 37 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 9)
                .
@@ -786,6 +807,7 @@
                .
                05 LINE 38 COL 10 VALUE
            "---------------------------------------------------------".
+              05 LINE 39 COL 10 VALUE '11.'.
               05 LINE 39 COL 12 PIC X(12) 
               USING WS-BOOK-AUTHOR-NAME(OFFSET - 10)
                .
@@ -795,7 +817,68 @@
                05 LINE 40 COL 10 VALUE
            "---------------------------------------------------------".
            .
-
+               05 LINE 41 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
+               .
+               05 LINE 41 COL 25 PIC 99 USING PAGE-NUM.
+               05 LINE 60 COL 10 VALUE "( )Read the book by number".
+               05 LINE 61 COL 10 VALUE "(n) Next Page".
+               05 LINE 62 COL 10 VALUE "(p) Previous Page".
+               05 LINE 63 COL 10 VALUE "(q) Go back".
+               05 LIBRARY-FIELD LINE 64 COLUMN 10 PIC X 
+               USING LIBRARY-CHOICE.
+               
+               
+           01 READ-BOOK-SCREEN
+               BACKGROUND-COLOR IS 8.
+                05 BLANK SCREEN.
+           05 LINE 2 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 3 COL 10 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+               05 LINE 4 COL 10 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 LINE 5 COL 10 VALUE 
+               "           __...--~~~~~-._   _.-~~~~~--...__" 
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 6 COL 10 VALUE 
+               "         //               `V'               \\ "
+               FOREGROUND-COLOR IS 3.
+               05 LINE 7 COL 10 VALUE 
+               "        //                 |                 \\ " 
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 8 COL 10 VALUE
+               "       //__...--~~~~~~-._  |  _.-~~~~~~--...__\\ "
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 9 COL 10 VALUE 
+               "      //__.....----~~~~._\ | /_.~~~~----.....__\\"
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 10 COL 10 VALUE
+               "     ====================\\|//===================="
+                 FOREGROUND-COLOR IS 3.
+               05 LINE 11 COL 10 VALUE 
+               "                         `---`"
+                 FOREGROUND-COLOR IS 3.
+               
+               05 LINE 12 COL 10 VALUE 
+           "---------------------------------------------------------".
+               05 LINE 13 COL 27 VALUE
+               "WELCOME TO THE LIBRARY".
+               05 LINE 14 COL 10 VALUE
+           "Please Choose Below which book you would like to have in"
+             .
+               05 LINE 15 COL 10 VALUE
+           "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
+             .
+               05 LINE 16 COL 10 VALUE
+           "       (For audio format to work, please read aloud)"
+                .
+               05 LINE 18 COL 10 VALUE 'Title:'.
+               05 LINE 18 COL 18 PIC X(50) USING TITLE.
+               05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
+               05 LINE 31 COLUMN 10 VALUE 'Author: '.
+               05 LINE 31 COLUMN 18 PIC X(40) USING BOOK-AUTHOR.
+               05 READ-CHOICE-FIELD LINE 50 COLUMN 16 PIC X
+               USING READ-CHOICE.
 
        PROCEDURE DIVISION.
 
@@ -1168,6 +1251,10 @@
                    AT END
                        MOVE 1 TO WS-FILE-IS-ENDED
                        MOVE COUNTER TO OFFSET
+                       MOVE 1 TO PAGE-NUM
+                       MOVE 1 TO LIBRARY-NUM
+                       MOVE "Here are the last 10 books" TO 
+                       LIBRARY-DISPLAY-MESSAGE
                END-READ
            END-PERFORM.
            CLOSE F-LIBRARY-FILE.
@@ -1176,6 +1263,71 @@
        0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
            DISPLAY LIBRARY-SCREEN.
-           ACCEPT LIBRARY-CHOICE.
+           ACCEPT LIBRARY-FIELD.
+           IF LIBRARY-CHOICE = 'q' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF LIBRARY-CHOICE = 'n' THEN
+               IF OFFSET > 20
+                   COMPUTE OFFSET = OFFSET - 10
+                   COMPUTE PAGE-NUM = PAGE-NUM + 1
+                   MOVE 'Here are the next 10 books' TO
+                       LIBRARY-DISPLAY-MESSAGE
+               END-IF
+               PERFORM 0230-LIBRARY-MENU
+           ELSE IF LIBRARY-CHOICE = 'p' THEN
+               IF PAGE-NUM = '01'
+                 PERFORM 0230-LIBRARY-MENU
+               ELSE IF PAGE-NUM = '02'
+                 COMPUTE OFFSET = OFFSET + 10
+                 COMPUTE PAGE-NUM = PAGE-NUM - 1
+                 MOVE 'Here are the previous 10 books' TO
+                   LIBRARY-DISPLAY-MESSAGE
+                 PERFORM 0230-LIBRARY-MENU
+               ELSE
+                 COMPUTE OFFSET = OFFSET + 10
+                 COMPUTE PAGE-NUM = PAGE-NUM -1
+                   PERFORM 0230-LIBRARY-MENU
+               END-IF
+           ELSE IF LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5'
+             OR '6' OR '7' OR '8' OR '9' OR '10'
+               SET LIBRARY-NUM TO LIBRARY-CHOICE-TO-NUM(LIBRARY-CHOICE)
+               PERFORM 0240-READ-BOOK
+           ELSE
+               PERFORM 0230-LIBRARY-MENU
+           END-IF. 
+
+       0240-READ-BOOK.
+           INITIALIZE READ-CHOICE
+           IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9
+           OR 10
+               MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
+               TO TITLE
+               MOVE DISPLAY-BOOK-BODY(OFFSET LIBRARY-NUM WS-BOOKS)
+               TO BODY
+               MOVE DISPLAY-BOOK-AUTHOR(OFFSET LIBRARY-NUM WS-BOOKS)
+               TO BOOK-AUTHOR
+           END-IF.
+           DISPLAY READ-BOOK-SCREEN.
+           ACCEPT READ-CHOICE.
+           IF READ-CHOICE = 'q' THEN
+               PERFORM 0230-LIBRARY-MENU
+           ELSE IF READ-CHOICE = 'n' THEN
+               IF LIBRARY-NUM < 10
+                   COMPUTE LIBRARY-NUM = LIBRARY-NUM + 1
+               ELSE
+                   MOVE 1 TO LIBRARY-NUM
+               END-IF
+               PERFORM 0240-READ-BOOK
+           ELSE IF READ-CHOICE = 'p' THEN
+               IF LIBRARY-NUM > 1  
+                   COMPUTE LIBRARY-NUM = LIBRARY-NUM - 1
+               ELSE
+                   MOVE 10 TO LIBRARY-NUM
+               END-IF
+               PERFORM 0240-READ-BOOK
+           END-IF.
+
+       
+           
 
            
