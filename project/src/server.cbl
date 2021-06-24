@@ -4,8 +4,14 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
+
                FUNCTION HIGH-SCORE-CALCULATOR
                FUNCTION REPLACE-LETTER.
+
+               FUNCTION CONV-CRED-TO-MON
+               FUNCTION VERIFY-PASSWORD
+               FUNCTION ABOUT-CHOICE-TO-NUM.
+
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
 
@@ -23,6 +29,9 @@
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
              SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
+                 ORGANIZATION IS LINE SEQUENTIAL.
+
+             SELECT F-ABOUT-FILE ASSIGN TO 'about-page.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
        DATA DIVISION.
@@ -44,13 +53,20 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).  
+              05 USER-ACNT-NUM PIC X(8). 
+              05 GAP PIC XX.  
               05 USER-CREDIT PIC 99. 
 
            FD F-ADMIN-FILE.
            01 ADMINS. 
                05 ADMIN PIC X(16).
                05 ADMIN-PWORD PIC X(20).
+
+           FD F-ABOUT-FILE.
+           01 ABOUT-INFO.
+               05 ABOUT-TITLE PIC X(30).
+               05 ABOUT-BODY PIC X(500).
+           
            
            WORKING-STORAGE SECTION.
            *>----- General Variables -----
@@ -82,10 +98,14 @@
            01 NEW-USER-NAME PIC X(16).
            01 NEW-PASSWORD PIC X(20).
            01 REGISTER-CHOICE PIC X.
+           01 RAISE-ERROR PIC 9.
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 ERROR-MSG-3 PIC X(50).
-           01 NEW-CHOICE PIC X.
+           01 OK-MSG-1 PIC X(50).
+           01 OK-MSG-2 PIC X(50).
+           01 OK-MSG-3 PIC X(50).
+           01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
 
            01 ADMIN-NAME PIC X(16).
@@ -98,7 +118,8 @@
                    10 WS-ADMIN-NAME PIC X(16).    
                    10 WS-ADMIN-PWORD PIC X(20).
 
-           01 ADMIN-ERROR PIC X.
+           01 ADMIN-ENTER PIC X.
+           01 ADMIN-ERR-MSG PIC X(50).
            01 ADMIN-CHOICE PIC X.
 
            01 MENU-CHOICE PIC X.
@@ -235,6 +256,27 @@
 
            *>----- Admin Variables -----   
 
+            *>----- Buy Credits Variables ----- 
+           01 CREDIT-AMOUNT PIC 999.
+           01 MON-AMOUNT PIC 999.99.
+           01 BUY-CREDITS-CHOICE PIC X.
+           01 CONFIRM-CHOICE PIC X.
+           01 PAY-CONFIRMATION-CHOICE PIC X.
+           01 PASSWORD-ENTRY PIC X(20).
+           01 INC-PASSWORD PIC X(20).
+           *>------About Variables-----
+           01 ABOUT-PAGE-CHOICE PIC X.
+           01 WS-ABOUT. 
+               05 WS-ABOUTS OCCURS 100 TIMES 
+               ASCENDING KEY IS WS-ABOUT-TITLE
+               INDEXED BY ABOUT-IDX.
+                   10 WS-ABOUT-TITLE PIC X(60).
+                   10 WS-ABOUT-BODY PIC X(500).
+
+           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-NUM PIC 9.
+           
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -244,15 +286,15 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 2 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            05 LINE 4 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 4 COLUMN 12 VALUE "(l) Go to Log-in.".
-            05 LINE 5 COLUMN 12 VALUE "(c) Create an account.".
-            05 LINE 6 COLUMN 12 VALUE "(q) Quit.". 
-            05 LINE 8 COLUMN 12 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 8 COLUMN 18 PIC X
+            05 LINE 6 COLUMN 12 VALUE "(l) Go to Log-in.".
+            05 LINE 7 COLUMN 12 VALUE "(c) Create an account.".
+            05 LINE 8 COLUMN 12 VALUE "(q) Quit.". 
+            05 LINE 10 COLUMN 12 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 10 COLUMN 18 PIC X
                 USING START-CHOICE.
-            05 LINE 12 COLUMN 12 VALUE "(a) Administrator.".
+            05 LINE 14 COLUMN 12 VALUE "(a) Administrator.".
            
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
@@ -290,42 +332,45 @@
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
              05 LINE 27 COLUMN 12 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
              FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 12 VALUE "input intro text explaining" 
+             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
              05 LINE 33 COLUMN 12 VALUE "Enter a username:".
+             05 LINE 33 COLUMN 30 VALUE " (Usernames must be unique.)".
+             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 37 COLUMN 12 VALUE "Enter a password ".
-             05 LINE 37 COLUMN 30 VALUE "(password can be a maximum of".
-             05 LINE 37 COLUMN 58 VALUE " 20 characters):".
+             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
+             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+      -      "um of 6 characters and include at least 1 number.) ".
+             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
                 USING NEW-PASSWORD.
+             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
              05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
-      -      "er :".
+      -      "er:".
+             05 LINE 42 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
                 USING ACCOUNT-NUM.
-             05 LINE 45 COLUMN 12 VALUE "(s) Submit".
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back".
-             05 LINE 48 COLUMN 12 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 48 COLUMN 18 PIC X
+             05 LINE 44 COLUMN 12 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 49 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
                 USING REGISTER-CHOICE.
-               
-           01 NEW-MENU. 
-             05 LINE 45 COLUMN 12 VALUE "(r) Re-Enter Details" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 48 COLUMN 12 VALUE "Pick: " HIGHLIGHT 
-             FOREGROUND-COLOR is 4.
-             05 NEW-CHOICE-FIELD  LINE 48 COLUMN 18 PIC X USING 
-             NEW-CHOICE HIGHLIGHT FOREGROUND-COLOR is 4.
-             05 LINE 36 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 40 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 44 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             
 
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
@@ -419,28 +464,19 @@
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 12 VALUE "Enter Administrator username:".
-             05 ADMIN-NAME-FIELD LINE 8 COL 12 PIC X(16)
+             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
+             FOREGROUND-COLOR IS 4 . 
+             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
+             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
                 USING ADMIN-NAME.
-             05 LINE 10 COL 12 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 12 COLUMN 12 PIC X(20)
+             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
                 USING ADMIN-PASSWORD.  
-
-           01 ADMIN-ERROR-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COLUMN 12 VALUE "* Administrator details not reco
-      -       "gnised *." HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 8 COLUMN 12 VALUE "(a) Administrator Log-in.".
-             05 LINE 9 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 11 COLUMN 12 VALUE "Pick: ".
-             05 ADMIN-ERROR-FIELD LINE 11 COLUMN 18 PIC X
-                USING ADMIN-ERROR.
+             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
+             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
+             05 LINE 19 COLUMN 12 VALUE "Pick: ".
+             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
+                USING ADMIN-ENTER.
            
            01 ADMIN-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -499,9 +535,11 @@
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 21 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 42 VALUE "(q) Quit        "
+             05 LINE 21 COL 42 VALUE "(b) Buy Credits        "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 23 COL 24 VALUE "Pick: ".
+             05 LINE 23 COL 42 VALUE "(q) Quit        "
+                REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 25 COL 24 VALUE "Pick: ".
              05 MENU-CHOICE-FIELD LINE 23 COL 30 PIC X
                 USING MENU-CHOICE.
 
@@ -895,7 +933,7 @@
            01 WORD-GUESSING-WINNING-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 37 VALUE "HANGMAN..."
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 3.
              05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to Th
       -      "e Wasteland!"
@@ -918,7 +956,7 @@
            01 WORD-GUESSING-LOSE-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 37 VALUE "HANGMAN..."
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 3.
              05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to
       -      "The Wasteland!"
@@ -942,91 +980,11 @@
 
            01 HIGH-SCORE-SCREEN
                BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-             05 LINE 32 COLUMN 10 VALUE
-           "      :!  !!!!!!!i `'!!!!!!!!!!!!!!!'''`.;ii!!!!!'`.'` ;!!".
-             05 LINE 31 COLUMN 10 VALUE
-           "          !!!!!!; `!!!!!i;. ~~~~~~~ .;i!!!!''`.;i!!!!!!!'.".
-             05 LINE 30 COLUMN 10 VALUE
-           "         `!!!!! `!!!!;.  ~~~~~~~~~~~~~~  .;i!!!!' .i!!!!!!".
-             05 LINE 29 COLUMN 10 VALUE
-           "         :!!!!> !!!;  ~~~~~~~. '$. ~~~~~~~~ .;!!!!'  ;!!!!".
-             05 LINE 28 COLUMN 10 VALUE
-           "         !!!!i !i. `~~~~~~~~ `$c ~~~~~~~~~~~~  <!!!!'  i!!".
-             05 LINE 27 COLUMN 10 VALUE
-           "          ,i!    ~~~~~~~~~~ '$r'~~~~~~~~~~~~ '  ;!!!!!  ;!".
-             05 LINE 26 COLUMN 10 VALUE
-           "       :::'`   `~~~~~~~~~~ '$.`~~~~~~~~~~~~~~ .~ .!!!!!' ;".
-             05 LINE 25 COLUMN 10 VALUE
-           "      `:::::  ~~~~~~~~~~~ `$.`~~~~~~~~~~~~~~~~  ~  <!!!!' ".
-             05 LINE 24 COLUMN 10 VALUE
-           "      :::::  ~~~~~~~~~~~ '$c`~~~~~~~~~~~~~~~~~~~ ~~ ;!!!!'".
-             05 LINE 23 COLUMN 10 VALUE
-           "      ::::  ~~~~~~~~~~~ `$c'~~~~~~~~~~~~~~~~~~~~~ ~~ ,iiii".
-             05 LINE 22 COLUMN 10 VALUE
-           "     `:::  ~~~~~~~~~~~ `$L ~~~~~~~~~~~~~~~~~~~~~~~ .  `''`".
-             05 LINE 21 COLUMN 10 VALUE
-           "      ::  ~~~~~~~~~~~.`$b ~~~~~~~~~~~~~~~~~~~~~~~~. `:::::".
-             05 LINE 20 COLUMN 10 VALUE
-           "     ::       .~~~~~~ ?$ ~~~~~~~~~~~~~~~~~~~~~~~~.  ::::::".
-             05 LINE 19 COLUMN 10 VALUE
-           "    :::::  $$$PF' .~~.$.~~~~~~~~~~~~~~~~~~~~~~~~.  :::::::".
-             05 LINE 18 COLUMN 10 VALUE
-           "    :::::  $$$eeed' .~~~~~~~~~~~~~~~~~~~~~~~~~~~  ::::::::".
-             05 LINE 17 COLUMN 10 VALUE
-           "    :::: `? =       '   '?????????'  .~~~.  :'.::::::".
-           05 LINE 16 COLUMN 10 VALUE
-           "   `:::  $$$$$r-.  P9$$$?$bedE' .,d$$$$$$$P'   `::::' .:::".
-             05 LINE 15 COLUMN 10 VALUE
-           "   :::: ?Fx$b. '?$ $$$b($$'   dF   'ud$$$$$$c `:::::::' .:".
-             05 LINE 14 COLUMN 10 VALUE
-           "`''''''''''''''''` ..z e$$$F   d$P'`'??<<3c :::::::::::' ".
-             05 LINE 13 COLUMN 10 VALUE
-           "!!!!!!!!!!!!!!!!!!!!!!!!!''`,   $$$$$$$$$Fc ::::::::::::::".
-             05 LINE 12 COLUMN 10 VALUE
-           "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'`..euJB$. :::::::::::::::".
-             05 LINE 11 COLUMN 10 VALUE
-           "!!i;,;i!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!''`  ::::::::::::::::".
-             05 LINE 10 COLUMN 10 VALUE
-           "; `::' .!!!!!!!!!!!i;,;i!!!!!!!!!!!!!!!!!!' .:::::::::::::".
-             05 LINE 9 COLUMN 10 VALUE
-           "  ::::  !!!!!!!!!, `''''```  .,;ii!!!!!!!!!!!'' .:::::::: ".
-             05 LINE 8 COLUMN 10 VALUE
-           " `::::  !!!!!!!!.`::::::::::::::'` .,;i!!!!!!!!!!' ::::. ".
-             05 LINE 7 COLUMN 10 VALUE
-           "  :::: `!!!!!!!> :::::::::::::::::::''`  ,i!!!!!!!!'..   ".
-             05 LINE 6 COLUMN 10 VALUE
-           "  :::: <!!!!!!!> ::::::::::::::::::::::::'`  ,i!!!!!!'   ".
-             05 LINE 5 COLUMN 10 VALUE
-           "  .::: <!!!!!!!> ::::::::::::::::::::::::::::'` i!!!!!'  ".
-             05 LINE 4 COLUMN 10 VALUE
-           "   ::: <!!!!!!!! ::::::::::::::::::::::::::::::: i!!!!>".  
-           05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 8 COLUMN 60 VALUE
-           "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 7 COLUMN 60 VALUE
-           "   $$ |   $$\$$\$$ $$ |$$ $$\$$ |$$ |        $$ |   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 6 COLUMN 60 VALUE
-           "   $$ |   $$$$\  $$$$ |$$$$\ $$ |$$ /  \__|  $$ |   "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 5 COLUMN 60 VALUE
-           "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 4 COLUMN 60 VALUE
-           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ "
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-            05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
-             05 LINE 2 COLUMN 37 VALUE "Turtles Guessing Game".
+             05 BLANK SCREEN.          
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 3 COLUMN 10 VALUE "WASTELAND LEGENDS:"
+             HIGHLIGHT, FOREGROUND-COLOR 6.
              05 LINE 34 COLUMN 10 VALUE "High Scores:".
              05 LINE 36 COLUMN 10 PIC XX USING WS-SCORE(1).
              05 LINE 36 COLUMN 14 PIC X(10) USING WS-NAME(1).
@@ -1075,9 +1033,149 @@
              05 LINE 26 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
 
+
+           01 BUY-CREDITS-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Please enter the amount of credits".
+           05 LINE 8 COL 47 VALUE  "you would like to purchase: ".
+           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
+               .
+           05 LINE 12 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 12 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 12 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 14 COL 25 VALUE "Pick: ".
+           05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
+               USING BUY-CREDITS-CHOICE.
+
+           01 CONFIRM-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 8 COL 16 VALUE "Credits will cost: £".
+           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 9 COL 12 VALUE "Please enter your password to ". 
+           05 LINE 9 COL 42 VALUE "confirm payment".
+           05 LINE 12 COL 12 VALUE "Password: ".
+           05 BUY-PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
+               USING PASSWORD-ENTRY.
+           05 LINE 14 COL 12 PIC X(20) USING INC-PASSWORD 
+           HIGHLIGHT, FOREGROUND-COLOR IS 4.
+           05 LINE 16 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 16 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 16 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 18 COL 25 VALUE "Pick: ".
+           05 CONFIRM-CHOICE-FIELD LINE 18 COL 31 PIC X 
+               USING CONFIRM-CHOICE.
+
+       01 PAYMENT-PROCESS-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Processing payment of: £".
+           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 9 COL 12 VALUE "Confirming payment with your bank ". 
+           05 LINE 10 COL 12 VALUE "This page will redirect in a few ".
+           05 LINE 10 COL 45 VALUE "seconds". 
+       
+
+       01 PAY-CONFIRMATION-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Thank you for your purchase ".
+           05 LINE 9 COL 12 VALUE "Your transaction is pending".
+           05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 10 COL 16 VALUE "credits will be added to your ".
+           05 LINE 10 COL 46 VALUE "account within 24 hours".
+           05 LINE 14 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 14 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 16 COL 25 VALUE "Pick: ".
+           05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
+               USING PAY-CONFIRMATION-CHOICE. 
+       
+       01 ABOUT-PAGE-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 10 VALUE
+           "           _                 _     _____                 ".
+           05 LINE 7 COL 10 VALUE
+           "     /\   | |               | |   |  __ \                ".
+           05 LINE 8 COL 10 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
+           05 LINE 9 COL 10 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
+           05 LINE 10 COL 10 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
+           05 LINE 11 COL 10 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
+           05 LINE 12 COL 10 VALUE
+           "                                               __/ |     ".
+           05 LINE 13 COL 10 VALUE
+           "                                              |___/      ".
+           05 LINE 18 COL 10 VALUE 
+           "Welcome to the BBS System, after extensive user feedback ".
+           05 line 19 col 10 value
+           "and the mass influx of users we have extended our ".
+           05 LINE 20 COL 10 VALUE
+           "functionality of the system, this has meant however we've ".
+           05 LINE 21 COL 10 VALUE
+           "had to implement a monetary payment system for upkeep ".
+           05 LINE 22 COL 10 VALUE
+           "below is a few bits of advice for using our credits ".
+           05 LINE 23 COL 10 VALUE 
+           "system and in general, the program itself.".
+           05 LINE 26 COL 10 VALUE '1.'.
+           05 LINE 26 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET).
+           05 LINE 28 COL 10 VALUE '2.'.
+           05 LINE 28 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
+           05 LINE 30 COL 10 VALUE '3.'.
+           05 LINE 30 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
+           05 LINE 32 COL 10 VALUE '4.'.
+           05 LINE 32 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
+           05 LINE 34 COL 10 VALUE '5.'.
+           05 LINE 34 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
+           05 LINE 40 COL 10 VALUE "( ) What number to read".
+           05 LINE 41 COL 10 VALUE "(n) Next Page".
+           05 LINE 42 COL 10 VALUE "(p) Previous Page".
+           05 LINE 43 COL 10 VALUE "(q) Go back".
+           05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
+           ABOUT-PAGE-CHOICE.
+      
+
+
+
        PROCEDURE DIVISION.
            
-       0090-GENERATE-USER-TABLE.
+       0100-DISPLAY-START.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE START-CHOICE.
+           DISPLAY START-SCREEN.
+           ACCEPT START-CHOICE-FIELD.
+           IF START-CHOICE = "l" THEN 
+               PERFORM 0110-DISPLAY-LOGIN 
+           ELSE IF START-CHOICE = "c" THEN 
+               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
+           ELSE IF START-CHOICE = "q" THEN 
+               STOP RUN
+           ELSE IF START-CHOICE = "a" THEN 
+               MOVE SPACES TO ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           ELSE 
+               PERFORM 0100-DISPLAY-START
+           END-IF.
+
+       0101-GENERATE-USER-TABLE.
            SET COUNTER TO 0.
            OPEN INPUT F-USERS-FILE.
            MOVE 0 TO WS-FILE-IS-ENDED.
@@ -1093,78 +1191,95 @@
            END-PERFORM.
            CLOSE F-USERS-FILE.
 
-       0100-DISPLAY-START.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE START-CHOICE.
-           DISPLAY START-SCREEN.
-           ACCEPT START-CHOICE-FIELD.
-           IF START-CHOICE = "l" THEN 
-               PERFORM 0110-DISPLAY-LOGIN 
-           ELSE IF START-CHOICE = "c" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF START-CHOICE = "q" THEN 
-               STOP RUN
-           ELSE IF START-CHOICE = "a" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE
-           ELSE 
-               PERFORM 0100-DISPLAY-START
-           END-IF.
+       0102-GENERATE-ADMIN-TABLE. 
+           SET COUNTER TO 0.
+           OPEN INPUT F-ADMIN-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ADMIN-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
+                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-ADMIN-FILE.
        
-       0105-DISPLAY-REGISTER-NEW-USER.
+       0105-DISPLAY-REGISTER-NEW-USER SECTION.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE.
+           PERFORM 0101-GENERATE-USER-TABLE.
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO ERROR-MSG-3.
-           INITIALIZE NEW-USER-NAME.
+           MOVE SPACES TO OK-MSG-1.
+           MOVE SPACES TO OK-MSG-2.
+           MOVE SPACES TO OK-MSG-3.
+           
+       05-VALIDATE-USERNAME.
+           INITIALIZE NEW-USER-NAME. 
            INITIALIZE NEW-PASSWORD.
            INITIALIZE ACCOUNT-NUM.
-           INITIALIZE REGISTER-CHOICE
+           INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
-           ACCEPT NEW-PASSWORD-FIELD.
-           ACCEPT ACCOUNT-NUM-FIELD.
-           ACCEPT REGISTER-CHOICE-FIELD.
-           MOVE 0 TO WS-FOUND.
+           MOVE 0 TO RAISE-ERROR.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF NEW-USER-NAME = WS-USER-NAME(WS-IDX) 
-                   MOVE "USER NAME IN USE" TO ERROR-MSG-1 
-                   ADD 1 TO WS-FOUND
+                   ADD 1 TO RAISE-ERROR
                END-IF
                    ADD 1 TO WS-IDX
            END-PERFORM.
+           IF RAISE-ERROR > 0 
+               MOVE 'USER NAME IN USE' TO ERROR-MSG-1
+               PERFORM 05-VALIDATE-USERNAME
+           ELSE 
+               MOVE 'USER NAME OK' TO OK-MSG-1
+               PERFORM 05-VALIDATE-PASSWORD
+           END-IF. 
+
+       05-VALIDATE-PASSWORD.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT NEW-PASSWORD-FIELD.
+           CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
+           RAISE-ERROR OK-MSG-2.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-PASSWORD
+           ELSE 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+       05-VALIDATE-BANK-ACCOUNT.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT ACCOUNT-NUM-FIELD.
+           CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
+           RAISE-ERROR OK-MSG-3.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND > 0 
-               PERFORM 0106-NEW-MENU
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND = 0
+           ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-USERS-FILE
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
+               MOVE "  " TO GAP
                WRITE USERS
                END-WRITE 
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
 
-       0106-NEW-MENU.
-           INITIALIZE NEW-CHOICE.
-           DISPLAY NEW-MENU 
-           ACCEPT NEW-CHOICE-FIELD. 
-           IF NEW-CHOICE = "r" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF NEW-CHOICE = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               PERFORM 0106-NEW-MENU
-           END-IF.
-
        0110-DISPLAY-LOGIN.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE
+           PERFORM 0101-GENERATE-USER-TABLE
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
@@ -1204,25 +1319,14 @@
        
        0116-ADMIN-LOGIN-PAGE.
            PERFORM 0200-TIME-AND-DATE.
-           SET COUNTER TO 0.
-           OPEN INPUT F-ADMIN-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-ADMIN-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
-                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-ADMIN-FILE.
+           PERFORM 0102-GENERATE-ADMIN-TABLE.
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE ADMIN-ENTER.
            DISPLAY ADMIN-LOGIN-SCREEN.
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
+           ACCEPT ADMIN-ENTER-FIELD. 
            MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
@@ -1234,24 +1338,15 @@
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
-           IF WS-FOUND = 1 THEN
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF. 
-
-       0117-ADMIN-ERROR-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-ERROR.
-           DISPLAY ADMIN-ERROR-SCREEN.
-           ACCEPT ADMIN-ERROR-FIELD.
-           IF ADMIN-ERROR = "a" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE 
-           ELSE IF ADMIN-ERROR = "q" THEN 
+           ELSE IF  ADMIN-ENTER = "q" THEN 
                PERFORM 0100-DISPLAY-START
            ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF.
+               MOVE "* Administrator details not recognised *" TO 
+               ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           END-IF. 
 
        0118-DISPLAY-ADMIN-MENU.
            PERFORM 0200-TIME-AND-DATE.
@@ -1281,6 +1376,10 @@
              PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
+           ELSE IF MENU-CHOICE = 'b' or 'B' THEN 
+               PERFORM 0400-BUY-CREDITS
+           ELSE IF MENU-CHOICE = 'a' or 'A' THEN 
+               PERFORM 0470-ABOUT-PAGE-TABLE
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
@@ -1739,3 +1838,117 @@
                    TO WS-RANDOM-NUM-MSG
                    GO TO WIN-LOOP
                END-IF.     
+
+       0400-BUY-CREDITS.
+           INITIALIZE CREDIT-AMOUNT.
+           INITIALIZE BUY-CREDITS-CHOICE.
+           DISPLAY BUY-CREDITS-SCREEN.
+           ACCEPT CREDIT-FIELD.
+           ACCEPT BUY-CREDITS-CHOICE-FIELD.
+           IF BUY-CREDITS-CHOICE = 's'or 'S'
+              PERFORM 0450-CONFIRM
+           ELSE IF BUY-CREDITS-CHOICE = 'g' OR 'G'
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
+              STOP RUN  
+           ELSE
+              PERFORM 0400-BUY-CREDITS
+           END-IF.
+              
+       0450-CONFIRM.
+           INITIALIZE CONFIRM-CHOICE
+           INITIALIZE PASSWORD-ENTRY
+           MOVE CONV-CRED-TO-MON(CREDIT-AMOUNT) TO MON-AMOUNT
+           DISPLAY CONFIRM-SCREEN
+           ACCEPT BUY-PASSWORD-FIELD
+           ACCEPT CONFIRM-CHOICE-FIELD
+          *>  IF CONFIRM-CHOICE = 's' OR 'S'
+          *>    CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
+          *>    MON-AMOUNT
+          *>    PERFORM 0460-PAYMENT-PROCESS
+           
+           IF CONFIRM-CHOICE = ('s' OR 'S') AND 
+                VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
+               CALL 'add-to-transactions' USING USER-NAME, 
+               CREDIT-AMOUNT, MON-AMOUNT
+               PERFORM 0460-PAYMENT-PROCESS
+           ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
+             AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'
+             MOVE "INCORRECT PASSWORD" TO INC-PASSWORD
+             PERFORM 0450-CONFIRM
+           ELSE IF CONFIRM-CHOICE = 'g' OR 'G'
+               PERFORM 0400-BUY-CREDITS
+           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
+              STOP RUN 
+           ELSE
+               PERFORM 0450-CONFIRM
+           END-IF.
+
+       0460-PAYMENT-PROCESS.
+           INITIALIZE PAY-CONFIRMATION-CHOICE
+           DISPLAY PAYMENT-PROCESS-SCREEN
+           CALL "CBL_GC_NANOSLEEP" USING 5000000000
+           DISPLAY PAY-CONFIRMATION-SCREEN
+           ACCEPT PAY-CONFIRMATION-FIELD
+           IF PAY-CONFIRMATION-CHOICE = 'g' OR 'G'
+             PERFORM 0120-DISPLAY-MENU
+           ELSE IF PAY-CONFIRMATION-CHOICE = 'q' OR 'Q' then
+               STOP RUN 
+           ELSE 
+               DISPLAY PAY-CONFIRMATION-SCREEN
+           END-IF.
+
+       0470-ABOUT-PAGE-TABLE.
+           SET COUNTER TO 0. 
+           OPEN INPUT F-ABOUT-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ABOUT-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ABOUT-TITLE TO WS-ABOUT-TITLE(COUNTER)
+                       MOVE ABOUT-BODY TO WS-ABOUT-BODY(COUNTER)
+                   AT END
+                       MOVE 1 TO WS-FILE-IS-ENDED
+                       MOVE COUNTER TO ABOUT-OFFSET
+                       MOVE 1 TO ABOUT-PAGE-NUM
+                       MOVE 1 TO ABOUT-NUM
+               END-READ
+           END-PERFORM.
+           CLOSE F-ABOUT-FILE.
+           PERFORM 0480-ABOUT-PAGE.
+
+
+       0480-ABOUT-PAGE.
+           INITIALIZE ABOUT-PAGE-CHOICE.
+           DISPLAY ABOUT-PAGE-SCREEN.
+           ACCEPT ABOUT-PAGE-FIELD.
+           IF ABOUT-PAGE-CHOICE = 'q' OR 'Q' THEN
+               PERFORM 0120-DISPLAY-MENU 
+           ELSE IF ABOUT-PAGE-CHOICE = 'n' OR 'N' THEN
+               IF ABOUT-OFFSET > 20
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET - 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM + 1
+               END-IF
+               PERFORM 0480-ABOUT-PAGE
+           ELSE IF ABOUT-PAGE-CHOICE = 'p' THEN
+               IF ABOUT-PAGE-NUM = '01'
+                   PERFORM 0480-ABOUT-PAGE
+               ELSE IF ABOUT-PAGE-NUM = '02'
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
+                   PERFORM 0480-ABOUT-PAGE
+               ELSE 
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
+                   PERFORM 0480-ABOUT-PAGE
+               END-IF
+           ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
+             SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
+      *       PERFORM 0490-ABOUT-PAGE-READ
+           END-IF.
+
+
+ 
+       
+               
