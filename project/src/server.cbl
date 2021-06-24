@@ -13,7 +13,7 @@
                  ORGANIZATION IS LINE SEQUENTIAL.
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
-                 ORGANIZATION IS LINE SEQUENTIAL. 
+                 ORGANIZATION IS SEQUENTIAL. 
 
              SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
@@ -24,12 +24,13 @@
            FD FD-WINMASKS.
            01 FD-WINMASK PIC X(9).
 
-           FD F-USERS-FILE.
+           FD F-USERS-FILE IS GLOBAL.
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
               05 USER-ACNT-NUM PIC X(10).  
               05 USER-CREDIT PIC 999. 
+              05 FILLER PIC X VALUE X'0A'.
 
            FD F-ADMIN-FILE.
            01 ADMINS. 
@@ -1001,6 +1002,7 @@
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
+               MOVE "000" TO USER-CREDIT
                WRITE USERS
                END-WRITE 
            END-IF.

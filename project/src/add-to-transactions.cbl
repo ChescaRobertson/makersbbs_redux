@@ -7,7 +7,7 @@
              ORGANISATION IS LINE SEQUENTIAL.
        DATA DIVISION.
            FILE SECTION.
-           FD F-TRANSACTIONS-FILE.
+           FD F-TRANSACTIONS-FILE IS GLOBAL.
            01 TRANSACTIONS.
                05 USERNAME PIC X(16).
                05 BANK-ACCOUNT PIC X(10).
@@ -17,6 +17,7 @@
                05 GAP2 PIC X(10).
                05 DATE-OF-TRANS PIC X(10).
                05 PAYMENT-STATUS PIC X(20).
+      *         05 FILLER PIC X VALUE X'0A'.
 
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
@@ -38,7 +39,7 @@
                MOVE LS-MON-AMOUNT TO MON-AMOUNT.
                MOVE "         " TO GAP2.
                MOVE FUNCTION CURRENT-DATE(1:8) TO DATE-OF-TRANS 
-               MOVE "PENDING" TO PAYMENT-STATUS
+               MOVE "PENDING             " TO PAYMENT-STATUS
 
                WRITE TRANSACTIONS
                END-WRITE.
