@@ -4,6 +4,7 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
+               FUNCTION HIGH-SCORE-CALCULATOR
                FUNCTION REPLACE-LETTER.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -954,16 +955,6 @@
              05 LINE 4 COLUMN 10 VALUE
            "!!!!!!;".  
 
-             05 LINE 11 COLUMN 60 VALUE 
-           "   \__|   \__|     \__|\__|  \__| \______/   \__|   "
-               HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 10 COLUMN 60 VALUE
-           "   $$ |   $$ | \_/ $$ |$$ | \$$ |\$$$$$$  |  $$ |   "
-               HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 9 COLUMN 60 VALUE
-           "   $$ |   $$ |\$  /$$ |$$ |\$$$ |$$ |  $$\   $$ |   "
-               HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 8 COLUMN 60 VALUE
            "   $$ |   $$ \$$$  $$ |$$ \$$$$ |$$ |        $$ |   "
                HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 7 COLUMN 60 VALUE
@@ -984,6 +975,10 @@
              05 LINE 36 COLUMN 10 PIC X(20) USING WS-WORD.
              05 LINE 38 COLUMN 10 VALUE "Guesses left: ".
              05 LINE 38 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 38 COLUMN 47 VALUE "HS:".
+             05 LINE 38 COLUMN 50 PIC 99 USING WS-HIGH-SCORE.
+             05 LINE 38 COLUMN 65 VALUE "WL:".
+             05 LINE 38 COLUMN 70 PIC 99 USING WS-WORD-LENGTH.
              05 LINE 40 COLUMN 10 VALUE "( ) Enter a letter to guess".
              05 LINE 41 COLUMN 10 VALUE "(!) Quit game".
              05 LINE 42 COLUMN 10 VALUE "Pick: ".
@@ -1082,6 +1077,9 @@
              05 LINE 38 COLUMN 10 PIC 99 USING WS-GUESSES-LEFT.
              05 LINE 40 COLUMN 10 VALUE "You scored: ".
              05 LINE 40 COLUMN 22 PIC 99 USING WS-HIGH-SCORE.
+             05 LINE 38 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 38 COLUMN 70 PIC 99 USING WS-WORD-LENGTH.
+             05 LINE 38 COLUMN 50 PIC 99 USING WS-HIGH-SCORE.
              05 LINE 42 COLUMN 10 VALUE "(p) Play Again"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 43 COLUMN 10 VALUE "(h) See High Scores"
@@ -1647,6 +1645,8 @@
 
        0170-DISPLAY-GUESSING-GAME.
            PERFORM 0200-TIME-AND-DATE.
+           SET WS-HIGH-SCORE TO 0.
+           SET WS-WORD-LENGTH TO 0.
            MOVE 15 TO WS-GUESSES-LEFT.
            SET WORD-IDX TO 0.
            OPEN INPUT F-WORD-FILE.
@@ -1720,8 +1720,14 @@
        0185-WINNING-SCREEN.
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-WINNING-CHOICE.
-           CALL "high-score-calculator" USING WS-HIGH-SCORE
-           WS-WORD-LENGTH WS-GUESSES-LEFT.
+           DISPLAY WS-WORD-LENGTH.
+           DISPLAY WS-GUESSES-LEFT.
+           DISPLAY WS-HIGH-SCORE.
+           MOVE HIGH-SCORE-CALCULATOR(WS-WORD-LENGTH WS-GUESSES-LEFT)
+           TO WS-HIGH-SCORE.
+           DISPLAY WS-WORD-LENGTH.
+           DISPLAY WS-GUESSES-LEFT.
+           DISPLAY WS-HIGH-SCORE.
            DISPLAY WORD-GUESSING-WINNING-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            OPEN EXTEND F-HIGH-SCORES-FILE
