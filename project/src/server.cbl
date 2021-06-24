@@ -996,24 +996,29 @@
            
        05-VALIDATE-USERNAME.
            INITIALIZE NEW-USER-NAME. 
+           INITIALIZE NEW-PASSWORD.
+           INITIALIZE ACCOUNT-NUM.
+           INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
+           MOVE 0 TO RAISE-ERROR.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF NEW-USER-NAME = WS-USER-NAME(WS-IDX) 
-                   MOVE "USER NAME IN USE" TO ERROR-MSG-1 
-                   PERFORM 05-VALIDATE-USERNAME
-               ELSE 
-                   MOVE "USER NAME OK" TO OK-MSG-1
-                   MOVE SPACES TO ERROR-MSG-1
-                   PERFORM 05-VALIDATE-PASSWORD
+                   ADD 1 TO RAISE-ERROR
                END-IF
                    ADD 1 TO WS-IDX
            END-PERFORM.
+           IF RAISE-ERROR > 0 
+               MOVE 'USER NAME IN USE' TO ERROR-MSG-1
+               PERFORM 05-VALIDATE-USERNAME
+           ELSE 
+               MOVE 'USER NAME OK' TO OK-MSG-1
+               PERFORM 05-VALIDATE-PASSWORD
+           END-IF. 
 
        05-VALIDATE-PASSWORD.
-           INITIALIZE NEW-PASSWORD.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
@@ -1025,7 +1030,6 @@
            END-IF. 
 
        05-VALIDATE-BANK-ACCOUNT.
-           INITIALIZE ACCOUNT-NUM.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
@@ -1034,7 +1038,6 @@
                PERFORM 05-VALIDATE-BANK-ACCOUNT
            END-IF. 
 
-           INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
