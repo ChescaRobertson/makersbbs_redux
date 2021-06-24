@@ -5,7 +5,8 @@
            CONFIGURATION SECTION.
            REPOSITORY.
                FUNCTION CONV-CRED-TO-MON
-               FUNCTION VERIFY-PASSWORD.
+               FUNCTION VERIFY-PASSWORD
+               FUNCTION ABOUT-CHOICE-TO-NUM.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
            *>----- X AND O File Control-----    
@@ -16,6 +17,9 @@
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
              SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
+                 ORGANIZATION IS LINE SEQUENTIAL.
+
+             SELECT F-ABOUT-FILE ASSIGN TO 'about-page.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
        DATA DIVISION.
@@ -36,6 +40,12 @@
            01 ADMINS. 
                05 ADMIN PIC X(16).
                05 ADMIN-PWORD PIC X(20).
+
+           FD F-ABOUT-FILE.
+           01 ABOUT-INFO.
+               05 ABOUT-TITLE PIC X(30).
+               05 ABOUT-BODY PIC X(500).
+           
            
            WORKING-STORAGE SECTION.
            *>----- General Variables -----
@@ -203,7 +213,19 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
+           *>------About Variables-----
+           01 ABOUT-PAGE-CHOICE PIC X.
+           01 WS-ABOUT. 
+               05 WS-ABOUTS OCCURS 100 TIMES 
+               ASCENDING KEY IS WS-ABOUT-TITLE
+               INDEXED BY ABOUT-IDX.
+                   10 WS-ABOUT-TITLE PIC X(60).
+                   10 WS-ABOUT-BODY PIC X(500).
 
+           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-NUM PIC 9.
+           
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -930,6 +952,60 @@
            05 LINE 16 COL 25 VALUE "Pick: ".
            05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
+       
+       01 ABOUT-PAGE-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 10 VALUE
+           "           _                 _     _____                 ".
+           05 LINE 7 COL 10 VALUE
+           "     /\   | |               | |   |  __ \                ".
+           05 LINE 8 COL 10 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
+           05 LINE 9 COL 10 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
+           05 LINE 10 COL 10 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
+           05 LINE 11 COL 10 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
+           05 LINE 12 COL 10 VALUE
+           "                                               __/ |     ".
+           05 LINE 13 COL 10 VALUE
+           "                                              |___/      ".
+           05 LINE 18 COL 10 VALUE 
+           "Welcome to the BBS System, after extensive user feedback ".
+           05 line 19 col 10 value
+           "and the mass influx of users we have extended our ".
+           05 LINE 20 COL 10 VALUE
+           "functionality of the system, this has meant however we've ".
+           05 LINE 21 COL 10 VALUE
+           "had to implement a monetary payment system for upkeep ".
+           05 LINE 22 COL 10 VALUE
+           "below is a few bits of advice for using our credits ".
+           05 LINE 23 COL 10 VALUE 
+           "system and in general, the program itself.".
+           05 LINE 26 COL 10 VALUE '1.'.
+           05 LINE 26 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET).
+           05 LINE 28 COL 10 VALUE '2.'.
+           05 LINE 28 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
+           05 LINE 30 COL 10 VALUE '3.'.
+           05 LINE 30 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
+           05 LINE 32 COL 10 VALUE '4.'.
+           05 LINE 32 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
+           05 LINE 34 COL 10 VALUE '5.'.
+           05 LINE 34 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
+           05 LINE 40 COL 10 VALUE "( ) What number to read".
+           05 LINE 41 COL 10 VALUE "(n) Next Page".
+           05 LINE 42 COL 10 VALUE "(p) Previous Page".
+           05 LINE 43 COL 10 VALUE "(q) Go back".
+           05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
+           ABOUT-PAGE-CHOICE.
+      
+
 
 
        PROCEDURE DIVISION.
@@ -1152,6 +1228,8 @@
              PERFORM 0160-GAMES-MENU
            ELSE IF MENU-CHOICE = 'b' or 'B' THEN 
                PERFORM 0400-BUY-CREDITS
+           ELSE IF MENU-CHOICE = 'a' or 'A' THEN 
+               PERFORM 0470-ABOUT-PAGE-TABLE
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
@@ -1530,8 +1608,58 @@
            ELSE 
                DISPLAY PAY-CONFIRMATION-SCREEN
            END-IF.
-         
-           
+
+       0470-ABOUT-PAGE-TABLE.
+           SET COUNTER TO 0. 
+           OPEN INPUT F-ABOUT-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ABOUT-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ABOUT-TITLE TO WS-ABOUT-TITLE(COUNTER)
+                       MOVE ABOUT-BODY TO WS-ABOUT-BODY(COUNTER)
+                   AT END
+                       MOVE 1 TO WS-FILE-IS-ENDED
+                       MOVE COUNTER TO ABOUT-OFFSET
+                       MOVE 1 TO ABOUT-PAGE-NUM
+                       MOVE 1 TO ABOUT-NUM
+               END-READ
+           END-PERFORM.
+           CLOSE F-ABOUT-FILE.
+           PERFORM 0480-ABOUT-PAGE.
+
+
+       0480-ABOUT-PAGE.
+           INITIALIZE ABOUT-PAGE-CHOICE.
+           DISPLAY ABOUT-PAGE-SCREEN.
+           ACCEPT ABOUT-PAGE-FIELD.
+           IF ABOUT-PAGE-CHOICE = 'q' OR 'Q' THEN
+               PERFORM 0120-DISPLAY-MENU 
+           ELSE IF ABOUT-PAGE-CHOICE = 'n' OR 'N' THEN
+               IF ABOUT-OFFSET > 20
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET - 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM + 1
+               END-IF
+               PERFORM 0480-ABOUT-PAGE
+           ELSE IF ABOUT-PAGE-CHOICE = 'p' THEN
+               IF ABOUT-PAGE-NUM = '01'
+                   PERFORM 0480-ABOUT-PAGE
+               ELSE IF ABOUT-PAGE-NUM = '02'
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
+                   PERFORM 0480-ABOUT-PAGE
+               ELSE 
+                   COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
+                   PERFORM 0480-ABOUT-PAGE
+               END-IF
+           ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
+             SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
+      *       PERFORM 0490-ABOUT-PAGE-READ
+           END-IF.
+
+
  
        
                
