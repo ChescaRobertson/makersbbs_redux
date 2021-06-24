@@ -1,0 +1,15 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. high-score-calculator.
+
+       DATA DIVISION.
+           LINKAGE SECTION.
+           01 LS-HIGH-SCORE PIC 99.
+           01 LS-WORD-LENGTH PIC 99.
+           01 LS-GUESSES-LEFT PIC 99.
+
+           PROCEDURE DIVISION USING LS-HIGH-SCORE LS-WORD-LENGTH
+           LS-GUESSES-LEFT.
+       
+       
+           COMPUTE LS-HIGH-SCORE = LS-WORD-LENGTH * LS-GUESSES-LEFT.
+           

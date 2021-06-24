@@ -1281,7 +1281,8 @@
            "\__$$  __|$$$\    $$$ |$$$\  $$ |$$  __$$\\__$$  __|"
              HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 4 COLUMN 60 VALUE
-           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ ".
+           "$$$$$$$$\ $$\      $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ "
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
             05 LINE 2 COLUMN 10 VALUE "Teenage Mutant Ninja Cobol".
              05 LINE 2 COLUMN 37 VALUE "Turtles Guessing Game".
              05 LINE 34 COLUMN 10 VALUE "High Scores:".
@@ -1682,7 +1683,7 @@
            *> DISPLAY USER-INFO-SCREEN.
            ACCEPT WS-GUESS-CHOICE-FIELD.
            IF WS-GUESS-CHOICE = '!' THEN 
-               PERFORM 0120-DISPLAY-MENU
+               PERFORM 0160-GAMES-MENU
            ELSE
                PERFORM 0180-CHECK-GUESS
            END-IF.
@@ -1719,7 +1720,8 @@
        0185-WINNING-SCREEN.
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-WINNING-CHOICE.
-           COMPUTE WS-HIGH-SCORE = WS-WORD-LENGTH * WS-GUESSES-LEFT.
+           CALL "high-score-calculator" USING WS-HIGH-SCORE
+           WS-WORD-LENGTH WS-GUESSES-LEFT.
            DISPLAY WORD-GUESSING-WINNING-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            OPEN EXTEND F-HIGH-SCORES-FILE
@@ -1729,13 +1731,13 @@
                END-WRITE.
            CLOSE F-HIGH-SCORES-FILE.
 
-           ACCEPT WS-GUESSING-WINNING-CHOICE.
+           ACCEPT WS-GUESSING-CHOICE-WINNING-FIELD.
            IF WS-GUESSING-WINNING-CHOICE = 'p'
                THEN PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF WS-GUESSING-WINNING-CHOICE = 'h'
              THEN PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-WINNING-CHOICE = '!'
-             THEN PERFORM 0120-DISPLAY-MENU
+             THEN PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0185-WINNING-SCREEN
            END-IF.
@@ -1751,7 +1753,7 @@
            ELSE IF WS-GUESSING-LOSING-CHOICE = 'h'
              THEN PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-LOSING-CHOICE = '!'
-             THEN PERFORM 0120-DISPLAY-MENU
+             THEN PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0186-LOSING-SCREEN
            END-IF.
@@ -1779,7 +1781,7 @@
            SORT WS-TABLE-HIGH-SCORE ON DESCENDING WS-SCORE.
            DISPLAY HIGH-SCORE-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
-           ACCEPT WS-HIGH-SCORE-CHOICE.
+           ACCEPT WS-HIGH-SCORE-FIELD.
            IF WS-HIGH-SCORE-CHOICE = 'b'
              PERFORM 0120-DISPLAY-MENU
            ELSE 
