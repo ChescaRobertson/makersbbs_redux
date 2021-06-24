@@ -984,19 +984,19 @@
            05 LINE 23 COL 10 VALUE 
            "system and in general, the program itself.".
            05 LINE 26 COL 10 VALUE '1.'.
-           05 LINE 26 COL 30 PIC X(60) USING 
+           05 LINE 26 COL 13 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET).
            05 LINE 28 COL 10 VALUE '2.'.
-           05 LINE 28 COL 30 PIC X(60) USING 
+           05 LINE 28 COL 13 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
            05 LINE 30 COL 10 VALUE '3.'.
-           05 LINE 30 COL 30 PIC X(60) USING 
+           05 LINE 30 COL 13 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
            05 LINE 32 COL 10 VALUE '4.'.
-           05 LINE 32 COL 30 PIC X(60) USING 
+           05 LINE 32 COL 13 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
            05 LINE 34 COL 10 VALUE '5.'.
-           05 LINE 34 COL 30 PIC X(60) USING 
+           05 LINE 34 COL 13 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
            05 LINE 40 COL 10 VALUE "( ) What number to read".
            05 LINE 41 COL 10 VALUE "(n) Next Page".
