@@ -13,12 +13,14 @@
            01 LS-ACCOUNT-NUM PIC X(8).
            01 LS-ERR-MSG PIC X(50).
            01 LS-RAISE-ERROR PIC 9. 
+           01 LS-OK-MSG PIC X(50).
            
            
        PROCEDURE DIVISION USING LS-ACCOUNT-NUM LS-ERR-MSG 
-       LS-RAISE-ERROR. 
+       LS-RAISE-ERROR LS-OK-MSG. 
            
            MOVE LS-ACCOUNT-NUM TO WS-ACCOUNT. 
+           MOVE 0 TO LS-RAISE-ERROR.
            
            INSPECT WS-ACCOUNT REPLACING ALL '0' BY '*'.
            INSPECT WS-ACCOUNT REPLACING ALL '1' BY '*'.
@@ -40,8 +42,12 @@
              ADD 1 TO COUNTER
            END-PERFORM.
 
+           MOVE SPACES TO LS-ERR-MSG.
+           MOVE SPACES TO LS-OK-MSG.
+
            IF WS-LENGTH < 8 
                MOVE "INVALID BANK DETAILS" TO LS-ERR-MSG
                ADD 1 TO LS-RAISE-ERROR
+           ELSE 
+               MOVE "ACCOUNT NUMBER VALID" TO LS-OK-MSG
            END-IF. 
-           

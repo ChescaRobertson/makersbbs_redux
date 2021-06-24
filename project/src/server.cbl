@@ -67,6 +67,9 @@
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 ERROR-MSG-3 PIC X(50).
+           01 OK-MSG-1 PIC X(50).
+           01 OK-MSG-2 PIC X(50).
+           01 OK-MSG-3 PIC X(50).
            01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
 
@@ -254,39 +257,34 @@
              FOREGROUND-COLOR IS 5.
              05 LINE 33 COLUMN 12 VALUE "Enter a username:".
              05 LINE 33 COLUMN 30 VALUE " (Usernames must be unique.)".
+             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
                 USING NEW-USER-NAME.
+             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
              05 LINE 37 COLUMN 12 VALUE "Enter a password:".
              05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
       -      "um of 6 characters and include at least 1 number.) ".
-             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
-                USING NEW-PASSWORD.
-             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
-      -      "er:".
-             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
-                USING ACCOUNT-NUM.
-             05 LINE 45 COLUMN 12 VALUE "(s) Submit".
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back".
-             05 LINE 48 COLUMN 12 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 48 COLUMN 18 PIC X
-                USING REGISTER-CHOICE.
-               
-           01 USER-VALIDATION-ERROR. 
-             05 LINE 45 COLUMN 12 VALUE "(r) Re-Enter Details" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 48 COLUMN 12 VALUE "Pick: " HIGHLIGHT 
-             FOREGROUND-COLOR is 4.
-             05 VALID-CHOICE-FIELD  LINE 48 COLUMN 18 PIC X USING 
-             VALID-CHOICE HIGHLIGHT FOREGROUND-COLOR is 4.
-             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
              05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
+             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
+                USING NEW-PASSWORD.
+             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
+      -      "er:".
              05 LINE 42 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             
+             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
+                USING ACCOUNT-NUM.
+             05 LINE 44 COLUMN 12 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 49 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
+                USING REGISTER-CHOICE.
 
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
@@ -903,40 +901,62 @@
            END-PERFORM.
            CLOSE F-ADMIN-FILE.
        
-       0105-DISPLAY-REGISTER-NEW-USER.
+       0105-DISPLAY-REGISTER-NEW-USER SECTION.
            PERFORM 0200-TIME-AND-DATE.
            PERFORM 0101-GENERATE-USER-TABLE.
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO ERROR-MSG-3.
-           INITIALIZE NEW-USER-NAME.
-           INITIALIZE NEW-PASSWORD.
-           INITIALIZE ACCOUNT-NUM.
-           INITIALIZE REGISTER-CHOICE
+           MOVE SPACES TO OK-MSG-1.
+           MOVE SPACES TO OK-MSG-2.
+           MOVE SPACES TO OK-MSG-3.
+           
+       05-VALIDATE-USERNAME.
+           INITIALIZE NEW-USER-NAME. 
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
-           ACCEPT NEW-PASSWORD-FIELD.
-           ACCEPT ACCOUNT-NUM-FIELD.
-           ACCEPT REGISTER-CHOICE-FIELD.
-           MOVE 0 TO RAISE-ERROR. 
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF NEW-USER-NAME = WS-USER-NAME(WS-IDX) 
                    MOVE "USER NAME IN USE" TO ERROR-MSG-1 
-                   ADD 1 TO RAISE-ERROR
+                   PERFORM 05-VALIDATE-USERNAME
+               ELSE 
+                   MOVE "USER NAME OK" TO OK-MSG-1
+                   MOVE SPACES TO ERROR-MSG-1
+                   PERFORM 05-VALIDATE-PASSWORD
                END-IF
                    ADD 1 TO WS-IDX
            END-PERFORM.
+
+       05-VALIDATE-PASSWORD.
+           INITIALIZE NEW-PASSWORD.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
-           RAISE-ERROR.
+           RAISE-ERROR OK-MSG-2.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-PASSWORD
+           ELSE 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+       05-VALIDATE-BANK-ACCOUNT.
+           INITIALIZE ACCOUNT-NUM.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
-           RAISE-ERROR.
+           RAISE-ERROR OK-MSG-3.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+           INITIALIZE REGISTER-CHOICE.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
-           ELSE IF REGISTER-CHOICE = "s" AND RAISE-ERROR > 0 
-               PERFORM 0106-VALIDATION-ERROR
-           ELSE IF REGISTER-CHOICE = "s" AND RAISE-ERROR = 0
+           ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-USERS-FILE
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
@@ -947,18 +967,6 @@
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
-
-       0106-VALIDATION-ERROR.
-           INITIALIZE VALID-CHOICE.
-           DISPLAY USER-VALIDATION-ERROR 
-           ACCEPT VALID-CHOICE-FIELD. 
-           IF VALID-CHOICE = "r" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF VALID-CHOICE = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               PERFORM 0106-VALIDATION-ERROR
-           END-IF.
 
        0110-DISPLAY-LOGIN.
            PERFORM 0200-TIME-AND-DATE.

@@ -13,9 +13,12 @@
            01 LS-NEW-PWORD PIC X(20).
            01 LS-ER-MSG PIC X(50). 
            01 LS-RAISE-ERROR PIC 9. 
+           01 LS-OK-MSG PIC X(50).
        
-       PROCEDURE DIVISION USING LS-NEW-PWORD LS-ER-MSG LS-RAISE-ERROR. 
+       PROCEDURE DIVISION USING LS-NEW-PWORD LS-ER-MSG LS-RAISE-ERROR
+       LS-OK-MSG. 
        
+           MOVE 0 TO LS-RAISE-ERROR.
            INSPECT LS-NEW-PWORD TALLYING WS-NUMBERS FOR ALL "1" "2"
            "3" "4" "5" "6" "7" "8" "9".   
 
@@ -66,6 +69,9 @@
              END-IF
              ADD 1 TO COUNTER
            END-PERFORM.
+
+           MOVE SPACES TO LS-ER-MSG.
+           MOVE SPACES TO LS-OK-MSG. 
          
            IF WS-NUMBERS < 1 AND WS-LENGTH < 6 THEN 
                MOVE "MUST BE AT LEAST 6 CHARACTERS & CONTAIN A NUMBER" 
@@ -79,5 +85,6 @@
                MOVE "PASSWORD MUST HAVE A MIN OF 6 CHARACTERS" TO 
                LS-ER-MSG
                ADD 1 TO LS-RAISE-ERROR
+           ELSE 
+               MOVE "PASSWORD STRENGTH GOOD" TO LS-OK-MSG
            END-IF. 
-           
