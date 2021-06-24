@@ -89,19 +89,13 @@
            01 WS-DATETIME PIC X(21).
            01 WS-FORMATTED-DT.
              05 WS-FORMATTED-DTE-TME.
-               15 WS-FORMATTED-YEAR  PIC  X(4). 
-               15 FILLER             PIC X VALUE '-'.
-               15 WS-FORMATTED-MONTH PIC  X(2).
-               15 FILLER             PIC X VALUE '-'.
+               15 WS-FORMATTED-YEAR  PIC  X(4).           
+               15 WS-FORMATTED-MONTH PIC  X(2).          
                15 WS-FORMATTED-DY    PIC  X(2).
-               15 FILLER             PIC X VALUE '-'.
-               15 WS-FORMATTED-HOUR  PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-MINS  PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-SEC   PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-MS    PIC  X(2).
+               15 WS-HOURS-MINS.
+                   20 WS-FORMATTED-HOUR  PIC  X(2).
+                   20 FILLER             PIC X VALUE ':'.
+                   20 WS-FORMATTED-MINS  PIC  X(2).                   
 
            *>----- Message Board Variables -----   
            01 MSG-MENU-CHOICE PIC XXX.
@@ -194,9 +188,7 @@
 
            SCREEN SECTION.
            01 USER-INFO-SCREEN.
-            05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-            05 LINE 2 COL 4 VALUE ":".
-            05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+            05 LINE 2 COL 2 PIC X(5) USING WS-HOURS-MINS.
             05 LINE 2 COL 66 PIC X(15) USING LOGGED-IN.
             05 LINE 3 COL 75 PIC X(16) USING USER-NAME HIGHLIGHT,
             FOREGROUND-COLOR IS 2.
@@ -1310,13 +1302,9 @@
 
        0200-TIME-AND-DATE.
            MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
-           MOVE WS-DATETIME(1:4)  TO WS-FORMATTED-YEAR.
-           MOVE WS-DATETIME(5:2)  TO WS-FORMATTED-MONTH.
-           MOVE WS-DATETIME(7:2)  TO WS-FORMATTED-DY.
            MOVE WS-DATETIME(9:2)  TO WS-FORMATTED-HOUR.
            MOVE WS-DATETIME(11:2) TO WS-FORMATTED-MINS.
-           MOVE WS-DATETIME(13:2) TO WS-FORMATTED-SEC.
-           MOVE WS-DATETIME(15:2) TO WS-FORMATTED-MS.
+          
 
        0210-RANDOM-NUMBER-GAME.
            DISPLAY GUESS-SCREEN.
