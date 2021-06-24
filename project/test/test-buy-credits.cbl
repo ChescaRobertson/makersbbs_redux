@@ -20,19 +20,13 @@
        PROCEDURE DIVISION.
            
        TEST-ADD-TO-TRANSACTIONS.
-           MOVE "Jim" TO LS-USERNAME
-           MOVE "12345678" TO LS-ACCOUNT-NUM
-           MOVE "300" TO LS-CREDITS
-           MOVE "          " TO GAP1
-           MOVE "030.00" TO LS-MON-AMOUNT
-           MOVE "          " TO GAP2
-           MOVE "20210623" TO LS-DATE-OF-TRANS
-           MOVE "PENDING" TO LS-PAYMENT-STATUS
-
+           MOVE "Jim" TO LS-USERNAME.
+           MOVE "12345678" TO LS-ACCOUNT-NUM.
+           MOVE "300" TO LS-CREDITS.
+           MOVE "030.00" TO LS-MON-AMOUNT.
            SET ENVIRONMENT "transactions_dat" TO "transactions.dat".
            CALL "add-to-transactions" USING LS-USERNAME, LS-ACCOUNT-NUM,
-           LS-CREDITS, GAP1, LS-MON-AMOUNT, GAP2, LS-DATE-OF-TRANS,
-           LS-PAYMENT-STATUS.
+           LS-CREDITS, LS-MON-AMOUNT.
 
        TEST-CONV-CRED-TO-MON.
            CALL "assert-equals" USING CONV-CRED-TO-MON("300")'030.00'.

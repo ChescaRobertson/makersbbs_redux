@@ -184,15 +184,6 @@
            CALL 'process-single-payment' USING USER-BANK-ACCOUNT, 
            CREDIT-AMOUNT.
         
-          *>  IF PAYMENT-STATUS = 'FAIL'
-          *>    MOVE 'USER DOES NOT EXIST' TO PROCESS-STATUS-MESSAGE
-          *>  ELSE IF PAYMENT-STATUS = 'PAID'
-          *>    MOVE 'PAYMENT SUCCESFULLY PROCESSED' 
-          *>      TO PROCESS-STATUS-MESSAGE
-          *>  ELSE 
-          *>      MOVE 'PAYMENT PROCESS FAILED' TO PROCESS-STATUS-MESSAGE
-          *>  END-IF.
-
            DISPLAY SINGLE-ENTRY-PROCESS-SCREEN
            ACCEPT SINGLE-ENTRY-PROCESS-FIELD
           
@@ -210,6 +201,4 @@
       *>      ACCEPT BANK-STATEMENT-PROCESS-FIELD
 
       *>      IF BANK-STATEMENT-PROCESS-CHOICE = 'y' OR 'Y'
-      *>         CALL 'process-payment' USING USER-BANK-ACCOUNT, CREDIT-AMOUNT
-      *>      , PAYMENT-STATUS
-           
+      *>         CALL 'process-payment' 
