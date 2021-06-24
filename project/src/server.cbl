@@ -4,8 +4,8 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
-               FUNCTION CONV-CRED-TO-MON.
-               FUNCTION VERIFY-PASSWORD.
+               FUNCTION CONV-CRED-TO-MON
+               FUNCTION VERIFY-PASSWORD
                FUNCTION ABOUT-CHOICE-TO-NUM.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -209,10 +209,17 @@
            01 INC-PASSWORD PIC X(20).
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
-           01 WS-ABOUT-TITLE PIC X(60).
-           01 ABOUT-OFFSET PIC X.
-           01 ABOUT-PAGE-NUM PIC X.
-           01 ABOUT-NUM PIC X.
+           01 WS-ABOUT. 
+               05 WS-ABOUTS OCCURS 100 TIMES 
+               ASCENDING KEY IS WS-ABOUT-TITLE
+               INDEXED BY ABOUT-IDX.
+                   10 WS-ABOUT-TITLE PIC X(60).
+                   10 WS-ABOUT-BODY PIC X(500).
+
+           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-NUM PIC 9.
+           
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -976,19 +983,19 @@
            "below is a few bits of advice for using our credits ".
            05 LINE 23 COL 10 VALUE 
            "system and in general, the program itself.".
-           05 LINE 26 COL 10 VALUE '1.'
+           05 LINE 26 COL 10 VALUE '1.'.
            05 LINE 26 COL 30 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET).
-           05 LINE 26 COL 10 VALUE '2.'
+           05 LINE 28 COL 10 VALUE '2.'.
            05 LINE 28 COL 30 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
-           05 LINE 26 COL 10 VALUE '3.'
+           05 LINE 30 COL 10 VALUE '3.'.
            05 LINE 30 COL 30 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
-           05 LINE 26 COL 10 VALUE '4.'
+           05 LINE 32 COL 10 VALUE '4.'.
            05 LINE 32 COL 30 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
-           05 LINE 26 COL 10 VALUE '5.'
+           05 LINE 34 COL 10 VALUE '5.'.
            05 LINE 34 COL 30 PIC X(60) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
            05 LINE 40 COL 10 VALUE "( ) What number to read".
@@ -1209,6 +1216,8 @@
              PERFORM 0160-GAMES-MENU
            ELSE IF MENU-CHOICE = 'b' or 'B' THEN 
                PERFORM 0400-BUY-CREDITS
+           ELSE IF MENU-CHOICE = 'a' or 'A' THEN 
+               PERFORM 0470-ABOUT-PAGE-TABLE
            END-IF.
 
            PERFORM 0120-DISPLAY-MENU.
@@ -1624,18 +1633,18 @@
            ELSE IF ABOUT-PAGE-CHOICE = 'p' THEN
                IF ABOUT-PAGE-NUM = '01'
                    PERFORM 0480-ABOUT-PAGE
-               ELSE IF PAGE-NUM = '02'
+               ELSE IF ABOUT-PAGE-NUM = '02'
                    COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
                    COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
                    PERFORM 0480-ABOUT-PAGE
                ELSE 
                    COMPUTE ABOUT-OFFSET = ABOUT-OFFSET + 10
-                   COMPUTE PAGE-NUM = PAGE-NUM - 1
+                   COMPUTE ABOUT-PAGE-NUM = ABOUT-PAGE-NUM - 1
                    PERFORM 0480-ABOUT-PAGE
                END-IF
            ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
              SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
-             PERFORM 0490-ABOUT-PAGE-READ
+      *       PERFORM 0490-ABOUT-PAGE-READ
            END-IF.
 
 
