@@ -86,16 +86,13 @@
            01 MENU-CHOICE PIC X.
          
            *>----- Date Variables -----
-           01 WS-DATETIME PIC X(21).
-           01 WS-FORMATTED-DT.
-             05 WS-FORMATTED-DTE-TME.
-               15 WS-FORMATTED-YEAR  PIC  X(4).           
-               15 WS-FORMATTED-MONTH PIC  X(2).          
-               15 WS-FORMATTED-DY    PIC  X(2).
-               15 WS-HOURS-MINS.
-                   20 WS-FORMATTED-HOUR  PIC  X(2).
-                   20 FILLER             PIC X VALUE ':'.
-                   20 WS-FORMATTED-MINS  PIC  X(2).                   
+           01 WS-DATETIME.
+              05 WS-FORMATTED-YEAR  PIC  X(4).           
+              05 WS-FORMATTED-MONTH PIC  X(2).          
+              05 WS-FORMATTED-DY    PIC  X(2).
+              05 WS-HOURS-MINS.
+                  10 WS-FORMATTED-HOUR  PIC  X(2).
+                  10 WS-FORMATTED-MINS  PIC  X(2).                   
 
            *>----- Message Board Variables -----   
            01 MSG-MENU-CHOICE PIC XXX.
@@ -188,7 +185,9 @@
 
            SCREEN SECTION.
            01 USER-INFO-SCREEN.
-            05 LINE 2 COL 2 PIC X(5) USING WS-HOURS-MINS.
+            05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+            05 LINE 2 COL 4 VALUE ":".         
+            05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.        
             05 LINE 2 COL 66 PIC X(15) USING LOGGED-IN.
             05 LINE 3 COL 75 PIC X(16) USING USER-NAME HIGHLIGHT,
             FOREGROUND-COLOR IS 2.
@@ -1302,10 +1301,7 @@
 
        0200-TIME-AND-DATE.
            MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
-           MOVE WS-DATETIME(9:2)  TO WS-FORMATTED-HOUR.
-           MOVE WS-DATETIME(11:2) TO WS-FORMATTED-MINS.
           
-
        0210-RANDOM-NUMBER-GAME.
            DISPLAY GUESS-SCREEN.
            COMPUTE TOTAL-GUESSES = 0.
