@@ -28,7 +28,8 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).  
+              05 USER-ACNT-NUM PIC X(8). 
+              05 GAP PIC XX.  
               05 USER-CREDIT PIC 99. 
 
            FD F-ADMIN-FILE.
@@ -66,10 +67,14 @@
            01 NEW-USER-NAME PIC X(16).
            01 NEW-PASSWORD PIC X(20).
            01 REGISTER-CHOICE PIC X.
+           01 RAISE-ERROR PIC 9.
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 ERROR-MSG-3 PIC X(50).
-           01 NEW-CHOICE PIC X.
+           01 OK-MSG-1 PIC X(50).
+           01 OK-MSG-2 PIC X(50).
+           01 OK-MSG-3 PIC X(50).
+           01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
 
            01 ADMIN-NAME PIC X(16).
@@ -82,7 +87,8 @@
                    10 WS-ADMIN-NAME PIC X(16).    
                    10 WS-ADMIN-PWORD PIC X(20).
 
-           01 ADMIN-ERROR PIC X.
+           01 ADMIN-ENTER PIC X.
+           01 ADMIN-ERR-MSG PIC X(50).
            01 ADMIN-CHOICE PIC X.
 
            01 MENU-CHOICE PIC X.
@@ -207,15 +213,15 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 2 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            05 LINE 4 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 4 COLUMN 12 VALUE "(l) Go to Log-in.".
-            05 LINE 5 COLUMN 12 VALUE "(c) Create an account.".
-            05 LINE 6 COLUMN 12 VALUE "(q) Quit.". 
-            05 LINE 8 COLUMN 12 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 8 COLUMN 18 PIC X
+            05 LINE 6 COLUMN 12 VALUE "(l) Go to Log-in.".
+            05 LINE 7 COLUMN 12 VALUE "(c) Create an account.".
+            05 LINE 8 COLUMN 12 VALUE "(q) Quit.". 
+            05 LINE 10 COLUMN 12 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 10 COLUMN 18 PIC X
                 USING START-CHOICE.
-            05 LINE 12 COLUMN 12 VALUE "(a) Administrator.".
+            05 LINE 14 COLUMN 12 VALUE "(a) Administrator.".
            
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
@@ -253,42 +259,45 @@
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
              05 LINE 27 COLUMN 12 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
              FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 12 VALUE "input intro text explaining" 
+             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
              05 LINE 33 COLUMN 12 VALUE "Enter a username:".
+             05 LINE 33 COLUMN 30 VALUE " (Usernames must be unique.)".
+             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 37 COLUMN 12 VALUE "Enter a password ".
-             05 LINE 37 COLUMN 30 VALUE "(password can be a maximum of".
-             05 LINE 37 COLUMN 58 VALUE " 20 characters):".
+             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
+             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+      -      "um of 6 characters and include at least 1 number.) ".
+             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
                 USING NEW-PASSWORD.
+             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
              05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
-      -      "er :".
+      -      "er:".
+             05 LINE 42 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
              05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
                 USING ACCOUNT-NUM.
-             05 LINE 45 COLUMN 12 VALUE "(s) Submit".
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back".
-             05 LINE 48 COLUMN 12 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 48 COLUMN 18 PIC X
+             05 LINE 44 COLUMN 12 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 49 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
                 USING REGISTER-CHOICE.
-               
-           01 NEW-MENU. 
-             05 LINE 45 COLUMN 12 VALUE "(r) Re-Enter Details" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 46 COLUMN 12 VALUE "(q) Go Back" HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 48 COLUMN 12 VALUE "Pick: " HIGHLIGHT 
-             FOREGROUND-COLOR is 4.
-             05 NEW-CHOICE-FIELD  LINE 48 COLUMN 18 PIC X USING 
-             NEW-CHOICE HIGHLIGHT FOREGROUND-COLOR is 4.
-             05 LINE 36 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 40 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 LINE 44 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             
 
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
@@ -382,28 +391,19 @@
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
              05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 12 VALUE "Enter Administrator username:".
-             05 ADMIN-NAME-FIELD LINE 8 COL 12 PIC X(16)
+             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
+             FOREGROUND-COLOR IS 4 . 
+             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
+             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
                 USING ADMIN-NAME.
-             05 LINE 10 COL 12 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 12 COLUMN 12 PIC X(20)
+             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
                 USING ADMIN-PASSWORD.  
-
-           01 ADMIN-ERROR-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COLUMN 12 VALUE "* Administrator details not reco
-      -       "gnised *." HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 8 COLUMN 12 VALUE "(a) Administrator Log-in.".
-             05 LINE 9 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 11 COLUMN 12 VALUE "Pick: ".
-             05 ADMIN-ERROR-FIELD LINE 11 COLUMN 18 PIC X
-                USING ADMIN-ERROR.
+             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
+             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
+             05 LINE 19 COLUMN 12 VALUE "Pick: ".
+             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
+                USING ADMIN-ENTER.
            
            01 ADMIN-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -934,7 +934,25 @@
 
        PROCEDURE DIVISION.
            
-       0090-GENERATE-USER-TABLE.
+       0100-DISPLAY-START.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE START-CHOICE.
+           DISPLAY START-SCREEN.
+           ACCEPT START-CHOICE-FIELD.
+           IF START-CHOICE = "l" THEN 
+               PERFORM 0110-DISPLAY-LOGIN 
+           ELSE IF START-CHOICE = "c" THEN 
+               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
+           ELSE IF START-CHOICE = "q" THEN 
+               STOP RUN
+           ELSE IF START-CHOICE = "a" THEN 
+               MOVE SPACES TO ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           ELSE 
+               PERFORM 0100-DISPLAY-START
+           END-IF.
+
+       0101-GENERATE-USER-TABLE.
            SET COUNTER TO 0.
            OPEN INPUT F-USERS-FILE.
            MOVE 0 TO WS-FILE-IS-ENDED.
@@ -950,78 +968,92 @@
            END-PERFORM.
            CLOSE F-USERS-FILE.
 
-       0100-DISPLAY-START.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE START-CHOICE.
-           DISPLAY START-SCREEN.
-           ACCEPT START-CHOICE-FIELD.
-           IF START-CHOICE = "l" THEN 
-               PERFORM 0110-DISPLAY-LOGIN 
-           ELSE IF START-CHOICE = "c" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF START-CHOICE = "q" THEN 
-               STOP RUN
-           ELSE IF START-CHOICE = "a" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE
-           ELSE 
-               PERFORM 0100-DISPLAY-START
-           END-IF.
+       0102-GENERATE-ADMIN-TABLE. 
+           SET COUNTER TO 0.
+           OPEN INPUT F-ADMIN-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ADMIN-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
+                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-ADMIN-FILE.
        
-       0105-DISPLAY-REGISTER-NEW-USER.
+       0105-DISPLAY-REGISTER-NEW-USER SECTION.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE.
+           PERFORM 0101-GENERATE-USER-TABLE.
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO ERROR-MSG-3.
-           INITIALIZE NEW-USER-NAME.
-           INITIALIZE NEW-PASSWORD.
-           INITIALIZE ACCOUNT-NUM.
-           INITIALIZE REGISTER-CHOICE
+           MOVE SPACES TO OK-MSG-1.
+           MOVE SPACES TO OK-MSG-2.
+           MOVE SPACES TO OK-MSG-3.
+           
+       05-VALIDATE-USERNAME.
+           INITIALIZE NEW-USER-NAME. 
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
-           ACCEPT NEW-PASSWORD-FIELD.
-           ACCEPT ACCOUNT-NUM-FIELD.
-           ACCEPT REGISTER-CHOICE-FIELD.
-           MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF NEW-USER-NAME = WS-USER-NAME(WS-IDX) 
                    MOVE "USER NAME IN USE" TO ERROR-MSG-1 
-                   ADD 1 TO WS-FOUND
+                   PERFORM 05-VALIDATE-USERNAME
+               ELSE 
+                   MOVE "USER NAME OK" TO OK-MSG-1
+                   MOVE SPACES TO ERROR-MSG-1
+                   PERFORM 05-VALIDATE-PASSWORD
                END-IF
                    ADD 1 TO WS-IDX
            END-PERFORM.
+
+       05-VALIDATE-PASSWORD.
+           INITIALIZE NEW-PASSWORD.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT NEW-PASSWORD-FIELD.
+           CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
+           RAISE-ERROR OK-MSG-2.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-PASSWORD
+           ELSE 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+       05-VALIDATE-BANK-ACCOUNT.
+           INITIALIZE ACCOUNT-NUM.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT ACCOUNT-NUM-FIELD.
+           CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
+           RAISE-ERROR OK-MSG-3.
+           IF RAISE-ERROR > 0 
+               PERFORM 05-VALIDATE-BANK-ACCOUNT
+           END-IF. 
+
+           INITIALIZE REGISTER-CHOICE.
+           DISPLAY REGISTER-NEW-USER-SCREEN.
+           ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND > 0 
-               PERFORM 0106-NEW-MENU
-           ELSE IF REGISTER-CHOICE = "s" AND WS-FOUND = 0
+           ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-USERS-FILE
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
+               MOVE "  " TO GAP
                WRITE USERS
                END-WRITE 
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
 
-       0106-NEW-MENU.
-           INITIALIZE NEW-CHOICE.
-           DISPLAY NEW-MENU 
-           ACCEPT NEW-CHOICE-FIELD. 
-           IF NEW-CHOICE = "r" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF NEW-CHOICE = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               PERFORM 0106-NEW-MENU
-           END-IF.
-
        0110-DISPLAY-LOGIN.
            PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0090-GENERATE-USER-TABLE
+           PERFORM 0101-GENERATE-USER-TABLE
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
@@ -1061,25 +1093,14 @@
        
        0116-ADMIN-LOGIN-PAGE.
            PERFORM 0200-TIME-AND-DATE.
-           SET COUNTER TO 0.
-           OPEN INPUT F-ADMIN-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-ADMIN-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
-                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-ADMIN-FILE.
+           PERFORM 0102-GENERATE-ADMIN-TABLE.
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE ADMIN-ENTER.
            DISPLAY ADMIN-LOGIN-SCREEN.
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
+           ACCEPT ADMIN-ENTER-FIELD. 
            MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
@@ -1091,24 +1112,15 @@
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
-           IF WS-FOUND = 1 THEN
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF. 
-
-       0117-ADMIN-ERROR-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-ERROR.
-           DISPLAY ADMIN-ERROR-SCREEN.
-           ACCEPT ADMIN-ERROR-FIELD.
-           IF ADMIN-ERROR = "a" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE 
-           ELSE IF ADMIN-ERROR = "q" THEN 
+           ELSE IF  ADMIN-ENTER = "q" THEN 
                PERFORM 0100-DISPLAY-START
            ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF.
+               MOVE "* Administrator details not recognised *" TO 
+               ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           END-IF. 
 
        0118-DISPLAY-ADMIN-MENU.
            PERFORM 0200-TIME-AND-DATE.
