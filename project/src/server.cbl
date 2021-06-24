@@ -720,7 +720,7 @@
                05 LINE 18 COL 10 VALUE "||   AUTHOR   ||".
                05 LINE 18 COL 24 VALUE 
                "||                  TITLE                ||".
-               05 LINE 18 COL 10 VALUE '1.'.
+               05 LINE 19 COL 10 VALUE '1.'.
                05 LINE 19 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET).
                05 LINE 19 COL 26 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
@@ -762,69 +762,17 @@
                .
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
-               05 LINE 29 COL 10 VALUE '6.'.
-               05 LINE 29 COL 12 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 5)
-               .
-               05 LINE 29 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 5)
-               .
-               05 LINE 30 COL 10 VALUE
-           "---------------------------------------------------------".
-               05 LINE 31 COL 10 VALUE '7.'.
-               05 LINE 31 COL 12 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 6)
-               .
-               05 LINE 31 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 6)
-               .
-               05 LINE 32 COL 10 VALUE
-           "---------------------------------------------------------".
-               05 LINE 33 COL 10 VALUE '8.'.
-               05 LINE 33 COL 12 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 7)
-               .
-               05 LINE 33 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 7)
-               .
-               05 LINE 34 COL 10 VALUE
-           "---------------------------------------------------------".
-               05 LINE 35 COL 10 VALUE '9.'.
-               05 LINE 35 COL 12 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 8)
-               .
-               05 LINE 35 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 8)
-               .
-               05 LINE 36 COL 10 VALUE
-           "---------------------------------------------------------".
-               05 LINE 18 COL 10 VALUE '10.'.
-               05 LINE 37 COL 12 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 9)
-               .
-               05 LINE 37 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 9)
-               .
-               05 LINE 38 COL 10 VALUE
-           "---------------------------------------------------------".
-              05 LINE 39 COL 10 VALUE '11.'.
-              05 LINE 39 COL 12 PIC X(12) 
-              USING WS-BOOK-AUTHOR-NAME(OFFSET - 10)
-               .
-               05 LINE 39 COL 26 PIC X(30) 
-               USING WS-BOOK-TITLE(OFFSET - 10)
-               .
-               05 LINE 40 COL 10 VALUE
-           "---------------------------------------------------------".
+                
            
-               05 LINE 41 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
+               05 LINE 31 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
-               05 LINE 41 COL 25 PIC 99 USING PAGE-NUM.
-               05 LINE 60 COL 10 VALUE "( )Read the book by number".
-               05 LINE 61 COL 10 VALUE "(n) Next Page".
-               05 LINE 62 COL 10 VALUE "(p) Previous Page".
-               05 LINE 63 COL 10 VALUE "(q) Go back".
-               05 LIBRARY-FIELD LINE 64 COLUMN 10 PIC X 
+               05 LINE 31 COL 40 VALUE 'Page No.'.
+               05 LINE 31 COL 50 PIC 99 USING PAGE-NUM.
+               05 LINE 40 COL 10 VALUE "( )Read the book by number".
+               05 LINE 41 COL 10 VALUE "(n) Next Page".
+               05 LINE 42 COL 10 VALUE "(p) Previous Page".
+               05 LINE 43 COL 10 VALUE "(q) Go back".
+               05 LIBRARY-FIELD LINE 44 COLUMN 10 PIC X 
                USING LIBRARY-CHOICE.
                
                
@@ -1237,27 +1185,30 @@
        
 
        0220-GENERATE-LIBRARY-TABLE.
+           
            SET COUNTER TO 0.
            OPEN INPUT F-LIBRARY-FILE.
            MOVE 0 TO WS-FILE-IS-ENDED.
            PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-LIBRARY-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE BOOK-AUTHOR 
-                       TO WS-BOOK-AUTHOR-NAME(COUNTER)
-                       MOVE BOOK-TITLE
-                       TO WS-BOOK-TITLE(COUNTER)
-                   AT END
-                       MOVE 1 TO WS-FILE-IS-ENDED
-                       MOVE COUNTER TO OFFSET
-                       MOVE 1 TO PAGE-NUM
-                       MOVE 1 TO LIBRARY-NUM
-                       MOVE "Here are the last 10 books" TO 
-                       LIBRARY-DISPLAY-MESSAGE
-               END-READ
+              READ F-LIBRARY-FILE
+                  NOT AT END
+                      ADD 1 TO COUNTER
+                      MOVE BOOK-AUTHOR 
+                      TO WS-BOOK-AUTHOR-NAME(COUNTER)
+                      MOVE BOOK-TITLE
+                      TO WS-BOOK-TITLE(COUNTER)
+                  AT END
+                      MOVE 1 TO WS-FILE-IS-ENDED
+                      MOVE COUNTER TO OFFSET
+                      MOVE 1 TO PAGE-NUM
+                      MOVE 1 TO LIBRARY-NUM
+                      MOVE "Here are the last 5 books" TO 
+                      LIBRARY-DISPLAY-MESSAGE
+              END-READ
            END-PERFORM.
            CLOSE F-LIBRARY-FILE.
+           
+           
            PERFORM 0230-LIBRARY-MENU.
 
        0230-LIBRARY-MENU.
@@ -1270,7 +1221,7 @@
                IF OFFSET > 20
                    COMPUTE OFFSET = OFFSET - 10
                    COMPUTE PAGE-NUM = PAGE-NUM + 1
-                   MOVE 'Here are the next 10 books' TO
+                   MOVE 'Here are the next 5 books' TO
                        LIBRARY-DISPLAY-MESSAGE
                END-IF
                PERFORM 0230-LIBRARY-MENU
@@ -1280,7 +1231,7 @@
                ELSE IF PAGE-NUM = '02'
                  COMPUTE OFFSET = OFFSET + 10
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
-                 MOVE 'Here are the previous 10 books' TO
+                 MOVE 'Here are the previous 5 books' TO
                    LIBRARY-DISPLAY-MESSAGE
                  PERFORM 0230-LIBRARY-MENU
                ELSE
