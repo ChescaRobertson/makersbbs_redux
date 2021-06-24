@@ -6,7 +6,7 @@
            REPOSITORY.
 
                FUNCTION HIGH-SCORE-CALCULATOR
-               FUNCTION REPLACE-LETTER.
+               FUNCTION REPLACE-LETTER
 
                FUNCTION CONV-CRED-TO-MON
                FUNCTION VERIFY-PASSWORD
