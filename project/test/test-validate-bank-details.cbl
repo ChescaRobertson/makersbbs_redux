@@ -9,7 +9,12 @@
 
        PROCEDURE DIVISION.
            
+      * Account number must be 8 characters and can only include 
+      * numbers. 
+
            TEST-ACCOUNT-NUMBER-WRONG-LENGTH. 
+
+      * Account number fails as it is not the correct length. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
@@ -21,10 +26,13 @@
            CALL 'assert-equals' USING "1" RAISE-ERROR.
            
            TEST-ACCOUNT-NUMBER-WRONG-CHARACTERS. 
+      
+      * Account number fails as it includes characters that are not
+      * permitted. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
-           MOVE "123abc78" TO ACCOUNT-NUM.
+           MOVE "123abc*8" TO ACCOUNT-NUM.
 
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERR-MSG 
            RAISE-ERROR.
@@ -32,6 +40,8 @@
            CALL 'assert-equals' USING "1" RAISE-ERROR.
 
            TEST-ACCOUNT-NUMBER-OK. 
+
+      * Account number is accepted. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
@@ -41,4 +51,3 @@
            RAISE-ERROR.
            CALL 'assert-equals' USING " " ERR-MSG.
            CALL 'assert-equals' USING "0" RAISE-ERROR.
-           

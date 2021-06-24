@@ -9,7 +9,13 @@
 
        PROCEDURE DIVISION.
            
+      * Password must be at least 6 characters and include a minimum
+      * of 1 number.  
+
            TEST-PASSWORD-CORRECT-LENGTH-NO-NUM. 
+
+      * Password fails as although it is the correct length, it does
+      * not inlude a number. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
@@ -20,8 +26,11 @@
            CALL 'assert-equals' USING 
            "PASSWORD MUST CONTAIN AT LEAST 1 NUMBER" ERR-MSG.
            CALL 'assert-equals' USING "1" RAISE-ERROR.
-           
+
            TEST-PASSWORD-WRONG-LENGTH-NO-NUM. 
+
+      * Password fails as it is not 6 characters and does not include 
+      * a number. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
@@ -34,6 +43,9 @@
            CALL 'assert-equals' USING "1" RAISE-ERROR.
            
            TEST-PASSWORD-WRONG-LENGTH-INCLUDES-NUM. 
+      
+      * Password fails as althugh it includes a number, it is not 
+      * 6 characters. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
@@ -45,8 +57,9 @@
            "PASSWORD MUST HAVE A MIN OF 6 CHARACTERS" ERR-MSG.
            CALL 'assert-equals' USING "1" RAISE-ERROR.
            
-
            TEST-PASSWORD-OK. 
+       
+      * Password is permitted. 
 
            MOVE SPACES TO ERR-MSG.
            MOVE 0 TO RAISE-ERROR.
