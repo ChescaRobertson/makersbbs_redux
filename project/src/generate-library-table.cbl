@@ -11,7 +11,7 @@
 
            FD F-LIBRARY-FILE.
            01 LIBRARY.
-               05 FD-BOOK-AUTHOR PIC X(12).
+               05 BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
 
       
@@ -29,6 +29,7 @@
                INDEXED BY LS-BOOK-IDX.
                    10 LS-BOOK-AUTHOR-NAME PIC X(12).
                    10 LS-BOOK-TITLE PIC X(30).
+                   10 LS-BODY PIC X(500).
            01 LS-LIBRARY-DISPLAY-MESSAGE PIC X(40).
            01 LS-OFFSET UNSIGNED-INT. 
            
@@ -44,7 +45,7 @@
                READ F-LIBRARY-FILE
                    NOT AT END
                        ADD 1 TO COUNTER
-                       MOVE FD-BOOK-AUTHOR 
+                       MOVE BOOK-AUTHOR 
                        TO LS-BOOK-AUTHOR-NAME(COUNTER)
                        MOVE BOOK-TITLE
                        TO LS-BOOK-TITLE(COUNTER)

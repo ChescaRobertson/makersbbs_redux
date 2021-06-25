@@ -3,6 +3,7 @@
        DATA DIVISION.
       
            LINKAGE SECTION.
+           01 OFFSET UNSIGNED-INT.
            01 LS-LIBRARY-NUM UNSIGNED-INT.
            01 LS-BOOKS.
                05 LS-BOOK OCCURS 100 TIMES
@@ -12,7 +13,7 @@
                    10 LS-BOOK-TITLE PIC X(30).
                    10 LS-BODY PIC X(500).
            01 TITLE PIC X(60).
-           01 OFFSET UNSIGNED-INT.
+           
 
        PROCEDURE DIVISION USING OFFSET LS-LIBRARY-NUM LS-BOOKS 
        RETURNING TITLE.
