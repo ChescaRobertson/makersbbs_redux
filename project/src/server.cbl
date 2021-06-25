@@ -25,7 +25,7 @@
            *>------Library Section------
            FD F-LIBRARY-FILE.
            01 LIBRARY.
-               05 BOOK-AUTHOR PIC X(12).
+               05 FD-BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
            
            WORKING-STORAGE SECTION.
@@ -125,19 +125,20 @@
            01 TOTAL-GUESSES PIC 99.
            01 WS-RANDOM-NUM-MSG PIC X(128).
       *    --------Library Section---------
-           01 LIBRARY-CHOICE PIC x(2).
+           01 LIBRARY-CHOICE PIC X(2).
            01 PAGE-NUM PIC 99.
            01 LIBRARY-DISPLAY-MESSAGE PIC X(40).
-           01 LIBRARY-NUM PIC 99.
+           01 LIBRARY-NUM UNSIGNED-INT.
            01 TITLE PIC X(50).
            01 BODY PIC X(500).
-      *     01 BOOK-AUTHOR PIC X(40).
+           01 BOOK-AUTHOR PIC X(12).
            01 WS-BOOKS.
                05 WS-BOOK OCCURS 100 TIMES
                ASCENDING KEY IS WS-BOOK-AUTHOR-NAME
                INDEXED BY BOOK-IDX.
                    10 WS-BOOK-AUTHOR-NAME PIC X(12).
                    10 WS-BOOK-TITLE PIC X(30).
+                   10 WS-BODY PIC X(500).
            01 COUNTER UNSIGNED-INT.
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
@@ -824,7 +825,7 @@
                05 LINE 18 COL 18 PIC X(50) USING TITLE.
                05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
                05 LINE 31 COLUMN 10 VALUE 'Author: '.
-               05 LINE 31 COLUMN 18 PIC X(40) USING BOOK-AUTHOR.
+               05 LINE 31 COLUMN 18 PIC X(12) USING BOOK-AUTHOR.
                05 READ-CHOICE-FIELD LINE 50 COLUMN 16 PIC X
                USING READ-CHOICE.
 
@@ -1185,30 +1186,8 @@
        
 
        0220-GENERATE-LIBRARY-TABLE.
-           
-           SET COUNTER TO 0.
-           OPEN INPUT F-LIBRARY-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-              READ F-LIBRARY-FILE
-                  NOT AT END
-                      ADD 1 TO COUNTER
-                      MOVE BOOK-AUTHOR 
-                      TO WS-BOOK-AUTHOR-NAME(COUNTER)
-                      MOVE BOOK-TITLE
-                      TO WS-BOOK-TITLE(COUNTER)
-                  AT END
-                      MOVE 1 TO WS-FILE-IS-ENDED
-                      MOVE COUNTER TO OFFSET
-                      MOVE 1 TO PAGE-NUM
-                      MOVE 1 TO LIBRARY-NUM
-                      MOVE "Here are the last 5 books" TO 
-                      LIBRARY-DISPLAY-MESSAGE
-              END-READ
-           END-PERFORM.
-           CLOSE F-LIBRARY-FILE.
-           
-           
+           call 'generate-library-table' USING WS-BOOKS 
+           LIBRARY-DISPLAY-MESSAGE OFFSET.
            PERFORM 0230-LIBRARY-MENU.
 
        0230-LIBRARY-MENU.
@@ -1248,7 +1227,7 @@
            END-IF. 
 
        0240-READ-BOOK.
-           INITIALIZE READ-CHOICE
+           INITIALIZE READ-CHOICE.
            IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9
            OR 10
                MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)

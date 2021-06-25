@@ -6,12 +6,11 @@
            01 LS-LIBRARY-NUM UNSIGNED-INT.
            01 LS-BOOKS.
                05 LS-BOOK OCCURS 100 TIMES
-               ASCENDING KEY IS LS-TITLE
+               ASCENDING KEY IS LS-BOOK-AUTHOR-NAME
                INDEXED BY BOOK-IDX.
-                   10 LS-TITLE PIC X(60).
+                   10 LS-BOOK-AUTHOR-NAME PIC X(12).
+                   10 LS-BOOK-TITLE PIC X(30).
                    10 LS-BODY PIC X(500).
-                   10 LS-DATE PIC X(10).
-                   10 LS-AUTHOR PIC X(10).
            01 BODY PIC X(500).
            01 OFFSET UNSIGNED-INT.
 
