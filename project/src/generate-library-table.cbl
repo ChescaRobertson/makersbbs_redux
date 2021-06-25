@@ -19,7 +19,6 @@
            WORKING-STORAGE SECTION.
            01 COUNTER UNSIGNED-INT.
            01 WS-FILE-IS-ENDED UNSIGNED-INT.
-           01 PAGE-NUM UNSIGNED-INT.
            01 LIBRARY-NUM UNSIGNED-INT.
   
 
@@ -33,11 +32,11 @@
                    10 LS-BODY PIC X(500).
            01 LS-LIBRARY-DISPLAY-MESSAGE PIC X(40).
            01 LS-OFFSET UNSIGNED-INT. 
-           
+           01 PAGE-NUM PIC 99.
            
            
            PROCEDURE DIVISION USING LS-BOOKS LS-LIBRARY-DISPLAY-MESSAGE
-           LS-OFFSET.
+           LS-OFFSET PAGE-NUM.
 
            SET COUNTER TO 0.
            OPEN INPUT F-LIBRARY-FILE.
