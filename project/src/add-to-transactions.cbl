@@ -10,7 +10,8 @@
            FD F-TRANSACTIONS-FILE IS GLOBAL.
            01 TRANSACTIONS.
                05 USERNAME PIC X(16).
-               05 BANK-ACCOUNT PIC X(10).
+               05 BANK-ACCOUNT PIC X(8).
+               05 FILLER PIC XX VALUE SPACES.
                05 CREDITS-TO-ADD PIC 999.
                05 GAP1 PIC X(10).
                05 MON-AMOUNT PIC 999.99.
@@ -26,7 +27,7 @@
            01 LS-USERNAME PIC X(16).
            01 LS-CREDITS PIC 999.
            01 LS-MON-AMOUNT PIC 999.99.
-           01 LS-ACNT-NUM PIC X(10).
+           01 LS-ACNT-NUM PIC X(8).
 
        PROCEDURE DIVISION USING LS-USERNAME, LS-ACNT-NUM, LS-CREDITS
        LS-MON-AMOUNT.

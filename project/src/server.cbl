@@ -28,7 +28,7 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).
+              05 USER-ACNT-NUM PIC X(8).
               05 FILLER PIC XX VALUE SPACES.  
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
@@ -49,7 +49,7 @@
 
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
-           01 ACCOUNT-NUM PIC X(10).
+           01 ACCOUNT-NUM PIC X(8).
            01 CREDIT PIC 999.
 
            01 WS-USERS.
@@ -58,7 +58,7 @@
                INDEXED BY USER-IDX.
                    10 WS-USER-NAME PIC X(16).    
                    10 WS-PWORD PIC X(20).
-                   10 WS-ACNT-NUM PIC X(10).
+                   10 WS-ACNT-NUM PIC X(8).
                    10 WS-CREDIT PIC 999. 
  
            01 WS-FOUND PIC 9. 
@@ -199,6 +199,9 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
+
+           01 TABLE-ACCOUNT-NUM PIC X(8).
+           01 USER-NAME-CHECK PIC X(20).
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -925,12 +928,12 @@
            05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 10 COL 16 VALUE "credits will be added to your ".
            05 LINE 10 COL 46 VALUE "account within 24 hours".
-           05 LINE 14 COL 39 VALUE "(g) Go back"
+           05 LINE 15 COL 39 VALUE "(g) Go back"
                 REVERSE-VIDEO , HIGHLIGHT.            
-           05 LINE 14 COL 53 VALUE "(q) Quit   "
+           05 LINE 15 COL 53 VALUE "(q) Quit   "
                 REVERSE-VIDEO, HIGHLIGHT.  
-           05 LINE 16 COL 25 VALUE "Pick: ".
-           05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
+           05 LINE 17 COL 25 VALUE "Pick: ".
+           05 PAY-CONFIRMATION-FIELD LINE 17 COL 31 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
 
 
@@ -946,6 +949,7 @@
                        ADD 1 TO COUNTER
                        MOVE USERNAME TO WS-USER-NAME(COUNTER)
                        MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                       MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
                    AT END 
                        MOVE 1 TO WS-FILE-IS-ENDED
                END-READ 
@@ -1488,12 +1492,12 @@
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
      
-           SEARCH ALL WS-USER
+           SEARCH WS-USER
                WHEN WS-USER-NAME(USER-IDX) = USER-NAME
                    MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
            END-SEARCH
-     
-      
+   
+
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 

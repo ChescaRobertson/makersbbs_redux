@@ -36,13 +36,9 @@
            PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
                READ F-USERS-FILE
                    NOT AT END
-                   MOVE "READING FILE" TO LS-PROCESS-STATUS-MESSAGE
-                   MOVE USER-ACNT-NUM TO LS-FILE-BA-NUM
                        IF LS-USER-BANK-ACCOUNT = USER-ACNT-NUM
-                               MOVE "COMPARING FILE" 
-                                 TO LS-PROCESS-STATUS-MESSAGE
                                 ADD LS-CREDIT-AMOUNT TO USER-CREDIT
-                                REWRITE USERS FROM USERS
+                                REWRITE USERS 
                         END-IF
                   AT END 
                        MOVE 1 TO WS-USER-FILE-IS-ENDED
@@ -51,7 +47,7 @@
            
            CLOSE F-USERS-FILE.
 
-      *     MOVE "PAYMENT PROCESSED" TO LS-PROCESS-STATUS-MESSAGE.
+           MOVE "PAYMENT PROCESSED" TO LS-PROCESS-STATUS-MESSAGE.
    
       *     GOBACK.
 
