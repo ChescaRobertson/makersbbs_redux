@@ -488,12 +488,14 @@
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 21 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 42 VALUE "(b) Buy Credits        "
+             05 LINE 21 COL 42 VALUE "(b) Buy Credits "
                 REVERSE-VIDEO, HIGHLIGHT.  
              05 LINE 23 COL 42 VALUE "(q) Quit        "
                 REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 23 COL 24 VALUE "(a) About       "
+                REVERSE-VIDEO, HIGHLIGHT.  
              05 LINE 25 COL 24 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 23 COL 30 PIC X
+             05 MENU-CHOICE-FIELD LINE 25 COL 30 PIC X
                 USING MENU-CHOICE.
 
              05 LINE 27 COL 25 VALUE "     [.. [....... [..       [..".
