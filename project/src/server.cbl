@@ -4,11 +4,23 @@
        ENVIRONMENT DIVISION.
            CONFIGURATION SECTION.
            REPOSITORY.
+
+               FUNCTION HIGH-SCORE-CALCULATOR
+               FUNCTION REPLACE-LETTER
+
                FUNCTION CONV-CRED-TO-MON
                FUNCTION VERIFY-PASSWORD
                FUNCTION ABOUT-CHOICE-TO-NUM.
+
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
+
+           *>----- Hangman file control -----
+           SELECT F-WORD-FILE ASSIGN TO 'guessing-words.dat'
+             ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT F-HIGH-SCORES-FILE ASSIGN TO 'high-scores.dat'
+             ORGANIZATION IS LINE SEQUENTIAL.
+          
            *>----- X AND O File Control-----    
              SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
                  ORGANIZATION IS LINE SEQUENTIAL.
@@ -24,6 +36,15 @@
 
        DATA DIVISION.
            FILE SECTION.
+           *>----- Hangman F-Section-----
+           FD F-WORD-FILE.
+           01 WORD PIC X(20).
+
+           FD F-HIGH-SCORES-FILE.
+           01 PLAYER-SCORES.
+              05 HIGH-SCORE PIC 99.
+              05 PLAYER-NAME PIC X(10).
+
            *>----- X AND O F-Section-----   
            FD FD-WINMASKS.
            01 FD-WINMASK PIC X(9).
@@ -199,6 +220,36 @@
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
            01 WS-RANDOM-NUM-MSG PIC X(128). 
+
+           *>----Variables-related-to-guessing-game----
+           01 WS-ANSWERWORD PIC X(20).
+           01 RANDOMNUMBER PIC 99.
+           01 WS-WORD PIC X(20).
+           01 WS-GUESSING-CHOICE-WORDS.
+               05 WS-GUESSING-CHOICE-WORD OCCURS 213 TIMES
+               DESCENDING KEY IS WS-GUESSING-WORDS-WORD
+               INDEXED BY WORD-IDX.
+                   10 WS-GUESSING-WORDS-WORD PIC X(20).
+           01 WS-GUESS-CHOICE PIC X(20).
+
+           *>----Variables related to high score screen-----
+           01 WS-HIGH-SCORE-CHOICE PIC X.
+           01 WS-HIGH-SCORE PIC 99.
+           01 WS-HIGH-SCORES.  
+              05 WS-TABLE-HIGH-SCORE OCCURS 100 TIMES     
+              ASCENDING KEY IS WS-SCORE
+              INDEXED BY SCORE-IDX.
+                  10 WS-SCORE PIC 99.
+                  10 WS-NAME PIC X(10).
+
+      *    Variables related to checking guesses  
+           01 WS-LETTERS-LEFT PIC 99.
+           01 WS-GUESSES-LEFT PIC 99.          
+
+      *    Variables related to winning and losing.
+           01 WS-GUESSING-LOSING-CHOICE PIC X.
+           01 WS-GUESSING-WINNING-CHOICE PIC X.
+           01 WS-WORD-LENGTH PIC 99.
 
            *>----- Library Variables -----
 
@@ -690,11 +741,13 @@
              05 LINE 25 COL 18 VALUE" `--------|=|--------'"
              FOREGROUND-COLOR IS 3.
 
+             05 LINE 28 COL 21 VALUE "(h) Hangman"
+             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 30 COL 21 VALUE "(n) Guess The Number" 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 32 COL 21 VALUE "(o) O and X         "  
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 21 VALUE "(m) Monkey?         " 
+             05 LINE 34 COL 21 VALUE "(m) Monkey?       " 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.
              05 LINE 36 COL 18 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
@@ -767,7 +820,7 @@
              05 LINE 38 COL 10 VALUE "Pick: ".
              05 MONKEY-MENU-CHOICE-FIELD LINE 38 COL 16 PIC X
                 USING MONKEY-MENU-CHOICE.
-      
+
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
                05 LINE 1 COL 10 VALUE "---------------------------------
@@ -848,42 +901,136 @@
       -      "***********************" FOREGROUND-COLOR IS 5.
                05 LINE 33 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
+      
+           01 IN-GAME-SCREEN
+               BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN. 
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             HIGHLIGHT, FOREGROUND-COLOR 5.
+             05 LINE 3 COLUMN 10 VALUE "You wander into a small settleme
+      -      "nt, seeking shelter from the pounding sun of The Wasteland
+      -      "."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 4 COLUMN 10 VALUE "The local Lawman mistakes you fo
+      -      "r a bandit. You're tied up and on the gallows faster"
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 5 COLUMN 10 VALUE "than you can wish the townsfolk 
+      -      "a friendly wasteland hello."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 7 COLUMN 10 VALUE "You've Yee'd your last Haw."
+             HIGHLIGHT, FOREGROUND-COLOR 6.
+             05 LINE 15 COLUMN 10 VALUE "Guess this word to break free:"
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 17 COLUMN 10 PIC X(20) USING WS-WORD.
+             05 LINE 19 COLUMN 10 VALUE "Guesses left: ".
+             05 LINE 19 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 20 COLUMN 10 VALUE "( ) Enter a letter to guess".
+             05 LINE 21 COLUMN 10 VALUE "(!) Quit game".
+             05 LINE 22 COLUMN 10 VALUE "Pick: ".
+             05 WS-GUESS-CHOICE-FIELD LINE 22 COLUMN 16 PIC X
+               USING WS-GUESS-CHOICE.
 
+           01 WORD-GUESSING-WINNING-SCREEN
+               BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to Th
+      -      "e Wasteland!"
+             HIGHLIGHT, FOREGROUND-COLOR 6.
+             05 LINE 34 COLUMN 10 VALUE "You guessed the word!".
+             05 LINE 36 COLUMN 10 PIC X(20) USING WS-ANSWERWORD.
+             05 LINE 38 COLUMN 10 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 40 COLUMN 10 VALUE "You scored: ".
+             05 LINE 38 COLUMN 50 PIC 99 USING WS-HIGH-SCORE.
+             05 LINE 42 COLUMN 10 VALUE "(p) Play Again"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
+             05 LINE 43 COLUMN 10 VALUE "(h) See High Scores"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
+             05 LINE 44 COLUMN 10 VALUE "(!) Quit game"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
+             05 LINE 45 COLUMN 10 VALUE "Pick: ".
+             05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 45 COLUMN 16 PIC X
+               USING WS-GUESSING-WINNING-CHOICE.
+
+           01 WORD-GUESSING-LOSE-SCREEN
+               BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN.
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to
+      -      "The Wasteland!"
+             HIGHLIGHT, FOREGROUND-COLOR 6.
+             05 LINE 36 COLUMN 10 PIC X(20) USING WS-WORD
+             HIGHLIGHT, FOREGROUND-COLOR IS 4.
+             05 LINE 34 COLUMN 35 VALUE "The correct word was:".
+             05 LINE 36 COLUMN 35 PIC X(20) USING WS-ANSWERWORD 
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
+             05 LINE 38 COLUMN 10 VALUE "Guesses left: ".
+             05 LINE 38 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 39 COLUMN 10 VALUE "(p) Play again" 
+               REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
+             05 LINE 40 COLUMN 10 VALUE "(h) See high scores"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
+             05 LINE 41 COLUMN 10 VALUE "(!) Quit game"
+             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
+             05 LINE 42 COLUMN 10 VALUE "Pick: ".
+             05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 42 COLUMN 16 PIC X
+               USING WS-GUESSING-LOSING-CHOICE.
+
+           01 HIGH-SCORE-SCREEN
+               BACKGROUND-COLOR IS 8.
+             05 BLANK SCREEN.          
+             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 3 COLUMN 10 VALUE "WASTELAND LEGENDS:"
+             HIGHLIGHT, FOREGROUND-COLOR 6.
+             05 LINE 34 COLUMN 10 VALUE "High Scores:".
+             05 LINE 36 COLUMN 10 PIC XX USING WS-SCORE(1).
+             05 LINE 36 COLUMN 14 PIC X(10) USING WS-NAME(1).
+             05 LINE 38 COLUMN 10 PIC XX USING WS-SCORE(2).
+             05 LINE 38 COLUMN 14 PIC X(10) USING WS-NAME(2).
+             05 LINE 40 COLUMN 10 PIC XX USING WS-SCORE(3).
+             05 LINE 40 COLUMN 14 PIC X(10) USING WS-NAME(3).
+             05 LINE 42 COLUMN 10 VALUE "(b) Go back".
+             05 LINE 44 COLUMN 10 VALUE "Pick: ".
+             05 WS-HIGH-SCORE-FIELD LINE 44 COLUMN 16 PIC X
+               USING WS-HIGH-SCORE-CHOICE.
+        
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
-               05 LINE 2 COL 10 VALUE "---------------------------------
+             05 LINE 2 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 3 COL 10 VALUE "*********************************
+             05 LINE 3 COL 10 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 4 COL 10 VALUE "---------------------------------
+             05 LINE 4 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 6 COl 14 VALUE  " __    __ __ __   ___    __     
+             05 LINE 6 COl 14 VALUE  " __    __ __ __   ___    __     
       -        "        _  __ _" FOREGROUND-COLOR IS 3.
-               05 LINE 7 COl 14 VALUE  "/__| ||_ (_ (_     | |_||_    |\
+             05 LINE 7 COl 14 VALUE  "/__| ||_ (_ (_     | |_||_    |\
       -        "|| ||V||_)|_ |_)" FOREGROUND-COLOR IS 5.
-               05 LINE 8 COl 14 VALUE  "\_||_||____)__)    | | ||__   | 
+             05 LINE 8 COl 14 VALUE  "\_||_||____)__)    | | ||__   | 
       -        "||_|| ||_)|__| \" FOREGROUND-COLOR IS 2.
-               05 LINE 10 COL 10 VALUE "---------------------------------
+             05 LINE 10 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 11 COL 10 VALUE "*********************************
+             05 LINE 11 COL 10 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 12 COL 10 VALUE "---------------------------------
+             05 LINE 12 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 14 COLUMN 14 VALUE IS "Message: "
-               FOREGROUND-COLOR IS 6.
-               05 MSG PIC X(128) FROM WS-RANDOM-NUM-MSG.
-               05 GUESS-FIELD LINE 16 COLUMN 14 PIC XX USING GUESS-INPUT
-               .
-               05 LINE 20 COLUMN 14 VALUE IS "Stats: "
-               FOREGROUND-COLOR IS 6.
-               05 LINE 22 COLUMN 14 VALUE IS "Total Guesses = "
-               FOREGROUND-COLOR IS 5.
-                   05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
-               05 LINE 24 COL 10 VALUE "---------------------------------
+             05 LINE 14 COLUMN 14 VALUE IS "Message: "
+             FOREGROUND-COLOR IS 6.
+             05 MSG PIC X(128) FROM WS-RANDOM-NUM-MSG.
+             05 GUESS-FIELD LINE 16 COLUMN 14 PIC XX USING GUESS-INPUT.         
+             05 LINE 20 COLUMN 14 VALUE IS "Stats: "
+             FOREGROUND-COLOR IS 6.
+             05 LINE 22 COLUMN 14 VALUE IS "Total Guesses = "
+             FOREGROUND-COLOR IS 5.
+                 05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
+             05 LINE 24 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 25 COL 10 VALUE "*********************************
+             05 LINE 25 COL 10 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 26 COL 10 VALUE "---------------------------------
+             05 LINE 26 COL 10 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
 
 
@@ -1333,25 +1480,164 @@
                PERFORM 0120-DISPLAY-MENU
            ELSE IF GAMES-MENU-CHOICE = "o" OR "O" THEN
                PERFORM 0190-O-AND-X-GAME  
-           ELSE IF GAMES-MENU-CHOICE = "m" or "M" THEN
-               PERFORM 0170-MONKEY-MENU
+           ELSE IF GAMES-MENU-CHOICE = "h" or "H" THEN
+               PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF GAMES-MENU-CHOICE = "n" or "N" THEN 
                PERFORM 0210-RANDOM-NUMBER-GAME           
            END-IF.
 
            PERFORM 0160-GAMES-MENU.
 
-       0170-MONKEY-MENU.
-           INITIALIZE MONKEY-MENU-CHOICE.
-           DISPLAY MONKEY-MENU-SCREEN.
-           ACCEPT MONKEY-MENU-CHOICE-FIELD.
-           IF MONKEY-MENU-CHOICE = "q" or "Q" THEN
-               STOP RUN
-           ELSE IF MONKEY-MENU-CHOICE-FIELD = "g" or "G" THEN
-                PERFORM 0160-GAMES-MENU
+       0170-DISPLAY-GUESSING-GAME.
+           PERFORM 0200-TIME-AND-DATE.
+           SET WS-HIGH-SCORE TO 0.
+           SET WS-WORD-LENGTH TO 0.
+           MOVE 15 TO WS-GUESSES-LEFT.
+           SET WORD-IDX TO 0.
+           OPEN INPUT F-WORD-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-WORD-FILE
+                   NOT AT END
+                       ADD 1 TO WORD-IDX
+                       MOVE WORD TO WS-GUESSING-WORDS-WORD(WORD-IDX)
+                   AT END
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ
+           END-PERFORM.
+           CLOSE F-WORD-FILE.
+           MOVE FUNCTION CURRENT-DATE(14:3) TO RANDOMNUMBER.
+           MOVE WS-GUESSING-WORDS-WORD(RANDOMNUMBER) TO WS-WORD.
+           MOVE WS-WORD TO WS-ANSWERWORD.
+           MOVE REPLACE-LETTER(WS-WORD) TO WS-WORD. 
+           *> DISPLAY USER-INFO-SCREEN.
+           MOVE 1 TO COUNTER.
+           PERFORM UNTIL COUNTER = 20
+             IF '*' EQUALS WS-WORD(COUNTER:1) 
+              THEN ADD 1 TO WS-WORD-LENGTH
+             END-IF
+             ADD 1 TO COUNTER
+           END-PERFORM.
+           PERFORM 0175-IN-GAME-SCREEN.
+
+       0175-IN-GAME-SCREEN.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE WS-GUESS-CHOICE.
+           DISPLAY IN-GAME-SCREEN.
+           *> DISPLAY USER-INFO-SCREEN.
+           ACCEPT WS-GUESS-CHOICE-FIELD.
+           IF WS-GUESS-CHOICE = '!' THEN 
+               PERFORM 0160-GAMES-MENU
+           ELSE
+               PERFORM 0180-CHECK-GUESS
            END-IF.
 
-           PERFORM 0170-MONKEY-MENU.
+       0180-CHECK-GUESS.
+           PERFORM 0200-TIME-AND-DATE.
+           MOVE 1 TO COUNTER.
+           PERFORM UNTIL COUNTER = 20
+                 IF WS-GUESS-CHOICE = WS-ANSWERWORD(COUNTER:1) 
+                 THEN
+                      MOVE WS-GUESS-CHOICE TO WS-WORD(COUNTER:1) 
+                 END-IF
+                 ADD 1 TO COUNTER     
+           END-PERFORM.
+           SUBTRACT 1 FROM WS-GUESSES-LEFT.
+           MOVE 1 TO COUNTER.
+           MOVE 0 TO WS-LETTERS-LEFT.
+           PERFORM UNTIL COUNTER = 20
+             IF '*' EQUALS WS-WORD(COUNTER:1) 
+              THEN ADD 1 TO WS-LETTERS-LEFT
+             END-IF
+             ADD 1 TO COUNTER
+           END-PERFORM.
+             IF WS-LETTERS-LEFT = 0
+              THEN 
+              PERFORM 0185-WINNING-SCREEN
+             ELSE IF WS-GUESSES-LEFT = 0
+              THEN 
+              PERFORM 0186-LOSING-SCREEN
+             ELSE
+              PERFORM 0175-IN-GAME-SCREEN
+             END-IF.
+
+       0185-WINNING-SCREEN.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE WS-GUESSING-WINNING-CHOICE.
+           DISPLAY WS-WORD-LENGTH.
+           DISPLAY WS-GUESSES-LEFT.
+           DISPLAY WS-HIGH-SCORE.
+           MOVE HIGH-SCORE-CALCULATOR(WS-WORD-LENGTH WS-GUESSES-LEFT)
+           TO WS-HIGH-SCORE.
+           DISPLAY WS-WORD-LENGTH.
+           DISPLAY WS-GUESSES-LEFT.
+           DISPLAY WS-HIGH-SCORE.
+           DISPLAY WORD-GUESSING-WINNING-SCREEN.
+           *> DISPLAY USER-INFO-SCREEN.
+           OPEN EXTEND F-HIGH-SCORES-FILE
+               MOVE WS-HIGH-SCORE TO HIGH-SCORE
+               MOVE USER-NAME TO PLAYER-NAME
+               WRITE PLAYER-SCORES 
+               END-WRITE.
+           CLOSE F-HIGH-SCORES-FILE.
+
+           ACCEPT WS-GUESSING-CHOICE-WINNING-FIELD.
+           IF WS-GUESSING-WINNING-CHOICE = 'p'
+               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+           ELSE IF WS-GUESSING-WINNING-CHOICE = 'h'
+             THEN PERFORM 0187-HIGH-SCORE-TABLE
+           ELSE IF WS-GUESSING-WINNING-CHOICE = '!'
+             THEN PERFORM 0160-GAMES-MENU
+           ELSE
+             PERFORM 0185-WINNING-SCREEN
+           END-IF.
+
+       0186-LOSING-SCREEN.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE WS-GUESSING-LOSING-CHOICE.
+           DISPLAY WORD-GUESSING-LOSE-SCREEN.
+           *> DISPLAY USER-INFO-SCREEN.
+           ACCEPT WS-GUESSING-LOSING-CHOICE.
+           IF WS-GUESSING-LOSING-CHOICE = 'p'
+               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+           ELSE IF WS-GUESSING-LOSING-CHOICE = 'h'
+             THEN PERFORM 0187-HIGH-SCORE-TABLE
+           ELSE IF WS-GUESSING-LOSING-CHOICE = '!'
+             THEN PERFORM 0160-GAMES-MENU
+           ELSE
+             PERFORM 0186-LOSING-SCREEN
+           END-IF.
+
+       0187-HIGH-SCORE-TABLE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-HIGH-SCORES-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-HIGH-SCORES-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE HIGH-SCORE TO WS-SCORE(COUNTER)
+                       MOVE PLAYER-NAME TO WS-NAME(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-HIGH-SCORES-FILE.
+           PERFORM 0188-HIGH-SCORE-SCREEN.
+
+       0188-HIGH-SCORE-SCREEN.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE WS-HIGH-SCORE-CHOICE.
+           SORT WS-TABLE-HIGH-SCORE ON DESCENDING WS-SCORE.
+           DISPLAY HIGH-SCORE-SCREEN.
+           *> DISPLAY USER-INFO-SCREEN.
+           ACCEPT WS-HIGH-SCORE-FIELD.
+           IF WS-HIGH-SCORE-CHOICE = 'b'
+             PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0188-HIGH-SCORE-SCREEN
+           END-IF.
+
 
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
