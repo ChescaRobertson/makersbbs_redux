@@ -6,6 +6,8 @@
            REPOSITORY.
                FUNCTION CONV-CRED-TO-MON
                FUNCTION VERIFY-PASSWORD
+               FUNCTION DISPLAY-ABOUT-TITLE
+               FUNCTION DISPLAY-ABOUT-BODY
                FUNCTION ABOUT-CHOICE-TO-NUM.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -223,6 +225,7 @@
                    10 WS-ABOUT-BODY PIC X(500).
            01 WS-READ-TITLE PIC X(60).
            01 WS-READ-BODY PIC X(500).
+           01 READ-CHOICE PIC X.   
            01 ABOUT-OFFSET PIC 99.
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
@@ -1006,7 +1009,7 @@
            05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
            ABOUT-PAGE-CHOICE.
       
-           01 ABOUT-READ-SCREEN
+           01 ABOUT-READ-SCREEN.
                05 BLANK SCREEN.
            05 LINE 6 COL 10 VALUE
            "           _                 _     _____                 ".
@@ -1025,8 +1028,8 @@
            05 LINE 13 COL 10 VALUE
            "                                              |___/      ".
            05 LINE 18 COL 10 VALUE "Title:".
-           05 LINE 18 COL 18 PIC X(60) USING WS-ABOUT-TITLE.
-           05 LINE 22 COL 10 PIC X(500) USING WS-ABOUT-BODY.
+           05 LINE 18 COL 18 PIC X(60) USING WS-READ-TITLE.
+           05 LINE 22 COL 10 PIC X(500) USING WS-READ-BODY.
            05 ABOUT-READ-CHOICE-FIELD LINE 50 COL 10 PIC X USING 
            READ-CHOICE.
 
@@ -1682,12 +1685,12 @@
                END-IF
            ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
              SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
-      *       PERFORM 0490-ABOUT-PAGE-READ
+             PERFORM 0490-ABOUT-PAGE-READ
            END-IF.
 
-           0490-ABOUT-PAGE-READ
-           INITIALIZE READ-CHOICE
-           ACCEPT READ-CHOICE-FIELD
+           0490-ABOUT-PAGE-READ.
+           INITIALIZE READ-CHOICE.
+           ACCEPT ABOUT-READ-CHOICE-FIELD.
            IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
                MOVE DISPLAY-ABOUT-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
                TO WS-READ-TITLE
