@@ -142,6 +142,34 @@
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
 
+<<<<<<< Updated upstream
+=======
+
+           *>----- Admin Variables -----   
+
+            *>----- Buy Credits Variables ----- 
+           01 CREDIT-AMOUNT PIC 999.
+           01 MON-AMOUNT PIC 999.99.
+           01 BUY-CREDITS-CHOICE PIC X.
+           01 CONFIRM-CHOICE PIC X.
+           01 PAY-CONFIRMATION-CHOICE PIC X.
+           01 PASSWORD-ENTRY PIC X(20).
+           01 INC-PASSWORD PIC X(20).
+           *>------About Variables-----
+           01 ABOUT-PAGE-CHOICE PIC X.
+           01 WS-ABOUT. 
+               05 WS-ABOUTS OCCURS 100 TIMES 
+               ASCENDING KEY IS WS-ABOUT-TITLE
+               INDEXED BY ABOUT-IDX.
+                   10 WS-ABOUT-TITLE PIC X(60).
+                   10 WS-ABOUT-BODY PIC X(500).
+           01 WS-READ-TITLE PIC X(60).
+           01 WS-READ-BODY PIC X(500).
+           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-NUM PIC 9.
+           
+>>>>>>> Stashed changes
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -730,6 +758,7 @@
                05 LINE 21 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
+<<<<<<< Updated upstream
                05 LINE 21 COL 26 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 1)
                .
@@ -763,6 +792,206 @@
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
                 
+=======
+           05 LINE 12 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 12 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 12 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 14 COL 25 VALUE "Pick: ".
+           05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
+               USING BUY-CREDITS-CHOICE.
+
+           01 CONFIRM-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 8 COL 16 VALUE "Credits will cost: £".
+           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 9 COL 12 VALUE "Please enter your password to ". 
+           05 LINE 9 COL 42 VALUE "confirm payment".
+           05 LINE 12 COL 12 VALUE "Password: ".
+           05 BUY-PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
+               USING PASSWORD-ENTRY.
+           05 LINE 14 COL 12 PIC X(20) USING INC-PASSWORD 
+           HIGHLIGHT, FOREGROUND-COLOR IS 4.
+           05 LINE 16 COL 25 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+           05 LINE 16 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 16 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 18 COL 25 VALUE "Pick: ".
+           05 CONFIRM-CHOICE-FIELD LINE 18 COL 31 PIC X 
+               USING CONFIRM-CHOICE.
+
+       01 PAYMENT-PROCESS-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Processing payment of: £".
+           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 9 COL 12 VALUE "Confirming payment with your bank ". 
+           05 LINE 10 COL 12 VALUE "This page will redirect in a few ".
+           05 LINE 10 COL 45 VALUE "seconds". 
+       
+
+       01 PAY-CONFIRMATION-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
+           05 LINE 8 COL 12 VALUE "Thank you for your purchase ".
+           05 LINE 9 COL 12 VALUE "Your transaction is pending".
+           05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 10 COL 16 VALUE "credits will be added to your ".
+           05 LINE 10 COL 46 VALUE "account within 24 hours".
+           05 LINE 14 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+           05 LINE 14 COL 53 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.  
+           05 LINE 16 COL 25 VALUE "Pick: ".
+           05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
+               USING PAY-CONFIRMATION-CHOICE. 
+       
+       01 ABOUT-PAGE-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 6 COL 10 VALUE
+           "           _                 _     _____                 ".
+           05 LINE 7 COL 10 VALUE
+           "     /\   | |               | |   |  __ \                ".
+           05 LINE 8 COL 10 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
+           05 LINE 9 COL 10 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
+           05 LINE 10 COL 10 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
+           05 LINE 11 COL 10 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
+           05 LINE 12 COL 10 VALUE
+           "                                               __/ |     ".
+           05 LINE 13 COL 10 VALUE
+           "                                              |___/      ".
+           05 LINE 18 COL 10 VALUE 
+           "Welcome to the BBS System, after extensive user feedback ".
+           05 line 19 col 10 value
+           "and the mass influx of users we have extended our ".
+           05 LINE 20 COL 10 VALUE
+           "functionality of the system, this has meant however we've ".
+           05 LINE 21 COL 10 VALUE
+           "had to implement a monetary payment system for upkeep ".
+           05 LINE 22 COL 10 VALUE
+           "below is a few bits of advice for using our credits ".
+           05 LINE 23 COL 10 VALUE 
+           "system and in general, the program itself.".
+           05 LINE 26 COL 10 VALUE '1.'.
+           05 LINE 26 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET).
+           05 LINE 28 COL 10 VALUE '2.'.
+           05 LINE 28 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
+           05 LINE 30 COL 10 VALUE '3.'.
+           05 LINE 30 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
+           05 LINE 32 COL 10 VALUE '4.'.
+           05 LINE 32 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
+           05 LINE 34 COL 10 VALUE '5.'.
+           05 LINE 34 COL 13 PIC X(60) USING 
+           WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
+           05 LINE 40 COL 10 VALUE "( ) What number to read".
+           05 LINE 41 COL 10 VALUE "(n) Next Page".
+           05 LINE 42 COL 10 VALUE "(p) Previous Page".
+           05 LINE 43 COL 10 VALUE "(q) Go back".
+           05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
+           ABOUT-PAGE-CHOICE.
+      
+           01 ABOUT-READ-SCREEN
+               05 BLANK SCREEN.
+           05 LINE 6 COL 10 VALUE
+           "           _                 _     _____                 ".
+           05 LINE 7 COL 10 VALUE
+           "     /\   | |               | |   |  __ \                ".
+           05 LINE 8 COL 10 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
+           05 LINE 9 COL 10 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
+           05 LINE 10 COL 10 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
+           05 LINE 11 COL 10 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
+           05 LINE 12 COL 10 VALUE
+           "                                               __/ |     ".
+           05 LINE 13 COL 10 VALUE
+           "                                              |___/      ".
+           05 LINE 18 COL 10 VALUE "Title:".
+           05 LINE 18 COL 18 PIC X(60) USING WS-ABOUT-TITLE.
+           05 LINE 22 COL 10 PIC X(500) USING WS-ABOUT-BODY.
+           05 ABOUT-READ-CHOICE-FIELD LINE 50 COL 10 PIC X USING 
+           READ-CHOICE.
+          
+
+
+       PROCEDURE DIVISION.
+           
+       0100-DISPLAY-START.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE START-CHOICE.
+           DISPLAY START-SCREEN.
+           ACCEPT START-CHOICE-FIELD.
+           IF START-CHOICE = "l" THEN 
+               PERFORM 0110-DISPLAY-LOGIN 
+           ELSE IF START-CHOICE = "c" THEN 
+               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
+           ELSE IF START-CHOICE = "q" THEN 
+               STOP RUN
+           ELSE IF START-CHOICE = "a" THEN 
+               MOVE SPACES TO ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           ELSE 
+               PERFORM 0100-DISPLAY-START
+           END-IF.
+
+       0101-GENERATE-USER-TABLE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-USERS-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-USERS-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
+                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-USERS-FILE.
+
+       0102-GENERATE-ADMIN-TABLE. 
+           SET COUNTER TO 0.
+           OPEN INPUT F-ADMIN-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ADMIN-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
+                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-ADMIN-FILE.
+       
+       0105-DISPLAY-REGISTER-NEW-USER SECTION.
+           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0101-GENERATE-USER-TABLE.
+           MOVE SPACES TO ERROR-MSG-1.
+           MOVE SPACES TO ERROR-MSG-2.
+           MOVE SPACES TO ERROR-MSG-3.
+           MOVE SPACES TO OK-MSG-1.
+           MOVE SPACES TO OK-MSG-2.
+           MOVE SPACES TO OK-MSG-3.
+>>>>>>> Stashed changes
            
                05 LINE 31 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
@@ -1276,7 +1505,27 @@
                    MOVE 10 TO LIBRARY-NUM
                END-IF
                PERFORM 0240-READ-BOOK
+           ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
+             SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
+           PERFORM 0490-ABOUT-PAGE-READ
            END-IF.
+
+       0490-ABOUT-PAGE-READ
+           INITIALIZE READ-CHOICE
+           ACCEPT READ-CHOICE-FIELD
+           IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
+               MOVE DISPLAY-ABOUT-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               TO WS-READ-TITLE
+               MOVE 
+               DISPLAY-ABOUT-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               TO WS-READ-BODY
+           END-IF.
+           DISPLAY ABOUT-READ-SCREEN.
+           ACCEPT READ-CHOICE.
+           IF READ-CHOICE = 'q' THEN
+               PERFORM 0480-ABOUT-PAGE
+           END-IF.
+          
 
        
            
