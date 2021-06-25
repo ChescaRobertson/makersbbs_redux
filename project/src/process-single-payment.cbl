@@ -13,7 +13,7 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(8). 
+              05 USER-ACNT-NUM PIC X(10). 
               05 FILLER PIC XX VALUE SPACES. 
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
@@ -22,7 +22,7 @@
            01 WS-USER-FILE-IS-ENDED PIC 9 VALUE 0.
 
            LINKAGE SECTION.
-           01 LS-USER-BANK-ACCOUNT PIC X(8).
+           01 LS-USER-BANK-ACCOUNT PIC X(10).
            01 LS-CREDIT-AMOUNT PIC 999.
      
        PROCEDURE DIVISION USING LS-USER-BANK-ACCOUNT, LS-CREDIT-AMOUNT.
@@ -42,3 +42,4 @@
            END-PERFORM.
            
            CLOSE F-USERS-FILE.
+   

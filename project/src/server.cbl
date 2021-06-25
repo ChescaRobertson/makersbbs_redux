@@ -1486,11 +1486,13 @@
            DISPLAY CONFIRM-SCREEN
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
-          *>  IF CONFIRM-CHOICE = 's' OR 'S'
-          *>    CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
-          *>    MON-AMOUNT
-          *>    PERFORM 0460-PAYMENT-PROCESS
-           
+     
+           SEARCH ALL WS-USER
+               WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                   MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
+           END-SEARCH
+     
+      
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 
