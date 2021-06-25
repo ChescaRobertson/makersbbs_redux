@@ -8,7 +8,7 @@
                FUNCTION DISPLAY-LIBRARY-TITLE
                FUNCTION LIBRARY-CHOICE-TO-NUM
                FUNCTION DISPLAY-BOOK-BODY
-               FUNCTION DISPLAY-BOOK-AUTHOR.
+               FUNCTION DISPLAY-BOOK-AUTHOR
 
 
                FUNCTION HIGH-SCORE-CALCULATOR
@@ -30,13 +30,10 @@
           
            *>----- X AND O File Control-----    
              SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
-
                        ORGANIZATION IS LINE SEQUENTIAL.
            *>------Library Control-----------------------
              SELECT F-LIBRARY-FILE ASSIGN TO "library.dat"
                        ORGANIZATION IS LINE SEQUENTIAL.
-
-                 ORGANIZATION IS LINE SEQUENTIAL.
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
@@ -258,7 +255,7 @@
                    10 WS-BOOK-AUTHOR-NAME PIC X(12).
                    10 WS-BOOK-TITLE PIC X(30).
                    10 WS-BODY PIC X(500).
-           01 COUNTER UNSIGNED-INT.
+           
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
 
