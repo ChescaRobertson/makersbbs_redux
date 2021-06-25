@@ -1182,7 +1182,7 @@
            01 READ-BOOK-SCREEN
                BACKGROUND-COLOR IS 8.
                 05 BLANK SCREEN.
-           05 LINE 2 COL 10 VALUE "---------------------------------
+           05 LINE 2 COL 10 VALUE "-------------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
                05 LINE 3 COL 10 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
@@ -1228,10 +1228,10 @@
                05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
                05 LINE 31 COLUMN 10 VALUE 'Author: '.               
                05 LINE 31 COLUMN 18 PIC X(12) USING BOOK-AUTHOR.
-               05 LINE 33 COL 10 VALUE "Pick: ".
-               05 READ-CHOICE-FIELD LINE 33 COLUMN 16 PIC X
+               05 LINE 37 COL 10 VALUE "Pick: ".
+               05 READ-CHOICE-FIELD LINE 37 COLUMN 16 PIC X
                USING READ-CHOICE.
-
+               05 LINE 33 COL 10 VALUE 'Press q to leave'. 
 
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
