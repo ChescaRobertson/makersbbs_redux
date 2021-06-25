@@ -28,7 +28,7 @@
                05 MON-AMOUNT PIC 999.99.
                05 FILLER PIC XX VALUE SPACES.
                05 DATE-OF-TRANS PIC X(10).
-               05 PAYMENT-STATUS PIC X(20).
+               05 PAYMENT-STATUS PIC X.
                05 FILLER PIC X VALUE X'0A'.
 
 
@@ -42,36 +42,37 @@
        PROCEDURE DIVISION USING LS-PAYMENT-STATUS.
 
            OPEN I-O F-TRANSACTIONS-FILE.
-           
-               
+  
            PERFORM UNTIL WS-TRANS-FILE-IS-ENDED = 1
                READ F-TRANSACTIONS-FILE 
                    NOT AT END
-                   IF PAYMENT-STATUS = "PENDING"
+                       IF PAYMENT-STATUS = "P"
+                           OPEN I-O F-USERS-FILE
+                           PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
+                               READ F-USERS-FILE 
+                                   NOT AT END   
+                                       IF BANK-ACCOUNT = USER-ACNT-NUM
+                                           ADD CREDITS-TO-ADD 
+                                           TO USER-CREDIT
+                                           MOVE "C" TO PAYMENT-STATUS
+                                           REWRITE USERS FROM USERS
+                                           REWRITE TRANSACTIONS 
+                                           FROM TRANSACTIONS
+                                       END-IF
+                                    AT END 
+                                       MOVE 1 TO WS-USER-FILE-IS-ENDED
+                               END-READ
+                          END-PERFORM
+                          CLOSE F-USERS-FILE
+                       END-IF
                        MOVE 0 TO WS-USER-FILE-IS-ENDED
-                       OPEN I-O F-USERS-FILE
-                    PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
-                         READ F-USERS-FILE 
-                         NOT AT END   
-                             IF BANK-ACCOUNT = USER-ACNT-NUM
-                                 ADD CREDITS-TO-ADD TO USER-CREDIT
-                                 MOVE "PAID" TO PAYMENT-STATUS
-                                 REWRITE USERS FROM USERS
-                                 REWRITE TRANSACTIONS FROM TRANSACTIONS
-                             END-IF
-                         AT END 
-                             MOVE 1 TO WS-USER-FILE-IS-ENDED
-                         END-READ
-                     END-PERFORM
-                     CLOSE F-USERS-FILE
-                   END-IF
                     AT END 
                         MOVE 1 TO WS-TRANS-FILE-IS-ENDED
                END-READ
            END-PERFORM.
-
+  
            MOVE "ALL PAYMENTS UP TO DATE" TO LS-PAYMENT-STATUS.
 
            CLOSE F-TRANSACTIONS-FILE.
-  
+    
      

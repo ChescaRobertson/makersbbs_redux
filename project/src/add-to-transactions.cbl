@@ -17,8 +17,8 @@
                05 MON-AMOUNT PIC 999.99.
                05 FILLER PIC XX VALUE SPACES.
                05 DATE-OF-TRANS PIC X(10).
-               05 PAYMENT-STATUS PIC X(20).
-               05 FILLER PIC X VALUE X'0A'.
+               05 PAYMENT-STATUS PIC X.
+      *         05 FILLER PIC X VALUE X'0A'.
 
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE 0.
@@ -40,7 +40,7 @@
                MOVE LS-MON-AMOUNT TO MON-AMOUNT.
       *         MOVE "         " TO GAP2.
                MOVE FUNCTION CURRENT-DATE(1:8) TO DATE-OF-TRANS 
-               MOVE "PENDING             " TO PAYMENT-STATUS
+               MOVE "P" TO PAYMENT-STATUS
 
                WRITE TRANSACTIONS
                END-WRITE.
