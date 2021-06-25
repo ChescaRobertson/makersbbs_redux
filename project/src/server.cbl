@@ -578,12 +578,12 @@
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 21 COL 24 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 42 VALUE "(c) Buy Credits        "
+             05 LINE 21 COL 42 VALUE "(c) Buy Credits "
                 REVERSE-VIDEO, HIGHLIGHT.  
              05 LINE 23 COL 42 VALUE "(q) Quit        "
                 REVERSE-VIDEO, HIGHLIGHT.  
              05 LINE 25 COL 24 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 23 COL 30 PIC X
+             05 MENU-CHOICE-FIELD LINE 25 COL 30 PIC X
                 USING MENU-CHOICE.
 
              05 LINE 27 COL 25 VALUE "     [.. [....... [..       [..".
@@ -1174,7 +1174,8 @@
                05 LINE 41 COL 10 VALUE "(n) Next Page".
                05 LINE 42 COL 10 VALUE "(p) Previous Page".
                05 LINE 43 COL 10 VALUE "(q) Go back".
-               05 LIBRARY-FIELD LINE 44 COLUMN 10 PIC X 
+               05 LINE 45 COL 10 VALUE "Pick: ".
+               05 LIBRARY-FIELD LINE 45 COLUMN 16 PIC X 
                USING LIBRARY-CHOICE.
                
                
@@ -1225,9 +1226,10 @@
                05 LINE 18 COL 10 VALUE 'Title:'.
                05 LINE 18 COL 18 PIC X(50) USING TITLE.
                05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
-               05 LINE 31 COLUMN 10 VALUE 'Author: '.
+               05 LINE 31 COLUMN 10 VALUE 'Author: '.               
                05 LINE 31 COLUMN 18 PIC X(12) USING BOOK-AUTHOR.
-               05 READ-CHOICE-FIELD LINE 50 COLUMN 16 PIC X
+               05 LINE 33 COL 10 VALUE "Pick: ".
+               05 READ-CHOICE-FIELD LINE 33 COLUMN 16 PIC X
                USING READ-CHOICE.
 
 
