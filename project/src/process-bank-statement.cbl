@@ -13,18 +13,20 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).  
+              05 USER-ACNT-NUM PIC X(8). 
+              05 FILLER PIC XX VALUE SPACES. 
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
 
            FD F-TRANSACTIONS-FILE.
            01 TRANSACTIONS.
                05 USERNAME PIC X(16).
-               05 BANK-ACCOUNT PIC X(10).
+               05 BANK-ACCOUNT PIC X(8).
+               05 FILLER PIC XX VALUE SPACES.
                05 CREDITS-TO-ADD PIC 999.
-               05 GAP1 PIC X(10).
+               05 FILLER PIC XX VALUE SPACES.
                05 MON-AMOUNT PIC 999.99.
-               05 GAP2 PIC X(10).
+               05 FILLER PIC XX VALUE SPACES.
                05 DATE-OF-TRANS PIC X(10).
                05 PAYMENT-STATUS PIC X(20).
                05 FILLER PIC X VALUE X'0A'.
@@ -46,8 +48,8 @@
                READ F-TRANSACTIONS-FILE 
                    NOT AT END
                    IF PAYMENT-STATUS = "PENDING"
-                    MOVE 0 TO WS-USER-FILE-IS-ENDED
-                    OPEN I-O F-USERS-FILE
+                       MOVE 0 TO WS-USER-FILE-IS-ENDED
+                       OPEN I-O F-USERS-FILE
                     PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
                          READ F-USERS-FILE 
                          NOT AT END   
@@ -62,7 +64,7 @@
                          END-READ
                      END-PERFORM
                      CLOSE F-USERS-FILE
-                  
+                   END-IF
                     AT END 
                         MOVE 1 TO WS-TRANS-FILE-IS-ENDED
                END-READ

@@ -15,20 +15,20 @@
        PROCEDURE DIVISION.
        
        TEST-CONV-MON-TO-CRED.
-           CALL "assert-equals" USING CONV-MON-TO-CRED("030.00")'300'.
+           CALL "assert-equals" USING CONV-MON-TO-CRED("015.00")'150'.
 
-      *>  TEST-PROCESS-SINGLE-PAYMENT.
-      *>      MOVE "98765432" TO BANK-ACCOUNT
-      *>      MOVE "300" TO CREDITS
-      *>      CALL 'process-single-payment' USING BANK-ACCOUNT,
-      *>       CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
-
-       TEST-MAIN.
-           MOVE "12222222" TO BANK-ACCOUNT
+       TEST-PROCESS-SINGLE-PAYMENT.
+           MOVE "98765432" TO BANK-ACCOUNT
            MOVE "300" TO CREDITS
-           SET ENVIRONMENT "users_dat" TO 'users-copy.dat'
-           CALL 'process-single-payment' USING BANK-ACCOUNT, 
-           CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
+           CALL 'process-single-payment' USING BANK-ACCOUNT,
+            CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
+
+      *>  TEST-MAIN.
+      *>      MOVE "12222222" TO BANK-ACCOUNT
+      *>      MOVE "300" TO CREDITS
+      *>      SET ENVIRONMENT "users_dat" TO 'users-copy.dat'
+      *>      CALL 'process-single-payment' USING BANK-ACCOUNT, 
+      *>      CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
           
        TEST-PROCESS-BANK-STATEMENT.
            MOVE "PENDING" TO WS-PAYMENT-STATUS.
