@@ -2051,7 +2051,7 @@
 
        0220-GENERATE-LIBRARY-TABLE.
            call 'generate-library-table' USING WS-BOOKS 
-           LIBRARY-DISPLAY-MESSAGE OFFSET.
+           LIBRARY-DISPLAY-MESSAGE OFFSET PAGE-NUM.
            PERFORM 0230-LIBRARY-MENU.
 
        0230-LIBRARY-MENU.
@@ -2061,8 +2061,8 @@
            IF LIBRARY-CHOICE = 'q' THEN 
                PERFORM 0120-DISPLAY-MENU
            ELSE IF LIBRARY-CHOICE = 'n' THEN
-               IF OFFSET > 20
-                   COMPUTE OFFSET = OFFSET - 10
+               IF OFFSET > 10
+                   COMPUTE OFFSET = OFFSET - 5
                    COMPUTE PAGE-NUM = PAGE-NUM + 1
                    MOVE 'Here are the next 5 books' TO
                        LIBRARY-DISPLAY-MESSAGE
@@ -2072,18 +2072,17 @@
                IF PAGE-NUM = '01'
                  PERFORM 0230-LIBRARY-MENU
                ELSE IF PAGE-NUM = '02'
-                 COMPUTE OFFSET = OFFSET + 10
+                 COMPUTE OFFSET = OFFSET + 5
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
                  MOVE 'Here are the previous 5 books' TO
                    LIBRARY-DISPLAY-MESSAGE
                  PERFORM 0230-LIBRARY-MENU
                ELSE
-                 COMPUTE OFFSET = OFFSET + 10
+                 COMPUTE OFFSET = OFFSET + 5
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
                    PERFORM 0230-LIBRARY-MENU
                END-IF
            ELSE IF LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5'
-             OR '6' OR '7' OR '8' OR '9' OR '10'
                SET LIBRARY-NUM TO LIBRARY-CHOICE-TO-NUM(LIBRARY-CHOICE)
                PERFORM 0240-READ-BOOK
            ELSE
@@ -2092,8 +2091,7 @@
 
        0240-READ-BOOK.
            INITIALIZE READ-CHOICE.
-           IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9
-           OR 10
+           IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5
                MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
                TO TITLE
                MOVE DISPLAY-BOOK-BODY(OFFSET LIBRARY-NUM WS-BOOKS)
