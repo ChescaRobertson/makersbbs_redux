@@ -221,7 +221,8 @@
                INDEXED BY ABOUT-IDX.
                    10 WS-ABOUT-TITLE PIC X(60).
                    10 WS-ABOUT-BODY PIC X(500).
-
+           01 WS-READ-TITLE PIC X(60).
+           01 WS-READ-BODY PIC X(500).
            01 ABOUT-OFFSET PIC 99.
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
@@ -1005,7 +1006,29 @@
            05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
            ABOUT-PAGE-CHOICE.
       
-
+           01 ABOUT-READ-SCREEN
+               05 BLANK SCREEN.
+           05 LINE 6 COL 10 VALUE
+           "           _                 _     _____                 ".
+           05 LINE 7 COL 10 VALUE
+           "     /\   | |               | |   |  __ \                ".
+           05 LINE 8 COL 10 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
+           05 LINE 9 COL 10 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
+           05 LINE 10 COL 10 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
+           05 LINE 11 COL 10 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
+           05 LINE 12 COL 10 VALUE
+           "                                               __/ |     ".
+           05 LINE 13 COL 10 VALUE
+           "                                              |___/      ".
+           05 LINE 18 COL 10 VALUE "Title:".
+           05 LINE 18 COL 18 PIC X(60) USING WS-ABOUT-TITLE.
+           05 LINE 22 COL 10 PIC X(500) USING WS-ABOUT-BODY.
+           05 ABOUT-READ-CHOICE-FIELD LINE 50 COL 10 PIC X USING 
+           READ-CHOICE.
 
 
        PROCEDURE DIVISION.
@@ -1662,7 +1685,21 @@
       *       PERFORM 0490-ABOUT-PAGE-READ
            END-IF.
 
-
+           0490-ABOUT-PAGE-READ
+           INITIALIZE READ-CHOICE
+           ACCEPT READ-CHOICE-FIELD
+           IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
+               MOVE DISPLAY-ABOUT-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               TO WS-READ-TITLE
+               MOVE 
+               DISPLAY-ABOUT-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               TO WS-READ-BODY
+           END-IF.
+           DISPLAY ABOUT-READ-SCREEN.
+           ACCEPT READ-CHOICE.
+           IF READ-CHOICE = 'q' THEN
+               PERFORM 0480-ABOUT-PAGE
+           END-IF.
  
        
                
