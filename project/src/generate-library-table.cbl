@@ -13,6 +13,7 @@
            01 LIBRARY.
                05 BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
+               05 BOOK-BODY PIC X(500).
 
       
            WORKING-STORAGE SECTION.
@@ -49,6 +50,8 @@
                        TO LS-BOOK-AUTHOR-NAME(COUNTER)
                        MOVE BOOK-TITLE
                        TO LS-BOOK-TITLE(COUNTER)
+                       MOVE BOOK-BODY TO
+                       LS-BODY(COUNTER)
                    AT END
                        MOVE 1 TO WS-FILE-IS-ENDED
                        MOVE COUNTER TO LS-OFFSET

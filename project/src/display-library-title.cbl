@@ -12,7 +12,7 @@
                    10 LS-BOOK-AUTHOR-NAME PIC X(12).
                    10 LS-BOOK-TITLE PIC X(30).
                    10 LS-BODY PIC X(500).
-           01 TITLE PIC X(60).
+           01 TITLE PIC X(30).
            
 
        PROCEDURE DIVISION USING OFFSET LS-LIBRARY-NUM LS-BOOKS 

@@ -27,6 +27,7 @@
            01 LIBRARY.
                05 FD-BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
+               05 BOOK-BODY PIC X(500).
            
            WORKING-STORAGE SECTION.
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
@@ -129,7 +130,7 @@
            01 PAGE-NUM PIC 99.
            01 LIBRARY-DISPLAY-MESSAGE PIC X(40).
            01 LIBRARY-NUM UNSIGNED-INT.
-           01 TITLE PIC X(50).
+           01 TITLE PIC X(30).
            01 BODY PIC X(500).
            01 BOOK-AUTHOR PIC X(12).
            01 WS-BOOKS.
