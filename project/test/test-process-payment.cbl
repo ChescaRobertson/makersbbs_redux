@@ -9,6 +9,7 @@
            01 BANK-ACCOUNT PIC X(8).
            01 CREDITS PIC 999.
            01 WS-PAYMENT-STATUS PIC X(20).
+           01 WS-PROCESS-STATUS PIC X(30).
 
        PROCEDURE DIVISION.
        
@@ -18,7 +19,8 @@
        TEST-PROCESS-SINGLE-PAYMENT.
            MOVE "98765432" TO BANK-ACCOUNT
            MOVE "300" TO CREDITS
-           CALL 'process-single-payment' USING BANK-ACCOUNT, CREDITS.
+           CALL 'process-single-payment-alt' USING BANK-ACCOUNT,
+            CREDITS, WS-PROCESS-STATUS.
           
        TEST-PROCESS-BANK-STATEMENT.
            MOVE "PENDING" TO WS-PAYMENT-STATUS.

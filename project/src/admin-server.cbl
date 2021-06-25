@@ -19,7 +19,7 @@
 
        DATA DIVISION.
            FILE SECTION.
-           FD F-USERS-FILE IS GLOBAL.
+           FD F-USERS-FILE.
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
@@ -28,7 +28,7 @@
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
 
-           FD F-TRANSACTIONS-FILE IS GLOBAL.
+           FD F-TRANSACTIONS-FILE.
            01 TRANSACTIONS.
                05 USERNAME PIC X(16).
                05 BANK-ACCOUNT PIC X(10).
@@ -57,6 +57,7 @@
            01 PROCESS-STATUS-MESSAGE PIC X(30).
            01 PAYMENT-STATUS-MESSAGE PIC X(30).
            01 BANK-STATEMENT-PROCESS-CHOICE PIC X.
+           01 FILE-BA-NUM PIC X(8).
            
            LINKAGE SECTION.
            01 ADMIN-NAME PIC X(16).
@@ -131,10 +132,13 @@
            01 SINGLE-ENTRY-PROCESS-SCREEN.
             05 BLANK SCREEN.
             05 LINE 12 COL 10 PIC X(30) USING PROCESS-STATUS-MESSAGE.
-            05 LINE 16 COL 10 VALUE "(g) Go back         "
-                 REVERSE-VIDEO , HIGHLIGHT.             
-            05 LINE 17 COL 32 VALUE "(q) Quit            "
-                 REVERSE-VIDEO, HIGHLIGHT.  
+            05 LINE 13 COL 10 VALUE "User bank account from file: ".
+            05 LINE 14 COL 10 PIC X(8) USING FILE-BA-NUM.
+            05 LINE 15 COL 10 PIC X(8) USING USER-BANK-ACCOUNT.
+            *> 05 LINE 16 COL 10 VALUE "(g) Go back         "
+            *>      REVERSE-VIDEO , HIGHLIGHT.             
+            *> 05 LINE 17 COL 32 VALUE "(q) Quit            "
+            *>      REVERSE-VIDEO, HIGHLIGHT.  
             05 LINE 21 COL 14 VALUE "Pick: ".
             05 SINGLE-ENTRY-PROCESS-FIELD LINE 21 COL 20 PIC X 
                 USING SINGLE-ENTRY-PROCESS-CHOICE.
@@ -216,7 +220,7 @@
           
            MOVE CONV-MON-TO-CRED(MON-AMOUNT-PAID) TO CREDIT-AMOUNT
            CALL 'process-single-payment' USING USER-BANK-ACCOUNT, 
-           CREDIT-AMOUNT.
+           CREDIT-AMOUNT, PROCESS-STATUS-MESSAGE, FILE-BA-NUM.
         
            DISPLAY SINGLE-ENTRY-PROCESS-SCREEN
            ACCEPT SINGLE-ENTRY-PROCESS-FIELD

@@ -24,11 +24,12 @@
            FD FD-WINMASKS.
            01 FD-WINMASK PIC X(9).
 
-           FD F-USERS-FILE IS GLOBAL.
+           FD F-USERS-FILE.
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(10).  
+              05 USER-ACNT-NUM PIC X(10).
+              05 FILLER PIC XX VALUE SPACES.  
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
 
