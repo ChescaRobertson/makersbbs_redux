@@ -226,9 +226,9 @@
            01 WS-READ-TITLE PIC X(60).
            01 WS-READ-BODY PIC X(500).
            01 READ-CHOICE PIC X.   
-           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-OFFSET UNSIGNED-INT.
            01 ABOUT-PAGE-NUM PIC 9.
-           01 ABOUT-NUM PIC 9.
+           01 ABOUT-NUM UNSIGNED-INT.
            
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -1006,7 +1006,8 @@
            05 LINE 41 COL 10 VALUE "(n) Next Page".
            05 LINE 42 COL 10 VALUE "(p) Previous Page".
            05 LINE 43 COL 10 VALUE "(q) Go back".
-           05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
+           05 LINE 45 COL 10 VALUE "Pick: ".
+           05 ABOUT-PAGE-FIELD LINE 45 COL 15 PIC X USING 
            ABOUT-PAGE-CHOICE.
       
            01 ABOUT-READ-SCREEN.
