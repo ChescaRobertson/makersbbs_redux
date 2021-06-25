@@ -142,8 +142,6 @@
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
 
-<<<<<<< Updated upstream
-=======
 
            *>----- Admin Variables -----   
 
@@ -168,8 +166,7 @@
            01 ABOUT-OFFSET PIC 99.
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
-           
->>>>>>> Stashed changes
+
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -758,7 +755,7 @@
                05 LINE 21 COL 12 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
-<<<<<<< Updated upstream
+
                05 LINE 21 COL 26 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 1)
                .
@@ -792,7 +789,7 @@
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
                 
-=======
+
            05 LINE 12 COL 25 VALUE "(s) Submit "
                 REVERSE-VIDEO, HIGHLIGHT. 
            05 LINE 12 COL 39 VALUE "(g) Go back"
@@ -930,7 +927,7 @@
           
 
 
-       PROCEDURE DIVISION.
+           PROCEDURE DIVISION.
            
        0100-DISPLAY-START.
            PERFORM 0200-TIME-AND-DATE.
@@ -990,9 +987,7 @@
            MOVE SPACES TO ERROR-MSG-3.
            MOVE SPACES TO OK-MSG-1.
            MOVE SPACES TO OK-MSG-2.
-           MOVE SPACES TO OK-MSG-3.
->>>>>>> Stashed changes
-           
+           MOVE SPACES TO OK-MSG-3.         
                05 LINE 31 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
                05 LINE 31 COL 40 VALUE 'Page No.'.
