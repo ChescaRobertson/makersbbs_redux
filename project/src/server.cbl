@@ -1095,6 +1095,7 @@
            END-IF. 
 
        05-VALIDATE-PASSWORD.
+           INITIALIZE NEW-PASSWORD.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
@@ -1106,6 +1107,7 @@
            END-IF. 
 
        05-VALIDATE-BANK-ACCOUNT.
+           INITIALIZE ACCOUNT-NUM.
            DISPLAY REGISTER-NEW-USER-SCREEN.
            ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
