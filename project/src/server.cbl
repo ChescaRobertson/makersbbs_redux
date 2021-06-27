@@ -345,72 +345,246 @@
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
-                 05 LINE 08 COl 12 VALUE
+                 05 LINE 5 COL 10 VALUE 
+           "============================================================
+      -    "==========================================================="
+           .
+                 05 LINE 6 COL 10 VALUE
+           "   ______      _____________________________________________
+      -    "________________________________________________________   "
+           .
+                 05 LINE 7 COL 10 VALUE
+           "   / |    \      /                                         
+      -    "                                                        \  "
+           .
+                 05 LINE 8 COL 10 VALUE 
+           "  (  |)-   )  | 0|                                          
+      -    "                                                      | |__"
+           .
+                 05 LINE 9 COL 10 VALUE 
+           "  /\_|____/   |_ |                                          
+      -    "                                                      | |0|"
+           .
+                 05 LINE 14 COL 10 VALUE
+           "|    _________  ||                                          
+      -    "                                                      | | |"
+           .
+                 05 LINE 15 COL 10 VALUE 
+           "|   |-Pip-Boy-|TT|                                            
+      -    "                                                      | | |"
+           .
+                 05 LINE 16 COL 10 VALUE
+           "|   |-=======-|++|                                            
+      -    "                                                      | |_|"
+           .
+                 05 LINE 17 COL 10 VALUE
+           "|   |-=======-|++|                                            
+      -    "                                                      | |=|"
+           .
+                 05 LINE 18 COL 10 VALUE
+           "|   |- MODEL -|11|                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 19 COL 10 VALUE
+           "|   |- 3000  -| ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 20 COL 10 VALUE
+           "|   '---------' ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 10 COL 10 VALUE
+           "/ '             ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 11 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 12 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 13 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 21 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 22 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 23 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .  
+                 05 LINE 24 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 25 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 26 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 27 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 28 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 29 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 30 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 31 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 32 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 33 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 34 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 35 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 36 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 37 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 38 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 39 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 40 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 41 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 42 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 43 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | |=|"
+           .
+                 
+                 05 LINE 44 COL 10 VALUE
+           "|     _____     ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 45 COL 10 VALUE
+           "|   .'\ | /'.   ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 46 COL 10 VALUE
+           "|   |-e(x)it|   ||                                          
+      -    "                                                      | |=|"
+           .
+                 05 LINE 47 COL 10 VALUE
+           "|   './_|_\.'   ||                                          
+      -    "                                                      | |=|"
+           .
+                          
+                 05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
-                 05 LINE 10 COl 12 VALUE   
-           "______       _ _      _   _" FOREGROUND-COLOR IS 3.
-                 05 LINE 11 COl 10 VALUE         
+                 05 LINE 11 COl 30 VALUE   
+           "  ______       _ _      _   _" FOREGROUND-COLOR IS 3.
+                 05 LINE 12 COl 30 VALUE         
            "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
-                 05 LINE 12 COl 10 VALUE  
+                 05 LINE 13 COl 30 VALUE  
            "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
-                 05 LINE 13 COl 10 VALUE    
+                 05 LINE 14 COl 30 VALUE    
            "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
-                 05 LINE 14 COl 10 VALUE   
+                 05 LINE 15 COl 30 VALUE   
            "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 15 COl 10 VALUE  
+                 05 LINE 16 COl 30 VALUE  
            "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
-                 05 LINE 18 COl 10 VALUE                                                                        
+                 05 LINE 19 COl 30 VALUE                                                                        
            "    ______                     _" FOREGROUND-COLOR IS 2.
-                 05 LINE 19 COl 10 VALUE      
+                 05 LINE 20 COl 30 VALUE      
            "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 20 COl 10 VALUE     
+                 05 LINE 21 COl 30 VALUE     
            "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
-                 05 LINE 21 COl 10 VALUE     
+                 05 LINE 22 COl 30 VALUE     
            "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
-                 05 LINE 22 COl 10 VALUE     
+                 05 LINE 23 COl 30 VALUE     
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
-                 05 LINE 23 COl 10 VALUE     
+                 05 LINE 24 COl 30 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-             05 LINE 27 COLUMN 12 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
+             05 LINE 27 COLUMN 30 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
              FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 29 COLUMN 30 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 30 COLUMN 30 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 31 COLUMN 30 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 33 COLUMN 12 VALUE "Enter a username:".
-             05 LINE 33 COLUMN 30 VALUE " (Usernames must be unique.)".
-             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             05 LINE 33 COLUMN 30 VALUE "Enter a username:".
+             05 LINE 33 COLUMN 50 VALUE " (Usernames must be unique.)".
+             05 LINE 34 COLUMN 30 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 NEW-USER-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
+             05 NEW-USER-NAME-FIELD LINE 35 COLUMN 30 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             05 LINE 36 COLUMN 30 PIC X(50) USING OK-MSG-1 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
-             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+             05 LINE 37 COLUMN 30 VALUE "Enter a password:".
+             05 LINE 37 COLUMN 50 VALUE " (Your password must be a minim
       -      "um of 6 characters and include at least 1 number.) ".
-             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             05 LINE 38 COLUMN 30 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
+             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 30 PIC X(20)
                 USING NEW-PASSWORD.
-             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             05 LINE 40 COLUMN 30 PIC X(50) USING OK-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
+             05 LINE 41 COLUMN 30 VALUE "Enter a valid Bank Account numb
       -      "er:".
-             05 LINE 42 COLUMN 12 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
+             05 LINE 42 COLUMN 30 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 12 PIC X(8)
+             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 30 PIC X(8)
                 USING ACCOUNT-NUM.
-             05 LINE 44 COLUMN 12 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+             05 LINE 44 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
-             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
-             05 LINE 49 COLUMN 12 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
+             05 LINE 46 COLUMN 30 VALUE "(s) Submit".
+             05 LINE 47 COLUMN 30 VALUE "(q) Go Back".
+             05 LINE 49 COLUMN 30 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 38 PIC X
                 USING REGISTER-CHOICE.
 
            01 LOGIN-SCREEN
