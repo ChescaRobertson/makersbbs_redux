@@ -345,6 +345,7 @@
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
+      *>>  Start of the pip boy here needs to be seperated            
                  05 LINE 5 COL 10 VALUE 
            "============================================================
       -    "==========================================================="
@@ -481,44 +482,50 @@
            "|               ||                                          
       -    "                                                      | |=|"
            .
-                 05 LINE 39 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
-                 05 LINE 40 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
-                 05 LINE 41 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
-                 05 LINE 42 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
-                 05 LINE 43 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           
                  
-                 05 LINE 44 COL 10 VALUE
+                 05 LINE 39 COL 10 VALUE
            "|     _____     ||                                          
       -    "                                                      | |=|"
            .
-                 05 LINE 45 COL 10 VALUE
+                 05 LINE 40 COL 10 VALUE
            "|   .'\ | /'.   ||                                          
       -    "                                                      | |=|"
            .
-                 05 LINE 46 COL 10 VALUE
+                 05 LINE 41 COL 10 VALUE
            "|   |-e(x)it|   ||                                          
       -    "                                                      | |=|"
            .
-                 05 LINE 47 COL 10 VALUE
+                 05 LINE 42 COL 10 VALUE
            "|   './_|_\.'   ||                                          
-      -    "                                                      | |=|"
+      -    "                                                      | | |"
            .
-                          
+                 05 LINE 43 COL 10 VALUE
+           "|               ||                                          
+      -    "                                                      | | |"
+           .
+                 05 LINE 44 COL 10 VALUE
+           "|              _||                                          
+      -    "                                                      | | |"
+           .
+                 05 LINE 45 COL 10 VALUE
+           "\              /0|_________________________________________
+      -    "______________________________________________________| |0|"
+           .
+                 05 LINE 46 COL 10 VALUE
+           " \            ''|_________________|SUBMIT  QUIT|____________
+      -    "_________________________________________________________/".
+                 05 LINE 47 COL 10 VALUE
+           "   \_________/     |===|          | (s)     (q)|            
+      -    "                                                      /".
+                 05 LINE 48 COL 10 VALUE
+           "             \_____|___/__________||||||||||||||____________
+      -    "____________________________________________________/".
+                 05 LINE 50 COL 10 VALUE
+           "============================================================
+      -    "==========================================================="
+           . 
+      *>>>>>End of the pip boy here                               
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
                  05 LINE 11 COl 30 VALUE   
@@ -566,7 +573,7 @@
              FOREGROUND-COLOR is 2.
              05 LINE 37 COLUMN 30 VALUE "Enter a password:".
              05 LINE 37 COLUMN 50 VALUE " (Your password must be a minim
-      -      "um of 6 characters and include at least 1 number.) ".
+      -      "um of 6 characters and 1 number.) ".
              05 LINE 38 COLUMN 30 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 NEW-PASSWORD-FIELD LINE 39 COLUMN 30 PIC X(20)
@@ -581,8 +588,7 @@
                 USING ACCOUNT-NUM.
              05 LINE 44 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 46 COLUMN 30 VALUE "(s) Submit".
-             05 LINE 47 COLUMN 30 VALUE "(q) Go Back".
+             
              05 LINE 49 COLUMN 30 VALUE "Pick: ".
              05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 38 PIC X
                 USING REGISTER-CHOICE.
