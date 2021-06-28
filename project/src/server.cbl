@@ -29,7 +29,7 @@
              ORGANIZATION IS LINE SEQUENTIAL.
           
            *>----- X AND O File Control-----    
-             SELECT FD-WINMASKS ASSIGN TO "PLACEMENT.DAT"
+             SELECT FD-WINMASKS ASSIGN TO "placement.dat"
                        ORGANIZATION IS LINE SEQUENTIAL.
            *>------Library Control-----------------------
              SELECT F-LIBRARY-FILE ASSIGN TO "library.dat"
@@ -259,7 +259,7 @@
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
 
-           01 WS-RANDOM-NUM-MSG PIC X(128). 
+           01 WS-RANDOM-NUM-MSG PIC X(40). 
 
            *>----Variables-related-to-guessing-game----
            01 WS-ANSWERWORD PIC X(20).
@@ -327,25 +327,19 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 4 COLUMN 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+            05 LINE 20 COLUMN 30 VALUE "Connected to Vault" 
+              UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 6 COLUMN 12 VALUE "(l) Go to Log-in.".
-            05 LINE 7 COLUMN 12 VALUE "(c) Create an account.".
-            05 LINE 8 COLUMN 12 VALUE "(q) Quit.". 
-            05 LINE 10 COLUMN 12 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 10 COLUMN 18 PIC X
+            05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in.".
+            05 LINE 22 COLUMN 30 VALUE "(c) Create an account.".
+            05 LINE 23 COLUMN 30 VALUE "(q) Quit.". 
+            05 LINE 24 COLUMN 30 VALUE "Pick: ".
+            05 START-CHOICE-FIELD LINE 24 COLUMN 36 PIC X
                 USING START-CHOICE.
-            05 LINE 14 COLUMN 12 VALUE "(a) Administrator.".
-           
-           01 REGISTER-NEW-USER-SCREEN
-              BACKGROUND-COLOR IS 0.
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
-      *>>  Start of the pip boy here needs to be seperated            
+            05 LINE 25 COLUMN 30 VALUE "(a) Administrator.".
+
+           01 PIP-BOY-SCREEN.
+                     
                  05 LINE 5 COL 10 VALUE 
            "============================================================
       -    "==========================================================="
@@ -355,176 +349,188 @@
       -    "________________________________________________________   "
            .
                  05 LINE 7 COL 10 VALUE
-           "   / |    \      /                                         
-      -    "                                                        \  "
-           .
+           "   / |    \      /".
+                 05 LINE 7 COL 124 VALUE
+           "\  ".
                  05 LINE 8 COL 10 VALUE 
-           "  (  |)-   )  | 0|                                          
-      -    "                                                      | |__"
-           .
+           "  (  |)-   )  | 0|".
+                 05 line 8 COL 124 VALUE
+           "| |__".
                  05 LINE 9 COL 10 VALUE 
-           "  /\_|____/   |_ |                                          
-      -    "                                                      | |0|"
-           .
+           "  /\_|____/   |_ |".
+                 05 LINE 9 COL 124 VALUE
+           "| |0|".
                  05 LINE 14 COL 10 VALUE
-           "|    _________  ||                                          
-      -    "                                                      | | |"
-           .
+           "|    _________  ||".
+                 05 LINE 14 COL 124 VALUE
+           "| | |".
                  05 LINE 15 COL 10 VALUE 
-           "|   |-Pip-Boy-|TT|                                            
-      -    "                                                      | | |"
-           .
+           "|   |-Pip-Boy-|TT|".
+                 05 LINE 15 COL 124 VALUE
+           "| | |".
                  05 LINE 16 COL 10 VALUE
-           "|   |-=======-|++|                                            
-      -    "                                                      | |_|"
-           .
+           "|   |-=======-|++|".
+                 05 LINE 16 COL 124 VALUE
+           "| |_|".
                  05 LINE 17 COL 10 VALUE
-           "|   |-=======-|++|                                            
-      -    "                                                      | |=|"
-           .
+           "|   |-=======-|++|".
+                 05 LINE 17 COL 124 VALUE
+           "| |=|".
                  05 LINE 18 COL 10 VALUE
-           "|   |- MODEL -|11|                                          
-      -    "                                                      | |=|"
-           .
+           "|   |- MODEL -|11|".
+                 05 LINE 18 COL 124 VALUE
+           "| |=|".
                  05 LINE 19 COL 10 VALUE
-           "|   |- 3000  -| ||                                          
-      -    "                                                      | |=|"
-           .
+           "|   |- 3000  -| ||".
+                 05 LINE 19 COL 124 VALUE
+           "| |=|".
                  05 LINE 20 COL 10 VALUE
-           "|   '---------' ||                                          
-      -    "                                                      | |=|"
-           .
+           "|   '---------' ||".
+                 05 LINE 20 COL 124 VALUE
+           "| |=|".
                  05 LINE 10 COL 10 VALUE
-           "/ '             ||                                          
-      -    "                                                      | |=|"
-           .  
+           "/ '             ||".
+                 05 LINE 10 COL 124 VALUE
+           "| |=|".
                  05 LINE 11 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 11 COL 124 VALUE
+           "| |=|".
                  05 LINE 12 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 12 COL 124 VALUE
+           "| |=|".
                  05 LINE 13 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 13 COL 124 VALUE
+           "| |=|".
                  05 LINE 21 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 21 COL 124 VALUE
+           "| |=|".
                  05 LINE 22 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 22 COL 124 VALUE
+           "| |=|".
                  05 LINE 23 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .  
+           "|               ||".
+                 05 LINE 23 COL 124 VALUE
+           "| |=|".
                  05 LINE 24 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 24 COL 124 VALUE
+           "| |=|".
                  05 LINE 25 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 25 COL 124 VALUE
+           "| |=|".
                  05 LINE 26 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 26 COL 124 VALUE
+           "| |=|".
                  05 LINE 27 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 27 COL 124 VALUE
+           "| |=|".
                  05 LINE 28 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 28 COL 124 VALUE
+           "| |=|".
                  05 LINE 29 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 29 COL 124 VALUE
+           "| |=|".
                  05 LINE 30 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 30 COL 124 VALUE
+           "| |=|".
                  05 LINE 31 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 31 COL 124 VALUE
+           "| |=|".
                  05 LINE 32 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 32 COL 124 VALUE
+           "| |=|".
+
                  05 LINE 33 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 33 COL 124 VALUE
+           "| |=|".
                  05 LINE 34 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 34 COL 124 VALUE
+           "| |=|".
                  05 LINE 35 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 35 COL 124 VALUE
+           "| |=|".
                  05 LINE 36 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 36 COL 124 VALUE
+           "| |=|".
                  05 LINE 37 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
+           "|               ||".
+                 05 LINE 37 COL 124 VALUE
+           "| |=|".
                  05 LINE 38 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | |=|"
-           .
-           
-                 
+           "|               ||".
+                 05 LINE 38 COL 124 VALUE
+           "| |=|".
                  05 LINE 39 COL 10 VALUE
-           "|     _____     ||                                          
-      -    "                                                      | |=|"
-           .
+           "|     _____     ||".
+                 05 LINE 39 COL 124 VALUE
+           "| |=|".
                  05 LINE 40 COL 10 VALUE
-           "|   .'\ | /'.   ||                                          
-      -    "                                                      | |=|"
-           .
+           "|   .'\ | /'.   ||".
+                 05 LINE 40 COL 124 VALUE
+           "| |=|".
                  05 LINE 41 COL 10 VALUE
-           "|   |-e(x)it|   ||                                          
-      -    "                                                      | |=|"
-           .
+           "|   |-e(x)it|   ||".
+                 05 LINE 41 COL 124 VALUE
+           "| |=|".
                  05 LINE 42 COL 10 VALUE
-           "|   './_|_\.'   ||                                          
-      -    "                                                      | | |"
-           .
+           "|   './_|_\.'   ||".
+                 05 LINE 42 COL 124 VALUE
+           "| | |".
                  05 LINE 43 COL 10 VALUE
-           "|               ||                                          
-      -    "                                                      | | |"
-           .
+           "|               ||".
+                 05 LINE 43 COL 124 VALUE
+           "| | |".
                  05 LINE 44 COL 10 VALUE
-           "|              _||                                          
-      -    "                                                      | | |"
-           .
+           "|              _||".
+                 05 LINE 44 COL 124 VALUE
+           "| | |".
                  05 LINE 45 COL 10 VALUE
            "\              /0|_________________________________________
       -    "______________________________________________________| |0|"
            .
                  05 LINE 46 COL 10 VALUE
-           " \            ''|_________________|SUBMIT  QUIT|____________
-      -    "_________________________________________________________/".
+           " \            ''|___________________________________________
+      -    "____|SUBMIT  QUIT|______________________________________/".
                  05 LINE 47 COL 10 VALUE
-           "   \_________/     |===|          | (s)     (q)|            
-      -    "                                                      /".
+           "   \_________/     |===|                                    
+      -    "    | (s)     (q)|                                    /".
                  05 LINE 48 COL 10 VALUE
-           "             \_____|___/__________||||||||||||||____________
-      -    "____________________________________________________/".
+           "             \_____|___/____________________________________
+      -    "____||||||||||||||___________________________________/".
                  05 LINE 50 COL 10 VALUE
            "============================================================
       -    "==========================================================="
            . 
+
+           01 REGISTER-NEW-USER-SCREEN
+              BACKGROUND-COLOR IS 0.
+                 05 BLANK SCREEN.
+                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
+                 05 LINE 2 COL 4 VALUE ":".
+                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+                 05 LINE 4 COL 12 VALUE "Connected to Vault" 
+                   UNDERLINE, BLINK
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
+           
+      *>>  
+
       *>>>>>End of the pip boy here                               
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
@@ -599,39 +605,40 @@
                  05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
                  05 LINE 2 COL 4 VALUE ":".
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 05 LINE 4 COL 30 VALUE "Connected to Vault"
+                    UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
-                 05 LINE 08 COl 12 VALUE
+                 05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
-                 05 LINE 10 COl 12 VALUE   
+                 05 LINE 10 COl 30 VALUE   
            "______       _ _      _   _" FOREGROUND-COLOR IS 3.
-                 05 LINE 11 COl 10 VALUE         
+                 05 LINE 11 COl 28 VALUE         
            "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
-                 05 LINE 12 COl 10 VALUE  
+                 05 LINE 12 COl 28 VALUE  
            "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
-                 05 LINE 13 COl 10 VALUE    
+                 05 LINE 13 COl 28 VALUE    
            "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
-                 05 LINE 14 COl 10 VALUE   
+                 05 LINE 14 COl 28 VALUE   
            "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 15 COl 10 VALUE  
+                 05 LINE 15 COl 28 VALUE  
            "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
-                 05 LINE 18 COl 10 VALUE                                                                        
+                 05 LINE 18 COl 28 VALUE                                                                        
            "    ______                     _" FOREGROUND-COLOR IS 2.
-                 05 LINE 19 COl 10 VALUE      
+                 05 LINE 19 COl 28 VALUE      
            "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 20 COl 10 VALUE     
+                 05 LINE 20 COl 28 VALUE     
            "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
-                 05 LINE 21 COl 10 VALUE     
+                 05 LINE 21 COl 28 VALUE     
            "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
-                 05 LINE 22 COl 10 VALUE     
+                 05 LINE 22 COl 28 VALUE     
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
-                 05 LINE 23 COl 10 VALUE     
+                 05 LINE 23 COl 28 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-                 05 LINE 27 COL 12 VALUE "Enter your username:".
-                 05 USER-NAME-FIELD LINE 29 COL 12 PIC X(16)
+                 05 LINE 27 COL 30 VALUE "Enter your username:".
+                 05 USER-NAME-FIELD LINE 29 COL 30 PIC X(16)
                     USING USER-NAME.
-                 05 LINE 31 COL 12 VALUE "Enter your password:".
-                 05 PASSWORD-FIELD LINE 33 COLUMN 12 PIC X(20)
+                 05 LINE 31 COL 30 VALUE "Enter your password:".
+                 05 PASSWORD-FIELD LINE 33 COLUMN 30 PIC X(20)
                     USING WS-PASSWORD.   
                               
            01 ERROR-SCREEN
@@ -640,41 +647,42 @@
                  05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
                  05 LINE 2 COL 4 VALUE ":".
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+                 05 LINE 4 COL 30 VALUE "Connected to Vault" 
+                   UNDERLINE, BLINK
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
-                 05 LINE 08 COl 12 VALUE
+                 05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
-                 05 LINE 10 COl 12 VALUE   
+                 05 LINE 10 COl 30 VALUE   
            "______       _ _      _   _" FOREGROUND-COLOR IS 3.
-                 05 LINE 11 COl 10 VALUE         
+                 05 LINE 11 COl 28 VALUE         
            "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
-                 05 LINE 12 COl 10 VALUE  
+                 05 LINE 12 COl 28 VALUE  
            "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
-                 05 LINE 13 COl 10 VALUE    
+                 05 LINE 13 COl 28 VALUE    
            "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
-                 05 LINE 14 COl 10 VALUE   
+                 05 LINE 14 COl 28 VALUE   
            "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 15 COl 10 VALUE  
+                 05 LINE 15 COl 28 VALUE  
            "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
-                 05 LINE 18 COl 10 VALUE                                                                        
+                 05 LINE 18 COl 28 VALUE                                                                        
            "    ______                     _" FOREGROUND-COLOR IS 2.
-                 05 LINE 19 COl 10 VALUE      
+                 05 LINE 19 COl 28 VALUE      
            "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 20 COl 10 VALUE     
+                 05 LINE 20 COl 28 VALUE     
            "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
-                 05 LINE 21 COl 10 VALUE     
+                 05 LINE 21 COl 28 VALUE     
            "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
-                 05 LINE 22 COl 10 VALUE     
+                 05 LINE 22 COl 28 VALUE     
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
-                 05 LINE 23 COl 10 VALUE     
+                 05 LINE 23 COl 28 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-             05 LINE 27 COLUMN 12 VALUE "Incorrect Username or Password"
+             05 LINE 27 COLUMN 30 VALUE "Incorrect Username or Password"
              HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 29 COLUMN 12 VALUE "(l) Back to Log-in.".
-             05 LINE 30 COLUMN 12 VALUE "(c) Create an account.".
-             05 LINE 31 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 33 COLUMN 12 VALUE "Pick: ".
-             05 ERROR-CHOICE-FIELD LINE 33 COLUMN 18 PIC X
+             05 LINE 29 COLUMN 30 VALUE "(l) Back to Log-in.".
+             05 LINE 30 COLUMN 30 VALUE "(c) Create an account.".
+             05 LINE 31 COLUMN 30 VALUE "(q) Go Back." .
+             05 LINE 33 COLUMN 30 VALUE "Pick: ".
+             05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
                 USING ERROR-CHOICE.
 
            01 ADMIN-LOGIN-SCREEN
@@ -683,20 +691,21 @@
              05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE 2 COL 4 VALUE ":".
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+             05 LINE 4 COL 30 VALUE "Connected to Vault"
+                UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
+             05 LINE 6 COL 30 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
              FOREGROUND-COLOR IS 4 . 
-             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
+             05 LINE 8 COL 30 VALUE "Enter Administrator username:".
              05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
                 USING ADMIN-NAME.
-             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
+             05 LINE 12 COL 30 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 30 PIC X(20)
                 USING ADMIN-PASSWORD.  
-             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
-             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 19 COLUMN 12 VALUE "Pick: ".
-             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
+             05 LINE 16 COLUMN 30 VALUE "(l) Log-in.".
+             05 LINE 17 COLUMN 30 VALUE "(q) Go Back." .
+             05 LINE 19 COLUMN 30 VALUE "Pick: ".
+             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 36 PIC X
                 USING ADMIN-ENTER.
            
            01 ADMIN-MENU-SCREEN
@@ -705,26 +714,27 @@
              05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE 2 COL 4 VALUE ":".
              05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS. 
-             05 LINE 4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
+             05 LINE 4 COL 10 VALUE "Connected to Vault"
+                UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 8 COL 10 VALUE "Welcome, ".
-             05 LINE 8 COL 19 PIC X(16) USING ADMIN-NAME.
-             05 LINE 10 COL 10 VALUE "Please select from the below optio
+             05 LINE 8 COL 30 VALUE "Welcome, ".
+             05 LINE 8 COL 39 PIC X(16) USING ADMIN-NAME.
+             05 LINE 10 COL 28 VALUE "Please select from the below optio
       -      "ns.".  
-             05 LINE 13 COL 10 VALUE "(s) View Statements "
+             05 LINE 13 COL 28 VALUE "(s) View Statements "
                 REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 13 COL 32 VALUE "(u) Manage Users    "
+             05 LINE 13 COL 54 VALUE "(u) Manage Users    "
                 REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 15 COL 10 VALUE "(s) Add Admin       "
+             05 LINE 15 COL 28 VALUE "(s) Add Admin       "
                 REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 15 COL 32 VALUE "(u) Manage Posts    "
+             05 LINE 15 COL 54 VALUE "(u) Manage Posts    "
                 REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 17 COL 10 VALUE "(l) Logout          "
+             05 LINE 17 COL 28 VALUE "(l) Logout          "
                 REVERSE-VIDEO , HIGHLIGHT.             
-             05 LINE 17 COL 32 VALUE "(q) Quit            "
+             05 LINE 17 COL 54 VALUE "(q) Quit            "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 21 COL 14 VALUE "Pick: ".
-             05 ADMIN-CHOICE-FIELD LINE 21 COL 20 PIC X
+             05 LINE 21 COL 24 VALUE "Pick: ".
+             05 ADMIN-CHOICE-FIELD LINE 21 COL 28 PIC X
                 USING ADMIN-CHOICE.
 
            01 MENU-SCREEN
@@ -734,45 +744,39 @@
              05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE  2 COL 4 VALUE ":".
              05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
+             05 LINE  4 COL 10 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE  6 COL 10 VALUE "Hi, ".
-             05 LINE  6 COL 14 PIC X(16) USING USER-NAME.
-             05 LINE  8 COL 10 VALUE "Welcome to TMNCT's state of the ar
+             05 LINE  6 COL 28 VALUE "Hi, ".
+             05 LINE  6 COL 32 PIC X(16) USING USER-NAME.
+            05 LINE  23 COL 46 VALUE "Welcome to TMNCT's state of the ar
       -      "t Bulletin Board.".  
-             05 LINE  9 COL 10 VALUE "Feel free to:".
-             05 LINE 10 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE 10 COL 26 VALUE "Read our message board.".
-             05 LINE 11 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE 11 COL 26 VALUE "Play a few games.".
-             05 LINE 12 COL 24 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE 12 COL 26 VALUE "Leave a message of your own.". 
-             05 LINE 13 COL 24 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE 13 COL 26 VALUE "Most importantly. HAVE FUN!". 
+             05 LINE  24 COL 46 VALUE "Feel free to:".
+             05 LINE 25 COL 46 VALUE "* " FOREGROUND-COLOR IS 2.
+             05 LINE 25 COL 48 VALUE "Read our message board.".
+             05 LINE 26 COL 46 VALUE "* " FOREGROUND-COLOR IS 5.
+             05 LINE 26 COL 48 VALUE "Play a few games.".
+             05 LINE 27 COL 46 VALUE "* " FOREGROUND-COLOR IS 2.
+             05 LINE 27 COL 48 VALUE "Leave a message of your own.". 
+             05 LINE 28 COL 46 VALUE "* " FOREGROUND-COLOR IS 5.
+             05 LINE 28 COL 48 VALUE "Most importantly. HAVE FUN!". 
              
-             05 LINE 19 COL 60 VALUE "(b) Library     "
+             05 LINE 34 COL 82 VALUE "(b) Library     "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 19 COL 24 VALUE "(m) Messages    "
+             05 LINE 34 COL 46 VALUE "(m) Messages    "
                 REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 19 COL 42 VALUE "(f) Fun & games "
+             05 LINE 34 COL 64 VALUE "(f) Fun & games "
                 REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 21 COL 24 VALUE "(l) Logout      "
+             05 LINE 36 COL 46 VALUE "(l) Logout      "
                 REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 21 COL 42 VALUE "(c) Buy Credits "
+             05 LINE 36 COL 64 VALUE "(c) Buy Credits "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 23 COL 42 VALUE "(q) Quit        "
+             05 LINE 38 COL 64 VALUE "(q) Quit        "
                 REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 25 COL 24 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 25 COL 30 PIC X
+             05 LINE 38 COL 46 VALUE "Pick: ".
+             05 MENU-CHOICE-FIELD LINE 38 COL 53 PIC X
                 USING MENU-CHOICE.
-
-             05 LINE 27 COL 25 VALUE "     [.. [....... [..       [..".
-             05 LINE 28 COL 25 VALUE "     [.. [..      [. [..   [...".
-             05 LINE 29 COL 25 VALUE "     [.. [..      [.. [.. [ [..".
-             05 LINE 30 COL 25 VALUE "     [.. [......  [..  [..  [..".
-             05 LINE 31 COL 25 VALUE "     [.. [..      [..   [.  [..".
-             05 LINE 32 COL 25 VALUE " [.  [.. [..      [..       [..".
-             05 LINE 33 COL 25 VALUE " [...... [....... [..       [.. ".        
+        
            
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -780,59 +784,54 @@
              05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE  2 COL 4 VALUE ":".
              05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
-             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE  6 COL 10 VALUE "          +++             -`^'-         
-      -      "         )))" FOREGROUND-COLOR IS 6.
-             05 LINE 7 COL 10 VALUE "         (o o)            (o o)            
-      -      "        (o o)" FOREGROUND-COLOR IS 3.
-             05 LINE 8 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
-      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
+             05 LINE  4 COL 48 VALUE "Connected to Vault" UNDERLINE.
+             
 
-             05 LINE 9 COL 10 VALUE "*********************BULLETIN BOARD
+            05 LINE 19 COL 48 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 10 COL 10 VALUE "-----------------------------------
+             05 LINE 20 COL 48 VALUE "-----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE  11 COL 10 PIC XXX USING LIST-ID(ID-NUM).
-             05 LINE  11 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM).
-             05 LINE 12 COL 10 PIC XXX USING LIST-ID(ID-NUM + 1).
-             05 LINE 12 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 1).
-             05 LINE 13 COL 10 PIC XXX USING LIST-ID(ID-NUM + 2).
-             05 LINE 13 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 2).
-             05 LINE 14 COL 10 PIC XXX USING LIST-ID(ID-NUM + 3).
-             05 LINE 14 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 3).
-             05 LINE 15 COL 10 PIC XXX USING LIST-ID(ID-NUM + 4).
-             05 LINE 15 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 4).
-             05 LINE 16 COL 10 PIC XXX USING LIST-ID(ID-NUM + 5).
-             05 LINE 16 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 5).
-             05 LINE 17 COL 10 PIC XXX USING LIST-ID(ID-NUM + 6).
-             05 LINE 17 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 6).
-             05 LINE 18 COL 10 PIC XXX USING LIST-ID(ID-NUM + 7).
-             05 LINE 18 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 7).
-             05 LINE 19 COL 10 PIC XXX USING LIST-ID(ID-NUM + 8).
-             05 LINE 19 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 8).
-             05 LINE 20 COL 10 PIC XXX USING LIST-ID(ID-NUM + 9).
-             05 LINE 20 COL 14 PIC X(50) USING LIST-TITLE(ID-NUM + 9).
-             05 LINE 21 COL 10 VALUE "----------------------------------
+             05 LINE  21 COL 48 PIC XXX USING LIST-ID(ID-NUM).
+             05 LINE  21 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM).
+             05 LINE 22 COL 48 PIC XXX USING LIST-ID(ID-NUM + 1).
+             05 LINE 22 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 1).
+             05 LINE 23 COL 48 PIC XXX USING LIST-ID(ID-NUM + 2).
+             05 LINE 23 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 2).
+             05 LINE 24 COL 48 PIC XXX USING LIST-ID(ID-NUM + 3).
+             05 LINE 24 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 3).
+             05 LINE 25 COL 48 PIC XXX USING LIST-ID(ID-NUM + 4).
+             05 LINE 25 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 4).
+             05 LINE 26 COL 48 PIC XXX USING LIST-ID(ID-NUM + 5).
+             05 LINE 26 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 5).
+             05 LINE 27 COL 48 PIC XXX USING LIST-ID(ID-NUM + 6).
+             05 LINE 27 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 6).
+             05 LINE 28 COL 48 PIC XXX USING LIST-ID(ID-NUM + 7).
+             05 LINE 28 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 7).
+             05 LINE 29 COL 48 PIC XXX USING LIST-ID(ID-NUM + 8).
+             05 LINE 29 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 8).
+             05 LINE 30 COL 48 PIC XXX USING LIST-ID(ID-NUM + 9).
+             05 LINE 30 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 9).
+             05 LINE 31 COL 48 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 22 COL 10 VALUE "*********************RECENT MESSAG
+             05 LINE 31 COL 48 VALUE "*********************RECENT MESSAG
       -      "ES*******************" FOREGROUND-COLOR IS 2.
-             05 LINE 23 COL 10 VALUE "----------------------------------
+             05 LINE 32 COL 48 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 25 COL 24 VALUE "( ) Read Message by Number "
+             05 LINE 34 COL 66 VALUE "( ) Read Message by Number "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
-             05 LINE 27 COL 24 VALUE "(w) Write your own message "
+             05 LINE 35 COL 66 VALUE "(w) Write your own message "
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.               
-             05 LINE 29 COL 18 VALUE "(n) Next Page     "
+             05 LINE 36 COL 66 VALUE "(n) Next Page     "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.  
-             05 LINE 29 COL 41 VALUE "(p) Previous Page "
+             05 LINE 37 COL 66 VALUE "(p) Previous Page "
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6. 
-             05 LINE 31 COL 18 VALUE "(g) Go back       "
+             05 LINE 38 COL 66 VALUE "(g) Go back       "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 31 COL 41 VALUE "(q) Quit          "
+             05 LINE 39 COL 66 VALUE "(q) Quit          "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 33 COL 18 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE-FIELD LINE 33 COL 24 PIC XXX
+             05 LINE 40 COL 66 VALUE "Pick: ".
+             05 MSG-MENU-CHOICE-FIELD LINE 40 COL 70 PIC XXX
                 USING MSG-MENU-CHOICE.
 
            01 MESSAGE-VIEW-SCREEN
@@ -841,42 +840,37 @@
              05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE  2 COL 4 VALUE ":".
              05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
-             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE  6 COL 10 VALUE "          \|/             '%%%'         
-      -      "         (((" FOREGROUND-COLOR IS 6.
-             05 LINE  7 COL 10 VALUE "         (o o)            (> o)            
-      -      "        (o o)" FOREGROUND-COLOR IS 3.
-             05 LINE 8 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
-      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
+             05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
+             
 
-             05 LINE 9 COL 10 VALUE "*********************BULLETIN BOARD
+            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 10 COL 10 VALUE "-----------------------------------
+             05 LINE 20 COL 50 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 12 COL 10 VALUE "Title: ".
-             05 LINE 12 COL 19 PIC X(50) USING LIST-TITLE(MSG-SELECT).
-             05 LINE 14 COL 10 VALUE "Message: ".
-             05 LINE 14 COL 19 PIC X(60) USING LS-PART-1.
-             05 LINE 15 COL 19 PIC X(60) USING LS-PART-2.
-             05 LINE 16 COL 19 PIC X(60) USING LS-PART-3.
-             05 LINE 17 COL 19 PIC X(60) USING LS-PART-4.
-             05 LINE 18 COL 19 PIC X(60) USING LS-PART-5.
-             05 LINE 20 COL 10 VALUE "Author: ".
-             05 LINE 20 COL 19 PIC X(16) 
+             05 LINE 22 COL 45 VALUE "Title: ".
+             05 LINE 22 COL 53 PIC X(50) USING LIST-TITLE(MSG-SELECT).
+             05 LINE 24 COL 45 VALUE "Message: ".
+             05 LINE 24 COL 54 PIC X(60) USING LS-PART-1.
+             05 LINE 25 COL 54 PIC X(60) USING LS-PART-2.
+             05 LINE 26 COL 54 PIC X(60) USING LS-PART-3.
+             05 LINE 27 COL 54 PIC X(60) USING LS-PART-4.
+             05 LINE 28 COL 54 PIC X(60) USING LS-PART-5.
+             05 LINE 30 COL 45 VALUE "Author: ".
+             05 LINE 30 COL 54 PIC X(16) 
                 USING LIST-USERNAME(MSG-SELECT).
-             05 LINE 22 COL 10 VALUE "----------------------------------
+             05 LINE 32 COL 50 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 23 COL 10 VALUE "*********************CHOSEN MESSAG
+             05 LINE 33 COL 50 VALUE "*********************CHOSEN MESSAG
       -      "E********************" FOREGROUND-COLOR IS 2.
-             05 LINE 24 COL 10 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.  
-             05 LINE 27 COL 25 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 27 COL 39 VALUE "(q) Quit   "
-                REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 28 COL 25 VALUE "Pick: ".
-             05 MSG-VIEW-CHOICE-FIELD LINE 28 COL 31 PIC X 
+             05 LINE 34 COL 50 VALUE "----------------------------------
+      -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 37 COL 45 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.
+             05 LINE 38 COL 45 VALUE "(q) Quit   "
+                REVERSE-VIDEO, HIGHLIGHT.
+             05 LINE 39 COL 45 VALUE "Pick: ".
+             05 MSG-VIEW-CHOICE-FIELD LINE 39 COL 53 PIC X 
                USING MSG-VIEW-CHOICE.
 
            01 WRITE-MSG-SCREEN
@@ -885,32 +879,26 @@
              05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE  2 COL 4 VALUE ":".
              05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
-             05 LINE  4 COL 10 VALUE "MAKERS BBS" UNDERLINE.
-             05 LINE  6 COL 10 VALUE "         ~@@@~            '^^^'         
-      -      "        .:;:." FOREGROUND-COLOR IS 6.
-             05 LINE  7 COL 10 VALUE "         (o-o)            (> <)            
-      -      "        (> o)" FOREGROUND-COLOR IS 3.
-             05 LINE  6 COL 10 VALUE "-----ooO--(_)--Ooo----ooO--(_)--Ooo
-      -      "----ooO--(_)--Ooo----" FOREGROUND-COLOR IS 3.
-
-             05 LINE 8 COL 10 VALUE "*********************BULLETIN BOARD
+             05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
+      
+            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
-             05 LINE 9 COL 10 VALUE "-----------------------------------
+            05 LINE 20 COL 50 VALUE "-----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 11 COL 10 VALUE "TITLE:   ".
-             05 WS-TITLE-FIELD LINE 11 COL 18 PIC X(50) USING WS-TITLE.
-             05 LINE 13 COL 10 VALUE "MESSAGE: ".
-             05 LINE-1-FIELD LINE 15 COL 10 PIC X(60) USING LS-PART-1.
-             05 LINE-2-FIELD LINE 16 COL 10 PIC X(60) USING LS-PART-2.
-             05 LINE-3-FIELD LINE 17 COL 10 PIC X(60) USING LS-PART-3.
-             05 LINE-4-FIELD LINE 18 COL 10 PIC X(60) USING LS-PART-4.
-             05 LINE-5-FIELD LINE 19 COL 10 PIC X(60) USING LS-PART-5. 
-             05 LINE 21 COL 10 VALUE "----------------------------------
+             05 LINE 22 COL 45 VALUE "TITLE:   ".
+             05 WS-TITLE-FIELD LINE 22 COL 54 PIC X(50) USING WS-TITLE.
+             05 LINE 24 COL 45 VALUE "MESSAGE: ".
+             05 LINE-1-FIELD LINE 24 COL 54 PIC X(60) USING LS-PART-1.
+             05 LINE-2-FIELD LINE 25 COL 54 PIC X(60) USING LS-PART-2.
+             05 LINE-3-FIELD LINE 26 COL 54 PIC X(60) USING LS-PART-3.
+             05 LINE-4-FIELD LINE 27 COL 54 PIC X(60) USING LS-PART-4.
+             05 LINE-5-FIELD LINE 28 COL 54 PIC X(60) USING LS-PART-5. 
+             05 LINE 29 COL 55 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 22 COL 10 VALUE "*********************LEAVE A MESSA
+             05 LINE 30 COL 56 VALUE "*********************LEAVE A MESSA
       -      "GE*******************" FOREGROUND-COLOR IS 2.
-             05 LINE 23 COL 10 VALUE "----------------------------------
+             05 LINE 31 COL 57 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
            
            01 GAMES-MENU-SCREEN
@@ -919,341 +907,220 @@
              05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
              05 LINE  2 COL 4 VALUE ":".
              05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
-             05 LINE 4 COL 10 VALUE".------..------..------..------..---
-      -      "---." FOREGROUND-COLOR IS 3.
-             05 LINE 5 COL 10 VALUE"|G.--. ||A.--. ||M.--. ||E.--. ||S.-
-      -      "-. |" FOREGROUND-COLOR IS 2.
-             05 LINE 6 COL 10 VALUE"| :/\: || (\/) || :/\: || (\/) || :/
-      -      "\: |" FOREGROUND-COLOR IS 5.
-             05 LINE 7 COL 10 VALUE"| :\/: || :\/: || :\/: || :\/: || :\
-      -      "/: |" FOREGROUND-COLOR IS 5.
-             05 LINE 8 COL 10 VALUE"| '--'G|| '--'A|| '--'M|| '--'E|| '-
-      -      "-'S|" FOREGROUND-COLOR IS 2.
-             05 LINE 9 COL 10 VALUE"`------'`------'`------'`------'`---
-      -      "---'" FOREGROUND-COLOR IS 3.
-             05 LINE 10 COL 18 VALUE"          ___"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 11 COL 18 VALUE"        ,'---'."
-             FOREGROUND-COLOR IS 4.
-             05 LINE 12 COL 18 VALUE"        :     ;"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 13 COL 18 VALUE"         `-.-'"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 14 COL 18 VALUE"          | |" 
-             FOREGROUND-COLOR IS 6.
-             05 LINE 15 COL 18 VALUE"          | |"
-             FOREGROUND-COLOR IS 6.
-             05 LINE 16 COL 18 VALUE"          | |"
-             FOREGROUND-COLOR IS 6.
-             05 LINE 17 COL 18 VALUE"       _.-\_/-._"
-             FOREGROUND-COLOR IS 3.
-             05 LINE 18 COL 18 VALUE"    _ / |     | \ _"
-             FOREGROUND-COLOR IS 3.
-             05 LINE 19 COL 18 VALUE"   / /   `---'   \ \"
-             FOREGROUND-COLOR IS 3.
-             05 LINE 20 COL 18 VALUE"  /  `-----------'  \"
-             FOREGROUND-COLOR IS 3.
-             05 LINE 21 COL 18 VALUE" /,-''-.       ,-''-.\"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 22 COL 18 VALUE"( i-..-i       i-..-i )"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 23 COL 18 VALUE"|`|    |-------|    |'|"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 24 COL 18 VALUE"\ `-..-'  ,=.  `-..-' /"
-             FOREGROUND-COLOR IS 4.
-             05 LINE 25 COL 18 VALUE" `--------|=|--------'"
-             FOREGROUND-COLOR IS 3.
+             
 
-             05 LINE 28 COL 21 VALUE "(h) Hangman"
+             05 LINE 28 COL 43 VALUE "(h) Hangman"
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 30 COL 21 VALUE "(n) Guess The Number" 
+             05 LINE 30 COL 43 VALUE "(n) Guess The Number" 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 32 COL 21 VALUE "(o) O and X         "  
+             05 LINE 32 COL 43 VALUE "(o) O and X         "  
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 21 VALUE "(m) Monkey?       " 
-             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.
-             05 LINE 36 COL 18 VALUE "(g) Go back "
+           
+             05 LINE 36 COL 36 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 36 COL 32 VALUE "(q) Quit    "
+             05 LINE 36 COL 54 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 38 COL 18 VALUE "Pick: ".
-             05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 24 PIC X
+             05 LINE 38 COL 36 VALUE "Pick: ".
+             05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 41 PIC X
                 USING GAMES-MENU-CHOICE.     
-
-           01 MONKEY-MENU-SCREEN
-             BACKGROUND-COLOR IS 0  BLINK.
-             05 BLANK SCREEN.
-             05 LINE  5 COL 10 VALUE "               __,__"
-             FOREGROUND-COLOR IS 2.
-             05 LINE  6 COL 10 VALUE "      .--.  .-'     '-.  .--."
-             FOREGROUND-COLOR IS 2.
-             05 LINE  7 COL 10 VALUE "     / .. \/  .-. .-.  \/ .. \"
-             FOREGROUND-COLOR IS 2.
-             05 LINE  8 COL 10 VALUE "     | |  '|  /   Y   \  |'  | "
-             FOREGROUND-COLOR IS 3.
-             05 LINE  9 COL 10 VALUE "     | \   \  \ 0 | 0 /  /   / "
-             FOREGROUND-COLOR IS 3.
-             05 LINE 10 COL 10 VALUE "     \ '- ,\.-'`` ``'-./, -' /"
-             FOREGROUND-COLOR IS 3.
-             05 LINE 11 COL 10 VALUE "      `'-' /_   ^ ^   _\ '-'`"
-             FOREGROUND-COLOR IS 5.
-             05 LINE 12 COL 10 VALUE "      .--'|  \._ _ _./  |'--."
-             FOREGROUND-COLOR IS 5.
-             05 LINE 13 COL 10 VALUE "     /`    \   \.-.  /   /    `\"
-             FOREGROUND-COLOR IS 5.
-             05 LINE 14 COL 10 VALUE "    /       '._/  |-' _.'       
-      -          "\" FOREGROUND-COLOR IS 5.
-             05 LINE 15 COL 10 VALUE "   /          ;  /--~'   |       
-      -      "\" FOREGROUND-COLOR IS 6.
-             05 LINE 16 COL 10 VALUE "  /        .'\|.-\--.     \       
-      -      "\" FOREGROUND-COLOR IS 6.
-             05 LINE 17 COL 10 VALUE " /   .'-. /.-.;\  |\|'~'-.|\      
-      -       "\" FOREGROUND-COLOR IS 6.
-             05 LINE 17 COL 10 VALUE " \       `-./`|_\_/ `     `\'.    
-      -        "\" FOREGROUND-COLOR IS 2.
-             05 LINE 18 COL 10 VALUE "  '.      ;     ___)        '.`;  
-      -        "/" FOREGROUND-COLOR IS 2.
-             05 LINE 19 COL 10 VALUE "    '-.,_ ;     ___)          \/  
-      -       "/" FOREGROUND-COLOR IS 2.
-             05 LINE 20 COL 10 VALUE "     \   ``'------'\       \   `  
-      -      "/" FOREGROUND-COLOR IS 3.
-             05 LINE 21 COL 10 VALUE "      '.    \       '.      |   ;/
-      -      "_" FOREGROUND-COLOR IS 3.
-             05 LINE 22 COL 10 VALUE "    ___>     '.       \_ _ _/   , 
-      -       "'--." FOREGROUND-COLOR IS 3.
-             05 LINE 23 COL 10 VALUE "  .'   '.   .-~~~~~-. /     |--'`~
-      -      "~-.  \" FOREGROUND-COLOR IS 5.
-             05 LINE 24 COL 10 VALUE " // / .---'/  .-~~-._/ / / /---.._
-      -      "_.'  /" FOREGROUND-COLOR IS 5.
-             05 LINE 25 COL 10 VALUE " (_(_/    /  /      (_(_(_(---.__ 
-      -      ".'  /" FOREGROUND-COLOR IS 5.
-             05 LINE 26 COL 10 VALUE "          | |     _              `
-      -      "~~`" FOREGROUND-COLOR IS 2.
-             05 LINE 27 COL 10 VALUE "          | |     \'."
-             FOREGROUND-COLOR IS 2.
-             05 LINE 28 COL 10 VALUE "           \ '....' |"
-             FOREGROUND-COLOR IS 2.
-             05 LINE 29 COL 10 VALUE "            '.,___.'"
-             FOREGROUND-COLOR IS 2.
-     
-             05 LINE 34 COL 10 VALUE "(g)    Go Back"
-             REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 36 COL 10 VALUE "(q)    Quit"
-             REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 38 COL 10 VALUE "Pick: ".
-             05 MONKEY-MENU-CHOICE-FIELD LINE 38 COL 16 PIC X
-                USING MONKEY-MENU-CHOICE.
 
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
-               05 LINE 1 COL 10 VALUE "---------------------------------
+               05 LINE 16 COL 50 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 2 COL 10 VALUE "*********************************
+               05 LINE 17 COL 50 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 3 COL 10 VALUE "---------------------------------
+               05 LINE 18 COL 50 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 4 COl 18 VALUE  "  ___       _    _   _ ____   __
+               05 LINE 19 COl 60 VALUE  "  ___       _    _   _ ____   __
       -        "  __" FOREGROUND-COLOR IS 3.
-               05 LINE 5 COl 18 VALUE " / _ \     / \  | \ | |  _ \  \ \
+               05 LINE 20 COl 60 VALUE " / _ \     / \  | \ | |  _ \  \ \
       -        "/ /" FOREGROUND-COLOR IS 5.
-               05 LINE 6 COl 18 VALUE "| | | |   / _ \ |  \| | | | |  \  
+               05 LINE 21 COl 60 VALUE "| | | |   / _ \ |  \| | | | |  \  
       -        " /" FOREGROUND-COLOR IS 3.
-               05 LINE 7 COl 18 VALUE "| |_| |  / ___ \| |\  | |_| |  /  
+               05 LINE 22 COl 60 VALUE "| |_| |  / ___ \| |\  | |_| |  /  
       -         " \" FOREGROUND-COLOR IS 2.
-               05 LINE 8 COl 18 VALUE " \___/  /_/   \_\_| \_|____/  /_/
+               05 LINE 23 COl 60 VALUE " \___/  /_/   \_\_| \_|____/  /_/
       -        "\_\" FOREGROUND-COLOR IS 5.
-               05 LINE 10 COL 10 VALUE "---------------------------------
+               05 LINE 25 COL 50 VALUE "---------------------------------
       -      "----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 11 COL 10 VALUE "*********************************
+               05 LINE 26 COL 50 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 12 COL 10 VALUE "--------------------------------
+               05 LINE 27 COL 50 VALUE "--------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 14 COLUMN 27 VALUE IS "   +---+---+---+   "
+               05 LINE 28 COLUMN 49 VALUE IS "   +---+---+---+   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 15 COLUMN 27 VALUE IS " A |   |   |   |   "
+               05 LINE 29 COLUMN 49 VALUE IS " A |   |   |   |   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 16 COLUMN 27 VALUE IS "   +---+---+---+   "
+               05 LINE 30 COLUMN 49 VALUE IS "   +---+---+---+   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 17 COLUMN 27 VALUE IS " B |   |   |   |   "
+               05 LINE 31 COLUMN 49 VALUE IS " B |   |   |   |   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 18 COLUMN 27 VALUE IS "   +---+---+---+   "
+               05 LINE 32 COLUMN 49 VALUE IS "   +---+---+---+   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 19 COLUMN 27 VALUE IS " C |   |   |   |   "
+               05 LINE 33 COLUMN 49 VALUE IS " C |   |   |   |   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 20 COLUMN 27 VALUE IS "   +---+---+---+   "
+               05 LINE 34 COLUMN 49 VALUE IS "   +---+---+---+   "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 21 COLUMN 27 VALUE IS "     1   2   3     "
+               05 LINE 35 COLUMN 49 VALUE IS "     1   2   3     "
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 15 COLUMN 32 PIC A(1) FROM WS-CELL(1,1)
+               05 LINE 29 COLUMN 54 PIC A(1) FROM WS-CELL(1,1)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 15 COLUMN 36 PIC A(1) FROM WS-CELL(1,2)
+               05 LINE 29 COLUMN 58 PIC A(1) FROM WS-CELL(1,2)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 15 COLUMN 40 PIC A(1) FROM WS-CELL(1,3)
+               05 LINE 29 COLUMN 62 PIC A(1) FROM WS-CELL(1,3)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 32 PIC A(1) FROM WS-CELL(2,1)
+               05 LINE 31 COLUMN 54 PIC A(1) FROM WS-CELL(2,1)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 36 PIC A(1) FROM WS-CELL(2,2)
+               05 LINE 31 COLUMN 58 PIC A(1) FROM WS-CELL(2,2)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 17 COLUMN 40 PIC A(1) FROM WS-CELL(2,3)
+               05 LINE 31 COLUMN 62 PIC A(1) FROM WS-CELL(2,3)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 32 PIC A(1) FROM WS-CELL(3,1)
+               05 LINE 33 COLUMN 54 PIC A(1) FROM WS-CELL(3,1)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 36 PIC A(1) FROM WS-CELL(3,2)
+               05 LINE 33 COLUMN 58 PIC A(1) FROM WS-CELL(3,2)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 19 COLUMN 40 PIC A(1) FROM WS-CELL(3,3)
+               05 LINE 33 COLUMN 62 PIC A(1) FROM WS-CELL(3,3)
                    BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
 
-               05 LINE 23 COLUMN 27 VALUE IS "Message: "
+               05 LINE 35 COLUMN 49 VALUE IS "Message: "
                    FOREGROUND-COLOR IS 6.
                    05 MSG PIC X(128) FROM WS-OANDXMESSAGE.
-               05 LINE 25 COLUMN 27 PIC X(16) FROM WS-INSTRUCTION.
+               05 LINE 36 COLUMN 49 PIC X(16) FROM WS-INSTRUCTION.
                    05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
-               05 LINE 27 COLUMN 27 VALUE IS "Stats: "
+               05 LINE 37 COLUMN 49 VALUE IS "Stats: "
                    FOREGROUND-COLOR IS 6.
-               05 LINE 28 COLUMN 27 VALUE IS "Moves played = "
+               05 LINE 38 COLUMN 49 VALUE IS "Moves played = "
                    FOREGROUND-COLOR IS 2.
                    05 MOVES PIC 9(1) FROM WS-MOVES.
-               05 LINE 29 COLUMN 27 VALUE IS "Games won = "
+               05 LINE 39 COLUMN 49 VALUE IS "Games won = "
                    FOREGROUND-COLOR IS 5.
                    05 WINS PIC 9(2) FROM WS-WINS.
-               05 LINE 29 COLUMN 41 VALUE IS "/".
+               05 LINE 39 COLUMN 63 VALUE IS "/".
                    05 GAMES PIC 9(2) FROM WS-GAMES. 
-               05 LINE 31 COL 10 VALUE "---------------------------------
+              05 LINE 41 COL 50 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 32 COL 10 VALUE "*********************************
+              05 LINE 42 COL 50 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 33 COL 10 VALUE "---------------------------------
+              05 LINE 43 COL 50 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
       
            01 IN-GAME-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN. 
-             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             05 LINE 16 COLUMN 30 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 5.
-             05 LINE 3 COLUMN 10 VALUE "You wander into a small settleme
+             05 LINE 19 COLUMN 30 VALUE "You wander into a small settleme
       -      "nt, seeking shelter from the pounding sun of The Wasteland
       -      "."
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 4 COLUMN 10 VALUE "The local Lawman mistakes you fo
+            05 LINE 20 COLUMN 30 VALUE "The local Lawman mistakes you fo
       -      "r a bandit. You're tied up and on the gallows faster"
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 5 COLUMN 10 VALUE "than you can wish the townsfolk 
+             05 LINE 21 COLUMN 30 VALUE "than you can wish the townsfolk 
       -      "a friendly wasteland hello."
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 7 COLUMN 10 VALUE "You've Yee'd your last Haw."
+             05 LINE 22 COLUMN 30 VALUE "You've Yee'd your last Haw."
              HIGHLIGHT, FOREGROUND-COLOR 6.
-             05 LINE 15 COLUMN 10 VALUE "Guess this word to break free:"
+             05 LINE 23 COLUMN 30 VALUE "Guess this word to break free:"
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 17 COLUMN 10 PIC X(20) USING WS-WORD.
-             05 LINE 19 COLUMN 10 VALUE "Guesses left: ".
-             05 LINE 19 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 20 COLUMN 10 VALUE "( ) Enter a letter to guess".
-             05 LINE 21 COLUMN 10 VALUE "(!) Quit game".
-             05 LINE 22 COLUMN 10 VALUE "Pick: ".
-             05 WS-GUESS-CHOICE-FIELD LINE 22 COLUMN 16 PIC X
+             05 LINE 25 COLUMN 30 PIC X(20) USING WS-WORD.
+             05 LINE 27 COLUMN 30 VALUE "Guesses left: ".
+             05 LINE 27 COLUMN 90 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 29 COLUMN 30 VALUE "( ) Enter a letter to guess".
+             05 LINE 30 COLUMN 30 VALUE "(!) Quit game".
+             05 LINE 31 COLUMN 30 VALUE "Pick: ".
+             05 WS-GUESS-CHOICE-FIELD LINE 31 COLUMN 36 PIC X
                USING WS-GUESS-CHOICE.
 
            01 WORD-GUESSING-WINNING-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             05 LINE 16 COLUMN 30 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to Th
+            05 LINE 19 COLUMN 30 VALUE "You broke free and escaped to Th
       -      "e Wasteland!"
              HIGHLIGHT, FOREGROUND-COLOR 6.
-             05 LINE 34 COLUMN 10 VALUE "You guessed the word!".
-             05 LINE 36 COLUMN 10 PIC X(20) USING WS-ANSWERWORD.
-             05 LINE 38 COLUMN 10 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 40 COLUMN 10 VALUE "You scored: ".
-             05 LINE 38 COLUMN 50 PIC 99 USING WS-HIGH-SCORE.
-             05 LINE 42 COLUMN 10 VALUE "(p) Play Again"
+             05 LINE 30 COLUMN 30 VALUE "You guessed the word!".
+             05 LINE 32 COLUMN 30 PIC X(20) USING WS-ANSWERWORD.
+             05 LINE 38 COLUMN 30 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 40 COLUMN 30 VALUE "You scored: ".
+             05 LINE 38 COLUMN 90 PIC 99 USING WS-HIGH-SCORE.
+             05 LINE 42 COLUMN 30 VALUE "(p) Play Again"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 43 COLUMN 10 VALUE "(h) See High Scores"
+             05 LINE 43 COLUMN 30 VALUE "(h) See High Scores"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
-             05 LINE 44 COLUMN 10 VALUE "(!) Quit game"
+             05 LINE 44 COLUMN 30 VALUE "(!) Quit game"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
-             05 LINE 45 COLUMN 10 VALUE "Pick: ".
-             05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 45 COLUMN 16 PIC X
+             05 LINE 45 COLUMN 30 VALUE "Pick: ".
+             05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 45 COLUMN 36 PIC X
                USING WS-GUESSING-WINNING-CHOICE.
 
            01 WORD-GUESSING-LOSE-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN.
-             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             05 LINE 16 COLUMN 30 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 3 COLUMN 10 VALUE "You broke free and escaped to
-      -      "The Wasteland!"
+            05 LINE 19 COLUMN 30 VALUE "You've been fed to the mudcrabs"
              HIGHLIGHT, FOREGROUND-COLOR 6.
-             05 LINE 36 COLUMN 10 PIC X(20) USING WS-WORD
+             05 LINE 26 COLUMN 30 PIC X(20) USING WS-WORD
              HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 34 COLUMN 35 VALUE "The correct word was:".
-             05 LINE 36 COLUMN 35 PIC X(20) USING WS-ANSWERWORD 
+             05 LINE 24 COLUMN 45 VALUE "The correct word was:".
+             05 LINE 26 COLUMN 45 PIC X(20) USING WS-ANSWERWORD 
              HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 38 COLUMN 10 VALUE "Guesses left: ".
-             05 LINE 38 COLUMN 40 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 39 COLUMN 10 VALUE "(p) Play again" 
+             05 LINE 28 COLUMN 30 VALUE "Guesses left: ".
+             05 LINE 28 COLUMN 50 PIC 99 USING WS-GUESSES-LEFT.
+             05 LINE 29 COLUMN 30 VALUE "(p) Play again" 
                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 40 COLUMN 10 VALUE "(h) See high scores"
+             05 LINE 30 COLUMN 30 VALUE "(h) See high scores"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
-             05 LINE 41 COLUMN 10 VALUE "(!) Quit game"
+             05 LINE 31 COLUMN 30 VALUE "(!) Quit game"
              REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
-             05 LINE 42 COLUMN 10 VALUE "Pick: ".
-             05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 42 COLUMN 16 PIC X
+             05 LINE 32 COLUMN 30 VALUE "Pick: ".
+             05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 32 COLUMN 36 PIC X
                USING WS-GUESSING-LOSING-CHOICE.
 
            01 HIGH-SCORE-SCREEN
                BACKGROUND-COLOR IS 8.
              05 BLANK SCREEN.          
-             05 LINE 2 COLUMN 10 VALUE "HANGMAN..."
+             05 LINE 16 COLUMN 30 VALUE "HANGMAN..."
              HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 3 COLUMN 10 VALUE "WASTELAND LEGENDS:"
+             05 LINE 19 COLUMN 30 VALUE "WASTELAND LEGENDS:"
              HIGHLIGHT, FOREGROUND-COLOR 6.
-             05 LINE 34 COLUMN 10 VALUE "High Scores:".
-             05 LINE 36 COLUMN 10 PIC XX USING WS-SCORE(1).
-             05 LINE 36 COLUMN 14 PIC X(10) USING WS-NAME(1).
-             05 LINE 38 COLUMN 10 PIC XX USING WS-SCORE(2).
-             05 LINE 38 COLUMN 14 PIC X(10) USING WS-NAME(2).
-             05 LINE 40 COLUMN 10 PIC XX USING WS-SCORE(3).
-             05 LINE 40 COLUMN 14 PIC X(10) USING WS-NAME(3).
-             05 LINE 42 COLUMN 10 VALUE "(b) Go back".
-             05 LINE 44 COLUMN 10 VALUE "Pick: ".
-             05 WS-HIGH-SCORE-FIELD LINE 44 COLUMN 16 PIC X
+             05 LINE 24 COLUMN 30 VALUE "High Scores:".
+             05 LINE 26 COLUMN 30 PIC XX USING WS-SCORE(1).
+             05 LINE 26 COLUMN 34 PIC X(10) USING WS-NAME(1).
+             05 LINE 28 COLUMN 30 PIC XX USING WS-SCORE(2).
+             05 LINE 28 COLUMN 34 PIC X(10) USING WS-NAME(2).
+             05 LINE 30 COLUMN 30 PIC XX USING WS-SCORE(3).
+             05 LINE 30 COLUMN 34 PIC X(10) USING WS-NAME(3).
+             05 LINE 32 COLUMN 30 VALUE "(b) Go back".
+             05 LINE 34 COLUMN 30 VALUE "Pick: ".
+             05 WS-HIGH-SCORE-FIELD LINE 34 COLUMN 36 PIC X
                USING WS-HIGH-SCORE-CHOICE.
         
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
-             05 LINE 2 COL 10 VALUE "---------------------------------
+             05 LINE 12 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 3 COL 10 VALUE "*********************************
+             05 LINE 13 COL 30 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 4 COL 10 VALUE "---------------------------------
+             05 LINE 14 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-             05 LINE 6 COl 14 VALUE  " __    __ __ __   ___    __     
-      -        "        _  __ _" FOREGROUND-COLOR IS 3.
-             05 LINE 7 COl 14 VALUE  "/__| ||_ (_ (_     | |_||_    |\
-      -        "|| ||V||_)|_ |_)" FOREGROUND-COLOR IS 5.
-             05 LINE 8 COl 14 VALUE  "\_||_||____)__)    | | ||__   | 
-      -        "||_|| ||_)|__| \" FOREGROUND-COLOR IS 2.
-             05 LINE 10 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-             05 LINE 11 COL 10 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 12 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 14 COLUMN 14 VALUE IS "Message: "
+             
+             
+             05 LINE 28 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
+             05 GUESS-FIELD LINE 29 COLUMN 34 PIC XX USING GUESS-INPUT.         
+             05 LINE 30 COLUMN 34 VALUE IS "Stats: "
              FOREGROUND-COLOR IS 6.
-             05 MSG PIC X(128) FROM WS-RANDOM-NUM-MSG.
-             05 GUESS-FIELD LINE 16 COLUMN 14 PIC XX USING GUESS-INPUT.         
-             05 LINE 20 COLUMN 14 VALUE IS "Stats: "
-             FOREGROUND-COLOR IS 6.
-             05 LINE 22 COLUMN 14 VALUE IS "Total Guesses = "
+             05 LINE 32 COLUMN 34 VALUE IS "Total Guesses = "
              FOREGROUND-COLOR IS 5.
                  05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
-             05 LINE 24 COL 10 VALUE "---------------------------------
+             05 LINE 34 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 25 COL 10 VALUE "*********************************
+             05 LINE 35 COL 30 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 26 COL 10 VALUE "---------------------------------
+             05 LINE 36 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
 
 
@@ -1541,6 +1408,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
            DISPLAY START-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT START-CHOICE-FIELD.
            IF START-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN 
@@ -1603,6 +1471,7 @@
            INITIALIZE ACCOUNT-NUM.
            INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT NEW-USER-NAME-FIELD.
            MOVE 0 TO RAISE-ERROR.
            MOVE 1 TO WS-IDX.
@@ -1624,6 +1493,7 @@
        05-VALIDATE-PASSWORD.
            INITIALIZE NEW-PASSWORD.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
@@ -1636,6 +1506,7 @@
        05-VALIDATE-BANK-ACCOUNT.
            INITIALIZE ACCOUNT-NUM.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
            RAISE-ERROR OK-MSG-3.
@@ -1665,6 +1536,7 @@
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT USER-NAME-FIELD.
            ACCEPT PASSWORD-FIELD. 
            MOVE 0 TO WS-FOUND.
@@ -1688,6 +1560,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE ERROR-CHOICE.
            DISPLAY ERROR-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT ERROR-CHOICE-FIELD.
            IF ERROR-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN
@@ -1706,6 +1579,7 @@
            INITIALIZE ADMIN-PASSWORD.
            INITIALIZE ADMIN-ENTER.
            DISPLAY ADMIN-LOGIN-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
            ACCEPT ADMIN-ENTER-FIELD. 
@@ -1734,6 +1608,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE ADMIN-CHOICE.
            DISPLAY ADMIN-MENU-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT ADMIN-CHOICE-FIELD.
            IF ADMIN-CHOICE = "q" or "Q" THEN
              STOP RUN
@@ -1749,6 +1624,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
            DISPLAY MENU-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT MENU-CHOICE-FIELD.
            IF MENU-CHOICE = "q" or "Q" THEN
              STOP RUN
@@ -1778,6 +1654,7 @@
            SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
            INITIALIZE MSG-MENU-CHOICE.
            DISPLAY MSG-MENU-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT MSG-MENU-CHOICE-FIELD.
            MOVE MSG-MENU-CHOICE TO MSG-SELECT.
          
@@ -1818,6 +1695,7 @@
            MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT MSG-VIEW-CHOICE-FIELD.
            IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
@@ -1836,7 +1714,7 @@
            INITIALIZE LS-PART-4.
            INITIALIZE LS-PART-5.
            DISPLAY WRITE-MSG-SCREEN.
-           
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT WS-TITLE-FIELD.
            ACCEPT LINE-1-FIELD.
            ACCEPT LINE-2-FIELD.
@@ -1858,6 +1736,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
            DISPLAY GAMES-MENU-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT GAMES-MENU-CHOICE-FIELD
            IF GAMES-MENU-CHOICE = "q" or "Q" THEN
                STOP RUN
@@ -1909,6 +1788,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE WS-GUESS-CHOICE.
            DISPLAY IN-GAME-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            ACCEPT WS-GUESS-CHOICE-FIELD.
            IF WS-GUESS-CHOICE = '!' THEN 
@@ -1958,6 +1838,7 @@
            DISPLAY WS-GUESSES-LEFT.
            DISPLAY WS-HIGH-SCORE.
            DISPLAY WORD-GUESSING-WINNING-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            OPEN EXTEND F-HIGH-SCORES-FILE
                MOVE WS-HIGH-SCORE TO HIGH-SCORE
@@ -1981,6 +1862,7 @@
            PERFORM 0200-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-LOSING-CHOICE.
            DISPLAY WORD-GUESSING-LOSE-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            ACCEPT WS-GUESSING-LOSING-CHOICE.
            IF WS-GUESSING-LOSING-CHOICE = 'p'
@@ -2015,6 +1897,7 @@
            INITIALIZE WS-HIGH-SCORE-CHOICE.
            SORT WS-TABLE-HIGH-SCORE ON DESCENDING WS-SCORE.
            DISPLAY HIGH-SCORE-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
            ACCEPT WS-HIGH-SCORE-FIELD.
            IF WS-HIGH-SCORE-CHOICE = 'b'
@@ -2055,8 +1938,9 @@
                END-EVALUATE
                MOVE "One more (y/n)? " TO WS-INSTRUCTION
                MOVE "y" TO WS-NEXT-MOVE
-               DISPLAY BOARD-SCREEN END-DISPLAY
-               ACCEPT BOARD-SCREEN END-ACCEPT.
+               DISPLAY BOARD-SCREEN.
+               DISPLAY PIP-BOY-SCREEN.
+               ACCEPT NEXT-MOVE.
            GAME-FRAME-PARAGRAPH.
                MOVE "Move to square: " TO WS-INSTRUCTION
                MOVE WS-COLOR-GREEN TO WS-FG
@@ -2078,8 +1962,9 @@
                    END-PERFORM
                ELSE
                    INITIALIZE WS-NEXT-MOVE
-                   DISPLAY BOARD-SCREEN END-DISPLAY
-                   ACCEPT BOARD-SCREEN END-ACCEPT
+                   DISPLAY BOARD-SCREEN
+                   DISPLAY PIP-BOY-SCREEN
+                   ACCEPT NEXT-MOVE 
                    EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
                        WHEN "A" SET WS-ROW TO 1
                        WHEN "B" SET WS-ROW TO 2
@@ -2185,6 +2070,7 @@
 
            INITIALIZE-RANDOM-NUM-GAME.
            DISPLAY GUESS-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            COMPUTE TOTAL-GUESSES = 0.
            ACCEPT SEED FROM TIME
            COMPUTE ANSWER =
@@ -2195,7 +2081,8 @@
            GAME-LOOP.
            INITIALIZE GUESS-INPUT.
            DISPLAY GUESS-SCREEN END-DISPLAY
-           ACCEPT GUESS-SCREEN END-ACCEPT
+           DISPLAY PIP-BOY-SCREEN.
+           ACCEPT GUESS-FIELD.
            MOVE GUESS-INPUT TO GUESS.
            ADD 1 TO TOTAL-GUESSES.
            IF GUESS > ANSWER
@@ -2215,7 +2102,8 @@
            WIN-LOOP.
            INITIALIZE GUESS-INPUT.
            DISPLAY GUESS-SCREEN END-DISPLAY
-           ACCEPT GUESS-SCREEN END-ACCEPT
+           DISPLAY PIP-BOY-SCREEN.
+           ACCEPT GUESS-FIELD END-ACCEPT
                IF GUESS-INPUT = "y" OR "Y"
                    GO TO INITIALIZE-RANDOM-NUM-GAME
                ELSE IF GUESS-INPUT = "n" OR "N"
@@ -2237,6 +2125,7 @@
        0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
            DISPLAY LIBRARY-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT LIBRARY-FIELD.
            IF LIBRARY-CHOICE = 'q' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2280,6 +2169,7 @@
                TO BOOK-AUTHOR
            END-IF.
            DISPLAY READ-BOOK-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT READ-CHOICE.
            IF READ-CHOICE = 'q' THEN
                PERFORM 0230-LIBRARY-MENU
@@ -2308,6 +2198,7 @@
            INITIALIZE CREDIT-AMOUNT.
            INITIALIZE BUY-CREDITS-CHOICE.
            DISPLAY BUY-CREDITS-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT CREDIT-FIELD.
            ACCEPT BUY-CREDITS-CHOICE-FIELD.
            IF BUY-CREDITS-CHOICE = 's'or 'S'
@@ -2325,6 +2216,7 @@
            INITIALIZE PASSWORD-ENTRY
            MOVE CONV-CRED-TO-MON(CREDIT-AMOUNT) TO MON-AMOUNT
            DISPLAY CONFIRM-SCREEN
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
           *>  IF CONFIRM-CHOICE = 's' OR 'S'
@@ -2354,6 +2246,7 @@
            DISPLAY PAYMENT-PROCESS-SCREEN
            CALL "CBL_GC_NANOSLEEP" USING 5000000000
            DISPLAY PAY-CONFIRMATION-SCREEN
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT PAY-CONFIRMATION-FIELD
            IF PAY-CONFIRMATION-CHOICE = 'g' OR 'G'
              PERFORM 0120-DISPLAY-MENU
@@ -2387,6 +2280,7 @@
        0480-ABOUT-PAGE.
            INITIALIZE ABOUT-PAGE-CHOICE.
            DISPLAY ABOUT-PAGE-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            ACCEPT ABOUT-PAGE-FIELD.
            IF ABOUT-PAGE-CHOICE = 'q' OR 'Q' THEN
                PERFORM 0120-DISPLAY-MENU 
