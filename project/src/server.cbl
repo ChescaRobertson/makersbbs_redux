@@ -16,7 +16,9 @@
 
                FUNCTION CONV-CRED-TO-MON
                FUNCTION VERIFY-PASSWORD
-               FUNCTION ABOUT-CHOICE-TO-NUM.
+               FUNCTION ABOUT-CHOICE-TO-NUM
+
+               FUNCTION CHECK-BALANCE.
 
 
            INPUT-OUTPUT SECTION.
@@ -36,7 +38,7 @@
                        ORGANIZATION IS LINE SEQUENTIAL.
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
-                 ORGANIZATION IS SEQUENTIAL. 
+                 ORGANIZATION IS LINE SEQUENTIAL. 
 
              SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
                  ORGANIZATION IS LINE SEQUENTIAL.
@@ -75,7 +77,7 @@
               05 USER-ACNT-NUM PIC X(8).
               05 FILLER PIC XX VALUE SPACES.  
               05 USER-CREDIT PIC 999. 
-              05 FILLER PIC X VALUE X'0A'.
+      *        05 FILLER PIC X VALUE X'0A'.
 
 
            FD F-ADMIN-FILE.
@@ -254,6 +256,7 @@
            
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
+           01 AUDIOBOOK-MSG PIC X(50).
 
            01 WS-RANDOM-NUM-MSG PIC X(128). 
 
@@ -315,6 +318,10 @@
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
            
+           01 COST PIC 999.
+           01 CREDIT-BALANCE PIC 999.
+           01 UPDATED-BALANCE PIC 999.
+           01 INSUFFICIENT-FUNDS PIC X(20).
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -717,6 +724,7 @@
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
+             05 LINE 2 COL 10 PIC X(16) USING USER-NAME.
              05 LINE 4 COL 10 VALUE".------..------..------..------..---
       -      "---." FOREGROUND-COLOR IS 3.
              05 LINE 5 COL 10 VALUE"|G.--. ||A.--. ||M.--. ||E.--. ||S.-
@@ -773,6 +781,8 @@
              05 LINE 36 COL 32 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 38 COL 18 VALUE "Pick: ".
+             05 LINE 40 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS
+             HIGHLIGHT, FOREGROUND-COLOR IS 4.
              05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 24 PIC X
                 USING GAMES-MENU-CHOICE.          
 
@@ -1129,12 +1139,12 @@
                05 LINE 14 COL 10 VALUE
            "Please Choose Below which book you would like to have in"
              .
-               05 LINE 15 COL 10 VALUE
-           "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
-             .
-               05 LINE 16 COL 10 VALUE
-           "       (For audio format to work, please read aloud)"
-                .
+              05 LINE 15 COL 10 VALUE
+           "AudioBook Format, the charge will be 5 credits".
+
+               05 LINE 16 COL 10 PIC X(50) USING AUDIOBOOK-MSG 
+                   HIGHLIGHT, FOREGROUND-COLOR IS 4.
+         
                05 LINE 18 COL 10 VALUE 'Title:'.
                05 LINE 18 COL 18 PIC X(50) USING TITLE.
                05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
@@ -1281,6 +1291,7 @@
                        MOVE USERNAME TO WS-USER-NAME(COUNTER)
                        MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
                        MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
+                       MOVE USER-CREDIT TO WS-CREDIT(COUNTER)
                    AT END 
                        MOVE 1 TO WS-FILE-IS-ENDED
                END-READ 
@@ -1649,6 +1660,14 @@
        0160-GAMES-MENU.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
+
+           MOVE "5" TO COST.
+
+            SEARCH WS-USER
+                WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                    MOVE WS-CREDIT(USER-IDX) TO CREDIT-BALANCE
+            END-SEARCH
+
            DISPLAY GAMES-MENU-SCREEN.
            DISPLAY USER-INFO-SCREEN.
            ACCEPT GAMES-MENU-CHOICE-FIELD
@@ -1656,14 +1675,28 @@
                STOP RUN
            ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
                PERFORM 0120-DISPLAY-MENU
-           ELSE IF GAMES-MENU-CHOICE = "o" OR "O" THEN
+           ELSE IF (GAMES-MENU-CHOICE = "o" OR "O" )
+             AND (CHECK-BALANCE (COST, CREDIT-BALANCE) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO CREDIT-BALANCE
                PERFORM 0190-O-AND-X-GAME  
-           ELSE IF GAMES-MENU-CHOICE = "h" or "H" THEN
+           ELSE IF (GAMES-MENU-CHOICE = "h" or "H") 
+           AND (CHECK-BALANCE(COST, CREDIT-BALANCE) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO CREDIT-BALANCE
                PERFORM 0170-DISPLAY-GUESSING-GAME
-           ELSE IF GAMES-MENU-CHOICE = "n" or "N" THEN 
+           ELSE IF (GAMES-MENU-CHOICE = "n" or "N")  
+           AND (CHECK-BALANCE(COST, CREDIT-BALANCE) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO CREDIT-BALANCE
                PERFORM 0210-RANDOM-NUMBER-GAME           
            END-IF.
 
+           IF CHECK-BALANCE(COST, CREDIT-BALANCE) = "FALSE"
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
            PERFORM 0160-GAMES-MENU.
 
 
@@ -2019,6 +2052,16 @@
 
        0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
+
+           MOVE "10" TO COST.
+      *************************************************************
+      *    Remove this when merged user-credit from info screen   *
+      *************************************************************
+            SEARCH WS-USER
+                WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                    MOVE WS-CREDIT(USER-IDX) TO CREDIT-BALANCE
+            END-SEARCH
+
            DISPLAY LIBRARY-SCREEN.
            ACCEPT LIBRARY-FIELD.
            IF LIBRARY-CHOICE = 'q' THEN 
@@ -2045,7 +2088,11 @@
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
                    PERFORM 0230-LIBRARY-MENU
                END-IF
-           ELSE IF LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5'
+           ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
+               AND (CHECK-BALANCE(COST, CREDIT-BALANCE) = "TRUE") THEN
+               CALL 'deduct-credits' USING USERNAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO CREDIT-BALANCE
                SET LIBRARY-NUM TO LIBRARY-CHOICE-TO-NUM(LIBRARY-CHOICE)
                PERFORM 0240-READ-BOOK
            ELSE
@@ -2054,6 +2101,7 @@
 
        0240-READ-BOOK.
            INITIALIZE READ-CHOICE.
+           MOVE "5" TO COST.
            IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5
                MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
                TO TITLE
@@ -2063,28 +2111,18 @@
                TO BOOK-AUTHOR
            END-IF.
            DISPLAY READ-BOOK-SCREEN.
-           ACCEPT READ-CHOICE.
+           ACCEPT READ-CHOICE-FIELD.
            IF READ-CHOICE = 'q' THEN
                PERFORM 0230-LIBRARY-MENU
-           ELSE IF READ-CHOICE = 'n' THEN
-               IF LIBRARY-NUM < 10
-                   COMPUTE LIBRARY-NUM = LIBRARY-NUM + 1
-               ELSE
-                   MOVE 1 TO LIBRARY-NUM
-               END-IF
-               PERFORM 0240-READ-BOOK
-           ELSE IF READ-CHOICE = 'p' THEN
-               IF LIBRARY-NUM > 1  
-                   COMPUTE LIBRARY-NUM = LIBRARY-NUM - 1
-               ELSE
-                   MOVE 10 TO LIBRARY-NUM
-               END-IF
-               PERFORM 0240-READ-BOOK
+           ELSE IF (READ-CHOICE = 'a' )
+               AND (CHECK-BALANCE(COST, CREDIT-BALANCE) = "TRUE") THEN
+               CALL 'deduct-credits' USING USERNAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO CREDIT-BALANCE
+               MOVE "To enable the audiobook feature, please read aloud"
+                 TO AUDIOBOOK-MSG
+                   PERFORM 0240-READ-BOOK
            END-IF.
-
-       
-           
-
 
 
        0400-BUY-CREDITS.

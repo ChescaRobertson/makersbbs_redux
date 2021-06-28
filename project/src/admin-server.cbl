@@ -2,10 +2,7 @@
        PROGRAM-ID. admin-server.
 
        ENVIRONMENT DIVISION.
-           CONFIGURATION SECTION.
-           REPOSITORY.
-               FUNCTION CONV-MON-TO-CRED.
-              
+
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
@@ -222,7 +219,6 @@
       *     PERFORM 0200-TIME-AND-DATE.
            INITIALIZE SINGLE-ENTRY-PROCESS-CHOICE
           
-      *     MOVE CONV-MON-TO-CRED(MON-AMOUNT-PAID) TO CREDIT-AMOUNT
            CALL 'process-single-payment' USING USER-BANK-ACCOUNT, 
            CAPS-PAID, PROCESS-STATUS-MESSAGE, FILE-BA-NUM.
 
