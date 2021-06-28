@@ -50,6 +50,7 @@
 
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
            01 WS-IDX UNSIGNED-INT.
+           01 WS-FOUND PIC 9. 
 
            01 USER-BANK-ACCOUNT PIC X(8).
 
@@ -60,8 +61,12 @@
            01 OK-MSG-1 PIC X(50).
            01 OK-MSG-2 PIC X(50).
            01 REGISTER-CHOICE PIC X. 
-           01 NEW-ADMIN-NAME PIC X(16).
+           01 ADMIN-NAME PIC X(16).
            01 ADMIN-PASSWORD PIC X(20).
+           01 ADMIN-ENTER PIC X.
+           01 ADMIN-ERR-MSG PIC X(50).
+           01 NEW-ADMIN-NAME PIC X(16).
+           01 NEW-ADMIN-PASSWORD PIC X(20).
 
            01 WS-ADMINS.
                05 WS-ADMIN OCCURS 10 TIMES
@@ -83,10 +88,29 @@
 
            01 FILE-BA-NUM PIC X(8).
            
-           LINKAGE SECTION.
-           01 ADMIN-NAME PIC X(16).
+      *    LINKAGE SECTION.
+      *    01 ADMIN-NAME PIC X(16).
 
            SCREEN SECTION.
+
+           01 ADMIN-LOGIN-SCREEN
+             BACKGROUND-COLOR IS 0.
+             05 BLANK SCREEN. 
+             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
+             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
+             FOREGROUND-COLOR IS 4 . 
+             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
+             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16) 
+                USING ADMIN-NAME.
+             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
+             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
+                USING ADMIN-PASSWORD.  
+             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
+             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
+             05 LINE 19 COLUMN 12 VALUE "Pick: ".
+             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
+                USING ADMIN-ENTER.
 
            01 ADMIN-MENU-SCREEN.
       *        BACKGROUND-COLOR IS 0.
@@ -143,8 +167,8 @@
       -      "um of 6 characters and include at least 1 number.) ".
              05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 ADMIN-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
-                USING ADMIN-PASSWORD.
+             05 NEW-ADMIN-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
+                USING NEW-ADMIN-PASSWORD.
              05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 2.
              05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
@@ -223,7 +247,42 @@
                USING BANK-STATEMENT-PROCESS-CHOICE.
                
 
-       PROCEDURE DIVISION USING ADMIN-NAME.
+       PROCEDURE DIVISION.
+
+       0105-ADMIN-LOGIN-PAGE SECTION.
+      *    PERFORM 0500-TIME-AND-DATE.
+           PERFORM 0120-GENERATE-ADMIN-TABLE.
+           MOVE SPACES TO ADMIN-ERR-MSG.
+
+           ENTER-ADMINISTRATOR-DETAILS. 
+           INITIALIZE ADMIN-NAME.
+           INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE ADMIN-ENTER.
+           DISPLAY ADMIN-LOGIN-SCREEN.
+      *    DISPLAY TIME-SCREEN.
+           ACCEPT ADMIN-NAME-FIELD.
+           ACCEPT ADMIN-PASSWORD-FIELD.
+           ACCEPT ADMIN-ENTER-FIELD. 
+           MOVE 0 TO WS-FOUND.
+           MOVE 1 TO WS-IDX.
+           ADD 1 TO COUNTER.
+           PERFORM UNTIL WS-IDX = COUNTER
+               IF ADMIN-NAME = WS-ADMIN-NAME(WS-IDX) AND 
+               ADMIN-PASSWORD = WS-ADMIN-PWORD(WS-IDX) THEN
+                   MOVE 1 TO WS-FOUND 
+               END-IF
+               ADD 1 TO WS-IDX 
+           END-PERFORM.
+
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
+               PERFORM 0110-ADMIN-MENU
+           ELSE IF  ADMIN-ENTER = "q" THEN 
+               GOBACK
+           ELSE 
+               MOVE "* Administrator details not recognised *" TO 
+               ADMIN-ERR-MSG
+               PERFORM ENTER-ADMINISTRATOR-DETAILS
+           END-IF. 
            
        0110-ADMIN-MENU.
       *     PERFORM 0200-TIME-AND-DATE.
@@ -233,7 +292,7 @@
            IF ADMIN-CHOICE = "q" or "Q" THEN
              STOP RUN
            ELSE IF ADMIN-CHOICE = "l" or "L" THEN
-           CALL 'server'
+             PERFORM 0105-ADMIN-LOGIN-PAGE
       *    Think about how to return to main server initial page here *
            ELSE IF ADMIN-CHOICE = 'p' or 'P'
              PERFORM 0300-PROCESS-PAYMENT
@@ -269,7 +328,7 @@
            
            VALIDATE-USERNAME.
            INITIALIZE NEW-ADMIN-NAME. 
-           INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE NEW-ADMIN-PASSWORD.
            INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-ADMIN-SCREEN.
            ACCEPT NEW-ADMIN-NAME-FIELD.
@@ -277,7 +336,7 @@
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
-               IF ADMIN-NAME = WS-ADMIN-NAME(ADMIN-IDX) 
+               IF NEW-ADMIN-NAME = WS-ADMIN-NAME(ADMIN-IDX) 
                    ADD 1 TO RAISE-ERROR
                END-IF
                    ADD 1 TO WS-IDX
@@ -291,11 +350,11 @@
            END-IF. 
 
            VALIDATE-PASSWORD.
-           INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE NEW-ADMIN-PASSWORD.
            DISPLAY REGISTER-ADMIN-SCREEN.
       *    DISPLAY TIME-SCREEN.
-           ACCEPT ADMIN-PASSWORD-FIELD.
-           CALL 'validate-password' USING ADMIN-PASSWORD ERROR-MSG-2 
+           ACCEPT NEW-ADMIN-PASSWORD-FIELD.
+           CALL 'validate-password' USING NEW-ADMIN-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
            IF RAISE-ERROR > 0 
                PERFORM VALIDATE-PASSWORD
@@ -309,7 +368,7 @@
            ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-ADMIN-FILE
                MOVE NEW-ADMIN-NAME TO ADMIN
-               MOVE ADMIN-PASSWORD TO ADMIN-PWORD
+               MOVE NEW-ADMIN-PASSWORD TO ADMIN-PWORD
                WRITE ADMINS
                END-WRITE 
            END-IF.

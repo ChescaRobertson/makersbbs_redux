@@ -38,9 +38,6 @@
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
-             SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
-                 ORGANIZATION IS LINE SEQUENTIAL.
-
              SELECT F-ABOUT-FILE ASSIGN TO 'about-page.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
 
@@ -76,13 +73,6 @@
               05 FILLER PIC XX VALUE SPACES.  
               05 USER-CREDIT PIC 999. 
               *> 05 FILLER PIC X VALUE X'0A'.
-
-
-
-           FD F-ADMIN-FILE.
-           01 ADMINS. 
-               05 ADMIN PIC X(16).
-               05 ADMIN-PWORD PIC X(20).
 
            FD F-ABOUT-FILE.
            01 ABOUT-INFO.
@@ -129,20 +119,6 @@
            01 OK-MSG-3 PIC X(50).
            01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
-
-           01 ADMIN-NAME PIC X(16).
-           01 ADMIN-PASSWORD PIC X(20).
-
-           01 WS-ADMINS.
-               05 WS-ADMIN OCCURS 10 TIMES
-               ASCENDING KEY IS WS-ADMIN-NAME
-               INDEXED BY ADMIN-IDX.
-                   10 WS-ADMIN-NAME PIC X(16).    
-                   10 WS-ADMIN-PWORD PIC X(20).
-
-           01 ADMIN-ENTER PIC X.
-           01 ADMIN-ERR-MSG PIC X(50).
-           01 ADMIN-CHOICE PIC X.
 
            01 MENU-CHOICE PIC X.
 
@@ -504,50 +480,6 @@
              05 LINE 33 COLUMN 12 VALUE "Pick: ".
              05 ERROR-CHOICE-FIELD LINE 33 COLUMN 18 PIC X
                 USING ERROR-CHOICE.
-
-           01 ADMIN-LOGIN-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN. 
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
-             FOREGROUND-COLOR IS 4 . 
-             05 LINE 8 COL 12 VALUE "Enter Administrator username:".
-             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
-                USING ADMIN-NAME.
-             05 LINE 12 COL 12 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
-                USING ADMIN-PASSWORD.  
-             05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
-             05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
-             05 LINE 19 COLUMN 12 VALUE "Pick: ".
-             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 18 PIC X
-                USING ADMIN-ENTER.
-           
-           01 ADMIN-MENU-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 8 COL 10 VALUE "Welcome, ".
-             05 LINE 8 COL 19 PIC X(16) USING ADMIN-NAME.
-             05 LINE 10 COL 10 VALUE "Please select from the below optio
-      -      "ns.".  
-             05 LINE 13 COL 10 VALUE "(s) View Statements "
-                REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 13 COL 32 VALUE "(u) Manage Users    "
-                REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 15 COL 10 VALUE "(s) Add Admin       "
-                REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 15 COL 32 VALUE "(u) Manage Posts    "
-                REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 17 COL 10 VALUE "(l) Logout          "
-                REVERSE-VIDEO , HIGHLIGHT.             
-             05 LINE 17 COL 32 VALUE "(q) Quit            "
-                REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 21 COL 14 VALUE "Pick: ".
-             05 ADMIN-CHOICE-FIELD LINE 21 COL 20 PIC X
-                USING ADMIN-CHOICE.
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -1290,8 +1222,10 @@
            ELSE IF START-CHOICE = "q" THEN 
                STOP RUN
            ELSE IF START-CHOICE = "a" THEN 
-               MOVE SPACES TO ADMIN-ERR-MSG
-               PERFORM 0116-ADMIN-LOGIN-PAGE
+               CALL 'admin-server'
+      *         MOVE SPACES TO ADMIN-ERR-MSG
+      *        PERFORM 0116-ADMIN-LOGIN-PAGE
+               PERFORM 0100-DISPLAY-START
            ELSE 
                PERFORM 0100-DISPLAY-START
            END-IF.
@@ -1314,22 +1248,6 @@
                END-READ 
            END-PERFORM.
            CLOSE F-USERS-FILE.
-
-       0102-GENERATE-ADMIN-TABLE. 
-           SET COUNTER TO 0.
-           OPEN INPUT F-ADMIN-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-ADMIN-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
-                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-ADMIN-FILE.
    
        0105-DISPLAY-REGISTER-NEW-USER SECTION.
            PERFORM 0500-TIME-AND-DATE.
@@ -1462,38 +1380,6 @@
                PERFORM 0115-ERROR-PAGE 
            END-IF.
        
-       0116-ADMIN-LOGIN-PAGE.
-           PERFORM 0500-TIME-AND-DATE.
-           PERFORM 0102-GENERATE-ADMIN-TABLE.
-           INITIALIZE ADMIN-NAME.
-           INITIALIZE ADMIN-PASSWORD.
-           INITIALIZE ADMIN-ENTER.
-           DISPLAY ADMIN-LOGIN-SCREEN.
-           DISPLAY TIME-SCREEN.
-           ACCEPT ADMIN-NAME-FIELD.
-           ACCEPT ADMIN-PASSWORD-FIELD.
-           ACCEPT ADMIN-ENTER-FIELD. 
-           MOVE 0 TO WS-FOUND.
-           MOVE 1 TO WS-IDX.
-           ADD 1 TO COUNTER.
-           PERFORM UNTIL WS-IDX = COUNTER
-               IF ADMIN-NAME = WS-ADMIN-NAME(WS-IDX) AND 
-               ADMIN-PASSWORD = WS-ADMIN-PWORD(WS-IDX) THEN
-                   MOVE 1 TO WS-FOUND 
-               END-IF
-               ADD 1 TO WS-IDX 
-           END-PERFORM.
-
-           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
-               CALL "admin-server" USING ADMIN-NAME
-           ELSE IF  ADMIN-ENTER = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               MOVE "* Administrator details not recognised *" TO 
-               ADMIN-ERR-MSG
-               PERFORM 0116-ADMIN-LOGIN-PAGE
-           END-IF. 
-
        0120-DISPLAY-MENU.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
