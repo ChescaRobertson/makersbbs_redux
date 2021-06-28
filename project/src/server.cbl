@@ -260,6 +260,9 @@
            01 READ-CHOICE PIC X.     
 
            01 WS-RANDOM-NUM-MSG PIC X(40). 
+           01 BODY-PART-1 PIC X(79).
+           01 BODY-PART-2 PIC X(79).
+           01 BODY-PART-3 PIC X(79).
 
            *>----Variables-related-to-guessing-game----
            01 WS-ANSWERWORD PIC X(20).
@@ -1209,50 +1212,31 @@
            01 READ-BOOK-SCREEN
                BACKGROUND-COLOR IS 8.
                 05 BLANK SCREEN.
-           05 LINE 2 COL 10 VALUE "-------------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 3 COL 10 VALUE "*********************************
+           05 LINE 09 COL 49 VALUE "---------------------------------
+      -      "----------------------" FOREGROUND-COLOR IS 3.
+              05 LINE 10 COL 49 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 4 COL 10 VALUE "---------------------------------
+              05 LINE 11 COL 49 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 5 COL 10 VALUE 
-               "           __...--~~~~~-._   _.-~~~~~--...__" 
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 6 COL 10 VALUE 
-               "         //               `V'               \\ "
-               FOREGROUND-COLOR IS 3.
-               05 LINE 7 COL 10 VALUE 
-               "        //                 |                 \\ " 
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 8 COL 10 VALUE
-               "       //__...--~~~~~~-._  |  _.-~~~~~~--...__\\ "
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 9 COL 10 VALUE 
-               "      //__.....----~~~~._\ | /_.~~~~----.....__\\"
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 10 COL 10 VALUE
-               "     ====================\\|//===================="
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 11 COL 10 VALUE 
-               "                         `---`"
-                 FOREGROUND-COLOR IS 3.
                
-               05 LINE 12 COL 10 VALUE 
-           "---------------------------------------------------------".
-               05 LINE 13 COL 27 VALUE
+               
+               05 LINE 12 COL 49 VALUE 
+           "-------------------------------------------------------".
+               05 LINE 13 COL 65 VALUE
                "WELCOME TO THE LIBRARY".
-               05 LINE 14 COL 10 VALUE
+               05 LINE 14 COL 49 VALUE
            "Please Choose Below which book you would like to have in"
              .
-               05 LINE 15 COL 10 VALUE
+               05 LINE 15 COL 49 VALUE
            "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
              .
-               05 LINE 16 COL 10 VALUE
-           "       (For audio format to work, please read aloud)"
-                .
-               05 LINE 18 COL 10 VALUE 'Title:'.
-               05 LINE 18 COL 18 PIC X(50) USING TITLE.
-               05 LINE 22 COLUMN 10 PIC X(500) USING BODY.
+               05 LINE 16 COL 49 VALUE
+           "       (For audio format to work, please read aloud)"     .
+               05 LINE 18 COL 60 VALUE 'Title:'.
+               05 LINE 18 COL 69 PIC X(50) USING TITLE.
+               05 LINE 22 COLUMN 10 PIC X(79) USING BODY-PART-1.
+               05 LINE 23 COLUMN 10 PIC X(79) USING BODY-PART-2.
+               05 LINE 24 COLUMN 10 PIC X(79) USING BODY-PART-3.
                05 LINE 31 COLUMN 10 VALUE 'Author: '.               
                05 LINE 31 COLUMN 18 PIC X(12) USING BOOK-AUTHOR.
                05 LINE 37 COL 10 VALUE "Pick: ".
@@ -2148,6 +2132,9 @@
                MOVE DISPLAY-BOOK-AUTHOR(OFFSET LIBRARY-NUM WS-BOOKS)
                TO BOOK-AUTHOR
            END-IF.
+           MOVE BODY(1:79) TO BODY-PART-1.
+           MOVE BODY(80:79) TO BODY-PART-2.
+           MOVE BODY(158:79) TO BODY-PART-3.
            DISPLAY READ-BOOK-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
            ACCEPT READ-CHOICE.
