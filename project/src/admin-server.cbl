@@ -47,7 +47,28 @@
                05 ADMIN-PWORD PIC X(20).
 
            WORKING-STORAGE SECTION.
+
+           01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
+           01 WS-IDX UNSIGNED-INT.
+
            01 USER-BANK-ACCOUNT PIC X(8).
+
+           01 RAISE-ERROR PIC 9. 
+           01 COUNTER UNSIGNED-INT. 
+           01 ERROR-MSG-1 PIC X(50).
+           01 ERROR-MSG-2 PIC X(50).
+           01 OK-MSG-1 PIC X(50).
+           01 OK-MSG-2 PIC X(50).
+           01 REGISTER-CHOICE PIC X. 
+           01 NEW-ADMIN-NAME PIC X(16).
+           01 ADMIN-PASSWORD PIC X(20).
+
+           01 WS-ADMINS.
+               05 WS-ADMIN OCCURS 10 TIMES
+               ASCENDING KEY IS WS-ADMIN-NAME
+               INDEXED BY ADMIN-IDX.
+                   10 WS-ADMIN-NAME PIC X(16).    
+                   10 WS-ADMIN-PWORD PIC X(20).
 
       *     01 CREDIT-AMOUNT PIC 999.
            01 CAPS-PAID PIC 999.
@@ -83,7 +104,7 @@
                    REVERSE-VIDEO HIGHLIGHT.
               05 LINE 13 COL 33 VALUE "(u) Manage Users     "
                    REVERSE-VIDEO, HIGHLIGHT.
-              05 LINE 15 COL 10 VALUE "(s) Add Admin        "
+              05 LINE 15 COL 10 VALUE "(a) Add Admin        "
                    REVERSE-VIDEO HIGHLIGHT.
               05 LINE 15 COL 33 VALUE "(u) Manage Posts     "
                    REVERSE-VIDEO, HIGHLIGHT.
@@ -94,6 +115,45 @@
               05 LINE 21 COL 14 VALUE "Pick: ".
               05 ADMIN-CHOICE-FIELD LINE 21 COL 20 PIC X
                    USING ADMIN-CHOICE.
+
+           01 REGISTER-ADMIN-SCREEN. 
+             05 BLANK SCREEN.
+             05 LINE 27 COLUMN 12 VALUE "ADD AN OVERSEER" HIGHLIGHT,
+             FOREGROUND-COLOR IS 3.
+             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 33 COLUMN 12 VALUE "Enter Overseer Name:".
+             05 LINE 33 COLUMN 33 VALUE " (Overseer name must be unique.
+      -      ")".
+             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 NEW-ADMIN-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
+                USING NEW-ADMIN-NAME.
+             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
+             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+      -      "um of 6 characters and include at least 1 number.) ".
+             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 ADMIN-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
+                USING ADMIN-PASSWORD.
+             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
+      -      "er:".
+             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 49 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
+                USING REGISTER-CHOICE. 
    
            01 PROCESS-PAYMENT-SCREEN.
              05 BLANK SCREEN.
@@ -172,15 +232,89 @@
            ACCEPT ADMIN-CHOICE-FIELD.
            IF ADMIN-CHOICE = "q" or "Q" THEN
              STOP RUN
-          *>  ELSE IF ADMIN-CHOICE = "l" or "L" THEN
-          *>    PERFORM 0100-DISPLAY-START
+           ELSE IF ADMIN-CHOICE = "l" or "L" THEN
+           CALL 'server'
       *    Think about how to return to main server initial page here *
            ELSE IF ADMIN-CHOICE = 'p' or 'P'
              PERFORM 0300-PROCESS-PAYMENT
+           ELSE IF ADMIN-CHOICE = 'a' or 'A'
+             PERFORM 0130-REGISTER-ADMIN
       *     Add other menu options for administrator here *
            ELSE 
              PERFORM 0110-ADMIN-MENU
            END-IF.
+
+       0120-GENERATE-ADMIN-TABLE. 
+           SET COUNTER TO 0.
+           OPEN INPUT F-ADMIN-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-ADMIN-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
+                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-ADMIN-FILE.
+
+       0130-REGISTER-ADMIN SECTION. 
+
+           MOVE SPACES TO ERROR-MSG-1.
+           MOVE SPACES TO ERROR-MSG-2.
+           MOVE SPACES TO OK-MSG-1.
+           MOVE SPACES TO OK-MSG-2.
+           
+           VALIDATE-USERNAME.
+           INITIALIZE NEW-ADMIN-NAME. 
+           INITIALIZE ADMIN-PASSWORD.
+           INITIALIZE REGISTER-CHOICE.
+           DISPLAY REGISTER-ADMIN-SCREEN.
+           ACCEPT NEW-ADMIN-NAME-FIELD.
+           MOVE 0 TO RAISE-ERROR.
+           MOVE 1 TO WS-IDX.
+           ADD 1 TO COUNTER.
+           PERFORM UNTIL WS-IDX = COUNTER
+               IF ADMIN-NAME = WS-ADMIN-NAME(ADMIN-IDX) 
+                   ADD 1 TO RAISE-ERROR
+               END-IF
+                   ADD 1 TO WS-IDX
+           END-PERFORM.
+           IF RAISE-ERROR > 0 
+               MOVE 'OVERSEER NAME IN USE' TO ERROR-MSG-1
+               PERFORM VALIDATE-USERNAME
+           ELSE 
+               MOVE 'OVERSEER NAME OK' TO OK-MSG-1
+               PERFORM VALIDATE-PASSWORD
+           END-IF. 
+
+           VALIDATE-PASSWORD.
+           INITIALIZE ADMIN-PASSWORD.
+           DISPLAY REGISTER-ADMIN-SCREEN.
+      *    DISPLAY TIME-SCREEN.
+           ACCEPT ADMIN-PASSWORD-FIELD.
+           CALL 'validate-password' USING ADMIN-PASSWORD ERROR-MSG-2 
+           RAISE-ERROR OK-MSG-2.
+           IF RAISE-ERROR > 0 
+               PERFORM VALIDATE-PASSWORD
+           END-IF. 
+
+           DISPLAY REGISTER-ADMIN-SCREEN.
+      *    DISPLAY TIME-SCREEN.
+           ACCEPT REGISTER-CHOICE-FIELD.
+           IF REGISTER-CHOICE = "q" THEN 
+               PERFORM 0110-ADMIN-MENU
+           ELSE IF REGISTER-CHOICE = "s" 
+               OPEN EXTEND F-ADMIN-FILE
+               MOVE NEW-ADMIN-NAME TO ADMIN
+               MOVE ADMIN-PASSWORD TO ADMIN-PWORD
+               WRITE ADMINS
+               END-WRITE 
+           END-IF.
+           CLOSE F-ADMIN-FILE.
+           PERFORM 0110-ADMIN-MENU.
 
 
        0300-PROCESS-PAYMENT.

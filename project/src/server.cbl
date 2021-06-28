@@ -518,7 +518,6 @@
              05 LINE 12 COL 12 VALUE "Enter Administrator password:".
              05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 12 PIC X(20)
                 USING ADMIN-PASSWORD.  
-
              05 LINE 16 COLUMN 12 VALUE "(l) Log-in.".
              05 LINE 17 COLUMN 12 VALUE "(q) Go Back." .
              05 LINE 19 COLUMN 12 VALUE "Pick: ".
@@ -1277,26 +1276,7 @@
 
 
        PROCEDURE DIVISION.
-           
-
-       0090-GENERATE-USER-TABLE.
-           SET COUNTER TO 0.
-           OPEN INPUT F-USERS-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-USERS-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
-                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
-                       MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-USERS-FILE.
-
-
+          
        0100-DISPLAY-START.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
@@ -1354,7 +1334,6 @@
        0105-DISPLAY-REGISTER-NEW-USER SECTION.
            PERFORM 0500-TIME-AND-DATE.
            PERFORM 0101-GENERATE-USER-TABLE.
-
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO ERROR-MSG-3.
@@ -1427,24 +1406,10 @@
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
-
-      *>  0106-NEW-MENU.
-      *>      INITIALIZE NEW-CHOICE.
-      *>      DISPLAY NEW-MENU 
-      *>      DISPLAY USER-INFO-SCREEN
-      *>      ACCEPT NEW-CHOICE-FIELD. 
-      *>      IF NEW-CHOICE = "r" THEN 
-      *>          PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-      *>      ELSE IF NEW-CHOICE = "q" THEN 
-      *>          PERFORM 0100-DISPLAY-START
-      *>      ELSE 
-      *>          PERFORM 0106-NEW-MENU
-      *>      END-IF. 
           
        0110-DISPLAY-LOGIN.
            PERFORM 0500-TIME-AND-DATE.
            PERFORM 0101-GENERATE-USER-TABLE
-
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
@@ -1519,46 +1484,15 @@
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
-           IF WS-FOUND = 1 THEN
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                CALL "admin-server" USING ADMIN-NAME
-          *>      PERFORM 0118-DISPLAY-ADMIN-MENU 
-          *>  ELSE 
-          *>     PERFORM 0117-ADMIN-ERROR-PAGE 
-           END-IF. 
-
-      *>  0117-ADMIN-ERROR-PAGE.
-      *>      PERFORM 0200-TIME-AND-DATE.
-      *>      INITIALIZE ADMIN-ERROR.
-      *>      DISPLAY ADMIN-ERROR-SCREEN.
-      *>      ACCEPT ADMIN-ERROR-FIELD.
-      *>      IF ADMIN-ERROR = "a" THEN 
-      *>          PERFORM 0116-ADMIN-LOGIN-PAGE 
-      *>      ELSE IF ADMIN-ERROR = "q" THEN 
-      *>      IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
-      *>          PERFORM 0118-DISPLAY-ADMIN-MENU 
-      *>      ELSE IF  ADMIN-ENTER = "q" THEN 
-      *>          PERFORM 0100-DISPLAY-START
-      *>      ELSE 
-      *>          MOVE "* Administrator details not recognised *" TO 
-      *>          ADMIN-ERR-MSG
-      *>          PERFORM 0116-ADMIN-LOGIN-PAGE
-      *>      END-IF. 
-
-       0118-DISPLAY-ADMIN-MENU.
-           PERFORM 0500-TIME-AND-DATE.
-           INITIALIZE ADMIN-CHOICE.
-           DISPLAY ADMIN-MENU-SCREEN.
-           PERFORM 0113-DISPLAY-TIME-USER-INFO.
-           ACCEPT ADMIN-CHOICE-FIELD.
-           IF ADMIN-CHOICE = "q" or "Q" THEN
-             STOP RUN
-           ELSE IF ADMIN-CHOICE = "l" or "L" THEN
-             PERFORM 0100-DISPLAY-START
-      *     Add other menu options for administrator here *
+           ELSE IF  ADMIN-ENTER = "q" THEN 
+               PERFORM 0100-DISPLAY-START
            ELSE 
-             PERFORM 0118-DISPLAY-ADMIN-MENU
-           END-IF.
-
+               MOVE "* Administrator details not recognised *" TO 
+               ADMIN-ERR-MSG
+               PERFORM 0116-ADMIN-LOGIN-PAGE
+           END-IF. 
 
        0120-DISPLAY-MENU.
            PERFORM 0500-TIME-AND-DATE.
