@@ -22,13 +22,6 @@
            MOVE "300" TO CREDITS
            CALL 'process-single-payment' USING BANK-ACCOUNT,
             CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
-
-      *>  TEST-MAIN.
-      *>      MOVE "12222222" TO BANK-ACCOUNT
-      *>      MOVE "300" TO CREDITS
-      *>      SET ENVIRONMENT "users_dat" TO 'users-copy.dat'
-      *>      CALL 'process-single-payment' USING BANK-ACCOUNT, 
-      *>      CREDITS, WS-PROCESS-STATUS, FILE-BA-NUM.
           
        TEST-PROCESS-BANK-STATEMENT.
            MOVE "PENDING" TO WS-PAYMENT-STATUS.
