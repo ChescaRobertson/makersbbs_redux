@@ -1148,8 +1148,8 @@
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
-           05 LINE 8 COL 12 VALUE "Please enter the amount of credits".
-           05 LINE 8 COL 47 VALUE  "you would like to purchase: ".
+           05 LINE 8 COL 12 VALUE "Please enter the amount of credits yo
+      -    "u would like to purchase: ".
            05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
                .
            05 LINE 12 COL 25 VALUE "(s) Submit "
@@ -1166,10 +1166,11 @@
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
            05 LINE 8 COL 12 PIC 999 USING CREDIT-AMOUNT.
-           05 LINE 8 COL 16 VALUE "Credits will cost: £".
-           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
-           05 LINE 9 COL 12 VALUE "Please enter your password to ". 
-           05 LINE 9 COL 42 VALUE "confirm payment".
+           05 LINE 8 COL 16 VALUE "Credits will cost:".
+           05 LINE 8 COL 35 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 8 COL 39 VALUE "bottle caps".
+           05 LINE 9 COL 12 VALUE "Please enter your password to confirm
+      -    " payment".
            05 LINE 12 COL 12 VALUE "Password: ".
            05 BUY-PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
                USING PASSWORD-ENTRY.
