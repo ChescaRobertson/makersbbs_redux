@@ -42,6 +42,8 @@
                    MOVE 1 TO WS-USER-FILE-IS-ENDED
                END-READ
            END-PERFORM.
+
+           MOVE 0 TO WS-USER-FILE-IS-ENDED
            
            CLOSE F-USERS-FILE.
    
