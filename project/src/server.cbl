@@ -1126,103 +1126,83 @@
 
            01 LIBRARY-SCREEN.
            05 BLANK SCREEN.
-              05 LINE 2 COL 10 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 3 COL 10 VALUE "*********************************
+              05 LINE 09 COL 49 VALUE "---------------------------------
+      -      "----------------------" FOREGROUND-COLOR IS 3.
+               05 LINE 10 COL 49 VALUE "*********************************
       -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 4 COL 10 VALUE "---------------------------------
+               05 LINE 11 COL 49 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 5 COL 10 VALUE 
-               "           __...--~~~~~-._   _.-~~~~~--...__" 
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 6 COL 10 VALUE 
-               "         //               `V'               \\ "
-               FOREGROUND-COLOR IS 3.
-               05 LINE 7 COL 10 VALUE 
-               "        //                 |                 \\ " 
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 8 COL 10 VALUE
-               "       //__...--~~~~~~-._  |  _.-~~~~~~--...__\\ "
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 9 COL 10 VALUE 
-               "      //__.....----~~~~._\ | /_.~~~~----.....__\\"
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 10 COL 10 VALUE
-               "     ====================\\|//===================="
-                 FOREGROUND-COLOR IS 3.
-               05 LINE 11 COL 10 VALUE 
-               "                         `---`"
-                 FOREGROUND-COLOR IS 3.
                
-               05 LINE 12 COL 10 VALUE 
-           "---------------------------------------------------------".
-               05 LINE 13 COL 27 VALUE
+               
+               05 LINE 12 COL 49 VALUE 
+           "-------------------------------------------------------".
+               05 LINE 13 COL 65 VALUE
                "WELCOME TO THE LIBRARY".
-               05 LINE 14 COL 10 VALUE
+               05 LINE 14 COL 49 VALUE
            "Please Choose Below which book you would like to have in"
              .
-               05 LINE 15 COL 10 VALUE
+               05 LINE 15 COL 49 VALUE
            "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
              .
-               05 LINE 16 COL 10 VALUE
+               05 LINE 16 COL 49 VALUE
            "       (For audio format to work, please read aloud)"     .
-               05 LINE 18 COL 10 VALUE "||   AUTHOR   ||".
-               05 LINE 18 COL 24 VALUE 
+               05 LINE 18 COL 45 VALUE "||   AUTHOR   ||".
+               05 LINE 18 COL 66 VALUE 
                "||                  TITLE                ||".
-               05 LINE 19 COL 10 VALUE '1.'.
-               05 LINE 19 COL 12 PIC X(12) 
+               05 LINE 19 COL 43 VALUE '1.'.
+               05 LINE 19 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET).
-               05 LINE 19 COL 26 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
-               05 LINE 20 COL 10 VALUE
+               05 LINE 19 COL 69 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
+               05 LINE 20 COL 49 VALUE
            "---------------------------------------------------------".
-               05 LINE 21 COL 10 VALUE '2.'.
-               05 LINE 21 COL 12 PIC X(12) 
+               05 LINE 21 COL 43 VALUE '2.'.
+               05 LINE 21 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
-               05 LINE 21 COL 26 PIC X(30) 
+               05 LINE 21 COL 69 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 1)
                .
-               05 LINE 22 COL 10 VALUE
+               05 LINE 22 COL 49 VALUE
            "---------------------------------------------------------".
-               05 LINE 23 COL 10 VALUE '3.'.
-               05 LINE 23 COL 12 PIC X(12) 
+               05 LINE 23 COL 43 VALUE '3.'.
+               05 LINE 23 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
                .
-               05 LINE 23 COL 26 PIC X(30) 
+               05 LINE 23 COL 69 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 2)
                .
-               05 LINE 24 COL 10 VALUE
+               05 LINE 24 COL 49 VALUE
            "---------------------------------------------------------".
-               05 LINE 25 COL 10 VALUE '4.'.
-               05 LINE 25 COL 12 PIC X(12) 
+               05 LINE 25 COL 43 VALUE '4.'.
+               05 LINE 25 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
                .
-               05 LINE 25 COL 26 PIC X(30) 
+               05 LINE 25 COL 69 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 3)
                .
-               05 LINE 26 COL 10 VALUE
+               05 LINE 26 COL 49 VALUE
            "---------------------------------------------------------".
-               05 LINE 27 COL 10 VALUE '5.'.
-               05 LINE 27 COL 12 PIC X(12) 
+               05 LINE 27 COL 43 VALUE '5.'.
+               05 LINE 27 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
                .
-               05 LINE 27 COL 26 PIC X(30) 
+               05 LINE 27 COL 69 PIC X(30) 
                USING WS-BOOK-TITLE(OFFSET - 4)
                .
-               05 LINE 28 COL 10 VALUE
+               05 LINE 28 COL 49 VALUE
            "---------------------------------------------------------".
                 
            
-               05 LINE 31 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
+               05 LINE 31 COL 43 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
-               05 LINE 31 COL 40 VALUE 'Page No.'.
-               05 LINE 31 COL 50 PIC 99 USING PAGE-NUM.
-               05 LINE 40 COL 10 VALUE "( )Read the book by number".
-               05 LINE 41 COL 10 VALUE "(n) Next Page".
-               05 LINE 42 COL 10 VALUE "(p) Previous Page".
-               05 LINE 43 COL 10 VALUE "(q) Go back".
-               05 LINE 45 COL 10 VALUE "Pick: ".
-               05 LIBRARY-FIELD LINE 45 COLUMN 16 PIC X 
+               05 LINE 31 COL 77 VALUE 'Page No.'.
+               05 LINE 31 COL 86 PIC 99 USING PAGE-NUM.
+               05 LINE 40 COL 43 VALUE "( )Read the book by number".
+               05 LINE 40 COL 77 VALUE "(n) Next Page".
+               05 LINE 41 COL 43 VALUE "(p) Previous Page".
+               05 LINE 41 COL 77 VALUE "(q) Go back".
+               05 LINE 42 COL 78 VALUE "Pick: ".
+               05 LIBRARY-FIELD LINE 42 COLUMN 86 PIC X 
                USING LIBRARY-CHOICE.
                
                
