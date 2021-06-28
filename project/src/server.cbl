@@ -1150,8 +1150,7 @@
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
            05 LINE 8 COL 12 VALUE "Please enter the amount of credits yo
       -    "u would like to purchase: ".
-           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
-               .
+           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 12 COL 25 VALUE "(s) Submit "
                 REVERSE-VIDEO, HIGHLIGHT. 
            05 LINE 12 COL 39 VALUE "(g) Go back"
