@@ -56,15 +56,19 @@
 
            01 RAISE-ERROR PIC 9. 
            01 COUNTER UNSIGNED-INT. 
+
+      * message variables *    
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 OK-MSG-1 PIC X(50).
            01 OK-MSG-2 PIC X(50).
+           01 ADMIN-ERR-MSG PIC X(50).
+
            01 REGISTER-CHOICE PIC X. 
            01 ADMIN-NAME PIC X(16).
            01 ADMIN-PASSWORD PIC X(20).
            01 ADMIN-ENTER PIC X.
-           01 ADMIN-ERR-MSG PIC X(50).
+           
            01 NEW-ADMIN-NAME PIC X(16).
            01 NEW-ADMIN-PASSWORD PIC X(20).
 
@@ -77,7 +81,6 @@
 
       *     01 CREDIT-AMOUNT PIC 999.
            01 CAPS-PAID PIC 999.
-           01 PAYMENT-STATUS PIC X(8).
            01 ADMIN-CHOICE PIC X.
            01 PROCESS-PAGE-CHOICE PIC X.
            01 SINGLE-ENTRY-PROCESS-CHOICE PIC X.
@@ -87,17 +90,14 @@
            01 BANK-STATEMENT-PROCESS-CHOICE PIC X.
 
            01 FILE-BA-NUM PIC X(8).
-           
-      *    LINKAGE SECTION.
-      *    01 ADMIN-NAME PIC X(16).
 
            SCREEN SECTION.
 
            01 ADMIN-LOGIN-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN. 
-             05 LINE 4 COL 12 VALUE "MAKERS BBS" UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 4 COL 12 VALUE "CONNECTED TO SERVER" BLINK
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 6 COL 12 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
              FOREGROUND-COLOR IS 4 . 
              05 LINE 8 COL 12 VALUE "Enter Administrator username:".
@@ -118,8 +118,8 @@
               *> 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
               *> 05 LINE 2 COL 4 VALUE ":".
               *> 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS. 
-              05 LINE 4 COL 10 VALUE "MAKERS BBS" UNDERLINE, BLINK
-              HIGHLIGHT, FOREGROUND-COLOR IS 3.
+              05 LINE 4 COL 10 VALUE "CONNECTED TO SERVER" BLINK
+              HIGHLIGHT, FOREGROUND-COLOR IS 2.
               05 LINE 8 COL 10 VALUE "Welcome, ".
               05 LINE 8 COL 19 PIC X(16) USING ADMIN-NAME.
               05 LINE 10 COL 10 VALUE "Please select from the below opti
@@ -142,41 +142,41 @@
 
            01 REGISTER-ADMIN-SCREEN. 
              05 BLANK SCREEN.
-             05 LINE 27 COLUMN 12 VALUE "ADD AN OVERSEER" HIGHLIGHT,
-             FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 4 COL 12 VALUE "CONNECTED TO SERVER" BLINK
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
+             05 LINE 8 COLUMN 12 VALUE "ADD AN OVERSEER" HIGHLIGHT,
+             FOREGROUND-COLOR IS 2.
+             05 LINE 10 COLUMN 12 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 30 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 11 COLUMN 12 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 31 COLUMN 12 VALUE "input intro text explaining the
+             05 LINE 12 COLUMN 12 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
              FOREGROUND-COLOR IS 5.
-             05 LINE 33 COLUMN 12 VALUE "Enter Overseer Name:".
-             05 LINE 33 COLUMN 33 VALUE " (Overseer name must be unique.
+             05 LINE 14 COLUMN 12 VALUE "Enter Overseer Name:".
+             05 LINE 14 COLUMN 33 VALUE " (Overseer name must be unique.
       -      ")".
-             05 LINE 34 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+             05 LINE 15 COLUMN 12 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 NEW-ADMIN-NAME-FIELD LINE 35 COLUMN 12 PIC X(16)
+             05 NEW-ADMIN-NAME-FIELD LINE 16 COLUMN 12 PIC X(16)
                 USING NEW-ADMIN-NAME.
-             05 LINE 36 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+             05 LINE 17 COLUMN 12 PIC X(50) USING OK-MSG-1 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 37 COLUMN 12 VALUE "Enter a password:".
-             05 LINE 37 COLUMN 30 VALUE " (Your password must be a minim
+             05 LINE 18 COLUMN 12 VALUE "Enter a password:".
+             05 LINE 18 COLUMN 30 VALUE " (Your password must be a minim
       -      "um of 6 characters and include at least 1 number.) ".
-             05 LINE 38 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+             05 LINE 19 COLUMN 12 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
-             05 NEW-ADMIN-PASSWORD-FIELD LINE 39 COLUMN 12 PIC X(20)
+             05 NEW-ADMIN-PASSWORD-FIELD LINE 20 COLUMN 12 PIC X(20)
                 USING NEW-ADMIN-PASSWORD.
-             05 LINE 40 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+             05 LINE 21 COLUMN 12 PIC X(50) USING OK-MSG-2 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 41 COLUMN 12 VALUE "Enter a valid Bank Account numb
-      -      "er:".
-             05 LINE 46 COLUMN 12 VALUE "(s) Submit".
-             05 LINE 47 COLUMN 12 VALUE "(q) Go Back".
-             05 LINE 49 COLUMN 12 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 18 PIC X
+             05 LINE 23 COLUMN 12 VALUE "(s) Submit".
+             05 LINE 24 COLUMN 12 VALUE "(q) Go Back".
+             05 LINE 26 COLUMN 12 VALUE "Pick: ".
+             05 REGISTER-CHOICE-FIELD LINE 26 COLUMN 18 PIC X
                 USING REGISTER-CHOICE. 
    
            01 PROCESS-PAYMENT-SCREEN.
