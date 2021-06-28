@@ -36,7 +36,7 @@
                        ORGANIZATION IS LINE SEQUENTIAL.
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
-                 ORGANIZATION IS LINE SEQUENTIAL. 
+                 ORGANIZATION IS SEQUENTIAL. 
 
              SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
                  ORGANIZATION IS LINE SEQUENTIAL.
@@ -72,9 +72,11 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(8). 
-              05 GAP PIC XX.  
-              05 USER-CREDIT PIC 99. 
+              05 USER-ACNT-NUM PIC X(8).
+              05 FILLER PIC XX VALUE SPACES.  
+              05 USER-CREDIT PIC 999. 
+              05 FILLER PIC X VALUE X'0A'.
+
 
            FD F-ADMIN-FILE.
            01 ADMINS. 
@@ -98,8 +100,8 @@
 
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
-           01 ACCOUNT-NUM PIC X(10).
-           01 CREDIT PIC 99.
+           01 ACCOUNT-NUM PIC X(8).
+           01 CREDIT PIC 999.
 
            01 LOGGED-IN PIC X(15).
            01 CRED-DISPLAY PIC X(8).
@@ -111,9 +113,9 @@
                INDEXED BY USER-IDX.
                    10 WS-USER-NAME PIC X(16).    
                    10 WS-PWORD PIC X(20).
-                   10 WS-ACNT-NUM PIC X(10).
-                   10 WS-CREDIT PIC 99. 
-
+                   10 WS-ACNT-NUM PIC X(8).
+                   10 WS-CREDIT PIC 999. 
+ 
            01 WS-FOUND PIC 9. 
            01 WS-IDX UNSIGNED-INT. 
            01 COUNTER UNSIGNED-INT. 
@@ -299,6 +301,7 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
+
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
            01 WS-ABOUT. 
@@ -312,6 +315,7 @@
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
            
+
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -1199,12 +1203,12 @@
            05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 10 COL 16 VALUE "credits will be added to your ".
            05 LINE 10 COL 46 VALUE "account within 24 hours".
-           05 LINE 14 COL 39 VALUE "(g) Go back"
+           05 LINE 15 COL 39 VALUE "(g) Go back"
                 REVERSE-VIDEO , HIGHLIGHT.            
-           05 LINE 14 COL 53 VALUE "(q) Quit   "
+           05 LINE 15 COL 53 VALUE "(q) Quit   "
                 REVERSE-VIDEO, HIGHLIGHT.  
-           05 LINE 16 COL 25 VALUE "Pick: ".
-           05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
+           05 LINE 17 COL 25 VALUE "Pick: ".
+           05 PAY-CONFIRMATION-FIELD LINE 17 COL 31 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
        
        01 ABOUT-PAGE-SCREEN.
@@ -1265,6 +1269,25 @@
 
        PROCEDURE DIVISION.
            
+
+       0090-GENERATE-USER-TABLE.
+           SET COUNTER TO 0.
+           OPEN INPUT F-USERS-FILE.
+           MOVE 0 TO WS-FILE-IS-ENDED.
+           PERFORM UNTIL WS-FILE-IS-ENDED = 1
+               READ F-USERS-FILE
+                   NOT AT END
+                       ADD 1 TO COUNTER
+                       MOVE USERNAME TO WS-USER-NAME(COUNTER)
+                       MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                       MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
+                   AT END 
+                       MOVE 1 TO WS-FILE-IS-ENDED
+               END-READ 
+           END-PERFORM.
+           CLOSE F-USERS-FILE.
+
+
        0100-DISPLAY-START.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
@@ -1383,7 +1406,7 @@
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
-               MOVE "  " TO GAP
+               MOVE "000" TO USER-CREDIT
                WRITE USERS
                END-WRITE 
            END-IF.
@@ -1471,6 +1494,21 @@
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
+           IF WS-FOUND = 1 THEN
+               CALL "admin-server" USING ADMIN-NAME
+      *         PERFORM 0118-DISPLAY-ADMIN-MENU 
+           ELSE 
+               PERFORM 0117-ADMIN-ERROR-PAGE 
+           END-IF. 
+
+       0117-ADMIN-ERROR-PAGE.
+           PERFORM 0200-TIME-AND-DATE.
+           INITIALIZE ADMIN-ERROR.
+           DISPLAY ADMIN-ERROR-SCREEN.
+           ACCEPT ADMIN-ERROR-FIELD.
+           IF ADMIN-ERROR = "a" THEN 
+               PERFORM 0116-ADMIN-LOGIN-PAGE 
+           ELSE IF ADMIN-ERROR = "q" THEN 
            IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                PERFORM 0118-DISPLAY-ADMIN-MENU 
            ELSE IF  ADMIN-ENTER = "q" THEN 
@@ -2072,15 +2110,17 @@
            DISPLAY CONFIRM-SCREEN
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
-          *>  IF CONFIRM-CHOICE = 's' OR 'S'
-          *>    CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
-          *>    MON-AMOUNT
-          *>    PERFORM 0460-PAYMENT-PROCESS
-           
+     
+           SEARCH WS-USER
+               WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                   MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
+           END-SEARCH
+   
+
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 
-               CREDIT-AMOUNT, MON-AMOUNT
+                ACCOUNT-NUM, CREDIT-AMOUNT, MON-AMOUNT
                PERFORM 0460-PAYMENT-PROCESS
            ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
              AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'
