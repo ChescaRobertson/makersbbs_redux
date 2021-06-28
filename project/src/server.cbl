@@ -1413,18 +1413,18 @@
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
 
-       0106-NEW-MENU.
-           INITIALIZE NEW-CHOICE.
-           DISPLAY NEW-MENU 
-           DISPLAY USER-INFO-SCREEN
-           ACCEPT NEW-CHOICE-FIELD. 
-           IF NEW-CHOICE = "r" THEN 
-               PERFORM 0105-DISPLAY-REGISTER-NEW-USER
-           ELSE IF NEW-CHOICE = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               PERFORM 0106-NEW-MENU
-           END-IF.
+      *>  0106-NEW-MENU.
+      *>      INITIALIZE NEW-CHOICE.
+      *>      DISPLAY NEW-MENU 
+      *>      DISPLAY USER-INFO-SCREEN
+      *>      ACCEPT NEW-CHOICE-FIELD. 
+      *>      IF NEW-CHOICE = "r" THEN 
+      *>          PERFORM 0105-DISPLAY-REGISTER-NEW-USER
+      *>      ELSE IF NEW-CHOICE = "q" THEN 
+      *>          PERFORM 0100-DISPLAY-START
+      *>      ELSE 
+      *>          PERFORM 0106-NEW-MENU
+      *>      END-IF.
 
        0110-DISPLAY-LOGIN.
            PERFORM 0500-TIME-AND-DATE.
@@ -1496,28 +1496,28 @@
 
            IF WS-FOUND = 1 THEN
                CALL "admin-server" USING ADMIN-NAME
-      *         PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE 
-               PERFORM 0117-ADMIN-ERROR-PAGE 
+          *>      PERFORM 0118-DISPLAY-ADMIN-MENU 
+          *>  ELSE 
+          *>     PERFORM 0117-ADMIN-ERROR-PAGE 
            END-IF. 
 
-       0117-ADMIN-ERROR-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-ERROR.
-           DISPLAY ADMIN-ERROR-SCREEN.
-           ACCEPT ADMIN-ERROR-FIELD.
-           IF ADMIN-ERROR = "a" THEN 
-               PERFORM 0116-ADMIN-LOGIN-PAGE 
-           ELSE IF ADMIN-ERROR = "q" THEN 
-           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
-               PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE IF  ADMIN-ENTER = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               MOVE "* Administrator details not recognised *" TO 
-               ADMIN-ERR-MSG
-               PERFORM 0116-ADMIN-LOGIN-PAGE
-           END-IF. 
+      *>  0117-ADMIN-ERROR-PAGE.
+      *>      PERFORM 0200-TIME-AND-DATE.
+      *>      INITIALIZE ADMIN-ERROR.
+      *>      DISPLAY ADMIN-ERROR-SCREEN.
+      *>      ACCEPT ADMIN-ERROR-FIELD.
+      *>      IF ADMIN-ERROR = "a" THEN 
+      *>          PERFORM 0116-ADMIN-LOGIN-PAGE 
+      *>      ELSE IF ADMIN-ERROR = "q" THEN 
+      *>      IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
+      *>          PERFORM 0118-DISPLAY-ADMIN-MENU 
+      *>      ELSE IF  ADMIN-ENTER = "q" THEN 
+      *>          PERFORM 0100-DISPLAY-START
+      *>      ELSE 
+      *>          MOVE "* Administrator details not recognised *" TO 
+      *>          ADMIN-ERR-MSG
+      *>          PERFORM 0116-ADMIN-LOGIN-PAGE
+      *>      END-IF. 
 
        0118-DISPLAY-ADMIN-MENU.
            PERFORM 0500-TIME-AND-DATE.
@@ -1668,7 +1668,7 @@
 
 
        0170-DISPLAY-GUESSING-GAME.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            SET WS-HIGH-SCORE TO 0.
            SET WS-WORD-LENGTH TO 0.
            MOVE 15 TO WS-GUESSES-LEFT.
@@ -1700,7 +1700,7 @@
            PERFORM 0175-IN-GAME-SCREEN.
 
        0175-IN-GAME-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESS-CHOICE.
            DISPLAY IN-GAME-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
@@ -1712,7 +1712,7 @@
            END-IF.
 
        0180-CHECK-GUESS.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            MOVE 1 TO COUNTER.
            PERFORM UNTIL COUNTER = 20
                  IF WS-GUESS-CHOICE = WS-ANSWERWORD(COUNTER:1) 
@@ -1741,7 +1741,7 @@
              END-IF.
 
        0185-WINNING-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-WINNING-CHOICE.
            DISPLAY WS-WORD-LENGTH.
            DISPLAY WS-GUESSES-LEFT.
@@ -1772,7 +1772,7 @@
            END-IF.
 
        0186-LOSING-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-LOSING-CHOICE.
            DISPLAY WORD-GUESSING-LOSE-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
@@ -1805,7 +1805,7 @@
            PERFORM 0188-HIGH-SCORE-SCREEN.
 
        0188-HIGH-SCORE-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-HIGH-SCORE-CHOICE.
            SORT WS-TABLE-HIGH-SCORE ON DESCENDING WS-SCORE.
            DISPLAY HIGH-SCORE-SCREEN.
@@ -2110,12 +2110,13 @@
            DISPLAY CONFIRM-SCREEN
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
-     
-           SEARCH WS-USER
-               WHEN WS-USER-NAME(USER-IDX) = USER-NAME
-                   MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
-           END-SEARCH
-   
+           
+           IF ACCOUNT-NUM = LOW-VALUES
+            SEARCH WS-USER
+                WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                    MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
+            END-SEARCH
+           END-IF.
 
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
