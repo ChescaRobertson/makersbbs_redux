@@ -789,10 +789,10 @@
              05 LINE 36 COL 32 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 38 COL 18 VALUE "Pick: ".
-             05 LINE 40 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS
-             HIGHLIGHT, FOREGROUND-COLOR IS 4.
              05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 24 PIC X
                 USING GAMES-MENU-CHOICE.          
+              05 LINE 40 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS
+                HIGHLIGHT, FOREGROUND-COLOR IS 4.
 
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
@@ -1090,20 +1090,18 @@
                .
                05 LINE 28 COL 10 VALUE
            "---------------------------------------------------------".
-                
-           
                05 LINE 31 COL 10 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
                05 LINE 31 COL 40 VALUE 'Page No.'.
                05 LINE 31 COL 50 PIC 99 USING PAGE-NUM.
-               05 LINE 40 COL 10 VALUE "( )Read the book by number".
-               05 LINE 41 COL 10 VALUE "(n) Next Page".
-               05 LINE 42 COL 10 VALUE "(p) Previous Page".
-               05 LINE 43 COL 10 VALUE "(q) Go back".
-               05 LINE 45 COL 10 VALUE "Pick: ".
-               05 LIBRARY-FIELD LINE 45 COLUMN 16 PIC X 
+               05 LINE 35 COL 10 VALUE "( )Read the book by number".
+               05 LINE 35 COL 40 VALUE "(n) Next Page".
+               05 LINE 36 COL 10 VALUE "(p) Previous Page".
+               05 LINE 36 COL 40  VALUE "(q) Go back".
+               05 LINE 38 COL 10 VALUE "Pick: ".
+               05 LIBRARY-FIELD LINE 38 COLUMN 16 PIC X 
                USING LIBRARY-CHOICE.
-               05 LINE 46 COL 10 PIC X(20) USING INSUFFICIENT-FUNDS.
+               05 LINE 40 COL 10 PIC X(20) USING INSUFFICIENT-FUNDS.
                
                
            01 READ-BOOK-SCREEN
@@ -1694,11 +1692,6 @@
            INITIALIZE GAMES-MENU-CHOICE.
 
            MOVE "5" TO COST.
-
-            *> SEARCH WS-USER
-            *>     WHEN WS-USER-NAME(USER-IDX) = USER-NAME
-            *>         MOVE WS-CREDIT(USER-IDX) TO CREDIT-BALANCE
-            *> END-SEARCH
 
            DISPLAY GAMES-MENU-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
