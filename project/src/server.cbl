@@ -78,6 +78,7 @@
               *> 05 FILLER PIC X VALUE X'0A'.
 
 
+
            FD F-ADMIN-FILE.
            01 ADMINS. 
                05 ADMIN PIC X(16).
@@ -337,7 +338,7 @@
                05 LINE 8 COL 107 PIC X(15) USING USER-INFO-LOGGED-IN.
                05 LINE 9 COL 107 PIC X(16) USING USER-INFO-NAME 
                HIGHLIGHT, FOREGROUND-COLOR IS 2.
-               05 LINE 11 COL 111 PIC X(12) USING 
+               05 LINE 11 COL 107 PIC X(12) USING 
                USER-INFO-CRED-DISPLAY.
                
 
@@ -1326,6 +1327,8 @@
                        MOVE USERNAME TO WS-USER-NAME(COUNTER)
                        MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
                        MOVE USER-CREDIT TO WS-CREDIT(COUNTER)
+                       MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
+
                    AT END 
                        MOVE 1 TO WS-FILE-IS-ENDED
                END-READ 
@@ -2137,12 +2140,10 @@
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
            
-           IF ACCOUNT-NUM = LOW-VALUES
             SEARCH WS-USER
                 WHEN WS-USER-NAME(USER-IDX) = USER-NAME
                     MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
             END-SEARCH
-           END-IF.
 
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
