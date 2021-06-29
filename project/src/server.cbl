@@ -1737,7 +1737,7 @@
            ELSE 
                MOVE 'USER NAME OK' TO OK-MSG-1
                MOVE SPACES TO ERROR-MSG-1
-               PERFORM 05-VALIDATE-PASSWORD
+               PERFORM VALIDATE-PASSWORD
            END-IF. 
 
            VALIDATE-PASSWORD.
@@ -2575,7 +2575,7 @@
            INITIALIZE TORCH-CHOICE.
            DISPLAY TORCH-SCREEN. 
            ACCEPT TORCH-CHOICE-FIELD.
-           IF TORCH-CHOICE = 'g' OR 'G' THEN 
+           IF TORCH-CHOICE = 'q' OR 'Q' THEN 
                PERFORM 0120-DISPLAY-MENU
            ELSE 
                PERFORM 0350-TORCH
