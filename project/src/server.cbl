@@ -280,7 +280,8 @@
            01 W3-CHOICE PIC X.
            01 W4-CHOICE PIC X.
 
-           *>----- Admin Variables -----   
+           *>----- Torch Variables -----   
+           01 TORCH-CHOICE PIC X. 
 
             *>----- Buy Credits Variables ----- 
            01 CREDIT-AMOUNT PIC 999.
@@ -1316,7 +1317,12 @@
                05 W4-CHOICE-FIELD LINE 31 COL 45 PIC X 
                USING W4-CHOICE.
 
-              
+           01 TORCH-SCREEN
+               BACKGROUND-COLOR IS 6 . 
+               05 BLANK SCREEN.
+               05 TORCH-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING TORCH-CHOICE.
+
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
@@ -1639,7 +1645,8 @@
                PERFORM 0470-ABOUT-PAGE-TABLE
            ELSE IF MENU-CHOICE = 'w' or 'W' THEN 
                PERFORM 0300-CHECK-WEATHER
-
+           ELSE IF MENU-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
            END-IF.
       
            PERFORM 0120-DISPLAY-MENU.
@@ -2258,6 +2265,15 @@
                PERFORM WEATHER-ENVIRONMENT-4
            END-IF. 
 
+       0350-TORCH.
+           INITIALIZE TORCH-CHOICE.
+           DISPLAY TORCH-SCREEN. 
+           ACCEPT TORCH-CHOICE-FIELD.
+           IF TORCH-CHOICE = 'g' OR 'G' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0350-TORCH
+           END-IF. 
 
 
        0400-BUY-CREDITS.
@@ -2383,8 +2399,8 @@
            END-IF.
 
 
-        0500-TIME-AND-DATE.
+       0500-TIME-AND-DATE.
               MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
        
 
-
+       
