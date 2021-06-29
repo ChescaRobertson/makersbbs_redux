@@ -2238,8 +2238,6 @@
                PERFORM 0115-ERROR-PAGE 
            END-IF.
        
-
-       
        0120-DISPLAY-MENU.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
@@ -2255,7 +2253,10 @@
            ELSE IF MENU-CHOICE = "l" or "L" THEN
              PERFORM 0110-DISPLAY-LOGIN
            ELSE IF MENU-CHOICE = "m" or "M" THEN
-             PERFORM 0130-MSG-MENU
+             CALL "msg-board-server" USING USER-INFO-NAME, 
+             USER-INFO-CRED-DISPLAY
+             PERFORM 0120-DISPLAY-MENU
+            *>  PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
            ELSE IF MENU-CHOICE = "b" or "B" THEN
@@ -2274,118 +2275,6 @@
       
            PERFORM 0120-DISPLAY-MENU.
 
-       0130-MSG-MENU.
-           PERFORM 0500-TIME-AND-DATE.
-           CALL 'number-of-file-lines' USING NUM-FILE-LINES.
-           CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
-           SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
-           INITIALIZE MSG-MENU-CHOICE.
-           MOVE "1" TO COST.
-           DISPLAY MSG-MENU-SCREEN.
-
-           DISPLAY PIP-BOY-SCREEN.
-
-           PERFORM 0113-DISPLAY-TIME-USER-INFO.
-
-           ACCEPT MSG-MENU-CHOICE-FIELD.
-           MOVE MSG-MENU-CHOICE TO MSG-SELECT.
-         
-           IF MSG-SELECT > 0 THEN
-               MOVE SPACES TO INSUFFICIENT-FUNDS
-             PERFORM 0140-MESSAGE-VIEW            
-           END-IF. 
-           IF MSG-MENU-CHOICE = "g" OR 'G' THEN
-               MOVE SPACES TO INSUFFICIENT-FUNDS
-               PERFORM 0120-DISPLAY-MENU
-               
-
-           ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
-             COMPUTE ID-NUM = ID-NUM + 10
-               IF ID-NUM IS GREATER THAN OR EQUAL TO NUM-FILE-LINES
-                 COMPUTE ID-NUM = ID-NUM - 10
-                 MOVE SPACES TO INSUFFICIENT-FUNDS
-                 PERFORM 0130-MSG-MENU              
-               ELSE                
-                   MOVE SPACES TO INSUFFICIENT-FUNDS
-                   PERFORM 0130-MSG-MENU                  
-               END-IF               
-               
-           ELSE IF MSG-MENU-CHOICE = 'p' OR 'P'
-               COMPUTE ID-NUM = ID-NUM - 10
-    
-               IF ID-NUM IS LESS THAN 10
-                   MOVE 1 TO ID-NUM
-                    MOVE SPACES TO INSUFFICIENT-FUNDS
-                    PERFORM 0130-MSG-MENU             
-               ELSE
-                    MOVE SPACES TO INSUFFICIENT-FUNDS
-                    PERFORM 0130-MSG-MENU                  
-               END-IF
-           ELSE IF (MSG-MENU-CHOICE = 'w' OR 'W')
-            AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
-               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
-               UPDATED-BALANCE
-               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
-               PERFORM 0150-MESSAGE-WRITE
-           ELSE IF (MSG-MENU-CHOICE = 'w' OR 'W')
-           AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "FALSE") THEN
-             MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
-             PERFORM 0130-MSG-MENU
-              
-           ELSE IF MSG-MENU-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN  
-           END-IF.
-
-           PERFORM 0130-MSG-MENU.
-
-       0140-MESSAGE-VIEW. 
-           PERFORM 0500-TIME-AND-DATE.          
-           MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
-           INITIALIZE MSG-VIEW-CHOICE.
-           DISPLAY MESSAGE-VIEW-SCREEN.
-
-           DISPLAY PIP-BOY-SCREEN.
-
-           PERFORM 0113-DISPLAY-TIME-USER-INFO.
-
-           ACCEPT MSG-VIEW-CHOICE-FIELD.
-           IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
-               PERFORM 0130-MSG-MENU
-           ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN  
-           END-IF.
-
-       0150-MESSAGE-WRITE.
-           PERFORM 0500-TIME-AND-DATE.
-           INITIALIZE WS-TITLE.
-           INITIALIZE LS-PART-1.
-           INITIALIZE LS-PART-2.
-           INITIALIZE LS-PART-3.
-           INITIALIZE LS-PART-4.
-           INITIALIZE LS-PART-5.
-           DISPLAY WRITE-MSG-SCREEN.
-
-           DISPLAY PIP-BOY-SCREEN.
-
-           PERFORM 0113-DISPLAY-TIME-USER-INFO.
-           
-
-           ACCEPT WS-TITLE-FIELD.
-           ACCEPT LINE-1-FIELD.
-           ACCEPT LINE-2-FIELD.
-           ACCEPT LINE-3-FIELD.
-           ACCEPT LINE-4-FIELD.
-           ACCEPT LINE-5-FIELD.
-           
-           MOVE WS-CONTENT-DISPLAY TO WS-CONTENT.
-           MOVE USER-NAME TO WS-USERNAME.
-
-           IF WS-TITLE-FIELD NOT = SPACE AND LOW-VALUE THEN
-             CALL 'post-message' USING NEW-MESSAGE
-             PERFORM 0130-MSG-MENU
-           END-IF.
-
-           PERFORM 0120-DISPLAY-MENU.
        
        0160-GAMES-MENU.
            PERFORM 0500-TIME-AND-DATE.
