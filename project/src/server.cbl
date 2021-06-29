@@ -10,6 +10,9 @@
                FUNCTION DISPLAY-BOOK-BODY
                FUNCTION DISPLAY-BOOK-AUTHOR
 
+               FUNCTION DISPLAY-ABOUT-TITLE
+               FUNCTION DISPLAY-ABOUT-BODY
+
 
                FUNCTION HIGH-SCORE-CALCULATOR
                FUNCTION REPLACE-LETTER
@@ -20,7 +23,6 @@
 
                FUNCTION CHECK-BALANCE
                FUNCTION CHECK-LIMIT.
-
 
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -33,6 +35,7 @@
           
            *>----- X AND O File Control-----    
              SELECT FD-WINMASKS ASSIGN TO "placement.dat"
+
                        ORGANIZATION IS LINE SEQUENTIAL.
            *>------Library Control-----------------------
              SELECT F-LIBRARY-FILE ASSIGN TO "library.dat"
@@ -43,7 +46,6 @@
 
              SELECT F-ABOUT-FILE ASSIGN TO 'about-page.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
-
 
        DATA DIVISION.
            FILE SECTION.
@@ -76,13 +78,13 @@
               05 FILLER PIC XX VALUE SPACES.  
               05 USER-CREDIT PIC 999. 
               *> 05 FILLER PIC X VALUE X'0A'.
-
+      
+      
            FD F-ABOUT-FILE.
            01 ABOUT-INFO.
-               05 ABOUT-TITLE PIC X(30).
+               05 ABOUT-TITLE PIC X(31).
                05 ABOUT-BODY PIC X(500).
 
-           
            WORKING-STORAGE SECTION.
            *>----- General Variables -----
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
@@ -135,6 +137,7 @@
                05 USER-INFO-CREDITS PIC 999.
          
            *>----- Date and Time-Screen Variables -----
+
            01 WS-DATETIME.
               05 WS-FORMATTED-YEAR  PIC  X(4).           
               05 WS-FORMATTED-MONTH PIC  X(2).          
@@ -169,10 +172,12 @@
              05 WS-USERNAME PIC X(16).
 
            *>----- Arcade Variables -----
+
            01 GAMES-MENU-CHOICE PIC X.
            01 HIDDEN-MENU-CHOICE PIC X.
 
-           *>-----X AND O WS-SECTION-----   
+           *>-----X AND O WS-SECTION-----  
+
            01 WS-PLAYER PIC A(1).
                    88 HUMAN-PLAYER VALUE "X".
                    88 COMPUTER-PLAYER VALUE "O".
@@ -214,14 +219,14 @@
                01 WS-FLAT-GAME-GRID PIC X(9).
 
            *>-----RANDOM-NUM-GAME WS-SECTION-----
+
            01 SEED PIC 9(8).
            01 GUESS-INPUT PIC XX.
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
 
-           
-      *    --------Library Section---------
+           *>--------Library Section---------
            01 LIBRARY-CHOICE PIC X(2).
            01 PAGE-NUM PIC 99.
            01 LIBRARY-DISPLAY-MESSAGE PIC X(40).
@@ -307,12 +312,21 @@
                05 WS-ABOUTS OCCURS 100 TIMES 
                ASCENDING KEY IS WS-ABOUT-TITLE
                INDEXED BY ABOUT-IDX.
-                   10 WS-ABOUT-TITLE PIC X(60).
+                   10 WS-ABOUT-TITLE PIC X(31).
                    10 WS-ABOUT-BODY PIC X(500).
 
            01 ABOUT-OFFSET PIC 99.
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
+
+
+           01 ABOUT-PAGE-READ-CHOICE PIC X.
+           01 ABOUT-TITLE-READ PIC X(31).
+           01 ABOUT-BODY-READ PIC X(500).
+
+           01 ABOUT-INVALID-CHOICE-MESSAGE PIC X(15).
+
+           *>------Spending Credits Variables------
            
            01 COST PIC 999.
            01 CREDIT-BALANCE PIC 999.
@@ -1326,30 +1340,41 @@
            05 LINE 23 COL 10 VALUE 
            "system and in general, the program itself.".
            05 LINE 26 COL 10 VALUE '1.'.
-           05 LINE 26 COL 13 PIC X(60) USING 
+           05 LINE 26 COL 13 PIC X(31) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET).
            05 LINE 28 COL 10 VALUE '2.'.
-           05 LINE 28 COL 13 PIC X(60) USING 
+           05 LINE 28 COL 13 PIC X(31) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
            05 LINE 30 COL 10 VALUE '3.'.
-           05 LINE 30 COL 13 PIC X(60) USING 
+           05 LINE 30 COL 13 PIC X(31) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
            05 LINE 32 COL 10 VALUE '4.'.
-           05 LINE 32 COL 13 PIC X(60) USING 
+           05 LINE 32 COL 13 PIC X(31) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
            05 LINE 34 COL 10 VALUE '5.'.
-           05 LINE 34 COL 13 PIC X(60) USING 
+           05 LINE 34 COL 13 PIC X(31) USING 
            WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
            05 LINE 40 COL 10 VALUE "( ) What number to read".
            05 LINE 41 COL 10 VALUE "(n) Next Page".
            05 LINE 42 COL 10 VALUE "(p) Previous Page".
            05 LINE 43 COL 10 VALUE "(q) Go back".
+           05 Line 38 COL 10 PIC X(15) USING
+           ABOUT-INVALID-CHOICE-MESSAGE
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
            05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
            ABOUT-PAGE-CHOICE.
       
-
-
-
+       01 ABOUT-PAGE-READ-SCREEN.
+           05 BLANK SCREEN.
+           05 LINE 30 COL 30 PIC X(31) USING ABOUT-TITLE-READ.
+           05 LINE 32 COL 30 PIC X(500) USING ABOUT-BODY-READ.
+           05 LINE 50 COL 30 VALUE "(q) Go Back".
+           05 Line 46 COL 30 PIC X(15) USING 
+           ABOUT-INVALID-CHOICE-MESSAGE
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
+           05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
+           ABOUT-PAGE-READ-CHOICE.
+           
 
        PROCEDURE DIVISION.
 
@@ -2210,7 +2235,6 @@
                PERFORM 0230-LIBRARY-MENU
            END-IF.
 
-
        0400-BUY-CREDITS.
            INITIALIZE CREDIT-AMOUNT.
            INITIALIZE BUY-CREDITS-CHOICE.
@@ -2315,7 +2339,6 @@
            CLOSE F-ABOUT-FILE.
            PERFORM 0480-ABOUT-PAGE.
 
-
        0480-ABOUT-PAGE.
            INITIALIZE ABOUT-PAGE-CHOICE.
            DISPLAY ABOUT-PAGE-SCREEN.
@@ -2347,10 +2370,34 @@
                END-IF
            ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
              SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
-      *       PERFORM 0490-ABOUT-PAGE-READ
+             MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
+             PERFORM 0490-ABOUT-PAGE-READ
+           ELSE
+             MOVE "Invalid Choice!" TO ABOUT-INVALID-CHOICE-MESSAGE
+             PERFORM 0480-ABOUT-PAGE 
            END-IF.
+           
 
+       0490-ABOUT-PAGE-READ.
+           INITIALIZE ABOUT-PAGE-READ-CHOICE.
+           IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
+               MOVE DISPLAY-ABOUT-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT) 
+               TO ABOUT-TITLE-READ
+               MOVE DISPLAY-ABOUT-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               TO ABOUT-BODY-READ
+           END-IF.
+           DISPLAY ABOUT-PAGE-READ-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT ABOUT-PAGE-READ-FIELD.
 
+           IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
+               MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
+               PERFORM 0480-ABOUT-PAGE
+           ELSE 
+               MOVE "Invalid Choice!" TO ABOUT-INVALID-CHOICE-MESSAGE
+               PERFORM 0490-ABOUT-PAGE-READ              
+           END-IF.
+           
         0500-TIME-AND-DATE.
               MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
        
