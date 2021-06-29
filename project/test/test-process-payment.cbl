@@ -14,9 +14,6 @@
 
        PROCEDURE DIVISION.
        
-       TEST-CONV-MON-TO-CRED.
-           CALL "assert-equals" USING CONV-MON-TO-CRED("015.00")'150'.
-
        TEST-PROCESS-SINGLE-PAYMENT.
            MOVE "98765432" TO BANK-ACCOUNT
            MOVE "300" TO CREDITS

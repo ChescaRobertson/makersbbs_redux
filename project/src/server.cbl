@@ -288,7 +288,7 @@
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
            01 CREDIT-LIMIT-MESSAGE PIC X(50).
-
+           01 WS-CURRENT-DATE PIC X(8).
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
            01 WS-ABOUT. 
@@ -2010,6 +2010,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
+           MOVE FUNCTION CURRENT-DATE(1:8) TO WS-CURRENT-DATE
            
             SEARCH WS-USER
                 WHEN WS-USER-NAME(USER-IDX) = USER-NAME
@@ -2019,7 +2020,7 @@
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 
-                ACCOUNT-NUM, CREDIT-AMOUNT, MON-AMOUNT
+                ACCOUNT-NUM, CREDIT-AMOUNT, WS-CURRENT-DATE
                PERFORM 0460-PAYMENT-PROCESS
            ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
              AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'

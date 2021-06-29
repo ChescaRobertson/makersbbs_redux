@@ -24,12 +24,6 @@
            SET ENVIRONMENT "messages_dat" TO "messages.dat".
            CALL "number-of-file-lines" USING RETURN-COUNTER.
            CALL 'assert-equals' USING "005" RETURN-COUNTER.
-
-      *>  TEST-GET-LIST-PAGE-ALT.
-      *>      SET ENVIRONMENT 'messages_dat' TO "table_output.dat"
-      *>      CALL "get-list-page-alt" USING RETURN-COUNTER 
-      *>      LS-RETURN-TABLE.
-      *>      CALL 'assert-equals' USING "0".
        
        TEST-LIST-MESSAGES.
            SET ENVIRONMENT "messages_dat" TO "list_messages.dat".
