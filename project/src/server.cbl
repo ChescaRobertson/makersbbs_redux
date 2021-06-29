@@ -385,11 +385,7 @@
                    FOREGROUND-COLOR IS 2.
                
            01 START-SCREEN. 
-
             05 BLANK SCREEN.
-            05 LINE 10 COLUMN 30 VALUE "Connected to Vault" 
-              UNDERLINE, BLINK
-            HIGHLIGHT, FOREGROUND-COLOR IS 3.
             05 LINE 41 COLUMN 30 VALUE "(l) Go to Log-in."
               HIGHLIGHT, FOREGROUND-COLOR IS 3.
             05 LINE 42 COLUMN 30 VALUE "(c) Create an account."
@@ -651,128 +647,111 @@
            . 
 
            01 REGISTER-NEW-USER-SCREEN
-              BACKGROUND-COLOR IS 0.
-
-
-                 05 BLANK SCREEN.
-                   
-                 05 LINE 4 COL 12 VALUE "Connected to Vault" 
-                   UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
-           
-      *>>  
-
-      *>>>>>End of the pip boy here                               
-                05 LINE 15 COL 90 VALUE
-           "    _________"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 14 COL 90 VALUE   
-           "    / ======= \"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 15 COL 90 VALUE
-      -    "   / __________\"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 16 COL 90 VALUE   
-           "  | ___________ |"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 17 COL 90 VALUE
-           "  | | -       | |"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 18 COL 90 VALUE
-           "  | |         | |"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 19 COL 90 VALUE
-           "  | |_________| |"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 20 COL 90 VALUE
-           "  \=____________/"
-           FOREGROUND-COLOR IS 2.
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.                               
+               05 LINE 15 COL 90 VALUE
+               "    _________"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 14 COL 90 VALUE   
+               "    / ======= \"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 15 COL 90 VALUE
+      -        "   / __________\"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 16 COL 90 VALUE   
+               "  | ___________ |"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 90 VALUE
+               "  | | -       | |"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 90 VALUE
+               "  | |         | |"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 90 VALUE
+               "  | |_________| |"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 20 COL 90 VALUE
+               "  \____________/"
+               FOREGROUND-COLOR IS 2.
            
            
-           05 LINE 21 COL 90 VALUE
-           "  / ''''''''''' \"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 22 COL 90 VALUE
-           " / ::::::::::::: \"
-           FOREGROUND-COLOR IS 2.
-           05 LINE 23 COL 90 VALUE
-           "(_________________)"
-           FOREGROUND-COLOR IS 2.
+               05 LINE 21 COL 90 VALUE
+               "  / ''''''''''' \"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 90 VALUE
+               " / ::::::::::::: \"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 90 VALUE
+               "(_________________)"
+                   FOREGROUND-COLOR IS 2.
                  05 LINE 16 COl 25 VALUE   
-           "     _   _             _ _     __  _____ __  " 
-             FOREGROUND-COLOR IS 2.
+               "     _   _             _ _     __  _____ __  " 
+                   FOREGROUND-COLOR IS 2.
                  05 LINE 17 COl 25 VALUE         
-           "    | | | |           | | |   /  ||  _  /  | " 
-             FOREGROUND-COLOR IS 2.
+               "    | | | |           | | |   /  ||  _  /  | " 
+                   FOREGROUND-COLOR IS 2.
                  05 LINE 18 COl 25 VALUE  
-           "    | | | | __ _ _   _| | |_  `| || |/' `| | " 
-             FOREGROUND-COLOR IS 2.
+               "    | | | | __ _ _   _| | |_  `| || |/' `| | " 
+                   FOREGROUND-COLOR IS 2.
                  05 LINE 19 COl 25 VALUE    
-           "    | | | |/ _` | | | | | __|  | ||  /| || | "
-              FOREGROUND-COLOR IS 2.
+               "    | | | |/ _` | | | | | __|  | ||  /| || | "
+                   FOREGROUND-COLOR IS 2.
                  05 LINE 20 COl 25 VALUE   
-           "    \ \_/ | (_| | |_| | | |_  _| |\ |_/ _| |_"
-              FOREGROUND-COLOR IS 2.
-                 05 LINE 21 COl 25 VALUE  
-           "     \___/ \__,_|\__,_|_|\__| \___/\___/\___/" 
-             FOREGROUND-COLOR IS 2.
+               "    \ \_/ | (_| | |_| | | |_  _| |\ |_/ _| |_"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 21 COl 25 VALUE  
+               "     \___/ \__,_|\__,_|_|\__| \___/\___/\___/" 
+               FOREGROUND-COLOR IS 2.
            
 
-             05 LINE 27 COLUMN 30 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
-             FOREGROUND-COLOR IS 3.
-             05 LINE 29 COLUMN 30 VALUE "Creating an account requires a
+               05 LINE 24 COLUMN 30 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
+                   FOREGROUND-COLOR IS 3.
+              05 LINE 26 COLUMN 30 VALUE "Creating an account requires a
       -      "couple details, and then we'll have you all up and "  
-             FOREGROUND-COLOR IS 2.
-             05 LINE 30 COLUMN 30 VALUE "running on our vault network tr
+               FOREGROUND-COLOR IS 2.
+             05 LINE 28 COLUMN 30 VALUE "running on our vault network tr
       -      "aveller"  
-             FOREGROUND-COLOR IS 2.
-             05 LINE 31 COLUMN 30 VALUE "We also need your account detai
+               FOREGROUND-COLOR IS 2.
+             05 LINE 29 COLUMN 30 VALUE "We also need your account detai
       -      "ls for processing credits"  
-             FOREGROUND-COLOR IS 2.
-             05 LINE 33 COLUMN 30 VALUE "Enter a username:"
-             FOREGROUND-COLOR IS 2.
-             05 LINE 33 COLUMN 50 VALUE " (Usernames must be unique.)"
                FOREGROUND-COLOR IS 2.
-             05 LINE 34 COLUMN 30 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 NEW-USER-NAME-FIELD LINE 35 COLUMN 30 PIC X(16)
+             05 LINE 31 COLUMN 30 VALUE "Enter a username:"
+               FOREGROUND-COLOR IS 2.
+             05 LINE 31 COLUMN 50 VALUE " (Usernames must be unique.)"
+               FOREGROUND-COLOR IS 2.
+             05 LINE 32 COLUMN 30 PIC X(50) USING ERROR-MSG-1 HIGHLIGHT
+               FOREGROUND-COLOR is 4.
+             05 NEW-USER-NAME-FIELD LINE 33 COLUMN 30 PIC X(16)
                 USING NEW-USER-NAME.
-             05 LINE 36 COLUMN 30 PIC X(50) USING OK-MSG-1 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 37 COLUMN 30 VALUE "Enter a password:"
+             05 LINE 34 COLUMN 30 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+               FOREGROUND-COLOR is 2.
+             05 LINE 35 COLUMN 30 VALUE "Enter a password:"
                FOREGROUND-COLOR IS 2.
-             05 LINE 37 COLUMN 50 VALUE " (Your password must be a minim
+             05 LINE 35 COLUMN 50 VALUE " (Your password must be a minim
       -      "um of 6 characters and 1 number.) "
                FOREGROUND-COLOR IS 2.
-             05 LINE 38 COLUMN 30 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 NEW-PASSWORD-FIELD LINE 39 COLUMN 30 PIC X(20)
-                USING NEW-PASSWORD.
-             05 LINE 40 COLUMN 30 PIC X(50) USING OK-MSG-2 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 41 COLUMN 30 VALUE "Enter a valid Bank Account numb
+             05 LINE 36 COLUMN 30 PIC X(50) USING ERROR-MSG-2 HIGHLIGHT
+               FOREGROUND-COLOR is 4.
+             05 NEW-PASSWORD-FIELD LINE 37 COLUMN 30 PIC X(20)
+               USING NEW-PASSWORD.
+             05 LINE 38 COLUMN 30 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+               FOREGROUND-COLOR is 2.
+             05 LINE 39 COLUMN 30 VALUE "Enter a valid Bank Account numb
       -      "er:"
                FOREGROUND-COLOR IS 2.
-             05 LINE 42 COLUMN 30 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 ACCOUNT-NUM-FIELD LINE 43 COLUMN 30 PIC X(8)
+             05 LINE 40 COLUMN 30 PIC X(50) USING ERROR-MSG-3 HIGHLIGHT
+               FOREGROUND-COLOR is 4.
+             05 ACCOUNT-NUM-FIELD LINE 41 COLUMN 30 PIC X(8)
                 USING ACCOUNT-NUM.
-             05 LINE 44 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             
-             05 LINE 49 COLUMN 30 VALUE "Pick: ".
-             05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 38 PIC X
+             05 LINE 42 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+               FOREGROUND-COLOR is 2.    
+             05 LINE 44 COLUMN 30 VALUE "Pick:"
+               FOREGROUND-COLOR is 2. 
+             05 REGISTER-CHOICE-FIELD LINE 44 COLUMN 37 PIC X
                 USING REGISTER-CHOICE.
 
            01 LOGIN-SCREEN.
                  05 BLANK SCREEN.
-
-                 
-                 05 LINE 4 COL 30 VALUE "Connected to Vault"
-                    UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
                       05 LINE 15 COL 90 VALUE
                    "    _________"
                    FOREGROUND-COLOR IS 2.
@@ -831,23 +810,29 @@
 
 
                  05 USER-NAME-FIELD LINE 29 COL 30 PIC X(16)
-                    USING USER-NAME.
+                    USING USER-NAME
+                    FOREGROUND-COLOR IS 2.
                  05 LINE 31 COL 30 VALUE "Enter your password:"
                    FOREGROUND-COLOR IS 2.
                  05 PASSWORD-FIELD LINE 33 COLUMN 30 PIC X(20)
-                    USING WS-PASSWORD.   
+                    USING WS-PASSWORD
+                    FOREGROUND-COLOR IS 2.
                               
-
            01 ERROR-SCREEN.        
                05 LINE 27 COLUMN 30 VALUE "Incorrect Username or Passwor
       -        "d"
                HIGHLIGHT, FOREGROUND-COLOR IS 4.
-               05 LINE 29 COLUMN 30 VALUE "(l) Back to Log-in.".
-               05 LINE 30 COLUMN 30 VALUE "(c) Create an account.".
-               05 LINE 31 COLUMN 30 VALUE "(q) Go Back.         ".
-               05 LINE 33 COLUMN 30 VALUE "Pick: ".
+               05 LINE 29 COLUMN 30 VALUE "(l) Back to Log-in."
+                   FOREGROUND-COLOR is 2. 
+               05 LINE 30 COLUMN 30 VALUE "(c) Create an account."
+                   FOREGROUND-COLOR is 2. 
+               05 LINE 31 COLUMN 30 VALUE "(q) Go Back.         "
+                   FOREGROUND-COLOR is 2. 
+               05 LINE 33 COLUMN 30 VALUE "Pick: "
+                   FOREGROUND-COLOR is 2. 
                05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
-                USING ERROR-CHOICE.
+                USING ERROR-CHOICE
+                   FOREGROUND-COLOR is 2. 
 
            01 MENU-SCREEN
                BACKGROUND-COLOR IS 0.
