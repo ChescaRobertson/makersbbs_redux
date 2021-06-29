@@ -340,37 +340,39 @@
            SCREEN SECTION.
            01 TIME-SCREEN.
                05 LINE 8 COL 117 PIC X(2) USING WS-FORMATTED-HOUR
-               FOREGROUND-COLOR IS 2.
+                   FOREGROUND-COLOR IS 2.
                05 LINE 8 COL 119 VALUE ":"
-               FOREGROUND-COLOR IS 2.       
+                   FOREGROUND-COLOR IS 2.       
                05 LINE 8 COL 120 PIC X(2) USING WS-FORMATTED-MINS
-               FOREGROUND-COLOR IS 2. 
+                   FOREGROUND-COLOR IS 2. 
 
            01 USER-INFO-SCREEN.
-               05 LINE 10 COL 107 PIC X(15) USING USER-INFO-LOGGED-IN.
-               05 LINE 11 COL 107 PIC X(16) USING USER-INFO-NAME 
-               HIGHLIGHT, FOREGROUND-COLOR IS 2.
-               05 LINE 12 COL 107 PIC X(12) USING 
-               USER-INFO-CRED-DISPLAY.
+               05 LINE 10 COL 30 PIC X(15) USING USER-INFO-LOGGED-IN
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 11 COL 30 PIC X(16) USING USER-INFO-NAME 
+                   HIGHLIGHT, FOREGROUND-COLOR IS 5.
+               05 LINE 13 COL 30 PIC X(12) USING 
+               USER-INFO-CRED-DISPLAY
+                   FOREGROUND-COLOR IS 2.
                
            01 START-SCREEN. 
                05 BLANK SCREEN.
                05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-                   UNDERLINE, BLINK
-                   HIGHLIGHT, FOREGROUND-COLOR 3.
+                 UNDERLINE, BLINK
+                 HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in."
-                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+                 REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
                05 LINE 22 COLUMN 30 VALUE "(c) Create an account."
-                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+                 REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
                05 LINE 23 COLUMN 30 VALUE "(q) Quit."
-                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+                 REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
                05 LINE 27 COLUMN 30 VALUE "Pick: "
-                  FOREGROUND-COLOR 2.
+                 FOREGROUND-COLOR 2.
                05 START-CHOICE-FIELD LINE 27 COLUMN 36 PIC X
                USING START-CHOICE
-                   BLINK, FOREGROUND-COLOR 2.
+                 BLINK, FOREGROUND-COLOR 2.
                05 LINE 25 COLUMN 30 VALUE "(a) Administrator."
-                   REVERSE-VIDEO, FOREGROUND-COLOR 3.
+                 REVERSE-VIDEO, FOREGROUND-COLOR 3.
 
            01 PIP-BOY-SCREEN.
                      
@@ -562,8 +564,7 @@
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 12 VALUE "Connected to Vault" 
                    UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
+                   HIGHLIGHT, FOREGROUND-COLOR IS 3.
            
       *>>  
 
@@ -725,113 +726,134 @@
              05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
                 USING ERROR-CHOICE.
 
-
-           
-
-
            01 MENU-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             
-              
-             05 LINE  4 COL 10 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+                  UNDERLINE, BLINK
+                  HIGHLIGHT, FOREGROUND-COLOR 3.
 
-           
+               05 LINE 21 COL 46 VALUE "Hi, "
+                  FOREGROUND-COLOR 2.
+               05 LINE 21 COL 50 PIC X(16) USING USER-NAME
+                  FOREGROUND-COLOR 2.
+               05 LINE 23 COL 46 VALUE "Welcome to TMNCT's state of the
+      -         "art Bulletin Board."
+                  FOREGROUND-COLOR 2.
+               05 LINE 24 COL 46 VALUE "Feel free to:"
+                  FOREGROUND-COLOR 2.
 
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE  6 COL 28 VALUE "Hi, ".
-             05 LINE  6 COL 32 PIC X(16) USING USER-NAME.
-            05 LINE  23 COL 46 VALUE "Welcome to TMNCT's state of the ar
-      -      "t Bulletin Board.".  
-             05 LINE  24 COL 46 VALUE "Feel free to:".
-             05 LINE 25 COL 46 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE 25 COL 48 VALUE "Read our message board.".
-             05 LINE 26 COL 46 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE 26 COL 48 VALUE "Play a few games.".
-             05 LINE 27 COL 46 VALUE "* " FOREGROUND-COLOR IS 2.
-             05 LINE 27 COL 48 VALUE "Leave a message of your own.". 
-             05 LINE 28 COL 46 VALUE "* " FOREGROUND-COLOR IS 5.
-             05 LINE 28 COL 48 VALUE "Most importantly. HAVE FUN!". 
+               05 LINE 26 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 26 COL 48 VALUE "Read our message board."
+                  FOREGROUND-COLOR 2.
+               05 LINE 27 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 27 COL 48 VALUE "Play a few games."
+                  FOREGROUND-COLOR 2.
+               05 LINE 28 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 28 COL 48 VALUE "Leave a message of your own."
+                  FOREGROUND-COLOR 2.
+               05 LINE 29 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 29 COL 48 VALUE "Most importantly. HAVE FUN!"
+                  FOREGROUND-COLOR 2. 
              
-             05 LINE 34 COL 82 VALUE "(b) Library     "
-                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 34 COL 46 VALUE "(m) Messages    "
-                REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 34 COL 64 VALUE "(f) Fun & games "
-                REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 36 COL 46 VALUE "(l) Logout      "
-                REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 36 COL 64 VALUE "(c) Buy Credits "
-                REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 38 COL 64 VALUE "(q) Quit        "
-                REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 38 COL 46 VALUE "Pick: ".
-             05 MENU-CHOICE-FIELD LINE 38 COL 53 PIC X
-                USING MENU-CHOICE.
+               05 LINE 34 COL 82 VALUE "(b) Library     "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 34 COL 46 VALUE "(m) Messages    "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 34 COL 64 VALUE "(f) Fun & games "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 46 VALUE "(l) Logout      "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.            
+               05 LINE 36 COL 64 VALUE "(c) Buy Credits "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 38 COL 46 VALUE "Pick: "
+                  FOREGROUND-COLOR IS 2.
+               05 MENU-CHOICE-FIELD LINE 38 COL 53 PIC X
+                  USING MENU-CHOICE 
+                  FOREGROUND-COLOR IS 2, BLINK.
         
            
            01 MSG-MENU-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-
-             
-             05 LINE  4 COL 48 VALUE "Connected to Vault" UNDERLINE.
-             
-
-            05 LINE 19 COL 48 VALUE "*********************BULLETIN BOARD
-      -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
-             IS 2.
-             05 LINE 20 COL 48 VALUE "-----------------------------------
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.          
+               05 LINE  4 COL 48 VALUE "Connected to Vault" UNDERLINE,
+               BLINK.
+               05 LINE 18 COL 59 VALUE "|--------MESSAGE BOARD--------|"
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 59 VALUE "*-------RECENT MESSAGES-------*"
+               FOREGROUND-COLOR IS 3.
+               05 LINE 20 COL 48 VALUE "--------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE  21 COL 48 PIC XXX USING LIST-ID(ID-NUM).
-             05 LINE  21 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM).
-             05 LINE 22 COL 48 PIC XXX USING LIST-ID(ID-NUM + 1).
-             05 LINE 22 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 1).
-             05 LINE 23 COL 48 PIC XXX USING LIST-ID(ID-NUM + 2).
-             05 LINE 23 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 2).
-             05 LINE 24 COL 48 PIC XXX USING LIST-ID(ID-NUM + 3).
-             05 LINE 24 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 3).
-             05 LINE 25 COL 48 PIC XXX USING LIST-ID(ID-NUM + 4).
-             05 LINE 25 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 4).
-             05 LINE 26 COL 48 PIC XXX USING LIST-ID(ID-NUM + 5).
-             05 LINE 26 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 5).
-             05 LINE 27 COL 48 PIC XXX USING LIST-ID(ID-NUM + 6).
-             05 LINE 27 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 6).
-             05 LINE 28 COL 48 PIC XXX USING LIST-ID(ID-NUM + 7).
-             05 LINE 28 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 7).
-             05 LINE 29 COL 48 PIC XXX USING LIST-ID(ID-NUM + 8).
-             05 LINE 29 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 8).
-             05 LINE 30 COL 48 PIC XXX USING LIST-ID(ID-NUM + 9).
-             05 LINE 30 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 9).
+             05 LINE  21 COL 48 PIC XXX USING LIST-ID(ID-NUM)
+             FOREGROUND-COLOR 2.
+             05 LINE  21 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM)
+             FOREGROUND-COLOR 2.
+             05 LINE 22 COL 48 PIC XXX USING LIST-ID(ID-NUM + 1)
+             FOREGROUND-COLOR 2.
+             05 LINE 22 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 1)
+             FOREGROUND-COLOR 2.
+             05 LINE 23 COL 48 PIC XXX USING LIST-ID(ID-NUM + 2)
+             FOREGROUND-COLOR 2.
+             05 LINE 23 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 2)
+             FOREGROUND-COLOR 2.
+             05 LINE 24 COL 48 PIC XXX USING LIST-ID(ID-NUM + 3)
+             FOREGROUND-COLOR 2.
+             05 LINE 24 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 3)
+             FOREGROUND-COLOR 2.
+             05 LINE 25 COL 48 PIC XXX USING LIST-ID(ID-NUM + 4)
+             FOREGROUND-COLOR 2.
+             05 LINE 25 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 4)
+             FOREGROUND-COLOR 2.
+             05 LINE 26 COL 48 PIC XXX USING LIST-ID(ID-NUM + 5)
+             FOREGROUND-COLOR 2.
+             05 LINE 26 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 5)
+             FOREGROUND-COLOR 2.
+             05 LINE 27 COL 48 PIC XXX USING LIST-ID(ID-NUM + 6)
+             FOREGROUND-COLOR 2.
+             05 LINE 27 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 6)
+             FOREGROUND-COLOR 2.
+             05 LINE 28 COL 48 PIC XXX USING LIST-ID(ID-NUM + 7)
+             FOREGROUND-COLOR 2.
+             05 LINE 28 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 7)
+             FOREGROUND-COLOR 2.
+             05 LINE 29 COL 48 PIC XXX USING LIST-ID(ID-NUM + 8)
+             FOREGROUND-COLOR 2.
+             05 LINE 29 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 8)
+             FOREGROUND-COLOR 2.
+             05 LINE 30 COL 48 PIC XXX USING LIST-ID(ID-NUM + 9)
+             FOREGROUND-COLOR 2.
+             05 LINE 30 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 9)
+             FOREGROUND-COLOR 2.
              05 LINE 31 COL 48 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 31 COL 48 VALUE "*********************RECENT MESSAG
-      -      "ES*******************" FOREGROUND-COLOR IS 2.
-             05 LINE 32 COL 48 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
+          
              05 LINE 34 COL 66 VALUE "( ) Read Message by Number "
-             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.  
+               HIGHLIGHT FOREGROUND-COLOR IS 3.  
              05 LINE 35 COL 66 VALUE "(w) Write your own message "
-             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 2.               
+               HIGHLIGHT FOREGROUND-COLOR IS 3.               
              05 LINE 36 COL 66 VALUE "(n) Next Page     "
-             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6.  
+               HIGHLIGHT FOREGROUND-COLOR IS 3. 
              05 LINE 37 COL 66 VALUE "(p) Previous Page "
-             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 6. 
+               HIGHLIGHT FOREGROUND-COLOR IS 3. 
              05 LINE 38 COL 66 VALUE "(g) Go back       "
-             REVERSE-VIDEO, HIGHLIGHT.
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
              05 LINE 39 COL 66 VALUE "(q) Quit          "
-             REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 40 COL 66 VALUE "Pick: ".
-             05 MSG-MENU-CHOICE-FIELD LINE 40 COL 70 PIC XXX
-                USING MSG-MENU-CHOICE.
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+             05 LINE 41 COL 66 VALUE "Pick:"
+               FOREGROUND-COLOR IS 2.
+             05 MSG-MENU-CHOICE-FIELD LINE 41 COL 71 PIC XXX
+                USING MSG-MENU-CHOICE
+                BLINK, FOREGROUND-COLOR IS 2.
              05 LINE 35 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS.
+             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
+      -      "VERY SERVICE"
+               FOREGROUND-COLOR 2.
 
            01 MESSAGE-VIEW-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.    
-             05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
-            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
+             05 LINE 45 COL 10 VALUE "Connected to Vault" UNDERLINE.
+             05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
 
 
              
@@ -864,6 +886,9 @@
              05 LINE 39 COL 45 VALUE "Pick: ".
              05 MSG-VIEW-CHOICE-FIELD LINE 39 COL 53 PIC X 
                USING MSG-VIEW-CHOICE.
+             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
+      -      "VERY SERVICE"
+               FOREGROUND-COLOR 2.
 
            01 WRITE-MSG-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -890,6 +915,10 @@
       -      "GE*******************" FOREGROUND-COLOR IS 2.
              05 LINE 31 COL 57 VALUE "----------------------------------
       -      "---------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
+      -      "VERY SERVICE"
+               FOREGROUND-COLOR 2.    
+      
            
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
