@@ -214,7 +214,6 @@
             05 BLANK SCREEN.
             05 LINE 12 COL 10 PIC X(30) USING PROCESS-STATUS-MESSAGE.
             05 LINE 13 COL 10 VALUE "User bank account from file: ".
-            05 LINE 14 COL 10 PIC X(8) USING FILE-BA-NUM.
             05 LINE 15 COL 10 VALUE "Entered bank account: ".
             05 LINE 16 COL 10 PIC X(8) USING USER-BANK-ACCOUNT.
             *> 05 LINE 16 COL 10 VALUE "(g) Go back         "
@@ -407,7 +406,7 @@
        0311-SINGLE-ENTRY-PROCESS.
            INITIALIZE SINGLE-ENTRY-PROCESS-CHOICE
            CALL 'process-single-payment' USING USER-BANK-ACCOUNT, 
-           CAPS-PAID, PROCESS-STATUS-MESSAGE, FILE-BA-NUM.
+           CAPS-PAID, PROCESS-STATUS-MESSAGE.
            DISPLAY SINGLE-ENTRY-PROCESS-SCREEN
 
            ACCEPT SINGLE-ENTRY-PROCESS-FIELD
