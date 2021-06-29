@@ -224,6 +224,10 @@
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
+           01 BET-AMOUNT PIC 999.
+           01 WINNINGS PIC 999.
+           01 RANDOM-NUM-CHOICE PIC X.
+           01 RANDOM-NUM-GUESS-CHOICE PIC X.
 
            *>--------Library Section---------
            01 LIBRARY-CHOICE PIC X(2).
@@ -289,11 +293,15 @@
            01 WS-GUESSING-WINNING-CHOICE PIC X.
            01 WS-WORD-LENGTH PIC 99.
 
+           
+           *>----- Weather Variables -----
+           01 W1-CHOICE PIC X.
+           01 W2-CHOICE PIC X.
+           01 W3-CHOICE PIC X.
+           01 W4-CHOICE PIC X.
 
-           *>----- Library Variables -----
-
-
-           *>----- Admin Variables -----   
+           *>----- Torch Variables -----   
+           01 TORCH-CHOICE PIC X. 
 
             *>----- Buy Credits Variables ----- 
            01 CREDIT-AMOUNT PIC 999.
@@ -303,7 +311,7 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
-           01 CREDIT-LIMIT-MESSAGE PIC X(50).
+           01 CREDIT-LIMIT-MESSAGE PIC X(65).
            01 WS-CURRENT-DATE PIC X(8).
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
@@ -315,7 +323,7 @@
                    10 WS-ABOUT-BODY PIC X(500).
 
            01 ABOUT-OFFSET PIC 99.
-           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-PAGE-NUM PIC 99.
            01 ABOUT-NUM PIC 9.
 
 
@@ -331,6 +339,22 @@
            01 CREDIT-BALANCE PIC 999.
            01 UPDATED-BALANCE PIC 999.
            01 INSUFFICIENT-FUNDS PIC X(20).
+
+           *>----- Change Password Variables -----  
+
+           01 PWORD-ERR-1 PIC X(50).
+           01 PWORD-ERR-2 PIC X(50).
+           01 PWORD-ERR-3 PIC X(50).
+           01 PWORD-OK-1 PIC X(50).
+           01 PWORD-OK-2 PIC X(50).
+           01 PWORD-OK-3 PIC X(50).
+           01 PWORD-CONFIRM-MSG PIC X(50).
+           01 OLD-PASSWORD PIC X(20).
+           01 UPDATED-PASSWORD PIC X(20).
+           01 CONFIRM-NEW-PASSWORD PIC X(20).
+           01 CHANGE-PWORD-CHOICE PIC X. 
+
+
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -992,8 +1016,8 @@
              05 LINE 27 COLUMN 90 PIC 99 USING WS-GUESSES-LEFT.
              05 LINE 29 COLUMN 30 VALUE "( ) Enter a letter to guess".
              05 LINE 30 COLUMN 30 VALUE "(!) Quit game".
-             05 LINE 31 COLUMN 30 VALUE "Pick: ".
-             05 WS-GUESS-CHOICE-FIELD LINE 31 COLUMN 36 PIC X
+             05 LINE 32 COLUMN 30 VALUE "Pick: ".
+             05 WS-GUESS-CHOICE-FIELD LINE 32 COLUMN 36 PIC X
                USING WS-GUESS-CHOICE.
 
            01 WORD-GUESSING-WINNING-SCREEN
@@ -1061,7 +1085,40 @@
              05 LINE 34 COLUMN 30 VALUE "Pick: ".
              05 WS-HIGH-SCORE-FIELD LINE 34 COLUMN 36 PIC X
                USING WS-HIGH-SCORE-CHOICE.
-        
+           
+           01 RANDOM-NUM-GAME-SCREEN.
+            05 BLANK SCREEN.
+             05 LINE 12 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 13 COL 30 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+             05 LINE 14 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+             
+            05 LINE 18 COLUMN 34 VALUE "Place a bet and guess a number b
+      -       "etween 1 and 10"
+            FOREGROUND-COLOR IS 6.
+            05 LINE 20 COLUMN 34 VALUE "Bet: ".
+            05 BET-FIELD LINE 20 COLUMN 39 PIC 999 USING BET-AMOUNT.
+            05 LINE 21 COLUMN 34 PIC X(20) USING INSUFFICIENT-FUNDS. 
+         
+            05 LINE 24 COL 34 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+             05 LINE 25 COL 34 VALUE "(g) Go back"
+                    REVERSE-VIDEO , HIGHLIGHT.            
+             05 LINE 26 COL 34 VALUE "(q) Quit   "
+                    REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 28 COL 34 VALUE "Pick: ".
+             05 RANDOM-NUM-CHOICE-FIELD LINE 28 COL 40 PIC X 
+                   USING RANDOM-NUM-CHOICE.
+             05 LINE 29 COLUMN 34 PIC X(65) USING CREDIT-LIMIT-MESSAGE.
+             05 LINE 30 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 31 COL 30 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+             05 LINE 32 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
              05 LINE 12 COL 30 VALUE "---------------------------------
@@ -1070,15 +1127,20 @@
       -      "***********************" FOREGROUND-COLOR IS 5.
              05 LINE 14 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-             
-             
-             05 LINE 28 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
-             05 GUESS-FIELD LINE 29 COLUMN 34 PIC XX USING GUESS-INPUT.         
-             05 LINE 30 COLUMN 34 VALUE IS "Stats: "
-             FOREGROUND-COLOR IS 6.
-             05 LINE 32 COLUMN 34 VALUE IS "Total Guesses = "
-             FOREGROUND-COLOR IS 5.
-                 05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
+             05 LINE 16 COLUMN 34 VALUE IS "Potential winnings: "
+               FOREGROUND-COLOR IS 5.
+             05 LINE 16 COL 54 PIC 999 USING WINNINGS.
+             05 GUESS-FIELD LINE 19 COLUMN 34 PIC XX USING GUESS-INPUT.
+             05 LINE 20 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
+             05 LINE 24 COL 34 VALUE "(y) Play again "
+                REVERSE-VIDEO, HIGHLIGHT. 
+             05 LINE 25 COL 34 VALUE "(g) Go back"
+                    REVERSE-VIDEO , HIGHLIGHT.            
+             05 LINE 26 COL 34 VALUE "(q) Quit   "
+                    REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 28 COL 34 VALUE "Pick: ".
+             05 RANDOM-NUM-GUESS-CHOICE-FIELD LINE 28 COL 40 PIC X 
+                   USING RANDOM-NUM-GUESS-CHOICE.
              05 LINE 34 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
              05 LINE 35 COL 30 VALUE "*********************************
@@ -1216,7 +1278,233 @@
                05 LINE 37 COL 60 VALUE "Pick: ".
                05 READ-CHOICE-FIELD LINE 37 COLUMN 67 PIC X
                USING READ-CHOICE.
-               05 LINE 33 COL 60 VALUE 'Press q to leave'. 
+               05 LINE 33 COL 60 VALUE 'Press q to leave'.
+
+           01 WEATHER-SCREEN-1.
+               05 BLANK SCREEN.
+               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT.
+               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
+               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
+               05 LINE 15 COL 29 VALUE "10 'C".
+               05 LINE 16 COL 29 VALUE "<- 3-4 km/h ".
+               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
+               05 LINE 15 COL 18 VALUE     ".--.".
+               05 LINE 16 COL 15 VALUE  ".-(    ).". 
+               05 LINE 17 COL 14 VALUE "(___.__)__)".
+               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
+               05 LINE 14 COL 64 VALUE "HEAVY RAIN" HIGHLIGHT.
+               05 LINE 15 COL 64 VALUE "16 'C".
+               05 LINE 16 COL 64 VALUE "<- 6-8 km/h ".
+               05 LINE 17 COL 64 VALUE "2.4 mm | 87%".
+               05 LINE 14 COL 53 VALUE     ".--.".
+               05 LINE 15 COL 50 VALUE  ".-(    ).". 
+               05 LINE 16 COL 49 VALUE "(___.__)__)".
+               05 LINE 17 COL 49 VALUE " , , , , ," FOREGROUND-COLOR IS 
+               3.
+               05 LINE 18 COL 49 VALUE ", , , , ," FOREGROUND-COLOR IS 
+               3.
+               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
+               05 LINE 23 COL 29 VALUE "PATCHY RAIN" HIGHLIGHT.
+               05 LINE 24 COL 29 VALUE "18 'C".
+               05 LINE 25 COL 29 VALUE "<- 4-6 km/h ".
+               05 LINE 26 COL 29 VALUE "1.7 mm | 68%".
+               05 LINE 23 COL 14 VALUE  "_`/''" FOREGROUND-COLOR IS 6 . 
+               05 LINE 23 COL 19 VALUE    ".-.".
+               05 LINE 24 COL 15 VALUE    ",\_" FOREGROUND-COLOR IS 6 .
+               05 LINE 24 COL 18 VALUE      "(   ).". 
+               05 LINE 25 COL 16 VALUE    "/" FOREGROUND-COLOR IS 6 .
+               05 LINE 25 COL 17 VALUE   "(___(__)".
+               05 LINE 26 COL 17 VALUE " , , , " FOREGROUND-COLOR IS 3.
+               05 LINE 27 COL 17 VALUE "  , , " FOREGROUND-COLOR IS 3.
+               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
+               05 LINE 23 COL 64 VALUE "PATCHY RAIN" HIGHLIGHT.
+               05 LINE 24 COL 64 VALUE "12 'C".
+               05 LINE 25 COL 64 VALUE "<- 2-4 km/h ".
+               05 LINE 26 COL 64 VALUE "1.4 mm | 64%".
+               05 LINE 23 COL 49 VALUE  "_`/''" FOREGROUND-COLOR IS 6 . 
+               05 LINE 23 COL 54 VALUE    ".-.".
+               05 LINE 24 COL 50 VALUE    ",\_" FOREGROUND-COLOR IS 6 .
+               05 LINE 24 COL 53 VALUE      "(   ).". 
+               05 LINE 25 COL 51 VALUE    "/" FOREGROUND-COLOR IS 6 .
+               05 LINE 25 COL 52 VALUE   "(___(__)".
+               05 LINE 26 COL 52 VALUE " , , , " FOREGROUND-COLOR IS 3.
+               05 LINE 27 COL 52 VALUE "  , , " FOREGROUND-COLOR IS 3.
+               05 LINE 29 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+               05 LINE 31 COL 39 VALUE "Pick: ".
+               05 W1-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING W1-CHOICE.
+
+
+           01 WEATHER-SCREEN-2.
+               05 BLANK SCREEN.
+               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT.
+               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
+               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
+               05 LINE 15 COL 29 VALUE "9 'C".
+               05 LINE 16 COL 29 VALUE "-> 3-4 km/h ".
+               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
+               05 LINE 15 COL 18 VALUE     ".--.".
+               05 LINE 16 COL 15 VALUE  ".-(    ).". 
+               05 LINE 17 COL 14 VALUE "(___.__)__)".
+               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
+               05 LINE 14 COL 64 VALUE "PARTLY CLOUDY" HIGHLIGHT.
+               05 LINE 15 COL 64 VALUE "14 'C".
+               05 LINE 16 COL 64 VALUE "-> 2-4 km/h ".
+               05 LINE 17 COL 64 VALUE "0.0 mm | 0%".
+               05 LINE 14 COL 51 VALUE    "\  / " FOREGROUND-COLOR IS 6
+               . 
+               05 LINE 15 COL 49 VALUE  "_ /''" FOREGROUND-COLOR IS 6 . 
+               05 LINE 15 COL 54 VALUE    ".-.".
+               05 LINE 16 COL 51 VALUE    "\_" FOREGROUND-COLOR IS 6 .
+               05 LINE 16 COL 53 VALUE      "(   ).". 
+               05 LINE 17 COL 51 VALUE    "/" FOREGROUND-COLOR IS 6 .
+               05 LINE 17 COL 52 VALUE   "(___(__)".
+               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
+               05 LINE 23 COL 29 VALUE "PARTLY CLOUDY" HIGHLIGHT.
+               05 LINE 24 COL 29 VALUE "12 'C".
+               05 LINE 25 COL 29 VALUE "-> 4-8 km/h ".
+               05 LINE 26 COL 29 VALUE "0.0 mm | 0%".
+               05 LINE 23 COL 16 VALUE    "\  / " FOREGROUND-COLOR IS 6
+               . 
+               05 LINE 24 COL 14 VALUE  "_ /''" FOREGROUND-COLOR IS 6 . 
+               05 LINE 24 COL 19 VALUE    ".-.".
+               05 LINE 25 COL 16 VALUE    "\_" FOREGROUND-COLOR IS 6 .
+               05 LINE 25 COL 18 VALUE      "(   ).". 
+               05 LINE 26 COL 16 VALUE    "/" FOREGROUND-COLOR IS 6 .
+               05 LINE 26 COL 17 VALUE   "(___(__)".
+               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
+               05 LINE 23 COL 64 VALUE "OVERCAST" HIGHLIGHT.
+               05 LINE 24 COL 64 VALUE "10 'C".
+               05 LINE 25 COL 64 VALUE "-> 6-8 km/h ".
+               05 LINE 26 COL 64 VALUE "0.0 mm | 0%".
+               05 LINE 24 COL 53 VALUE     ".--.".
+               05 LINE 25 COL 50 VALUE  ".-(    ).". 
+               05 LINE 26 COL 49 VALUE "(___.__)__)".
+               05 LINE 29 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+               05 LINE 31 COL 39 VALUE "Pick: ".
+               05 W2-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING W2-CHOICE.
+
+
+           01 WEATHER-SCREEN-3.
+               05 BLANK SCREEN.
+               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT.
+               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
+               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
+               05 LINE 15 COL 29 VALUE "14 'C".
+               05 LINE 16 COL 29 VALUE "-> 1-4 km/h ".
+               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
+               05 LINE 15 COL 18 VALUE     ".--.".
+               05 LINE 16 COL 15 VALUE  ".-(    ).". 
+               05 LINE 17 COL 14 VALUE "(___.__)__)".
+               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
+               05 LINE 13 COL 50 VALUE "SEVERE WEATHER: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 14 COL 64 VALUE "RADSTORM" HIGHLIGHT.
+               05 LINE 15 COL 64 VALUE "26 'C".
+               05 LINE 16 COL 64 VALUE "<- 14-20 km/h ".
+               05 LINE 17 COL 64 VALUE "3.8 mm | 87%".
+               05 LINE 14 COL 53 VALUE     ".--.".
+               05 LINE 15 COL 50 VALUE  ".-(    ).". 
+               05 LINE 16 COL 49 VALUE "(___.__)__)".
+               05 LINE 17 COL 49 VALUE " , * , * ," FOREGROUND-COLOR IS 
+               2.
+               05 LINE 18 COL 49 VALUE "* , * , *" FOREGROUND-COLOR IS 
+               2.
+               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
+               05 LINE 22 COL 15 VALUE "SEVERE WEATHER: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 23 COL 29 VALUE "RADSTORM" HIGHLIGHT.
+               05 LINE 24 COL 29 VALUE "32 'C".
+               05 LINE 25 COL 29 VALUE "<- 12-18 km/h ".
+               05 LINE 26 COL 29 VALUE "4.1 mm | 81%".
+               05 LINE 23 COL 18 VALUE     ".--.".
+               05 LINE 24 COL 15 VALUE  ".-(    ).". 
+               05 LINE 25 COL 14 VALUE "(___.__)__)".
+               05 LINE 26 COL 14 VALUE " , * , * ," FOREGROUND-COLOR IS 
+               2.
+               05 LINE 27 COL 14 VALUE "* , * , *" FOREGROUND-COLOR IS 
+               2.
+               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
+               05 LINE 23 COL 64 VALUE "LIGHT RAIN" HIGHLIGHT.
+               05 LINE 24 COL 64 VALUE "18 'C".
+               05 LINE 25 COL 64 VALUE "-> 4-8 km/h ".
+               05 LINE 26 COL 64 VALUE "1.4 mm | 62%".
+               05 LINE 23 COL 53 VALUE     ".--.".
+               05 LINE 24 COL 50 VALUE  ".-(    ).". 
+               05 LINE 25 COL 49 VALUE "(___.__)__)".
+               05 LINE 26 COL 49 VALUE " ` ` ` ` `" FOREGROUND-COLOR IS 
+               3.
+               05 LINE 27 COL 49 VALUE "` ` ` ` `" FOREGROUND-COLOR IS 
+               3.
+               05 LINE 29 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+               05 LINE 31 COL 39 VALUE "Pick: ".
+               05 W3-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING W3-CHOICE.
+
+
+           01 WEATHER-SCREEN-4.
+               05 BLANK SCREEN.
+               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT.
+               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
+               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
+               05 LINE 15 COL 29 VALUE "2 'C".
+               05 LINE 16 COL 29 VALUE "-> 4-8 km/h ".
+               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
+               05 LINE 15 COL 18 VALUE     ".--.".
+               05 LINE 16 COL 15 VALUE  ".-(    ).". 
+               05 LINE 17 COL 14 VALUE "(___.__)__)".
+               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
+               05 LINE 14 COL 64 VALUE "SLEET SHOWERS" HIGHLIGHT.
+               05 LINE 15 COL 64 VALUE "1 'C".
+               05 LINE 16 COL 64 VALUE "<- 11-14 km/h ".
+               05 LINE 17 COL 64 VALUE "2.8 mm | 82%".
+               05 LINE 14 COL 53 VALUE     ".--.".
+               05 LINE 15 COL 50 VALUE  ".-(    ).". 
+               05 LINE 16 COL 49 VALUE "(___.__)__)".
+               05 LINE 17 COL 49 VALUE " ,   ,   ," FOREGROUND-COLOR IS 
+               3.
+               05 LINE 18 COL 49 VALUE "   *   *  " .
+               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
+               05 LINE 22 COL 15 VALUE "CAUTION: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR IS 6.
+               05 LINE 23 COL 29 VALUE "HEAVY SNOW" HIGHLIGHT.
+               05 LINE 24 COL 29 VALUE "2 'C".
+               05 LINE 25 COL 29 VALUE "<- 12-18 km/h ".
+               05 LINE 26 COL 29 VALUE "4.1 mm | 81%".
+               05 LINE 23 COL 18 VALUE     ".--.".
+               05 LINE 24 COL 15 VALUE  ".-(    ).". 
+               05 LINE 25 COL 14 VALUE "(___.__)__)".
+               05 LINE 26 COL 14 VALUE " * * * * *".
+               05 LINE 27 COL 14 VALUE "* * * * *".
+               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
+               05 LINE 23 COL 64 VALUE "LIGHT SNOW" HIGHLIGHT.
+               05 LINE 24 COL 64 VALUE "-1 'C".
+               05 LINE 25 COL 64 VALUE "<- 4-8 km/h ".
+               05 LINE 26 COL 64 VALUE "1.4 mm | 62%".
+               05 LINE 23 COL 53 VALUE     ".--.".
+               05 LINE 24 COL 50 VALUE  ".-(    ).". 
+               05 LINE 25 COL 49 VALUE "(___.__)__)".
+               05 LINE 26 COL 49 VALUE " *   *   *".
+               05 LINE 27 COL 49 VALUE "  *   *  ".
+               05 LINE 29 COL 39 VALUE "(g) Go back"
+                REVERSE-VIDEO , HIGHLIGHT.            
+               05 LINE 31 COL 39 VALUE "Pick: ".
+               05 W4-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING W4-CHOICE.
+
+           01 TORCH-SCREEN
+               BACKGROUND-COLOR IS 6 . 
+               05 BLANK SCREEN.
+               05 TORCH-CHOICE-FIELD LINE 31 COL 45 PIC X 
+               USING TORCH-CHOICE.
 
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
@@ -1233,7 +1521,7 @@
            05 LINE 14 COL 25 VALUE "Pick: ".
            05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
                USING BUY-CREDITS-CHOICE.
-           05 LINE 16 COL 25 PIC X(50) USING CREDIT-LIMIT-MESSAGE
+           05 LINE 16 COL 25 PIC X(65) USING CREDIT-LIMIT-MESSAGE
            HIGHLIGHT, FOREGROUND-COLOR IS 4.
 
            01 CONFIRM-SCREEN.
@@ -1353,6 +1641,41 @@
            05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
            ABOUT-PAGE-READ-CHOICE.
            
+           01 CHANGE-PASSWORD-SCREEN.
+             05 BLANK SCREEN.   
+             05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
+             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 21 COLUMN 30 VALUE "Enter current password:".
+             05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 OLD-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
+                USING OLD-PASSWORD.
+             05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 25 COLUMN 30 VALUE "Enter new password:".
+             05 LINE 25 COLUMN 52 VALUE " (Your password must be a minim
+      -      "um of 6 characters and 1 number.) ".
+             05 LINE 26 COLUMN 30 PIC X(50) USING PWORD-ERR-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 UPDATED-PASSWORD-FIELD LINE 27 COLUMN 30 PIC X(20)
+                USING UPDATED-PASSWORD.
+             05 LINE 28 COLUMN 30 PIC X(50) USING PWORD-OK-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:".
+             05 LINE 30 COLUMN 30 PIC X(50) USING PWORD-ERR-3 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 CONFIRM-NEW-PASSWORD-FIELD LINE 31 COLUMN 30 PIC X(20)
+                USING CONFIRM-NEW-PASSWORD.
+             05 LINE 32 COLUMN 30 PIC X(50) USING PWORD-OK-3 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 34 COLUMN 30 PIC X(50) USING PWORD-CONFIRM-MSG
+             HIGHLIGHT FOREGROUND-COLOR is 2 . 
+             05 LINE 36 COLUMN 30 VALUE "Pick: ".
+             05 CHANGE-PWORD-FIELD LINE 36 COLUMN 38 PIC X
+                USING CHANGE-PWORD-CHOICE.
 
        PROCEDURE DIVISION.
 
@@ -1375,8 +1698,6 @@
                STOP RUN
            ELSE IF START-CHOICE = "a" THEN 
                CALL 'admin-server'
-      *         MOVE SPACES TO ADMIN-ERR-MSG
-      *        PERFORM 0116-ADMIN-LOGIN-PAGE
                PERFORM 0100-DISPLAY-START
            ELSE 
                PERFORM 0100-DISPLAY-START
@@ -1411,7 +1732,7 @@
            MOVE SPACES TO OK-MSG-2.
            MOVE SPACES TO OK-MSG-3.
            
-       05-VALIDATE-USERNAME.
+           VALIDATE-USERNAME.
            INITIALIZE NEW-USER-NAME. 
            INITIALIZE NEW-PASSWORD.
            INITIALIZE ACCOUNT-NUM.
@@ -1435,13 +1756,14 @@
            END-PERFORM.
            IF RAISE-ERROR > 0 
                MOVE 'USER NAME IN USE' TO ERROR-MSG-1
-               PERFORM 05-VALIDATE-USERNAME
+               PERFORM VALIDATE-USERNAME
            ELSE 
                MOVE 'USER NAME OK' TO OK-MSG-1
-               PERFORM 05-VALIDATE-PASSWORD
+               MOVE SPACES TO ERROR-MSG-1
+               PERFORM VALIDATE-PASSWORD
            END-IF. 
 
-       05-VALIDATE-PASSWORD.
+           VALIDATE-PASSWORD.
            INITIALIZE NEW-PASSWORD.
            DISPLAY REGISTER-NEW-USER-SCREEN.
 
@@ -1455,12 +1777,12 @@
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
            IF RAISE-ERROR > 0 
-               PERFORM 05-VALIDATE-PASSWORD
+               PERFORM VALIDATE-PASSWORD
            ELSE 
-               PERFORM 05-VALIDATE-BANK-ACCOUNT
+               PERFORM VALIDATE-BANK-ACCOUNT
            END-IF. 
 
-       05-VALIDATE-BANK-ACCOUNT.
+           VALIDATE-BANK-ACCOUNT.
            INITIALIZE ACCOUNT-NUM.
            DISPLAY REGISTER-NEW-USER-SCREEN.
 
@@ -1474,7 +1796,7 @@
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
            RAISE-ERROR OK-MSG-3.
            IF RAISE-ERROR > 0 
-               PERFORM 05-VALIDATE-BANK-ACCOUNT
+               PERFORM VALIDATE-BANK-ACCOUNT
            END-IF. 
 
            DISPLAY REGISTER-NEW-USER-SCREEN.
@@ -1580,15 +1902,18 @@
              PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
-
            ELSE IF MENU-CHOICE = "b" or "B" THEN
              PERFORM 0220-GENERATE-LIBRARY-TABLE
-
            ELSE IF MENU-CHOICE = 'c' or 'C' THEN 
                PERFORM 0400-BUY-CREDITS
            ELSE IF MENU-CHOICE = 'a' or 'A' THEN 
                PERFORM 0470-ABOUT-PAGE-TABLE
-
+           ELSE IF MENU-CHOICE = 'w' or 'W' THEN 
+               PERFORM 0300-CHECK-WEATHER
+           ELSE IF MENU-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF MENU-CHOICE = 'u' or 'U' THEN 
+               PERFORM 0600-CHANGE-PASSWORD
            END-IF.
       
            PERFORM 0120-DISPLAY-MENU.
@@ -1786,8 +2111,7 @@
            DISPLAY IN-GAME-SCREEN.
 
            DISPLAY PIP-BOY-SCREEN.
-           *> DISPLAY USER-INFO-SCREEN.
-
+      
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT WS-GUESS-CHOICE-FIELD.
@@ -2080,62 +2404,81 @@
                END-IF.
 
        0210-RANDOM-NUMBER-GAME.
-
-           PERFORM INITIALIZE-RANDOM-NUM-GAME.
-
-           INITIALIZE-RANDOM-NUM-GAME.
-           DISPLAY GUESS-SCREEN.
+           INITIALIZE RANDOM-NUM-CHOICE.
+           INITIALIZE BET-AMOUNT.
+           DISPLAY RANDOM-NUM-GAME-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
-           COMPUTE TOTAL-GUESSES = 0.
-           ACCEPT SEED FROM TIME
-           COMPUTE ANSWER =
-               FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1   
-           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG.
-           PERFORM GAME-LOOP.
-
-           GAME-LOOP.
+           ACCEPT BET-FIELD.
+           MOVE BET-AMOUNT TO COST.
+           COMPUTE WINNINGS = BET-AMOUNT * 2.
+           IF WINNINGS = "000" 
+           OR (CHECK-LIMIT(WINNINGS, USER-INFO-CREDITS) = "FAIL")
+             MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
+             TO CREDIT-LIMIT-MESSAGE
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           END-IF.
+       
+           ACCEPT RANDOM-NUM-CHOICE-FIELD.
+           IF (RANDOM-NUM-CHOICE = 's' OR 'S')
+           AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "TRUE")
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST,
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               ACCEPT SEED FROM TIME
+               COMPUTE ANSWER =
+                   FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1  
+               PERFORM 0211-GAME-LOOP
+           ELSE IF (RANDOM-NUM-CHOICE = 's' OR 'S')
+           AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "FALSE")
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           ELSE IF RANDOM-NUM-CHOICE = 'g' OR 'G'
+               PERFORM 0160-GAMES-MENU
+           ELSE IF RANDOM-NUM-CHOICE = 'q' OR 'Q'
+               STOP RUN
+           ELSE
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           END-IF.
+              
+       0211-GAME-LOOP.
            INITIALIZE GUESS-INPUT.
+           INITIALIZE WS-RANDOM-NUM-MSG.
+           INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
-
-           
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT GUESS-FIELD.
-           MOVE GUESS-INPUT TO GUESS.
-           ADD 1 TO TOTAL-GUESSES.
-           IF GUESS > ANSWER
-               MOVE "Your guess is too high! Guess again." 
+           MOVE GUESS-INPUT TO GUESS
+           IF GUESS NOT = ANSWER
+               MOVE "Incorrect, you lose."
                TO WS-RANDOM-NUM-MSG
-               GO TO GAME-LOOP
-           ELSE IF GUESS < ANSWER
-               MOVE "Your guess is too low! Guess again."
-               TO WS-RANDOM-NUM-MSG
-               GO TO GAME-LOOP
-           ELSE   
-               MOVE "You Win! Go Again?(Y/N)"
-               TO WS-RANDOM-NUM-MSG
-               GO TO WIN-LOOP
+               PERFORM 0212-RESULT-PAGE
+           ELSE  
+               MOVE "You Win!" TO WS-RANDOM-NUM-MSG
+               CALL 'add-credits' USING USER-INFO-NAME, WINNINGS,
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               PERFORM 0212-RESULT-PAGE
            END-IF.
-           
-           WIN-LOOP.
-           INITIALIZE GUESS-INPUT.
-
+       
+       0212-RESULT-PAGE.
+           INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
-           ACCEPT GUESS-FIELD.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
-               IF GUESS-INPUT = "y" OR "Y"
-                   GO TO 0210-RANDOM-NUMBER-GAME
-               ELSE IF GUESS-INPUT = "n" OR "N"
-                   PERFORM 0160-GAMES-MENU
-               ELSE 
-                   MOVE "INVALID ENTRY! Enter Y or N"
-                   TO WS-RANDOM-NUM-MSG
-                   GO TO WIN-LOOP
-               END-IF.            
-
+           ACCEPT RANDOM-NUM-GUESS-CHOICE-FIELD
+           IF RANDOM-NUM-GUESS-CHOICE = 'y' OR 'Y'
+             PERFORM 0210-RANDOM-NUMBER-GAME
+           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'g' OR 'G'
+               PERFORM 0160-GAMES-MENU
+           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'q' OR 'Q'
+               STOP RUN
+           END-IF.
+ 
        0220-GENERATE-LIBRARY-TABLE.
            call 'generate-library-table' USING WS-BOOKS 
            LIBRARY-DISPLAY-MESSAGE OFFSET PAGE-NUM.
@@ -2228,6 +2571,70 @@
                MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
            END-IF.
+
+       0300-CHECK-WEATHER SECTION.
+           ACCEPT SEED FROM TIME.
+           COMPUTE ANSWER =
+               FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1.
+           IF ANSWER > 0 AND ANSWER <= 3 
+               PERFORM WEATHER-ENVIRONMENT-1
+           ELSE IF ANSWER > 3 AND ANSWER <= 6
+               PERFORM WEATHER-ENVIRONMENT-2
+           ELSE IF ANSWER = 7 OR ANSWER = 8 
+               PERFORM WEATHER-ENVIRONMENT-3
+           ELSE 
+               PERFORM WEATHER-ENVIRONMENT-4
+           END-IF. 
+           
+           WEATHER-ENVIRONMENT-1.
+           INITIALIZE W1-CHOICE.
+           DISPLAY WEATHER-SCREEN-1.
+           ACCEPT W1-CHOICE-FIELD.
+           IF W1-CHOICE = 'g' OR 'G' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM WEATHER-ENVIRONMENT-1 
+           END-IF. 
+
+           WEATHER-ENVIRONMENT-2.
+           INITIALIZE W2-CHOICE.
+           DISPLAY WEATHER-SCREEN-2.
+           ACCEPT W2-CHOICE-FIELD.
+           IF W2-CHOICE = 'g' OR 'G' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM WEATHER-ENVIRONMENT-2 
+           END-IF. 
+
+           WEATHER-ENVIRONMENT-3.
+           INITIALIZE W3-CHOICE.
+           DISPLAY WEATHER-SCREEN-3.
+           ACCEPT W3-CHOICE-FIELD.
+           IF W3-CHOICE = 'g' OR 'G' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM WEATHER-ENVIRONMENT-3
+           END-IF. 
+
+           WEATHER-ENVIRONMENT-4.
+           INITIALIZE W4-CHOICE.
+           DISPLAY WEATHER-SCREEN-4.
+           ACCEPT W4-CHOICE-FIELD.
+           IF W4-CHOICE = 'g' OR 'G' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM WEATHER-ENVIRONMENT-4
+           END-IF. 
+
+       0350-TORCH.
+           INITIALIZE TORCH-CHOICE.
+           DISPLAY TORCH-SCREEN. 
+           ACCEPT TORCH-CHOICE-FIELD.
+           IF TORCH-CHOICE = 'q' OR 'Q' THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0350-TORCH
+           END-IF. 
 
        0400-BUY-CREDITS.
            INITIALIZE CREDIT-AMOUNT.
@@ -2382,7 +2789,6 @@
            DISPLAY ABOUT-PAGE-READ-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT ABOUT-PAGE-READ-FIELD.
-
            IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
                MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
                PERFORM 0480-ABOUT-PAGE
@@ -2391,8 +2797,83 @@
                PERFORM 0490-ABOUT-PAGE-READ              
            END-IF.
            
-        0500-TIME-AND-DATE.
-              MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
+       0500-TIME-AND-DATE.
+           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
        
+       0600-CHANGE-PASSWORD SECTION.
+           MOVE SPACES TO PWORD-ERR-1.
+           MOVE SPACES TO PWORD-ERR-2.
+           MOVE SPACES TO PWORD-ERR-3.
+           MOVE SPACES TO PWORD-OK-1.
+           MOVE SPACES TO PWORD-OK-2.
+           MOVE SPACES TO PWORD-OK-3.
+           MOVE SPACES TO PWORD-CONFIRM-MSG.
 
+           VALIDATE-CURRENT-PASSWORD. 
+           INITIALIZE OLD-PASSWORD.
+           INITIALIZE UPDATED-PASSWORD.
+           INITIALIZE CONFIRM-NEW-PASSWORD.
+           INITIALIZE CHANGE-PWORD-CHOICE.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT OLD-PASSWORD-FIELD.
+           IF OLD-PASSWORD = WS-PASSWORD THEN 
+               MOVE "PASSWORD ACCEPTED" TO PWORD-OK-1
+               MOVE SPACES TO PWORD-ERR-1
+               PERFORM VALIDATE-NEW-PASSWORD
+           ELSE 
+               MOVE "INCORRECT PASSWORD" TO PWORD-ERR-1
+               PERFORM VALIDATE-CURRENT-PASSWORD
+           END-IF. 
+
+           VALIDATE-NEW-PASSWORD. 
+           INITIALIZE UPDATED-PASSWORD.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT UPDATED-PASSWORD-FIELD. 
+           CALL 'validate-password' USING UPDATED-PASSWORD PWORD-ERR-2 
+           RAISE-ERROR PWORD-OK-2.
+           IF RAISE-ERROR > 0 
+               PERFORM VALIDATE-NEW-PASSWORD
+           ELSE 
+               PERFORM SECOND-VALIDATION-NEW-PASSWORD
+           END-IF. 
+
+           SECOND-VALIDATION-NEW-PASSWORD.
+           INITIALIZE CONFIRM-NEW-PASSWORD.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CONFIRM-NEW-PASSWORD-FIELD.
+           IF UPDATED-PASSWORD = CONFIRM-NEW-PASSWORD
+               MOVE "PASSWORD MATCH" TO PWORD-OK-3
+           ELSE 
+               MOVE "PASSWORDS DO NOT MATCH" TO PWORD-ERR-3
+               PERFORM SECOND-VALIDATION-NEW-PASSWORD
+           END-IF. 
+
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CHANGE-PWORD-FIELD. 
+           IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF CHANGE-PWORD-CHOICE = "s" OR "S" THEN 
+               CALL 'update-password' USING USER-NAME 
+               UPDATED-PASSWORD
+               MOVE 'PASSWORD SUCCESSFULLY UPDATED' TO PWORD-CONFIRM-MSG
+           END-IF. 
+           
+           INITIALIZE CHANGE-PWORD-CHOICE.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CHANGE-PWORD-FIELD.
+           IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0120-DISPLAY-MENU
+           END-IF. 
 

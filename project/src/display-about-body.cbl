@@ -4,7 +4,7 @@
       
            LINKAGE SECTION.
            01 ABOUT-OFFSET PIC 99.
-           01 LS-ABOUT-NUM PIC 9.
+           01 LS-ABOUT-NUM PIC 99.
            01 LS-ABOUT.
                05 LS-ABOUTS OCCURS 100 TIMES
                ASCENDING KEY IS LS-ABOUT-TITLE
