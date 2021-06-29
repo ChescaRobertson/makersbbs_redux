@@ -66,7 +66,7 @@
                05 FD-BOOK-AUTHOR PIC X(12).
                05 BOOK-TITLE PIC X(30).
                05 BOOK-BODY PIC X(500).
-
+                
 
            FD F-USERS-FILE.
            01 USERS.
@@ -259,7 +259,16 @@
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
 
-           01 WS-RANDOM-NUM-MSG PIC X(40). 
+           01 WS-RANDOM-NUM-MSG PIC X(40).
+
+           01 WS-READ-BODY-SEGMENTS.
+               10 WS-READ-BODY-SEGMENT-1 PIC X(60). 
+               10 WS-READ-BODY-SEGMENT-2 PIC X(60). 
+               10 WS-READ-BODY-SEGMENT-3 PIC X(60). 
+               10 WS-READ-BODY-SEGMENT-4 PIC X(60). 
+               10 WS-READ-BODY-SEGMENT-5 PIC X(60).
+      
+
            01 BODY-PART-1 PIC X(79).
            01 BODY-PART-2 PIC X(79).
            01 BODY-PART-3 PIC X(79).
@@ -1234,15 +1243,23 @@
            "       (For audio format to work, please read aloud)"     .
                05 LINE 18 COL 60 VALUE 'Title:'.
                05 LINE 18 COL 69 PIC X(50) USING TITLE.
-               05 LINE 22 COLUMN 10 PIC X(79) USING BODY-PART-1.
-               05 LINE 23 COLUMN 10 PIC X(79) USING BODY-PART-2.
-               05 LINE 24 COLUMN 10 PIC X(79) USING BODY-PART-3.
-               05 LINE 31 COLUMN 10 VALUE 'Author: '.               
-               05 LINE 31 COLUMN 18 PIC X(12) USING BOOK-AUTHOR.
-               05 LINE 37 COL 10 VALUE "Pick: ".
-               05 READ-CHOICE-FIELD LINE 37 COLUMN 16 PIC X
+               05 LINE 22 COLUMN 40 PIC X(60) USING 
+               WS-READ-BODY-SEGMENT-1.
+               05 LINE 23 COLUMN 40 PIC X(60) USING 
+               WS-READ-BODY-SEGMENT-2.
+               05 LINE 24 COLUMN 40 PIC X(60) USING 
+               WS-READ-BODY-SEGMENT-3.
+               
+               05 LINE 25 COLUMN 40 PIC X(60) USING 
+               WS-READ-BODY-SEGMENT-4.
+               05 LINE 26 COLUMN 40 PIC X(60) USING 
+               WS-READ-BODY-SEGMENT-5.
+               05 LINE 31 COLUMN 69 VALUE 'Author: '.               
+               05 LINE 31 COLUMN 60 PIC X(12) USING BOOK-AUTHOR.
+               05 LINE 37 COL 60 VALUE "Pick: ".
+               05 READ-CHOICE-FIELD LINE 37 COLUMN 67 PIC X
                USING READ-CHOICE.
-               05 LINE 33 COL 10 VALUE 'Press q to leave'. 
+               05 LINE 33 COL 60 VALUE 'Press q to leave'. 
 
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
@@ -2132,9 +2149,7 @@
                MOVE DISPLAY-BOOK-AUTHOR(OFFSET LIBRARY-NUM WS-BOOKS)
                TO BOOK-AUTHOR
            END-IF.
-           MOVE BODY(1:79) TO BODY-PART-1.
-           MOVE BODY(80:79) TO BODY-PART-2.
-           MOVE BODY(158:79) TO BODY-PART-3.
+           MOVE BODY TO WS-READ-BODY-SEGMENTS.
            DISPLAY READ-BOOK-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
            ACCEPT READ-CHOICE.
