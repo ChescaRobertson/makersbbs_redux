@@ -16,7 +16,10 @@
 
                FUNCTION CONV-CRED-TO-MON
                FUNCTION VERIFY-PASSWORD
-               FUNCTION ABOUT-CHOICE-TO-NUM.
+               FUNCTION ABOUT-CHOICE-TO-NUM
+
+               FUNCTION CHECK-BALANCE
+               FUNCTION CHECK-LIMIT.
 
 
            INPUT-OUTPUT SECTION.
@@ -37,9 +40,6 @@
 
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
-
-             SELECT F-ADMIN-FILE ASSIGN TO 'admins.dat'
-                 ORGANIZATION IS LINE SEQUENTIAL.
 
              SELECT F-ABOUT-FILE ASSIGN TO 'about-page.dat'
                  ORGANIZATION IS LINE SEQUENTIAL. 
@@ -72,14 +72,10 @@
            01 USERS.
               05 USERNAME PIC X(16). 
               05 USER-PASSWORD PIC X(20).  
-              05 USER-ACNT-NUM PIC X(8). 
-              05 GAP PIC XX.  
-              05 USER-CREDIT PIC 99. 
-
-           FD F-ADMIN-FILE.
-           01 ADMINS. 
-               05 ADMIN PIC X(16).
-               05 ADMIN-PWORD PIC X(20).
+              05 USER-ACNT-NUM PIC X(8).
+              05 FILLER PIC XX VALUE SPACES.  
+              05 USER-CREDIT PIC 999. 
+              *> 05 FILLER PIC X VALUE X'0A'.
 
            FD F-ABOUT-FILE.
            01 ABOUT-INFO.
@@ -98,8 +94,8 @@
 
            01 USER-NAME PIC X(16).
            01 WS-PASSWORD PIC X(20).
-           01 ACCOUNT-NUM PIC X(10).
-           01 CREDIT PIC 99.
+           01 ACCOUNT-NUM PIC X(8).
+           01 CREDIT PIC 999.
 
            01 WS-USERS.
                05 WS-USER OCCURS 100 TIMES
@@ -107,9 +103,9 @@
                INDEXED BY USER-IDX.
                    10 WS-USER-NAME PIC X(16).    
                    10 WS-PWORD PIC X(20).
-                   10 WS-ACNT-NUM PIC X(10).
-                   10 WS-CREDIT PIC 99. 
-
+                   10 WS-ACNT-NUM PIC X(8).
+                   10 WS-CREDIT PIC 999. 
+ 
            01 WS-FOUND PIC 9. 
            01 WS-IDX UNSIGNED-INT. 
            01 COUNTER UNSIGNED-INT. 
@@ -127,39 +123,25 @@
            01 VALID-CHOICE PIC X.
            01 ERROR-CHOICE PIC X. 
 
-           01 ADMIN-NAME PIC X(16).
-           01 ADMIN-PASSWORD PIC X(20).
-
-           01 WS-ADMINS.
-               05 WS-ADMIN OCCURS 10 TIMES
-               ASCENDING KEY IS WS-ADMIN-NAME
-               INDEXED BY ADMIN-IDX.
-                   10 WS-ADMIN-NAME PIC X(16).    
-                   10 WS-ADMIN-PWORD PIC X(20).
-
-           01 ADMIN-ENTER PIC X.
-           01 ADMIN-ERR-MSG PIC X(50).
-           01 ADMIN-CHOICE PIC X.
-
            01 MENU-CHOICE PIC X.
+
+           *>----- User Info Screen Variables ----
+
+           01 USER-INFO-LOGGED-IN PIC X(15) VALUE "Logged in as:".
+           01 USER-INFO-NAME PIC X(16).
+
+           01 USER-INFO-CRED-DISPLAY.
+               05 USER-INFO-CR-MESSAGE PIC X(9) VALUE "Credits: ".
+               05 USER-INFO-CREDITS PIC 999.
          
-           *>----- Date Variables -----
-           01 WS-DATETIME PIC X(21).
-           01 WS-FORMATTED-DT.
-             05 WS-FORMATTED-DTE-TME.
-               15 WS-FORMATTED-YEAR  PIC  X(4). 
-               15 FILLER             PIC X VALUE '-'.
-               15 WS-FORMATTED-MONTH PIC  X(2).
-               15 FILLER             PIC X VALUE '-'.
-               15 WS-FORMATTED-DY    PIC  X(2).
-               15 FILLER             PIC X VALUE '-'.
-               15 WS-FORMATTED-HOUR  PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-MINS  PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-SEC   PIC  X(2).
-               15 FILLER             PIC X VALUE ':'.
-               15 WS-FORMATTED-MS    PIC  X(2).
+           *>----- Date and Time-Screen Variables -----
+           01 WS-DATETIME.
+              05 WS-FORMATTED-YEAR  PIC  X(4).           
+              05 WS-FORMATTED-MONTH PIC  X(2).          
+              05 WS-FORMATTED-DY    PIC  X(2).
+              05 WS-HOURS-MINS.
+                  10 WS-FORMATTED-HOUR  PIC  X(2).
+                  10 WS-FORMATTED-MINS  PIC  X(2).                   
 
            *>----- Message Board Variables -----   
            01 MSG-MENU-CHOICE PIC XXX.
@@ -188,7 +170,6 @@
 
            *>----- Arcade Variables -----
            01 GAMES-MENU-CHOICE PIC X.
-           01 MONKEY-MENU-CHOICE PIC X.
            01 HIDDEN-MENU-CHOICE PIC X.
 
            *>-----X AND O WS-SECTION-----   
@@ -258,6 +239,7 @@
            
            01 OFFSET UNSIGNED-INT.
            01 READ-CHOICE PIC X.     
+           01 AUDIOBOOK-MSG PIC X(50).
 
            01 WS-RANDOM-NUM-MSG PIC X(40).
 
@@ -317,6 +299,8 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
+           01 CREDIT-LIMIT-MESSAGE PIC X(50).
+           01 WS-CURRENT-DATE PIC X(8).
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
            01 WS-ABOUT. 
@@ -330,12 +314,30 @@
            01 ABOUT-PAGE-NUM PIC 9.
            01 ABOUT-NUM PIC 9.
            
+           01 COST PIC 999.
+           01 CREDIT-BALANCE PIC 999.
+           01 UPDATED-BALANCE PIC 999.
+           01 INSUFFICIENT-FUNDS PIC X(20).
+
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
            01 LS-MESSAGE PIC X(60).  
 
            SCREEN SECTION.
+           01 TIME-SCREEN.
+               05 LINE 8 COL 27 PIC X(2) USING WS-FORMATTED-HOUR.
+               05 LINE 8 COL 29 VALUE ":".         
+               05 LINE 8 COL 30 PIC X(2) USING WS-FORMATTED-MINS.  
+
+
+           01 USER-INFO-SCREEN.
+               05 LINE 8 COL 107 PIC X(15) USING USER-INFO-LOGGED-IN.
+               05 LINE 9 COL 107 PIC X(16) USING USER-INFO-NAME 
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+               05 LINE 11 COL 107 PIC X(12) USING 
+               USER-INFO-CRED-DISPLAY.
+               
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
@@ -533,12 +535,14 @@
 
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
+
                  05 BLANK SCREEN.
                  05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
                  05 LINE 2 COL 4 VALUE ":".
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 12 VALUE "Connected to Vault" 
                    UNDERLINE, BLINK
+
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
            
       *>>  
@@ -613,12 +617,14 @@
 
            01 LOGIN-SCREEN
                  BACKGROUND-COLOR IS 0.
+
                  05 BLANK SCREEN.
                  05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
                  05 LINE 2 COL 4 VALUE ":".
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 30 VALUE "Connected to Vault"
                     UNDERLINE, BLINK
+
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
@@ -655,12 +661,14 @@
                               
            01 ERROR-SCREEN
                  BACKGROUND-COLOR IS 0.
+
                  05 BLANK SCREEN.
                  05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
                  05 LINE 2 COL 4 VALUE ":".
                  05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
                  05 LINE 4 COL 30 VALUE "Connected to Vault" 
                    UNDERLINE, BLINK
+
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
@@ -697,67 +705,20 @@
              05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
                 USING ERROR-CHOICE.
 
-           01 ADMIN-LOGIN-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-             05 LINE 4 COL 30 VALUE "Connected to Vault"
-                UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 6 COL 30 PIC X(50) USING ADMIN-ERR-MSG HIGHLIGHT, 
-             FOREGROUND-COLOR IS 4 . 
-             05 LINE 8 COL 30 VALUE "Enter Administrator username:".
-             05 ADMIN-NAME-FIELD LINE 10 COL 12 PIC X(16)
-                USING ADMIN-NAME.
-             05 LINE 12 COL 30 VALUE "Enter Administrator password:".
-             05 ADMIN-PASSWORD-FIELD LINE 14 COLUMN 30 PIC X(20)
-                USING ADMIN-PASSWORD.  
-             05 LINE 16 COLUMN 30 VALUE "(l) Log-in.".
-             05 LINE 17 COLUMN 30 VALUE "(q) Go Back." .
-             05 LINE 19 COLUMN 30 VALUE "Pick: ".
-             05 ADMIN-ENTER-FIELD LINE 19 COLUMN 36 PIC X
-                USING ADMIN-ENTER.
+
            
-           01 ADMIN-MENU-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE 2 COL 4 VALUE ":".
-             05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS. 
-             05 LINE 4 COL 10 VALUE "Connected to Vault"
-                UNDERLINE, BLINK
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-             05 LINE 8 COL 30 VALUE "Welcome, ".
-             05 LINE 8 COL 39 PIC X(16) USING ADMIN-NAME.
-             05 LINE 10 COL 28 VALUE "Please select from the below optio
-      -      "ns.".  
-             05 LINE 13 COL 28 VALUE "(s) View Statements "
-                REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 13 COL 54 VALUE "(u) Manage Users    "
-                REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 15 COL 28 VALUE "(s) Add Admin       "
-                REVERSE-VIDEO HIGHLIGHT.
-             05 LINE 15 COL 54 VALUE "(u) Manage Posts    "
-                REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 17 COL 28 VALUE "(l) Logout          "
-                REVERSE-VIDEO , HIGHLIGHT.             
-             05 LINE 17 COL 54 VALUE "(q) Quit            "
-                REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 21 COL 24 VALUE "Pick: ".
-             05 ADMIN-CHOICE-FIELD LINE 21 COL 28 PIC X
-                USING ADMIN-CHOICE.
+
 
            01 MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
+             
+              
              05 LINE  4 COL 10 VALUE "Connected to Vault" 
                UNDERLINE, BLINK
+
+           
+
              HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE  6 COL 28 VALUE "Hi, ".
              05 LINE  6 COL 32 PIC X(16) USING USER-NAME.
@@ -793,9 +754,8 @@
            01 MSG-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+
+             
              05 LINE  4 COL 48 VALUE "Connected to Vault" UNDERLINE.
              
 
@@ -845,17 +805,17 @@
              05 LINE 40 COL 66 VALUE "Pick: ".
              05 MSG-MENU-CHOICE-FIELD LINE 40 COL 70 PIC XXX
                 USING MSG-MENU-CHOICE.
+             05 LINE 35 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS.
 
            01 MESSAGE-VIEW-SCREEN
              BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+             05 BLANK SCREEN.    
              05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
+            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
+
+
              
 
-            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
       -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
              IS 2.
              05 LINE 20 COL 50 VALUE "----------------------------------
@@ -888,9 +848,7 @@
            01 WRITE-MSG-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+
              05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
       
             05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
@@ -916,26 +874,27 @@
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-             05 LINE  2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-             05 LINE  2 COL 4 VALUE ":".
-             05 LINE  2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.
+
+
              
 
+             05 LINE 26 COL 40 VALUE "Games cost 5 credits: ".      
              05 LINE 28 COL 43 VALUE "(h) Hangman"
-             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
+              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 30 COL 43 VALUE "(n) Guess The Number" 
              REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
              05 LINE 32 COL 43 VALUE "(o) O and X         "  
-             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
-           
+             REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.          
              05 LINE 36 COL 36 VALUE "(g) Go back "
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 36 COL 54 VALUE "(q) Quit    "
              REVERSE-VIDEO, HIGHLIGHT.
              05 LINE 38 COL 36 VALUE "Pick: ".
              05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 41 PIC X
-                USING GAMES-MENU-CHOICE.     
-
+                USING GAMES-MENU-CHOICE.              
+              05 LINE 40 COL 36 PIC X(20) USING INSUFFICIENT-FUNDS
+                HIGHLIGHT, FOREGROUND-COLOR IS 4.
+      
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
                05 LINE 16 COL 50 VALUE "---------------------------------
@@ -1150,16 +1109,19 @@
            "-------------------------------------------------------".
                05 LINE 13 COL 65 VALUE
                "WELCOME TO THE LIBRARY".
+
                05 LINE 14 COL 49 VALUE
            "Please Choose Below which book you would like to have in"
              .
                05 LINE 15 COL 49 VALUE
-           "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
+           "AudioBook Format, the charge will be 5 credits"
              .
-               05 LINE 16 COL 49 VALUE
-           "       (For audio format to work, please read aloud)"     .
+                   
                05 LINE 18 COL 45 VALUE "||   AUTHOR   ||".
                05 LINE 18 COL 66 VALUE 
+
+
+
                "||                  TITLE                ||".
                05 LINE 19 COL 43 VALUE '1.'.
                05 LINE 19 COL 49 PIC X(12) 
@@ -1203,19 +1165,21 @@
                .
                05 LINE 28 COL 49 VALUE
            "---------------------------------------------------------".
+
                 
            
                05 LINE 31 COL 43 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                .
                05 LINE 31 COL 77 VALUE 'Page No.'.
                05 LINE 31 COL 86 PIC 99 USING PAGE-NUM.
-               05 LINE 40 COL 43 VALUE "( )Read the book by number".
-               05 LINE 40 COL 77 VALUE "(n) Next Page".
-               05 LINE 41 COL 43 VALUE "(p) Previous Page".
-               05 LINE 41 COL 77 VALUE "(q) Go back".
-               05 LINE 42 COL 78 VALUE "Pick: ".
-               05 LIBRARY-FIELD LINE 42 COLUMN 86 PIC X 
+               05 LINE 35 COL 43 VALUE "( )Read the book by number".
+               05 LINE 35 COL 77 VALUE "(n) Next Page".
+               05 LINE 36 COL 43 VALUE "(p) Previous Page".
+               05 LINE 36 COL 77 VALUE "(q) Go back".
+               05 LINE 38 COL 78 VALUE "Pick: ".
+               05 LIBRARY-FIELD LINE 38 COLUMN 86 PIC X 
                USING LIBRARY-CHOICE.
+               05 LINE 40 COL 78 PIC X(20) USING INSUFFICIENT-FUNDS.
                
                
            01 READ-BOOK-SCREEN
@@ -1236,11 +1200,12 @@
                05 LINE 14 COL 49 VALUE
            "Please Choose Below which book you would like to have in"
              .
+
                05 LINE 15 COL 49 VALUE
-           "AudioBook Format, the charge will be {INSERT CHARGE HERE}"
+           "AudioBook Format, the charge will be 5 credits"
              .
-               05 LINE 16 COL 49 VALUE
-           "       (For audio format to work, please read aloud)"     .
+               05 LINE 16 COL 49 PIC X(50) USING AUDIOBOOK-MSG
+                    HIGHLIGHT, FOREGROUND-COLOR IS 4.
                05 LINE 18 COL 60 VALUE 'Title:'.
                05 LINE 18 COL 69 PIC X(50) USING TITLE.
                05 LINE 22 COLUMN 40 PIC X(60) USING 
@@ -1264,10 +1229,9 @@
            01 BUY-CREDITS-SCREEN.
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
-           05 LINE 8 COL 12 VALUE "Please enter the amount of credits".
-           05 LINE 8 COL 47 VALUE  "you would like to purchase: ".
-           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT
-               .
+           05 LINE 8 COL 12 VALUE "Please enter the amount of credits yo
+      -    "u would like to purchase: ".
+           05 CREDIT-FIELD LINE 9 COLUMN 14 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 12 COL 25 VALUE "(s) Submit "
                 REVERSE-VIDEO, HIGHLIGHT. 
            05 LINE 12 COL 39 VALUE "(g) Go back"
@@ -1277,15 +1241,18 @@
            05 LINE 14 COL 25 VALUE "Pick: ".
            05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
                USING BUY-CREDITS-CHOICE.
+           05 LINE 16 COL 25 PIC X(50) USING CREDIT-LIMIT-MESSAGE
+           HIGHLIGHT, FOREGROUND-COLOR IS 4.
 
            01 CONFIRM-SCREEN.
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
            05 LINE 8 COL 12 PIC 999 USING CREDIT-AMOUNT.
-           05 LINE 8 COL 16 VALUE "Credits will cost: £".
-           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
-           05 LINE 9 COL 12 VALUE "Please enter your password to ". 
-           05 LINE 9 COL 42 VALUE "confirm payment".
+           05 LINE 8 COL 16 VALUE "Credits will cost:".
+           05 LINE 8 COL 35 PIC 999 USING CREDIT-AMOUNT.
+           05 LINE 8 COL 39 VALUE "bottle caps".
+           05 LINE 9 COL 12 VALUE "Please enter your password to confirm
+      -    " payment".
            05 LINE 12 COL 12 VALUE "Password: ".
            05 BUY-PASSWORD-FIELD LINE 12 COL 24 PIC X(20) 
                USING PASSWORD-ENTRY.
@@ -1300,12 +1267,13 @@
            05 LINE 18 COL 25 VALUE "Pick: ".
            05 CONFIRM-CHOICE-FIELD LINE 18 COL 31 PIC X 
                USING CONFIRM-CHOICE.
+          
 
        01 PAYMENT-PROCESS-SCREEN.
            05 BLANK SCREEN.
            05 LINE 6 COL 12 VALUE "Buy Credits" UNDERLINE.
-           05 LINE 8 COL 12 VALUE "Processing payment of: £".
-           05 LINE 8 COL 37 PIC 999.99 USING MON-AMOUNT.
+           05 LINE 8 COL 12 VALUE "Processing payment of bottle caps: ".
+           05 LINE 8 COL 47 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 9 COL 12 VALUE "Confirming payment with your bank ". 
            05 LINE 10 COL 12 VALUE "This page will redirect in a few ".
            05 LINE 10 COL 45 VALUE "seconds". 
@@ -1319,12 +1287,12 @@
            05 LINE 10 COL 12 PIC 999 USING CREDIT-AMOUNT.
            05 LINE 10 COL 16 VALUE "credits will be added to your ".
            05 LINE 10 COL 46 VALUE "account within 24 hours".
-           05 LINE 14 COL 39 VALUE "(g) Go back"
+           05 LINE 15 COL 39 VALUE "(g) Go back"
                 REVERSE-VIDEO , HIGHLIGHT.            
-           05 LINE 14 COL 53 VALUE "(q) Quit   "
+           05 LINE 15 COL 53 VALUE "(q) Quit   "
                 REVERSE-VIDEO, HIGHLIGHT.  
-           05 LINE 16 COL 25 VALUE "Pick: ".
-           05 PAY-CONFIRMATION-FIELD LINE 16 COL 31 PIC X 
+           05 LINE 17 COL 25 VALUE "Pick: ".
+           05 PAY-CONFIRMATION-FIELD LINE 17 COL 31 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
        
        01 ABOUT-PAGE-SCREEN.
@@ -1384,12 +1352,16 @@
 
 
        PROCEDURE DIVISION.
-           
+
        0100-DISPLAY-START.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE START-CHOICE.
            DISPLAY START-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.
+
            ACCEPT START-CHOICE-FIELD.
            IF START-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN 
@@ -1398,8 +1370,10 @@
            ELSE IF START-CHOICE = "q" THEN 
                STOP RUN
            ELSE IF START-CHOICE = "a" THEN 
-               MOVE SPACES TO ADMIN-ERR-MSG
-               PERFORM 0116-ADMIN-LOGIN-PAGE
+               CALL 'admin-server'
+      *         MOVE SPACES TO ADMIN-ERR-MSG
+      *        PERFORM 0116-ADMIN-LOGIN-PAGE
+               PERFORM 0100-DISPLAY-START
            ELSE 
                PERFORM 0100-DISPLAY-START
            END-IF.
@@ -1414,30 +1388,17 @@
                        ADD 1 TO COUNTER
                        MOVE USERNAME TO WS-USER-NAME(COUNTER)
                        MOVE USER-PASSWORD TO WS-PWORD(COUNTER)
+                       MOVE USER-CREDIT TO WS-CREDIT(COUNTER)
+                       MOVE USER-ACNT-NUM TO WS-ACNT-NUM(COUNTER)
+
                    AT END 
                        MOVE 1 TO WS-FILE-IS-ENDED
                END-READ 
            END-PERFORM.
            CLOSE F-USERS-FILE.
-
-       0102-GENERATE-ADMIN-TABLE. 
-           SET COUNTER TO 0.
-           OPEN INPUT F-ADMIN-FILE.
-           MOVE 0 TO WS-FILE-IS-ENDED.
-           PERFORM UNTIL WS-FILE-IS-ENDED = 1
-               READ F-ADMIN-FILE
-                   NOT AT END
-                       ADD 1 TO COUNTER
-                       MOVE ADMIN TO WS-ADMIN-NAME(COUNTER)
-                       MOVE ADMIN-PWORD TO WS-ADMIN-PWORD(COUNTER)
-                   AT END 
-                       MOVE 1 TO WS-FILE-IS-ENDED
-               END-READ 
-           END-PERFORM.
-           CLOSE F-ADMIN-FILE.
-       
+   
        0105-DISPLAY-REGISTER-NEW-USER SECTION.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            PERFORM 0101-GENERATE-USER-TABLE.
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
@@ -1452,7 +1413,11 @@
            INITIALIZE ACCOUNT-NUM.
            INITIALIZE REGISTER-CHOICE.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.
+
            ACCEPT NEW-USER-NAME-FIELD.
            MOVE 0 TO RAISE-ERROR.
            MOVE 1 TO WS-IDX.
@@ -1474,7 +1439,11 @@
        05-VALIDATE-PASSWORD.
            INITIALIZE NEW-PASSWORD.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.
+
            ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
@@ -1487,7 +1456,11 @@
        05-VALIDATE-BANK-ACCOUNT.
            INITIALIZE ACCOUNT-NUM.
            DISPLAY REGISTER-NEW-USER-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.
+
            ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
            RAISE-ERROR OK-MSG-3.
@@ -1496,6 +1469,7 @@
            END-IF. 
 
            DISPLAY REGISTER-NEW-USER-SCREEN.
+           DISPLAY TIME-SCREEN.
            ACCEPT REGISTER-CHOICE-FIELD.
            IF REGISTER-CHOICE = "q" THEN 
                PERFORM 0100-DISPLAY-START
@@ -1504,22 +1478,26 @@
                MOVE NEW-USER-NAME TO USERNAME
                MOVE NEW-PASSWORD TO USER-PASSWORD
                MOVE ACCOUNT-NUM TO USER-ACNT-NUM
-               MOVE "  " TO GAP
+               MOVE "000" TO USER-CREDIT
                WRITE USERS
                END-WRITE 
            END-IF.
            CLOSE F-USERS-FILE.
            PERFORM 0110-DISPLAY-LOGIN.
-
+          
        0110-DISPLAY-LOGIN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            PERFORM 0101-GENERATE-USER-TABLE
            INITIALIZE USER-NAME.
            INITIALIZE WS-PASSWORD.
            DISPLAY LOGIN-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.
+
            ACCEPT USER-NAME-FIELD.
-           ACCEPT PASSWORD-FIELD. 
+           ACCEPT PASSWORD-FIELD.
            MOVE 0 TO WS-FOUND.
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
@@ -1527,6 +1505,8 @@
                IF USER-NAME = WS-USER-NAME(WS-IDX) AND 
                WS-PASSWORD = WS-PWORD(WS-IDX) THEN
                    MOVE 1 TO WS-FOUND 
+                   PERFORM 0111-USER-INFO
+                   PERFORM 0113-DISPLAY-TIME-USER-INFO
                END-IF
                ADD 1 TO WS-IDX 
            END-PERFORM.
@@ -1535,13 +1515,28 @@
                PERFORM 0120-DISPLAY-MENU 
            ELSE 
                PERFORM 0115-ERROR-PAGE 
-           END-IF. 
-       
+           END-IF.     
+
+       0111-USER-INFO.
+           MOVE WS-USER-NAME(WS-IDX) TO USER-INFO-NAME.
+           MOVE WS-CREDIT(WS-IDX) TO USER-INFO-CREDITS.
+
+       0112-UPDATE-CREDITS.
+           MOVE UPDATED-BALANCE TO USER-INFO-CREDITS.
+
+       0113-DISPLAY-TIME-USER-INFO.
+           DISPLAY TIME-SCREEN.
+           DISPLAY USER-INFO-SCREEN.
+
        0115-ERROR-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE ERROR-CHOICE.
            DISPLAY ERROR-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           DISPLAY TIME-SCREEN.      
+
            ACCEPT ERROR-CHOICE-FIELD.
            IF ERROR-CHOICE = "l" THEN 
                PERFORM 0110-DISPLAY-LOGIN
@@ -1553,59 +1548,17 @@
                PERFORM 0115-ERROR-PAGE 
            END-IF.
        
-       0116-ADMIN-LOGIN-PAGE.
-           PERFORM 0200-TIME-AND-DATE.
-           PERFORM 0102-GENERATE-ADMIN-TABLE.
-           INITIALIZE ADMIN-NAME.
-           INITIALIZE ADMIN-PASSWORD.
-           INITIALIZE ADMIN-ENTER.
-           DISPLAY ADMIN-LOGIN-SCREEN.
-           DISPLAY PIP-BOY-SCREEN.
-           ACCEPT ADMIN-NAME-FIELD.
-           ACCEPT ADMIN-PASSWORD-FIELD.
-           ACCEPT ADMIN-ENTER-FIELD. 
-           MOVE 0 TO WS-FOUND.
-           MOVE 1 TO WS-IDX.
-           ADD 1 TO COUNTER.
-           PERFORM UNTIL WS-IDX = COUNTER
-               IF ADMIN-NAME = WS-ADMIN-NAME(WS-IDX) AND 
-               ADMIN-PASSWORD = WS-ADMIN-PWORD(WS-IDX) THEN
-                   MOVE 1 TO WS-FOUND 
-               END-IF
-               ADD 1 TO WS-IDX 
-           END-PERFORM.
 
-           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
-               PERFORM 0118-DISPLAY-ADMIN-MENU 
-           ELSE IF  ADMIN-ENTER = "q" THEN 
-               PERFORM 0100-DISPLAY-START
-           ELSE 
-               MOVE "* Administrator details not recognised *" TO 
-               ADMIN-ERR-MSG
-               PERFORM 0116-ADMIN-LOGIN-PAGE
-           END-IF. 
-
-       0118-DISPLAY-ADMIN-MENU.
-           PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-CHOICE.
-           DISPLAY ADMIN-MENU-SCREEN.
-           DISPLAY PIP-BOY-SCREEN.
-           ACCEPT ADMIN-CHOICE-FIELD.
-           IF ADMIN-CHOICE = "q" or "Q" THEN
-             STOP RUN
-           ELSE IF ADMIN-CHOICE = "l" or "L" THEN
-             PERFORM 0100-DISPLAY-START
-      *     Add other menu options for administrator here *
-           ELSE 
-             PERFORM 0118-DISPLAY-ADMIN-MENU
-           END-IF.
-
-
+       
        0120-DISPLAY-MENU.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
            DISPLAY MENU-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT MENU-CHOICE-FIELD.
            IF MENU-CHOICE = "q" or "Q" THEN
              STOP RUN
@@ -1629,13 +1582,18 @@
            PERFORM 0120-DISPLAY-MENU.
 
        0130-MSG-MENU.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            CALL 'number-of-file-lines' USING NUM-FILE-LINES.
            CALL 'get-list-page-alt' USING NUM-FILE-LINES WS-LIST-TABLE.
            SORT WS-LIST-ENTRY ON ASCENDING LIST-ID.
            INITIALIZE MSG-MENU-CHOICE.
+           MOVE "1" TO COST.
            DISPLAY MSG-MENU-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT MSG-MENU-CHOICE-FIELD.
            MOVE MSG-MENU-CHOICE TO MSG-SELECT.
          
@@ -1644,6 +1602,7 @@
            END-IF. 
            IF MSG-MENU-CHOICE = "g" OR 'G' THEN
                PERFORM 0120-DISPLAY-MENU
+
            ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
              COMPUTE ID-NUM = ID-NUM + 10
                IF ID-NUM IS GREATER THAN OR EQUAL TO NUM-FILE-LINES
@@ -1653,17 +1612,25 @@
                    PERFORM 0130-MSG-MENU
                END-IF               
                
-           ELSE IF MSG-MENU-CHOICE = 'p' OR 'P' THEN
-             COMPUTE ID-NUM = ID-NUM - 10
-               
+           ELSE IF MSG-MENU-CHOICE = 'p' OR 'P'
+               COMPUTE ID-NUM = ID-NUM - 10
+    
                IF ID-NUM IS LESS THAN 10
                    MOVE 1 TO ID-NUM
                     PERFORM 0130-MSG-MENU
                ELSE
                     PERFORM 0130-MSG-MENU
                END-IF
-           ELSE IF MSG-MENU-CHOICE = 'w' OR 'W'
-             PERFORM 0150-MESSAGE-WRITE
+           ELSE IF (MSG-MENU-CHOICE = 'w' OR 'W')
+            AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               PERFORM 0150-MESSAGE-WRITE
+           ELSE IF (MSG-MENU-CHOICE = 'w' OR 'W')
+           AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "FALSE") THEN
+             MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+             PERFORM 0130-MSG-MENU
               
            ELSE IF MSG-MENU-CHOICE = 'q' OR 'Q' THEN
               STOP RUN  
@@ -1672,22 +1639,24 @@
            PERFORM 0130-MSG-MENU.
 
        0140-MESSAGE-VIEW. 
-           PERFORM 0200-TIME-AND-DATE.          
+           PERFORM 0500-TIME-AND-DATE.          
            MOVE LIST-CONTENT(MSG-SELECT) TO WS-CONTENT-DISPLAY.
            INITIALIZE MSG-VIEW-CHOICE.
            DISPLAY MESSAGE-VIEW-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT MSG-VIEW-CHOICE-FIELD.
            IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
            ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
               STOP RUN  
            END-IF.
-           
-           PERFORM 0140-MESSAGE-VIEW. 
 
        0150-MESSAGE-WRITE.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-TITLE.
            INITIALIZE LS-PART-1.
            INITIALIZE LS-PART-2.
@@ -1695,7 +1664,12 @@
            INITIALIZE LS-PART-4.
            INITIALIZE LS-PART-5.
            DISPLAY WRITE-MSG-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           
+
            ACCEPT WS-TITLE-FIELD.
            ACCEPT LINE-1-FIELD.
            ACCEPT LINE-2-FIELD.
@@ -1714,27 +1688,49 @@
            PERFORM 0120-DISPLAY-MENU.
        
        0160-GAMES-MENU.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
+
+           MOVE "5" TO COST.
+
            DISPLAY GAMES-MENU-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT GAMES-MENU-CHOICE-FIELD
            IF GAMES-MENU-CHOICE = "q" or "Q" THEN
                STOP RUN
            ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
                PERFORM 0120-DISPLAY-MENU
-           ELSE IF GAMES-MENU-CHOICE = "o" OR "O" THEN
+           ELSE IF (GAMES-MENU-CHOICE = "o" OR "O" )
+             AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                PERFORM 0190-O-AND-X-GAME  
-           ELSE IF GAMES-MENU-CHOICE = "h" or "H" THEN
+           ELSE IF (GAMES-MENU-CHOICE = "h" or "H") 
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                PERFORM 0170-DISPLAY-GUESSING-GAME
-           ELSE IF GAMES-MENU-CHOICE = "n" or "N" THEN 
+           ELSE IF (GAMES-MENU-CHOICE = "n" or "N")  
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                PERFORM 0210-RANDOM-NUMBER-GAME           
            END-IF.
 
+           IF CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE"
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
            PERFORM 0160-GAMES-MENU.
 
+
        0170-DISPLAY-GUESSING-GAME.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            SET WS-HIGH-SCORE TO 0.
            SET WS-WORD-LENGTH TO 0.
            MOVE 15 TO WS-GUESSES-LEFT.
@@ -1755,7 +1751,7 @@
            MOVE WS-GUESSING-WORDS-WORD(RANDOMNUMBER) TO WS-WORD.
            MOVE WS-WORD TO WS-ANSWERWORD.
            MOVE REPLACE-LETTER(WS-WORD) TO WS-WORD. 
-           *> DISPLAY USER-INFO-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            MOVE 1 TO COUNTER.
            PERFORM UNTIL COUNTER = 20
              IF '*' EQUALS WS-WORD(COUNTER:1) 
@@ -1766,11 +1762,15 @@
            PERFORM 0175-IN-GAME-SCREEN.
 
        0175-IN-GAME-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESS-CHOICE.
            DISPLAY IN-GAME-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT WS-GUESS-CHOICE-FIELD.
            IF WS-GUESS-CHOICE = '!' THEN 
                PERFORM 0160-GAMES-MENU
@@ -1779,7 +1779,7 @@
            END-IF.
 
        0180-CHECK-GUESS.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            MOVE 1 TO COUNTER.
            PERFORM UNTIL COUNTER = 20
                  IF WS-GUESS-CHOICE = WS-ANSWERWORD(COUNTER:1) 
@@ -1808,7 +1808,7 @@
              END-IF.
 
        0185-WINNING-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-WINNING-CHOICE.
            DISPLAY WS-WORD-LENGTH.
            DISPLAY WS-GUESSES-LEFT.
@@ -1819,8 +1819,12 @@
            DISPLAY WS-GUESSES-LEFT.
            DISPLAY WS-HIGH-SCORE.
            DISPLAY WORD-GUESSING-WINNING-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            OPEN EXTEND F-HIGH-SCORES-FILE
                MOVE WS-HIGH-SCORE TO HIGH-SCORE
                MOVE USER-NAME TO PLAYER-NAME
@@ -1840,11 +1844,15 @@
            END-IF.
 
        0186-LOSING-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-LOSING-CHOICE.
            DISPLAY WORD-GUESSING-LOSE-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT WS-GUESSING-LOSING-CHOICE.
            IF WS-GUESSING-LOSING-CHOICE = 'p'
                THEN PERFORM 0170-DISPLAY-GUESSING-GAME
@@ -1874,12 +1882,16 @@
            PERFORM 0188-HIGH-SCORE-SCREEN.
 
        0188-HIGH-SCORE-SCREEN.
-           PERFORM 0200-TIME-AND-DATE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-HIGH-SCORE-CHOICE.
            SORT WS-TABLE-HIGH-SCORE ON DESCENDING WS-SCORE.
            DISPLAY HIGH-SCORE-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
            *> DISPLAY USER-INFO-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT WS-HIGH-SCORE-FIELD.
            IF WS-HIGH-SCORE-CHOICE = 'b'
              PERFORM 0120-DISPLAY-MENU
@@ -1887,13 +1899,13 @@
                PERFORM 0188-HIGH-SCORE-SCREEN
            END-IF.
 
-
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
            MOVE "X" TO WS-PLAYER
            PERFORM GAME-LOOP-PARAGRAPH
                WITH TEST AFTER UNTIL FINISHED-PLAYING
            PERFORM 0160-GAMES-MENU.
+
            GAME-LOOP-PARAGRAPH.
                INITIALIZE WS-GAME-GRID
                INITIALIZE WS-STATE
@@ -1920,8 +1932,14 @@
                MOVE "One more (y/n)? " TO WS-INSTRUCTION
                MOVE "y" TO WS-NEXT-MOVE
                DISPLAY BOARD-SCREEN.
+
                DISPLAY PIP-BOY-SCREEN.
                ACCEPT NEXT-MOVE.
+
+               PERFORM 0113-DISPLAY-TIME-USER-INFO
+               ACCEPT NEXT-MOVE.
+           
+
            GAME-FRAME-PARAGRAPH.
                MOVE "Move to square: " TO WS-INSTRUCTION
                MOVE WS-COLOR-GREEN TO WS-FG
@@ -1944,8 +1962,13 @@
                ELSE
                    INITIALIZE WS-NEXT-MOVE
                    DISPLAY BOARD-SCREEN
+
                    DISPLAY PIP-BOY-SCREEN
                    ACCEPT NEXT-MOVE 
+
+                   PERFORM 0113-DISPLAY-TIME-USER-INFO
+                   ACCEPT NEXT-MOVE
+
                    EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
                        WHEN "A" SET WS-ROW TO 1
                        WHEN "B" SET WS-ROW TO 2
@@ -2014,6 +2037,7 @@
                        MOVE "X" TO WS-PLAYER
                    END-IF
                END-IF.
+
            VALIDATE-WIN-PARAGRAPH.
                INITIALIZE WS-MASK-DETECTED
                SET WS-DETECT-LOOP-COUNT TO 1
@@ -2036,33 +2060,29 @@
                    END-IF
                END-IF.
 
-       0200-TIME-AND-DATE.
-           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
-           MOVE WS-DATETIME(1:4)  TO WS-FORMATTED-YEAR.
-           MOVE WS-DATETIME(5:2)  TO WS-FORMATTED-MONTH.
-           MOVE WS-DATETIME(7:2)  TO WS-FORMATTED-DY.
-           MOVE WS-DATETIME(9:2)  TO WS-FORMATTED-HOUR.
-           MOVE WS-DATETIME(11:2) TO WS-FORMATTED-MINS.
-           MOVE WS-DATETIME(13:2) TO WS-FORMATTED-SEC.
-           MOVE WS-DATETIME(15:2) TO WS-FORMATTED-MS.
-
        0210-RANDOM-NUMBER-GAME.
+
            PERFORM INITIALIZE-RANDOM-NUM-GAME.
 
            INITIALIZE-RANDOM-NUM-GAME.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
+
            COMPUTE TOTAL-GUESSES = 0.
            ACCEPT SEED FROM TIME
            COMPUTE ANSWER =
                FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1   
-           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG    
+           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG.
            PERFORM GAME-LOOP.
-       
+
            GAME-LOOP.
            INITIALIZE GUESS-INPUT.
-           DISPLAY GUESS-SCREEN END-DISPLAY
+           DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
+
+           
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT GUESS-FIELD.
            MOVE GUESS-INPUT TO GUESS.
            ADD 1 TO TOTAL-GUESSES.
@@ -2082,21 +2102,20 @@
            
            WIN-LOOP.
            INITIALIZE GUESS-INPUT.
-           DISPLAY GUESS-SCREEN END-DISPLAY
+
+           DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
-           ACCEPT GUESS-FIELD END-ACCEPT
+           ACCEPT GUESS-FIELD.
+
                IF GUESS-INPUT = "y" OR "Y"
-                   GO TO INITIALIZE-RANDOM-NUM-GAME
+                   GO TO 0210-RANDOM-NUMBER-GAME
                ELSE IF GUESS-INPUT = "n" OR "N"
                    PERFORM 0160-GAMES-MENU
                ELSE 
                    MOVE "INVALID ENTRY! Enter Y or N"
                    TO WS-RANDOM-NUM-MSG
                    GO TO WIN-LOOP
-               END-IF.     
-
-           
-       
+               END-IF.            
 
        0220-GENERATE-LIBRARY-TABLE.
            call 'generate-library-table' USING WS-BOOKS 
@@ -2105,8 +2124,15 @@
 
        0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
+
+           MOVE "10" TO COST.
+    
            DISPLAY LIBRARY-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT LIBRARY-FIELD.
            IF LIBRARY-CHOICE = 'q' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2132,15 +2158,24 @@
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
                    PERFORM 0230-LIBRARY-MENU
                END-IF
-           ELSE IF LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5'
+           ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                SET LIBRARY-NUM TO LIBRARY-CHOICE-TO-NUM(LIBRARY-CHOICE)
                PERFORM 0240-READ-BOOK
+           ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE") THEN
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+               PERFORM 0230-LIBRARY-MENU
            ELSE
                PERFORM 0230-LIBRARY-MENU
            END-IF. 
 
        0240-READ-BOOK.
            INITIALIZE READ-CHOICE.
+           MOVE "5" TO COST.
            IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5
                MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
                TO TITLE
@@ -2151,40 +2186,50 @@
            END-IF.
            MOVE BODY TO WS-READ-BODY-SEGMENTS.
            DISPLAY READ-BOOK-SCREEN.
-           DISPLAY PIP-BOY-SCREEN.
-           ACCEPT READ-CHOICE.
-           IF READ-CHOICE = 'q' THEN
-               PERFORM 0230-LIBRARY-MENU
-           ELSE IF READ-CHOICE = 'n' THEN
-               IF LIBRARY-NUM < 10
-                   COMPUTE LIBRARY-NUM = LIBRARY-NUM + 1
-               ELSE
-                   MOVE 1 TO LIBRARY-NUM
-               END-IF
-               PERFORM 0240-READ-BOOK
-           ELSE IF READ-CHOICE = 'p' THEN
-               IF LIBRARY-NUM > 1  
-                   COMPUTE LIBRARY-NUM = LIBRARY-NUM - 1
-               ELSE
-                   MOVE 10 TO LIBRARY-NUM
-               END-IF
-               PERFORM 0240-READ-BOOK
-           END-IF.
 
-       
+           DISPLAY PIP-BOY-SCREEN.
            
 
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT READ-CHOICE.
+
+
+           IF READ-CHOICE = 'q' THEN
+               PERFORM 0230-LIBRARY-MENU
+           ELSE IF (READ-CHOICE = 'a' )
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               MOVE "To enable the audiobook feature, please read aloud"
+               TO AUDIOBOOK-MSG
+               PERFORM 0240-READ-BOOK
+           ELSE IF (READ-CHOICE = 'a' )
+           AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+               PERFORM 0230-LIBRARY-MENU
+           END-IF.
 
 
        0400-BUY-CREDITS.
            INITIALIZE CREDIT-AMOUNT.
            INITIALIZE BUY-CREDITS-CHOICE.
            DISPLAY BUY-CREDITS-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT CREDIT-FIELD.
            ACCEPT BUY-CREDITS-CHOICE-FIELD.
-           IF BUY-CREDITS-CHOICE = 's'or 'S'
+           IF (BUY-CREDITS-CHOICE = 's'or 'S') 
+           AND (CHECK-LIMIT(CREDIT-AMOUNT, USER-INFO-CREDITS) = "PASS")
               PERFORM 0450-CONFIRM
+           ELSE IF (BUY-CREDITS-CHOICE = 's'or 'S') 
+           AND (CHECK-LIMIT(CREDIT-AMOUNT, USER-INFO-CREDITS) = "FAIL")
+               MOVE "CREDITS EXCEEDING MAX AMOUNT, TRANSACTION ABORTED"
+               TO CREDIT-LIMIT-MESSAGE
+               PERFORM 0400-BUY-CREDITS
            ELSE IF BUY-CREDITS-CHOICE = 'g' OR 'G'
                PERFORM 0120-DISPLAY-MENU
            ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
@@ -2198,18 +2243,24 @@
            INITIALIZE PASSWORD-ENTRY
            MOVE CONV-CRED-TO-MON(CREDIT-AMOUNT) TO MON-AMOUNT
            DISPLAY CONFIRM-SCREEN
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT BUY-PASSWORD-FIELD
            ACCEPT CONFIRM-CHOICE-FIELD
-          *>  IF CONFIRM-CHOICE = 's' OR 'S'
-          *>    CALL 'add-to-transactions' USING USER-NAME, CREDIT, 
-          *>    MON-AMOUNT
-          *>    PERFORM 0460-PAYMENT-PROCESS
+           MOVE FUNCTION CURRENT-DATE(1:8) TO WS-CURRENT-DATE
            
+            SEARCH WS-USER
+                WHEN WS-USER-NAME(USER-IDX) = USER-NAME
+                    MOVE WS-ACNT-NUM(USER-IDX) TO ACCOUNT-NUM
+            END-SEARCH
+
            IF CONFIRM-CHOICE = ('s' OR 'S') AND 
                 VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'TRUE' 
                CALL 'add-to-transactions' USING USER-NAME, 
-               CREDIT-AMOUNT, MON-AMOUNT
+                ACCOUNT-NUM, CREDIT-AMOUNT, WS-CURRENT-DATE
                PERFORM 0460-PAYMENT-PROCESS
            ELSE IF CONFIRM-CHOICE = ('s' OR 'S') 
              AND VERIFY-PASSWORD(WS-PASSWORD, PASSWORD-ENTRY) = 'FALSE'
@@ -2226,9 +2277,14 @@
        0460-PAYMENT-PROCESS.
            INITIALIZE PAY-CONFIRMATION-CHOICE
            DISPLAY PAYMENT-PROCESS-SCREEN
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            CALL "CBL_GC_NANOSLEEP" USING 5000000000
            DISPLAY PAY-CONFIRMATION-SCREEN
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT PAY-CONFIRMATION-FIELD
            IF PAY-CONFIRMATION-CHOICE = 'g' OR 'G'
              PERFORM 0120-DISPLAY-MENU
@@ -2236,6 +2292,7 @@
                STOP RUN 
            ELSE 
                DISPLAY PAY-CONFIRMATION-SCREEN
+               PERFORM 0113-DISPLAY-TIME-USER-INFO
            END-IF.
 
        0470-ABOUT-PAGE-TABLE.
@@ -2262,7 +2319,11 @@
        0480-ABOUT-PAGE.
            INITIALIZE ABOUT-PAGE-CHOICE.
            DISPLAY ABOUT-PAGE-SCREEN.
+
            DISPLAY PIP-BOY-SCREEN.
+
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+
            ACCEPT ABOUT-PAGE-FIELD.
            IF ABOUT-PAGE-CHOICE = 'q' OR 'Q' THEN
                PERFORM 0120-DISPLAY-MENU 
@@ -2290,6 +2351,8 @@
            END-IF.
 
 
- 
+        0500-TIME-AND-DATE.
+              MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
        
+
 
