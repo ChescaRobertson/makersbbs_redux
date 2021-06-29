@@ -362,6 +362,11 @@
            01 LS-MESSAGE PIC X(60).  
 
            SCREEN SECTION.
+           01 CONNECTED-SCREEN.
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+                  UNDERLINE, BLINK
+                  HIGHLIGHT, FOREGROUND-COLOR 3.
+
            01 TIME-SCREEN.
                05 LINE 8 COL 117 PIC X(2) USING WS-FORMATTED-HOUR
                    FOREGROUND-COLOR IS 2.
@@ -381,9 +386,6 @@
                
            01 START-SCREEN. 
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-                 UNDERLINE, BLINK
-                 HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in."
                  REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
                05 LINE 22 COLUMN 30 VALUE "(c) Create an account."
@@ -400,83 +402,83 @@
 
            01 PIP-BOY-SCREEN.
                      
-                 05 LINE 5 COL 10 VALUE 
+               05 LINE 5 COL 10 VALUE 
            "============================================================
       -    "==========================================================="
            .
-                 05 LINE 6 COL 10 VALUE
+               05 LINE 6 COL 10 VALUE
            "   ______      _____________________________________________
       -    "________________________________________________________   "
            .
-                 05 LINE 7 COL 10 VALUE
+               05 LINE 7 COL 10 VALUE
            "   / |    \      /".
-                 05 LINE 7 COL 124 VALUE
+               05 LINE 7 COL 124 VALUE
            "\  ".
-                 05 LINE 8 COL 10 VALUE 
+               05 LINE 8 COL 10 VALUE 
            "  (  |)-   )  | 0|".
-                 05 line 8 COL 124 VALUE
+               05 line 8 COL 124 VALUE
            "| |__".
-                 05 LINE 9 COL 10 VALUE 
+               05 LINE 9 COL 10 VALUE 
            "  /\_|____/   |_ |".
-                 05 LINE 9 COL 124 VALUE
+               05 LINE 9 COL 124 VALUE
            "| |0|".
-                 05 LINE 14 COL 10 VALUE
+               05 LINE 14 COL 10 VALUE
            "|    _________  ||".
-                 05 LINE 14 COL 124 VALUE
+               05 LINE 14 COL 124 VALUE
            "| | |".
-                 05 LINE 15 COL 10 VALUE 
+               05 LINE 15 COL 10 VALUE 
            "|   |-Pip-Boy-|TT|".
-                 05 LINE 15 COL 124 VALUE
+               05 LINE 15 COL 124 VALUE
            "| | |".
-                 05 LINE 16 COL 10 VALUE
+               05 LINE 16 COL 10 VALUE
            "|   |-=======-|++|".
-                 05 LINE 16 COL 124 VALUE
+               05 LINE 16 COL 124 VALUE
            "| |_|".
-                 05 LINE 17 COL 10 VALUE
+               05 LINE 17 COL 10 VALUE
            "|   |-=======-|++|".
-                 05 LINE 17 COL 124 VALUE
+               05 LINE 17 COL 124 VALUE
            "| |=|".
-                 05 LINE 18 COL 10 VALUE
+               05 LINE 18 COL 10 VALUE
            "|   |- MODEL -|11|".
-                 05 LINE 18 COL 124 VALUE
+               05 LINE 18 COL 124 VALUE
            "| |=|".
-                 05 LINE 19 COL 10 VALUE
+               05 LINE 19 COL 10 VALUE
            "|   |- 3000  -| ||".
-                 05 LINE 19 COL 124 VALUE
+               05 LINE 19 COL 124 VALUE
            "| |=|".
-                 05 LINE 20 COL 10 VALUE
+               05 LINE 20 COL 10 VALUE
            "|   '---------' ||".
-                 05 LINE 20 COL 124 VALUE
+               05 LINE 20 COL 124 VALUE
            "| |=|".
-                 05 LINE 10 COL 10 VALUE
+               05 LINE 10 COL 10 VALUE
            "/ '             ||".
-                 05 LINE 10 COL 124 VALUE
+               05 LINE 10 COL 124 VALUE
            "| |=|".
-                 05 LINE 11 COL 10 VALUE
+               05 LINE 11 COL 10 VALUE
            "|               ||".
-                 05 LINE 11 COL 124 VALUE
+               05 LINE 11 COL 124 VALUE
            "| |=|".
-                 05 LINE 12 COL 10 VALUE
+               05 LINE 12 COL 10 VALUE
            "|               ||".
-                 05 LINE 12 COL 124 VALUE
+               05 LINE 12 COL 124 VALUE
            "| |=|".
-                 05 LINE 13 COL 10 VALUE
+               05 LINE 13 COL 10 VALUE
            "|               ||".
-                 05 LINE 13 COL 124 VALUE
+               05 LINE 13 COL 124 VALUE
            "| |=|".
-                 05 LINE 21 COL 10 VALUE
+               05 LINE 21 COL 10 VALUE
            "|               ||".
-                 05 LINE 21 COL 124 VALUE
+               05 LINE 21 COL 124 VALUE
            "| |=|".
-                 05 LINE 22 COL 10 VALUE
+               05 LINE 22 COL 10 VALUE
            "|               ||".
-                 05 LINE 22 COL 124 VALUE
+               05 LINE 22 COL 124 VALUE
            "| |=|".
-                 05 LINE 23 COL 10 VALUE
+               05 LINE 23 COL 10 VALUE
            "|               ||".
-                 05 LINE 23 COL 124 VALUE
+               05 LINE 23 COL 124 VALUE
            "| |=|".
-                 05 LINE 24 COL 10 VALUE
+               05 LINE 24 COL 10 VALUE
            "|               ||".
                  05 LINE 24 COL 124 VALUE
            "| |=|".
@@ -581,43 +583,32 @@
 
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
-
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 12 VALUE "Connected to Vault" 
-                   UNDERLINE, BLINK
-                   HIGHLIGHT, FOREGROUND-COLOR IS 3.
-           
-      *>>  
-
-      *>>>>>End of the pip boy here                               
-                 05 LINE 08 COl 30 VALUE
+               05 BLANK SCREEN.                        
+               05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
-                 05 LINE 11 COl 30 VALUE   
+               05 LINE 11 COl 30 VALUE   
            "  ______       _ _      _   _" FOREGROUND-COLOR IS 3.
-                 05 LINE 12 COl 30 VALUE         
+               05 LINE 12 COl 30 VALUE         
            "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
-                 05 LINE 13 COl 30 VALUE  
+               05 LINE 13 COl 30 VALUE  
            "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
-                 05 LINE 14 COl 30 VALUE    
+               05 LINE 14 COl 30 VALUE    
            "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
-                 05 LINE 15 COl 30 VALUE   
+               05 LINE 15 COl 30 VALUE   
            "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 16 COl 30 VALUE  
+               05 LINE 16 COl 30 VALUE  
            "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
-                 05 LINE 19 COl 30 VALUE                                                                        
+               05 LINE 19 COl 30 VALUE                                                                        
            "    ______                     _" FOREGROUND-COLOR IS 2.
-                 05 LINE 20 COl 30 VALUE      
+               05 LINE 20 COl 30 VALUE      
            "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 21 COl 30 VALUE     
+               05 LINE 21 COl 30 VALUE     
            "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
-                 05 LINE 22 COl 30 VALUE     
+               05 LINE 22 COl 30 VALUE     
            "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
-                 05 LINE 23 COl 30 VALUE     
+               05 LINE 23 COl 30 VALUE     
            "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
-                 05 LINE 24 COl 30 VALUE     
+               05 LINE 24 COl 30 VALUE     
            "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
              05 LINE 27 COLUMN 30 VALUE "CREATE AN ACCOUNT" HIGHLIGHT,
              FOREGROUND-COLOR IS 3.
@@ -660,17 +651,8 @@
              05 REGISTER-CHOICE-FIELD LINE 49 COLUMN 38 PIC X
                 USING REGISTER-CHOICE.
 
-           01 LOGIN-SCREEN
-                 BACKGROUND-COLOR IS 0.
-
+           01 LOGIN-SCREEN.
                  05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 30 VALUE "Connected to Vault"
-                    UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
                  05 LINE 10 COl 30 VALUE   
@@ -704,59 +686,20 @@
                  05 PASSWORD-FIELD LINE 33 COLUMN 30 PIC X(20)
                     USING WS-PASSWORD.   
                               
-           01 ERROR-SCREEN
-                 BACKGROUND-COLOR IS 0.
-
-                 05 BLANK SCREEN.
-                 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-                 05 LINE 2 COL 4 VALUE ":".
-                 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS.  
-                 05 LINE 4 COL 30 VALUE "Connected to Vault" 
-                   UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
-                 05 LINE 08 COl 30 VALUE
-           "The TMNCT present:".                       
-                 05 LINE 10 COl 30 VALUE   
-           "______       _ _      _   _" FOREGROUND-COLOR IS 3.
-                 05 LINE 11 COl 28 VALUE         
-           "  | ___ \     | | |    | | (_)" FOREGROUND-COLOR IS 3.
-                 05 LINE 12 COl 28 VALUE  
-           "  | |_/ /_   _| | | ___| |_ _ _ __" FOREGROUND-COLOR IS 5.
-                 05 LINE 13 COl 28 VALUE    
-           "  | ___ \ | | | | |/ _ \ __| | '_ \" FOREGROUND-COLOR IS 5.
-                 05 LINE 14 COl 28 VALUE   
-           "  | |_/ / |_| | | |  __/ |_| | | | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 15 COl 28 VALUE  
-           "  \____/ \__,_|_|_|\___|\__|_|_| |_|" FOREGROUND-COLOR IS 2.
-                 05 LINE 18 COl 28 VALUE                                                                        
-           "    ______                     _" FOREGROUND-COLOR IS 2.
-                 05 LINE 19 COl 28 VALUE      
-           "    | ___ \                   | |" FOREGROUND-COLOR IS 2.
-                 05 LINE 20 COl 28 VALUE     
-           "    | |_/ / ___   __ _ _ __ __| |" FOREGROUND-COLOR IS 5.
-                 05 LINE 21 COl 28 VALUE     
-           "    | ___ \/ _ \ / _` | '__/ _` |" FOREGROUND-COLOR IS 5.
-                 05 LINE 22 COl 28 VALUE     
-           "    | |_/ / (_) | (_| | | | (_| |" FOREGROUND-COLOR IS 3.
-                 05 LINE 23 COl 28 VALUE     
-           "    \____/ \___/ \__,_|_|  \__,_|" FOREGROUND-COLOR IS 3.
-             05 LINE 27 COLUMN 30 VALUE "Incorrect Username or Password"
-             HIGHLIGHT, FOREGROUND-COLOR IS 4.
-             05 LINE 29 COLUMN 30 VALUE "(l) Back to Log-in.".
-             05 LINE 30 COLUMN 30 VALUE "(c) Create an account.".
-             05 LINE 31 COLUMN 30 VALUE "(q) Go Back." .
-             05 LINE 33 COLUMN 30 VALUE "Pick: ".
-             05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
+           01 ERROR-SCREEN.        
+               05 LINE 27 COLUMN 30 VALUE "Incorrect Username or Passwor
+      -        "d"
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 29 COLUMN 30 VALUE "(l) Back to Log-in.".
+               05 LINE 30 COLUMN 30 VALUE "(c) Create an account.".
+               05 LINE 31 COLUMN 30 VALUE "(q) Go Back.         ".
+               05 LINE 33 COLUMN 30 VALUE "Pick: ".
+               05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
                 USING ERROR-CHOICE.
 
            01 MENU-SCREEN
                BACKGROUND-COLOR IS 0.
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-                  UNDERLINE, BLINK
-                  HIGHLIGHT, FOREGROUND-COLOR 3.
-
                05 LINE 21 COL 46 VALUE "Hi, "
                   FOREGROUND-COLOR 2.
                05 LINE 21 COL 50 PIC X(16) USING USER-NAME
@@ -797,160 +740,160 @@
                   FOREGROUND-COLOR IS 2, BLINK.
         
            
-           01 MSG-MENU-SCREEN
-               BACKGROUND-COLOR IS 0.
+           01 MSG-MENU-SCREEN.               
                05 BLANK SCREEN.          
-               05 LINE  4 COL 48 VALUE "Connected to Vault" UNDERLINE,
-               BLINK.
                05 LINE 18 COL 59 VALUE "|--------MESSAGE BOARD--------|"
-               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+                   HIGHLIGHT, FOREGROUND-COLOR IS 2.
                05 LINE 19 COL 59 VALUE "*-------RECENT MESSAGES-------*"
-               FOREGROUND-COLOR IS 3.
+                   FOREGROUND-COLOR IS 2.
                05 LINE 20 COL 48 VALUE "--------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE  21 COL 48 PIC XXX USING LIST-ID(ID-NUM)
-             FOREGROUND-COLOR 2.
-             05 LINE  21 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM)
-             FOREGROUND-COLOR 2.
-             05 LINE 22 COL 48 PIC XXX USING LIST-ID(ID-NUM + 1)
-             FOREGROUND-COLOR 2.
-             05 LINE 22 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 1)
-             FOREGROUND-COLOR 2.
-             05 LINE 23 COL 48 PIC XXX USING LIST-ID(ID-NUM + 2)
-             FOREGROUND-COLOR 2.
-             05 LINE 23 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 2)
-             FOREGROUND-COLOR 2.
-             05 LINE 24 COL 48 PIC XXX USING LIST-ID(ID-NUM + 3)
-             FOREGROUND-COLOR 2.
-             05 LINE 24 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 3)
-             FOREGROUND-COLOR 2.
-             05 LINE 25 COL 48 PIC XXX USING LIST-ID(ID-NUM + 4)
-             FOREGROUND-COLOR 2.
-             05 LINE 25 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 4)
-             FOREGROUND-COLOR 2.
-             05 LINE 26 COL 48 PIC XXX USING LIST-ID(ID-NUM + 5)
-             FOREGROUND-COLOR 2.
-             05 LINE 26 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 5)
-             FOREGROUND-COLOR 2.
-             05 LINE 27 COL 48 PIC XXX USING LIST-ID(ID-NUM + 6)
-             FOREGROUND-COLOR 2.
-             05 LINE 27 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 6)
-             FOREGROUND-COLOR 2.
-             05 LINE 28 COL 48 PIC XXX USING LIST-ID(ID-NUM + 7)
-             FOREGROUND-COLOR 2.
-             05 LINE 28 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 7)
-             FOREGROUND-COLOR 2.
-             05 LINE 29 COL 48 PIC XXX USING LIST-ID(ID-NUM + 8)
-             FOREGROUND-COLOR 2.
-             05 LINE 29 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 8)
-             FOREGROUND-COLOR 2.
-             05 LINE 30 COL 48 PIC XXX USING LIST-ID(ID-NUM + 9)
-             FOREGROUND-COLOR 2.
-             05 LINE 30 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 9)
-             FOREGROUND-COLOR 2.
-             05 LINE 31 COL 48 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-          
-             05 LINE 34 COL 66 VALUE "( ) Read Message by Number "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.  
-             05 LINE 35 COL 66 VALUE "(w) Write your own message "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.               
-             05 LINE 36 COL 66 VALUE "(n) Next Page     "
-               HIGHLIGHT FOREGROUND-COLOR IS 3. 
-             05 LINE 37 COL 66 VALUE "(p) Previous Page "
-               HIGHLIGHT FOREGROUND-COLOR IS 3. 
-             05 LINE 38 COL 66 VALUE "(g) Go back       "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 39 COL 66 VALUE "(q) Quit          "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 41 COL 66 VALUE "Pick:"
-               FOREGROUND-COLOR IS 2.
-             05 MSG-MENU-CHOICE-FIELD LINE 41 COL 71 PIC XXX
-                USING MSG-MENU-CHOICE
-                BLINK, FOREGROUND-COLOR IS 2.
-             05 LINE 35 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS.
-             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE"
-               FOREGROUND-COLOR 2.
+      -        "---------------------" 
+                   FOREGROUND-COLOR IS 2.
+               05 LINE  21 COL 48 PIC XXX USING LIST-ID(ID-NUM)
+                   FOREGROUND-COLOR 2.
+               05 LINE  21 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM)
+                   FOREGROUND-COLOR 2.
+               05 LINE 22 COL 48 PIC XXX USING LIST-ID(ID-NUM + 1)
+                   FOREGROUND-COLOR 2.
+               05 LINE 22 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 1)
+                   FOREGROUND-COLOR 2.
+               05 LINE 23 COL 48 PIC XXX USING LIST-ID(ID-NUM + 2)
+                   FOREGROUND-COLOR 2.
+               05 LINE 23 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 2)
+                   FOREGROUND-COLOR 2.
+               05 LINE 24 COL 48 PIC XXX USING LIST-ID(ID-NUM + 3)
+                   FOREGROUND-COLOR 2.
+               05 LINE 24 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 3)
+                   FOREGROUND-COLOR 2.
+               05 LINE 25 COL 48 PIC XXX USING LIST-ID(ID-NUM + 4)
+                   FOREGROUND-COLOR 2.
+               05 LINE 25 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 4)
+                   FOREGROUND-COLOR 2.
+               05 LINE 26 COL 48 PIC XXX USING LIST-ID(ID-NUM + 5)
+                   FOREGROUND-COLOR 2.
+               05 LINE 26 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 5)
+                   FOREGROUND-COLOR 2.
+               05 LINE 27 COL 48 PIC XXX USING LIST-ID(ID-NUM + 6)
+                   FOREGROUND-COLOR 2.
+               05 LINE 27 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 6)
+                   FOREGROUND-COLOR 2.
+               05 LINE 28 COL 48 PIC XXX USING LIST-ID(ID-NUM + 7)
+                   FOREGROUND-COLOR 2.
+               05 LINE 28 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 7)
+                   FOREGROUND-COLOR 2.
+               05 LINE 29 COL 48 PIC XXX USING LIST-ID(ID-NUM + 8)
+                   FOREGROUND-COLOR 2.
+               05 LINE 29 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 8)
+                   FOREGROUND-COLOR 2.
+               05 LINE 30 COL 48 PIC XXX USING LIST-ID(ID-NUM + 9)
+                   FOREGROUND-COLOR 2.
+               05 LINE 30 COL 56 PIC X(50) USING LIST-TITLE(ID-NUM + 9)
+                   FOREGROUND-COLOR 2.
+               05 LINE 31 COL 48 VALUE "--------------------------------
+      -        "-----------------------" 
+                   FOREGROUND-COLOR IS 2.     
+               05 LINE 34 COL 66 VALUE "( ) Read Message by Number "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.  
+               05 LINE 35 COL 66 VALUE "(w) Write your own message "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.               
+               05 LINE 36 COL 66 VALUE "(n) Next Page     "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3. 
+               05 LINE 37 COL 66 VALUE "(p) Previous Page "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3. 
+               05 LINE 38 COL 66 VALUE "(g) Go back       "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 39 COL 66 VALUE "(q) Quit          "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 41 COL 66 VALUE "Pick:"
+                   FOREGROUND-COLOR IS 2.
+               05 MSG-MENU-CHOICE-FIELD LINE 41 COL 71 PIC XXX
+                   USING MSG-MENU-CHOICE
+                   BLINK, FOREGROUND-COLOR IS 2.
+               05 LINE 35 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE"
+                   FOREGROUND-COLOR 2.
 
-           01 MESSAGE-VIEW-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.    
-             05 LINE 45 COL 10 VALUE "Connected to Vault" UNDERLINE.
-             05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
-
-
-             
-
-      -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
-             IS 2.
-             05 LINE 20 COL 50 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 22 COL 45 VALUE "Title: ".
-             05 LINE 22 COL 53 PIC X(50) USING LIST-TITLE(MSG-SELECT).
-             05 LINE 24 COL 45 VALUE "Message: ".
-             05 LINE 24 COL 54 PIC X(60) USING LS-PART-1.
-             05 LINE 25 COL 54 PIC X(60) USING LS-PART-2.
-             05 LINE 26 COL 54 PIC X(60) USING LS-PART-3.
-             05 LINE 27 COL 54 PIC X(60) USING LS-PART-4.
-             05 LINE 28 COL 54 PIC X(60) USING LS-PART-5.
-             05 LINE 30 COL 45 VALUE "Author: ".
-             05 LINE 30 COL 54 PIC X(16) 
-                USING LIST-USERNAME(MSG-SELECT).
-             05 LINE 32 COL 50 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 33 COL 50 VALUE "*********************CHOSEN MESSAG
-      -      "E********************" FOREGROUND-COLOR IS 2.
-             05 LINE 34 COL 50 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 37 COL 45 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.
-             05 LINE 38 COL 45 VALUE "(q) Quit   "
-                REVERSE-VIDEO, HIGHLIGHT.
-             05 LINE 39 COL 45 VALUE "Pick: ".
-             05 MSG-VIEW-CHOICE-FIELD LINE 39 COL 53 PIC X 
-               USING MSG-VIEW-CHOICE.
-             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE"
-               FOREGROUND-COLOR 2.
+           01 MESSAGE-VIEW-SCREEN.
+               05 BLANK SCREEN.    
+               05 LINE 18 COL 59 VALUE "|--------MESSAGE BOARD--------|"
+                   HIGHLIGHT, FOREGROUND-COLOR IS 2.
+            
+               05 LINE 20 COL 50 VALUE "--------------------------------
+      -        "-----------------------" 
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 45 VALUE "Title: "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 53 PIC X(50) USING LIST-TITLE(MSG-SELECT)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 45 VALUE "Message: "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 54 PIC X(60) USING LS-PART-1
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 25 COL 54 PIC X(60) USING LS-PART-2
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 26 COL 54 PIC X(60) USING LS-PART-3
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 27 COL 54 PIC X(60) USING LS-PART-4
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 28 COL 54 PIC X(60) USING LS-PART-5
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 30 COL 45 VALUE "Author: "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 30 COL 54 PIC X(16) 
+                USING LIST-USERNAME(MSG-SELECT)
+                   FOREGROUND-COLOR IS 2.       
+               05 LINE 34 COL 50 VALUE "--------------------------------
+      -        "-----------------------" 
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 37 COL 45 VALUE "(g) Go back"
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 38 COL 45 VALUE "(q) Quit   "
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 39 COL 45 VALUE "Pick: "
+                   FOREGROUND-COLOR IS 2.
+               05 MSG-VIEW-CHOICE-FIELD LINE 39 COL 53 PIC X 
+               USING MSG-VIEW-CHOICE
+                   FOREGROUND-COLOR IS 2, BLINK. 
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE"
+                   FOREGROUND-COLOR 2.
 
            01 WRITE-MSG-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-
-             05 LINE  4 COL 10 VALUE "Connected to Vault" UNDERLINE.
-      
-            05 LINE 19 COL 50 VALUE "*********************BULLETIN BOARD
-      -      "*********************" BLINK, HIGHLIGHT, FOREGROUND-COLOR 
-             IS 2.
-            05 LINE 20 COL 50 VALUE "-----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 22 COL 45 VALUE "TITLE:   ".
-             05 WS-TITLE-FIELD LINE 22 COL 54 PIC X(50) USING WS-TITLE.
-             05 LINE 24 COL 45 VALUE "MESSAGE: ".
-             05 LINE-1-FIELD LINE 24 COL 54 PIC X(60) USING LS-PART-1.
-             05 LINE-2-FIELD LINE 25 COL 54 PIC X(60) USING LS-PART-2.
-             05 LINE-3-FIELD LINE 26 COL 54 PIC X(60) USING LS-PART-3.
-             05 LINE-4-FIELD LINE 27 COL 54 PIC X(60) USING LS-PART-4.
-             05 LINE-5-FIELD LINE 28 COL 54 PIC X(60) USING LS-PART-5. 
-             05 LINE 29 COL 55 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 30 COL 56 VALUE "*********************LEAVE A MESSA
-      -      "GE*******************" FOREGROUND-COLOR IS 2.
-             05 LINE 31 COL 57 VALUE "----------------------------------
-      -      "---------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE"
-               FOREGROUND-COLOR 2.    
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.
+               05 LINE 18 COL 59 VALUE "|--------MESSAGE BOARD--------|"
+                   HIGHLIGHT, FOREGROUND-COLOR IS 2.
+               05 LINE 20 COL 50 VALUE "--------------------------------
+      -        "------------------------" 
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 45 VALUE "TITLE:   "
+                   FOREGROUND-COLOR IS 2.     
+               05 WS-TITLE-FIELD LINE 22 COL 54 PIC X(50) USING WS-TITLE
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 45 VALUE "MESSAGE: "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE-1-FIELD LINE 24 COL 54 PIC X(60) USING LS-PART-1
+                   FOREGROUND-COLOR IS 2.
+               05 LINE-2-FIELD LINE 25 COL 54 PIC X(60) USING LS-PART-2
+                   FOREGROUND-COLOR IS 2.
+               05 LINE-3-FIELD LINE 26 COL 54 PIC X(60) USING LS-PART-3
+                   FOREGROUND-COLOR IS 2.
+               05 LINE-4-FIELD LINE 27 COL 54 PIC X(60) USING LS-PART-4
+                   FOREGROUND-COLOR IS 2.
+               05 LINE-5-FIELD LINE 28 COL 54 PIC X(60) USING LS-PART-5
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 29 COL 50 VALUE "--------------------------------
+      -        "-----------------------"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE"
+                   FOREGROUND-COLOR IS 2.    
       
            
            01 GAMES-MENU-SCREEN
              BACKGROUND-COLOR IS 0.
              05 BLANK SCREEN.
-
-
-             
-
              05 LINE 26 COL 40 VALUE "Games cost 5 credits: ".      
              05 LINE 28 COL 43 VALUE "(h) Hangman"
               REVERSE-VIDEO, HIGHLIGHT FOREGROUND-COLOR IS 5.
@@ -1744,6 +1687,7 @@
            DISPLAY PIP-BOY-SCREEN.
 
            DISPLAY TIME-SCREEN.
+           DISPLAY CONNECTED-SCREEN.
 
            ACCEPT START-CHOICE-FIELD.
            IF START-CHOICE = "l" THEN 
@@ -1798,6 +1742,7 @@
            DISPLAY PIP-BOY-SCREEN.
 
            DISPLAY TIME-SCREEN.
+           DISPLAY CONNECTED-SCREEN.
 
            ACCEPT NEW-USER-NAME-FIELD.
            MOVE 0 TO RAISE-ERROR.
@@ -1825,6 +1770,8 @@
            DISPLAY PIP-BOY-SCREEN.
 
            DISPLAY TIME-SCREEN.
+           
+           DISPLAY CONNECTED-SCREEN.
 
            ACCEPT NEW-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-PASSWORD ERROR-MSG-2 
@@ -1842,6 +1789,8 @@
            DISPLAY PIP-BOY-SCREEN.
 
            DISPLAY TIME-SCREEN.
+
+           DISPLAY CONNECTED-SCREEN.
 
            ACCEPT ACCOUNT-NUM-FIELD.
            CALL 'validate-bank-details' USING ACCOUNT-NUM ERROR-MSG-3
@@ -1877,6 +1826,7 @@
            DISPLAY PIP-BOY-SCREEN.
 
            DISPLAY TIME-SCREEN.
+           DISPLAY CONNECTED-SCREEN.
 
            ACCEPT USER-NAME-FIELD.
            ACCEPT PASSWORD-FIELD.
@@ -1909,6 +1859,7 @@
        0113-DISPLAY-TIME-USER-INFO.
            DISPLAY TIME-SCREEN.
            DISPLAY USER-INFO-SCREEN.
+           DISPLAY CONNECTED-SCREEN.
 
        0115-ERROR-PAGE.
            PERFORM 0500-TIME-AND-DATE.
@@ -1917,7 +1868,8 @@
 
            DISPLAY PIP-BOY-SCREEN.
 
-           DISPLAY TIME-SCREEN.      
+           DISPLAY TIME-SCREEN.
+           DISPLAY CONNECTED-SCREEN     
 
            ACCEPT ERROR-CHOICE-FIELD.
            IF ERROR-CHOICE = "l" THEN 
@@ -1983,18 +1935,23 @@
            MOVE MSG-MENU-CHOICE TO MSG-SELECT.
          
            IF MSG-SELECT > 0 THEN
-             PERFORM 0140-MESSAGE-VIEW
+               MOVE SPACES TO INSUFFICIENT-FUNDS
+             PERFORM 0140-MESSAGE-VIEW            
            END-IF. 
            IF MSG-MENU-CHOICE = "g" OR 'G' THEN
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0120-DISPLAY-MENU
+               
 
            ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
              COMPUTE ID-NUM = ID-NUM + 10
                IF ID-NUM IS GREATER THAN OR EQUAL TO NUM-FILE-LINES
                  COMPUTE ID-NUM = ID-NUM - 10
-                 PERFORM 0130-MSG-MENU
-               ELSE
-                   PERFORM 0130-MSG-MENU
+                 MOVE SPACES TO INSUFFICIENT-FUNDS
+                 PERFORM 0130-MSG-MENU              
+               ELSE                
+                   MOVE SPACES TO INSUFFICIENT-FUNDS
+                   PERFORM 0130-MSG-MENU                  
                END-IF               
                
            ELSE IF MSG-MENU-CHOICE = 'p' OR 'P'
@@ -2002,9 +1959,11 @@
     
                IF ID-NUM IS LESS THAN 10
                    MOVE 1 TO ID-NUM
-                    PERFORM 0130-MSG-MENU
+                    MOVE SPACES TO INSUFFICIENT-FUNDS
+                    PERFORM 0130-MSG-MENU             
                ELSE
-                    PERFORM 0130-MSG-MENU
+                    MOVE SPACES TO INSUFFICIENT-FUNDS
+                    PERFORM 0130-MSG-MENU                  
                END-IF
            ELSE IF (MSG-MENU-CHOICE = 'w' OR 'W')
             AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
