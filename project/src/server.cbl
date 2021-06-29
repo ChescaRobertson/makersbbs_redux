@@ -339,31 +339,38 @@
 
            SCREEN SECTION.
            01 TIME-SCREEN.
-               05 LINE 8 COL 27 PIC X(2) USING WS-FORMATTED-HOUR.
-               05 LINE 8 COL 29 VALUE ":".         
-               05 LINE 8 COL 30 PIC X(2) USING WS-FORMATTED-MINS.  
-
+               05 LINE 8 COL 117 PIC X(2) USING WS-FORMATTED-HOUR
+               FOREGROUND-COLOR IS 2.
+               05 LINE 8 COL 119 VALUE ":"
+               FOREGROUND-COLOR IS 2.       
+               05 LINE 8 COL 120 PIC X(2) USING WS-FORMATTED-MINS
+               FOREGROUND-COLOR IS 2. 
 
            01 USER-INFO-SCREEN.
-               05 LINE 8 COL 107 PIC X(15) USING USER-INFO-LOGGED-IN.
-               05 LINE 9 COL 107 PIC X(16) USING USER-INFO-NAME 
+               05 LINE 10 COL 107 PIC X(15) USING USER-INFO-LOGGED-IN.
+               05 LINE 11 COL 107 PIC X(16) USING USER-INFO-NAME 
                HIGHLIGHT, FOREGROUND-COLOR IS 2.
-               05 LINE 11 COL 107 PIC X(12) USING 
+               05 LINE 12 COL 107 PIC X(12) USING 
                USER-INFO-CRED-DISPLAY.
                
-
            01 START-SCREEN. 
-            05 BLANK SCREEN.
-            05 LINE 20 COLUMN 30 VALUE "Connected to Vault" 
-              UNDERLINE, BLINK
-            HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in.".
-            05 LINE 22 COLUMN 30 VALUE "(c) Create an account.".
-            05 LINE 23 COLUMN 30 VALUE "(q) Quit.". 
-            05 LINE 24 COLUMN 30 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 24 COLUMN 36 PIC X
-                USING START-CHOICE.
-            05 LINE 25 COLUMN 30 VALUE "(a) Administrator.".
+               05 BLANK SCREEN.
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+                   UNDERLINE, BLINK
+                   HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in."
+                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+               05 LINE 22 COLUMN 30 VALUE "(c) Create an account."
+                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+               05 LINE 23 COLUMN 30 VALUE "(q) Quit."
+                   REVERSE-VIDEO, FOREGROUND-COLOR IS 3.
+               05 LINE 27 COLUMN 30 VALUE "Pick: "
+                  FOREGROUND-COLOR 2.
+               05 START-CHOICE-FIELD LINE 27 COLUMN 36 PIC X
+               USING START-CHOICE
+                   BLINK, FOREGROUND-COLOR 2.
+               05 LINE 25 COLUMN 30 VALUE "(a) Administrator."
+                   REVERSE-VIDEO, FOREGROUND-COLOR 3.
 
            01 PIP-BOY-SCREEN.
                      
