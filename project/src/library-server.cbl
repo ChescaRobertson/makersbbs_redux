@@ -428,13 +428,9 @@
 
        0230-LIBRARY-MENU.
            INITIALIZE LIBRARY-CHOICE.
-
            MOVE "10" TO COST.
-    
            DISPLAY LIBRARY-SCREEN.
-
            DISPLAY PIP-BOY-SCREEN.
-
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT LIBRARY-FIELD.
@@ -447,6 +443,7 @@
                    MOVE 'Here are the next 5 books' TO
                        LIBRARY-DISPLAY-MESSAGE
                END-IF
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
            ELSE IF LIBRARY-CHOICE = 'p' THEN
                IF PAGE-NUM = '01'
@@ -456,11 +453,13 @@
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
                  MOVE 'Here are the previous 5 books' TO
                    LIBRARY-DISPLAY-MESSAGE
+                 MOVE SPACES TO INSUFFICIENT-FUNDS
                  PERFORM 0230-LIBRARY-MENU
                ELSE
                  COMPUTE OFFSET = OFFSET + 5
                  COMPUTE PAGE-NUM = PAGE-NUM - 1
-                   PERFORM 0230-LIBRARY-MENU
+                 MOVE SPACES TO INSUFFICIENT-FUNDS
+                 PERFORM 0230-LIBRARY-MENU
                END-IF
            ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
@@ -468,12 +467,14 @@
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                SET LIBRARY-NUM TO CHOICE-TO-NUM(LIBRARY-CHOICE)
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0240-READ-BOOK
            ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE") THEN
                MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
            ELSE
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
            END-IF. 
 
@@ -494,8 +495,6 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            
            ACCEPT READ-CHOICE.
-
-
            IF READ-CHOICE = 'q' THEN
                PERFORM 0230-LIBRARY-MENU
            ELSE IF (READ-CHOICE = 'a' )
@@ -505,6 +504,7 @@
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                MOVE "To enable the audiobook feature, please read aloud"
                TO AUDIOBOOK-MSG
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0240-READ-BOOK
            ELSE IF (READ-CHOICE = 'a' )
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN

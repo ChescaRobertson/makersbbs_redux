@@ -826,18 +826,21 @@
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0190-O-AND-X-GAME  
            ELSE IF (GAMES-MENU-CHOICE = "h" or "H") 
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF (GAMES-MENU-CHOICE = "n" or "N")  
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0210-RANDOM-NUMBER-GAME           
            END-IF.
 
