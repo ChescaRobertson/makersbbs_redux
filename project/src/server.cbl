@@ -319,7 +319,7 @@
                    10 WS-ABOUT-BODY PIC X(500).
 
            01 ABOUT-OFFSET PIC 99.
-           01 ABOUT-PAGE-NUM PIC 9.
+           01 ABOUT-PAGE-NUM PIC 99.
            01 ABOUT-NUM PIC 9.
 
 
