@@ -225,6 +225,10 @@
            01 GUESS PIC 99.
            01 ANSWER PIC 99.
            01 TOTAL-GUESSES PIC 99.
+           01 BET-AMOUNT PIC 999.
+           01 WINNINGS PIC 999.
+           01 RANDOM-NUM-CHOICE PIC X.
+           01 RANDOM-NUM-GUESS-CHOICE PIC X.
 
            *>--------Library Section---------
            01 LIBRARY-CHOICE PIC X(2).
@@ -304,7 +308,7 @@
            01 PAY-CONFIRMATION-CHOICE PIC X.
            01 PASSWORD-ENTRY PIC X(20).
            01 INC-PASSWORD PIC X(20).
-           01 CREDIT-LIMIT-MESSAGE PIC X(50).
+           01 CREDIT-LIMIT-MESSAGE PIC X(65).
            01 WS-CURRENT-DATE PIC X(8).
            *>------About Variables-----
            01 ABOUT-PAGE-CHOICE PIC X.
@@ -1014,8 +1018,8 @@
              05 LINE 27 COLUMN 90 PIC 99 USING WS-GUESSES-LEFT.
              05 LINE 29 COLUMN 30 VALUE "( ) Enter a letter to guess".
              05 LINE 30 COLUMN 30 VALUE "(!) Quit game".
-             05 LINE 31 COLUMN 30 VALUE "Pick: ".
-             05 WS-GUESS-CHOICE-FIELD LINE 31 COLUMN 36 PIC X
+             05 LINE 32 COLUMN 30 VALUE "Pick: ".
+             05 WS-GUESS-CHOICE-FIELD LINE 32 COLUMN 36 PIC X
                USING WS-GUESS-CHOICE.
 
            01 WORD-GUESSING-WINNING-SCREEN
@@ -1083,7 +1087,40 @@
              05 LINE 34 COLUMN 30 VALUE "Pick: ".
              05 WS-HIGH-SCORE-FIELD LINE 34 COLUMN 36 PIC X
                USING WS-HIGH-SCORE-CHOICE.
-        
+           
+           01 RANDOM-NUM-GAME-SCREEN.
+            05 BLANK SCREEN.
+             05 LINE 12 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 13 COL 30 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+             05 LINE 14 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+             
+            05 LINE 18 COLUMN 34 VALUE "Place a bet and guess a number b
+      -       "etween 1 and 10"
+            FOREGROUND-COLOR IS 6.
+            05 LINE 20 COLUMN 34 VALUE "Bet: ".
+            05 BET-FIELD LINE 20 COLUMN 39 PIC 999 USING BET-AMOUNT.
+            05 LINE 21 COLUMN 34 PIC X(20) USING INSUFFICIENT-FUNDS. 
+         
+            05 LINE 24 COL 34 VALUE "(s) Submit "
+                REVERSE-VIDEO, HIGHLIGHT. 
+             05 LINE 25 COL 34 VALUE "(g) Go back"
+                    REVERSE-VIDEO , HIGHLIGHT.            
+             05 LINE 26 COL 34 VALUE "(q) Quit   "
+                    REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 28 COL 34 VALUE "Pick: ".
+             05 RANDOM-NUM-CHOICE-FIELD LINE 28 COL 40 PIC X 
+                   USING RANDOM-NUM-CHOICE.
+             05 LINE 29 COLUMN 34 PIC X(65) USING CREDIT-LIMIT-MESSAGE.
+             05 LINE 30 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 3.
+             05 LINE 31 COL 30 VALUE "*********************************
+      -      "***********************" FOREGROUND-COLOR IS 5.
+             05 LINE 32 COL 30 VALUE "---------------------------------
+      -      "-----------------------" FOREGROUND-COLOR IS 2.
+
            01 GUESS-SCREEN.
            05 BLANK SCREEN.
              05 LINE 12 COL 30 VALUE "---------------------------------
@@ -1092,15 +1129,20 @@
       -      "***********************" FOREGROUND-COLOR IS 5.
              05 LINE 14 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 2.
-             
-             
-             05 LINE 28 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
-             05 GUESS-FIELD LINE 29 COLUMN 34 PIC XX USING GUESS-INPUT.         
-             05 LINE 30 COLUMN 34 VALUE IS "Stats: "
-             FOREGROUND-COLOR IS 6.
-             05 LINE 32 COLUMN 34 VALUE IS "Total Guesses = "
-             FOREGROUND-COLOR IS 5.
-                 05 GUESSES PIC 99 FROM TOTAL-GUESSES. 
+             05 LINE 16 COLUMN 34 VALUE IS "Potential winnings: "
+               FOREGROUND-COLOR IS 5.
+             05 LINE 16 COL 54 PIC 999 USING WINNINGS.
+             05 GUESS-FIELD LINE 19 COLUMN 34 PIC XX USING GUESS-INPUT.
+             05 LINE 20 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
+             05 LINE 24 COL 34 VALUE "(y) Play again "
+                REVERSE-VIDEO, HIGHLIGHT. 
+             05 LINE 25 COL 34 VALUE "(g) Go back"
+                    REVERSE-VIDEO , HIGHLIGHT.            
+             05 LINE 26 COL 34 VALUE "(q) Quit   "
+                    REVERSE-VIDEO, HIGHLIGHT.  
+             05 LINE 28 COL 34 VALUE "Pick: ".
+             05 RANDOM-NUM-GUESS-CHOICE-FIELD LINE 28 COL 40 PIC X 
+                   USING RANDOM-NUM-GUESS-CHOICE.
              05 LINE 34 COL 30 VALUE "---------------------------------
       -      "-----------------------" FOREGROUND-COLOR IS 3.
              05 LINE 35 COL 30 VALUE "*********************************
@@ -1255,7 +1297,7 @@
            05 LINE 14 COL 25 VALUE "Pick: ".
            05 BUY-CREDITS-CHOICE-FIELD LINE 14 COL 31 PIC X 
                USING BUY-CREDITS-CHOICE.
-           05 LINE 16 COL 25 PIC X(50) USING CREDIT-LIMIT-MESSAGE
+           05 LINE 16 COL 25 PIC X(65) USING CREDIT-LIMIT-MESSAGE
            HIGHLIGHT, FOREGROUND-COLOR IS 4.
 
            01 CONFIRM-SCREEN.
@@ -1792,8 +1834,7 @@
            DISPLAY IN-GAME-SCREEN.
 
            DISPLAY PIP-BOY-SCREEN.
-           *> DISPLAY USER-INFO-SCREEN.
-
+      
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT WS-GUESS-CHOICE-FIELD.
@@ -2086,62 +2127,80 @@
                END-IF.
 
        0210-RANDOM-NUMBER-GAME.
-
-           PERFORM INITIALIZE-RANDOM-NUM-GAME.
-
-           INITIALIZE-RANDOM-NUM-GAME.
-           DISPLAY GUESS-SCREEN.
+           INITIALIZE RANDOM-NUM-CHOICE.
+           INITIALIZE BET-AMOUNT.
+           DISPLAY RANDOM-NUM-GAME-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
-           COMPUTE TOTAL-GUESSES = 0.
-           ACCEPT SEED FROM TIME
-           COMPUTE ANSWER =
-               FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1   
-           MOVE "Guess a number between 1 and 10!" TO WS-RANDOM-NUM-MSG.
-           PERFORM GAME-LOOP.
-
-           GAME-LOOP.
+           ACCEPT BET-FIELD.
+           COMPUTE WINNINGS = BET-AMOUNT * 2.
+           IF WINNINGS = "000" 
+           OR (CHECK-LIMIT(WINNINGS, USER-INFO-CREDITS) = "FAIL")
+             MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
+             TO CREDIT-LIMIT-MESSAGE
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           END-IF.
+       
+           ACCEPT RANDOM-NUM-CHOICE-FIELD.
+           IF (RANDOM-NUM-CHOICE = 's' OR 'S')
+           AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "TRUE")
+               CALL 'deduct-credits' USING USER-INFO-NAME, COST,
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               ACCEPT SEED FROM TIME
+               COMPUTE ANSWER =
+                   FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1  
+               PERFORM 0211-GAME-LOOP
+           ELSE IF (RANDOM-NUM-CHOICE = 's' OR 'S')
+           AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "FALSE")
+               MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           ELSE IF RANDOM-NUM-CHOICE = 'g' OR 'G'
+               PERFORM 0160-GAMES-MENU
+           ELSE IF RANDOM-NUM-CHOICE = 'q' OR 'Q'
+               STOP RUN
+           ELSE
+               PERFORM 0210-RANDOM-NUMBER-GAME
+           END-IF.
+              
+       0211-GAME-LOOP.
            INITIALIZE GUESS-INPUT.
+           INITIALIZE WS-RANDOM-NUM-MSG.
+           INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
-
-           
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT GUESS-FIELD.
-           MOVE GUESS-INPUT TO GUESS.
-           ADD 1 TO TOTAL-GUESSES.
-           IF GUESS > ANSWER
-               MOVE "Your guess is too high! Guess again." 
+           MOVE GUESS-INPUT TO GUESS
+           IF GUESS NOT = ANSWER
+               MOVE "Incorrect, you lose."
                TO WS-RANDOM-NUM-MSG
-               GO TO GAME-LOOP
-           ELSE IF GUESS < ANSWER
-               MOVE "Your guess is too low! Guess again."
-               TO WS-RANDOM-NUM-MSG
-               GO TO GAME-LOOP
-           ELSE   
-               MOVE "You Win! Go Again?(Y/N)"
-               TO WS-RANDOM-NUM-MSG
-               GO TO WIN-LOOP
+               PERFORM 0212-RESULT-PAGE
+           ELSE  
+               MOVE "You Win!" TO WS-RANDOM-NUM-MSG
+               CALL 'add-credits' USING USER-INFO-NAME, WINNINGS,
+               UPDATED-BALANCE
+               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               PERFORM 0212-RESULT-PAGE
            END-IF.
-           
-           WIN-LOOP.
-           INITIALIZE GUESS-INPUT.
-
+       
+       0212-RESULT-PAGE.
+           INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
-           ACCEPT GUESS-FIELD.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
-               IF GUESS-INPUT = "y" OR "Y"
-                   GO TO 0210-RANDOM-NUMBER-GAME
-               ELSE IF GUESS-INPUT = "n" OR "N"
-                   PERFORM 0160-GAMES-MENU
-               ELSE 
-                   MOVE "INVALID ENTRY! Enter Y or N"
-                   TO WS-RANDOM-NUM-MSG
-                   GO TO WIN-LOOP
-               END-IF.            
-
+           ACCEPT RANDOM-NUM-GUESS-CHOICE-FIELD
+           IF RANDOM-NUM-GUESS-CHOICE = 'y' OR 'Y'
+             PERFORM 0210-RANDOM-NUMBER-GAME
+           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'g' OR 'G'
+               PERFORM 0160-GAMES-MENU
+           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'q' OR 'Q'
+               STOP RUN
+           END-IF.
+ 
        0220-GENERATE-LIBRARY-TABLE.
            call 'generate-library-table' USING WS-BOOKS 
            LIBRARY-DISPLAY-MESSAGE OFFSET PAGE-NUM.
@@ -2265,7 +2324,6 @@
        0450-CONFIRM.
            INITIALIZE CONFIRM-CHOICE
            INITIALIZE PASSWORD-ENTRY
-           MOVE CONV-CRED-TO-MON(CREDIT-AMOUNT) TO MON-AMOUNT
            DISPLAY CONFIRM-SCREEN
 
            DISPLAY PIP-BOY-SCREEN.
