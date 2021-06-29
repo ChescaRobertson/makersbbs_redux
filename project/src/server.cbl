@@ -326,8 +326,7 @@
            01 ABOUT-TITLE-READ PIC X(31).
            01 ABOUT-BODY-READ PIC X(500).
 
-          
-           
+           01 ABOUT-ERROR-MESSAGE PIC X(15).
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -1276,6 +1275,8 @@
            05 LINE 41 COL 10 VALUE "(n) Next Page".
            05 LINE 42 COL 10 VALUE "(p) Previous Page".
            05 LINE 43 COL 10 VALUE "(q) Go back".
+           05 Line 38 COL 10 PIC X(15) USING ABOUT-ERROR-MESSAGE
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
            05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
            ABOUT-PAGE-CHOICE.
       
@@ -1284,9 +1285,11 @@
            05 LINE 30 COL 30 PIC X(31) USING ABOUT-TITLE-READ.
            05 LINE 32 COL 30 PIC X(500) USING ABOUT-BODY-READ.
            05 LINE 50 COL 30 VALUE "(q) Go Back".
+           05 Line 46 COL 30 PIC X(15) USING ABOUT-ERROR-MESSAGE
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
            05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
            ABOUT-PAGE-READ-CHOICE.
-
+           
 
        PROCEDURE DIVISION.
            
@@ -2233,9 +2236,11 @@
                END-IF
            ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
              SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
+             MOVE SPACES TO ABOUT-ERROR-MESSAGE
              PERFORM 0490-ABOUT-PAGE-READ
-           ELSE 
-             PERFORM 0480-ABOUT-PAGE  
+           ELSE
+             MOVE "Invalid Choice!" TO ABOUT-ERROR-MESSAGE
+             PERFORM 0480-ABOUT-PAGE 
            END-IF.
            
 
@@ -2252,9 +2257,11 @@
            ACCEPT ABOUT-PAGE-READ-FIELD.
 
            IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
+               MOVE SPACES TO ABOUT-ERROR-MESSAGE
                PERFORM 0480-ABOUT-PAGE
            ELSE 
-               PERFORM 0490-ABOUT-PAGE-READ
+               MOVE "Invalid Choice!" TO ABOUT-ERROR-MESSAGE
+               PERFORM 0490-ABOUT-PAGE-READ              
            END-IF.
            
         0500-TIME-AND-DATE.
