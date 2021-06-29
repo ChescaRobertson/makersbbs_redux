@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-           PROGRAM-ID. process-single-payment-alt.
+           PROGRAM-ID. deduct-credits.
        ENVIRONMENT DIVISION.
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -17,30 +17,33 @@
               05 FILLER PIC XX VALUE SPACES. 
               05 USER-CREDIT PIC 999. 
               05 FILLER PIC X VALUE X'0A'.
+
            WORKING-STORAGE SECTION.
            01 WS-USER-FILE-IS-ENDED PIC 9 VALUE 0.
+
            LINKAGE SECTION.
-           01 LS-USER-BANK-ACCOUNT PIC X(8).
-           01 LS-CREDIT-AMOUNT PIC 999.
-     
-       PROCEDURE DIVISION USING LS-USER-BANK-ACCOUNT, LS-CREDIT-AMOUNT.
+           01 LS-COST PIC 999.
+           01 LS-USERNAME PIC X(16).
+           01 LS-UPDATED-BALANCE PIC 999.
+
+           PROCEDURE DIVISION USING LS-USERNAME, LS-COST, 
+           LS-UPDATED-BALANCE.
+           
            OPEN I-O F-USERS-FILE.
            PERFORM UNTIL WS-USER-FILE-IS-ENDED = 1
                READ F-USERS-FILE
                   NOT AT END
-                    IF LS-USER-BANK-ACCOUNT = USER-ACNT-NUM
-                       ADD LS-CREDIT-AMOUNT TO USER-CREDIT
+                    IF LS-USERNAME = USERNAME
+                       SUBTRACT LS-COST FROM USER-CREDIT
+                       MOVE USER-CREDIT TO LS-UPDATED-BALANCE
                        REWRITE USERS FROM USERS
                      END-IF
                   AT END 
                    MOVE 1 TO WS-USER-FILE-IS-ENDED
                END-READ
            END-PERFORM.
+
+           MOVE 0 TO WS-USER-FILE-IS-ENDED
            
            CLOSE F-USERS-FILE.
    
-           
-
-      
-
-          
