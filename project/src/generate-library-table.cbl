@@ -12,7 +12,7 @@
            FD F-LIBRARY-FILE.
            01 LIBRARY.
                05 BOOK-AUTHOR PIC X(12).
-               05 BOOK-TITLE PIC X(30).
+               05 BOOK-TITLE PIC X(31).
                05 BOOK-BODY PIC X(500).
 
       
@@ -28,7 +28,7 @@
                ASCENDING KEY IS LS-BOOK-AUTHOR-NAME
                INDEXED BY LS-BOOK-IDX.
                    10 LS-BOOK-AUTHOR-NAME PIC X(12).
-                   10 LS-BOOK-TITLE PIC X(30).
+                   10 LS-BOOK-TITLE PIC X(31).
                    10 LS-BODY PIC X(500).
            01 LS-LIBRARY-DISPLAY-MESSAGE PIC X(40).
            01 LS-OFFSET UNSIGNED-INT. 

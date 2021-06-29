@@ -5,10 +5,10 @@
            CONFIGURATION SECTION.
            REPOSITORY.
 
-           FUNCTION DISPLAY-LIBRARY-TITLE
-           FUNCTION LIBRARY-CHOICE-TO-NUM
-           FUNCTION DISPLAY-BOOK-BODY
-           FUNCTION DISPLAY-BOOK-AUTHOR
+           FUNCTION DISPLAY-TITLE
+           FUNCTION CHOICE-TO-NUM
+           FUNCTION DISPLAY-BODY
+           FUNCTION DISPLAY-AUTHOR
 
            FUNCTION CHECK-BALANCE.
 
@@ -23,7 +23,7 @@
            FD F-LIBRARY-FILE.
            01 LIBRARY.
                05 FD-BOOK-AUTHOR PIC X(12).
-               05 BOOK-TITLE PIC X(30).
+               05 BOOK-TITLE PIC X(31).
                05 BOOK-BODY PIC X(500).
                 
            WORKING-STORAGE SECTION.
@@ -46,7 +46,7 @@
            01 PAGE-NUM PIC 99.
            01 LIBRARY-DISPLAY-MESSAGE PIC X(40).
            01 LIBRARY-NUM UNSIGNED-INT.
-           01 TITLE PIC X(30).
+           01 TITLE PIC X(31).
            01 BODY PIC X(500).
            01 BOOK-AUTHOR PIC X(12).
            01 WS-BOOKS.
@@ -54,7 +54,7 @@
                ASCENDING KEY IS WS-BOOK-AUTHOR-NAME
                INDEXED BY BOOK-IDX.
                    10 WS-BOOK-AUTHOR-NAME PIC X(12).
-                   10 WS-BOOK-TITLE PIC X(30).
+                   10 WS-BOOK-TITLE PIC X(31).
                    10 WS-BODY PIC X(500).
            
            01 OFFSET UNSIGNED-INT.
@@ -314,14 +314,14 @@
                05 LINE 19 COL 43 VALUE '1.'.
                05 LINE 19 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET).
-               05 LINE 19 COL 69 PIC X(30) USING WS-BOOK-TITLE(OFFSET).
+               05 LINE 19 COL 69 PIC X(31) USING WS-BOOK-TITLE(OFFSET).
                05 LINE 20 COL 49 VALUE
            "---------------------------------------------------------".
                05 LINE 21 COL 43 VALUE '2.'.
                05 LINE 21 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
                .
-               05 LINE 21 COL 69 PIC X(30) 
+               05 LINE 21 COL 69 PIC X(31) 
                USING WS-BOOK-TITLE(OFFSET - 1)
                .
                05 LINE 22 COL 49 VALUE
@@ -330,7 +330,7 @@
                05 LINE 23 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
                .
-               05 LINE 23 COL 69 PIC X(30) 
+               05 LINE 23 COL 69 PIC X(31) 
                USING WS-BOOK-TITLE(OFFSET - 2)
                .
                05 LINE 24 COL 49 VALUE
@@ -339,7 +339,7 @@
                05 LINE 25 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
                .
-               05 LINE 25 COL 69 PIC X(30) 
+               05 LINE 25 COL 69 PIC X(31) 
                USING WS-BOOK-TITLE(OFFSET - 3)
                .
                05 LINE 26 COL 49 VALUE
@@ -348,7 +348,7 @@
                05 LINE 27 COL 49 PIC X(12) 
                USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
                .
-               05 LINE 27 COL 69 PIC X(30) 
+               05 LINE 27 COL 69 PIC X(31) 
                USING WS-BOOK-TITLE(OFFSET - 4)
                .
                05 LINE 28 COL 49 VALUE
@@ -467,7 +467,7 @@
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
-               SET LIBRARY-NUM TO LIBRARY-CHOICE-TO-NUM(LIBRARY-CHOICE)
+               SET LIBRARY-NUM TO CHOICE-TO-NUM(LIBRARY-CHOICE)
                PERFORM 0240-READ-BOOK
            ELSE IF (LIBRARY-CHOICE = '1' OR '2' OR '3' OR '4' OR '5')
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE") THEN
@@ -481,11 +481,11 @@
            INITIALIZE READ-CHOICE.
            MOVE "5" TO COST.
            IF LIBRARY-NUM = 1 OR 2 OR 3 OR 4 OR 5
-               MOVE DISPLAY-LIBRARY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
+               MOVE DISPLAY-TITLE(OFFSET LIBRARY-NUM WS-BOOKS)
                TO TITLE
-               MOVE DISPLAY-BOOK-BODY(OFFSET LIBRARY-NUM WS-BOOKS)
+               MOVE DISPLAY-BODY(OFFSET LIBRARY-NUM WS-BOOKS)
                TO BODY
-               MOVE DISPLAY-BOOK-AUTHOR(OFFSET LIBRARY-NUM WS-BOOKS)
+               MOVE DISPLAY-AUTHOR(OFFSET LIBRARY-NUM WS-BOOKS)
                TO BOOK-AUTHOR
            END-IF.
            MOVE BODY TO WS-READ-BODY-SEGMENTS.

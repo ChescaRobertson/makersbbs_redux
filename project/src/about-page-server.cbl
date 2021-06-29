@@ -5,9 +5,9 @@
            CONFIGURATION SECTION.
            REPOSITORY.
 
-           FUNCTION DISPLAY-ABOUT-TITLE
-           FUNCTION DISPLAY-ABOUT-BODY
-           FUNCTION ABOUT-CHOICE-TO-NUM.
+           FUNCTION DISPLAY-TITLE
+           FUNCTION DISPLAY-BODY
+           FUNCTION CHOICE-TO-NUM.
 
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
@@ -19,6 +19,7 @@
          
            FD F-ABOUT-FILE.
            01 ABOUT-INFO.
+               05 ABOUT-AUTHOR PIC X(12).
                05 ABOUT-TITLE PIC X(31).
                05 ABOUT-BODY PIC X(500).
                 
@@ -40,17 +41,18 @@
                   10 WS-FORMATTED-MINS  PIC  X(2).                   
            
             *>-------- About Page Variables ---------
-           01 ABOUT-PAGE-CHOICE PIC X.
+           01 ABOUT-PAGE-CHOICE PIC X(2).
            01 WS-ABOUT. 
                05 WS-ABOUTS OCCURS 100 TIMES 
-               ASCENDING KEY IS WS-ABOUT-TITLE
+               ASCENDING KEY IS WS-ABOUT-AUTHOR
                INDEXED BY ABOUT-IDX.
+                   10 WS-ABOUT-AUTHOR PIC X(12).
                    10 WS-ABOUT-TITLE PIC X(31).
                    10 WS-ABOUT-BODY PIC X(500).
 
-           01 ABOUT-OFFSET PIC 99.
+           01 ABOUT-OFFSET UNSIGNED-INT.
            01 ABOUT-PAGE-NUM PIC 99.
-           01 ABOUT-NUM PIC 9.
+           01 ABOUT-NUM UNSIGNED-INT.
 
            01 ABOUT-PAGE-READ-CHOICE PIC X.
            01 ABOUT-TITLE-READ PIC X(31).
@@ -392,7 +394,7 @@
                    PERFORM 0480-ABOUT-PAGE
                END-IF
            ELSE IF ABOUT-PAGE-CHOICE = "1" OR "2" OR "3" OR "4" OR "5"
-             SET ABOUT-NUM TO ABOUT-CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
+             SET ABOUT-NUM TO CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
              MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
              PERFORM 0490-ABOUT-PAGE-READ
            ELSE
@@ -404,9 +406,9 @@
        0490-ABOUT-PAGE-READ.
            INITIALIZE ABOUT-PAGE-READ-CHOICE.
            IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
-               MOVE DISPLAY-ABOUT-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT) 
+               MOVE DISPLAY-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT) 
                TO ABOUT-TITLE-READ
-               MOVE DISPLAY-ABOUT-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
+               MOVE DISPLAY-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
                TO ABOUT-BODY-READ
            END-IF.
            DISPLAY ABOUT-PAGE-READ-SCREEN.
