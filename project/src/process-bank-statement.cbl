@@ -25,9 +25,8 @@
                05 FILLER PIC XX VALUE SPACES.
                05 CREDITS-TO-ADD PIC 999.
                05 FILLER PIC XX VALUE SPACES.
-               05 MON-AMOUNT PIC 999.99.
+               05 DATE-OF-TRANS PIC X(8).
                05 FILLER PIC XX VALUE SPACES.
-               05 DATE-OF-TRANS PIC X(10).
                05 PAYMENT-STATUS PIC X.
                05 FILLER PIC X VALUE X'0A'.
 
