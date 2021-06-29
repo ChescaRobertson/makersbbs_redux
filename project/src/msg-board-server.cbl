@@ -12,7 +12,6 @@
            01 COST PIC 999.
            01 UPDATED-BALANCE PIC 999.
            01 INSUFFICIENT-FUNDS PIC X(20).
-           01 USER-INFO-CR-MESSAGE PIC X(9) VALUE "Credits: ".
            01 USER-INFO-LOGGED-IN PIC X(15) VALUE "Logged in as:".
 
            01 WS-DATETIME.
