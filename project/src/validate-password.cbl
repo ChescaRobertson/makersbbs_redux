@@ -19,6 +19,8 @@
        LS-OK-MSG. 
        
            MOVE 0 TO LS-RAISE-ERROR.
+           MOVE 0 TO WS-NUMBERS. 
+           
            INSPECT LS-NEW-PWORD TALLYING WS-NUMBERS FOR ALL "1" "2"
            "3" "4" "5" "6" "7" "8" "9".   
 
