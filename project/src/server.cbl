@@ -332,6 +332,22 @@
            01 UPDATED-BALANCE PIC 999.
            01 INSUFFICIENT-FUNDS PIC X(20).
 
+           *>----- Change Password Variables -----  
+
+           01 PWORD-ERR-1 PIC X(50).
+           01 PWORD-ERR-2 PIC X(50).
+           01 PWORD-ERR-3 PIC X(50).
+           01 PWORD-OK-1 PIC X(50).
+           01 PWORD-OK-2 PIC X(50).
+           01 PWORD-OK-3 PIC X(50).
+           01 PWORD-CONFIRM-MSG PIC X(50).
+           01 OLD-PASSWORD PIC X(20).
+           01 UPDATED-PASSWORD PIC X(20).
+           01 CONFIRM-NEW-PASSWORD PIC X(20).
+           01 CHANGE-PWORD-CHOICE PIC X. 
+
+
+
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
            01 LS-NUM UNSIGNED-INT.
@@ -1374,6 +1390,41 @@
            05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
            ABOUT-PAGE-READ-CHOICE.
            
+           01 CHANGE-PASSWORD-SCREEN.
+             05 BLANK SCREEN.   
+             05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
+             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 5.
+             05 LINE 21 COLUMN 30 VALUE "Enter current password:".
+             05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 OLD-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
+                USING OLD-PASSWORD.
+             05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 25 COLUMN 30 VALUE "Enter new password:".
+             05 LINE 25 COLUMN 52 VALUE " (Your password must be a minim
+      -      "um of 6 characters and 1 number.) ".
+             05 LINE 26 COLUMN 30 PIC X(50) USING PWORD-ERR-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 UPDATED-PASSWORD-FIELD LINE 27 COLUMN 30 PIC X(20)
+                USING UPDATED-PASSWORD.
+             05 LINE 28 COLUMN 30 PIC X(50) USING PWORD-OK-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:".
+             05 LINE 30 COLUMN 30 PIC X(50) USING PWORD-ERR-3 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 CONFIRM-NEW-PASSWORD-FIELD LINE 31 COLUMN 30 PIC X(20)
+                USING CONFIRM-NEW-PASSWORD.
+             05 LINE 32 COLUMN 30 PIC X(50) USING PWORD-OK-3 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 34 COLUMN 30 PIC X(50) USING PWORD-CONFIRM-MSG
+             HIGHLIGHT FOREGROUND-COLOR is 2 . 
+             05 LINE 36 COLUMN 30 VALUE "Pick: ".
+             05 CHANGE-PWORD-FIELD LINE 36 COLUMN 38 PIC X
+                USING CHANGE-PWORD-CHOICE.
 
        PROCEDURE DIVISION.
 
@@ -1395,8 +1446,6 @@
                STOP RUN
            ELSE IF START-CHOICE = "a" THEN 
                CALL 'admin-server'
-      *         MOVE SPACES TO ADMIN-ERR-MSG
-      *        PERFORM 0116-ADMIN-LOGIN-PAGE
                PERFORM 0100-DISPLAY-START
            ELSE 
                PERFORM 0100-DISPLAY-START
@@ -1457,6 +1506,7 @@
                PERFORM 05-VALIDATE-USERNAME
            ELSE 
                MOVE 'USER NAME OK' TO OK-MSG-1
+               MOVE SPACES TO ERROR-MSG-1
                PERFORM 05-VALIDATE-PASSWORD
            END-IF. 
 
@@ -1592,15 +1642,14 @@
              PERFORM 0130-MSG-MENU
            ELSE IF MENU-CHOICE = "f" or "F" THEN
              PERFORM 0160-GAMES-MENU
-
            ELSE IF MENU-CHOICE = "b" or "B" THEN
              PERFORM 0220-GENERATE-LIBRARY-TABLE
-
            ELSE IF MENU-CHOICE = 'c' or 'C' THEN 
                PERFORM 0400-BUY-CREDITS
            ELSE IF MENU-CHOICE = 'a' or 'A' THEN 
                PERFORM 0470-ABOUT-PAGE-TABLE
-
+           ELSE IF MENU-CHOICE = 'u' or 'U' THEN 
+               PERFORM 0600-CHANGE-PASSWORD
            END-IF.
       
            PERFORM 0120-DISPLAY-MENU.
@@ -2396,8 +2445,89 @@
                PERFORM 0490-ABOUT-PAGE-READ              
            END-IF.
            
-        0500-TIME-AND-DATE.
-              MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
+       0500-TIME-AND-DATE.
+           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
        
+       0600-CHANGE-PASSWORD SECTION.
+           MOVE SPACES TO PWORD-ERR-1.
+           MOVE SPACES TO PWORD-ERR-2.
+           MOVE SPACES TO PWORD-ERR-3.
+           MOVE SPACES TO PWORD-OK-1.
+           MOVE SPACES TO PWORD-OK-2.
+           MOVE SPACES TO PWORD-OK-3.
+           MOVE SPACES TO PWORD-CONFIRM-MSG.
+
+           VALIDATE-CURRENT-PASSWORD. 
+           INITIALIZE OLD-PASSWORD.
+           INITIALIZE UPDATED-PASSWORD.
+           INITIALIZE CONFIRM-NEW-PASSWORD.
+           INITIALIZE CHANGE-PWORD-CHOICE.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT OLD-PASSWORD-FIELD.
+           IF OLD-PASSWORD = WS-PASSWORD THEN 
+               MOVE "PASSWORD ACCEPTED" TO PWORD-OK-1
+               MOVE SPACES TO PWORD-ERR-1
+               PERFORM VALIDATE-NEW-PASSWORD
+           ELSE 
+               MOVE "INCORRECT PASSWORD" TO PWORD-ERR-1
+               PERFORM VALIDATE-CURRENT-PASSWORD
+           END-IF. 
+
+           VALIDATE-NEW-PASSWORD. 
+           INITIALIZE UPDATED-PASSWORD.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT UPDATED-PASSWORD-FIELD. 
+           CALL 'validate-password' USING UPDATED-PASSWORD PWORD-ERR-2 
+           RAISE-ERROR PWORD-OK-2.
+           IF RAISE-ERROR > 0 
+               PERFORM VALIDATE-NEW-PASSWORD
+           ELSE 
+               PERFORM SECOND-VALIDATION-NEW-PASSWORD
+           END-IF. 
+
+           SECOND-VALIDATION-NEW-PASSWORD.
+           INITIALIZE CONFIRM-NEW-PASSWORD.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CONFIRM-NEW-PASSWORD-FIELD.
+           IF UPDATED-PASSWORD = CONFIRM-NEW-PASSWORD
+               MOVE "PASSWORD MATCH" TO PWORD-OK-3
+           ELSE 
+               MOVE "PASSWORDS DO NOT MATCH" TO PWORD-ERR-3
+               PERFORM SECOND-VALIDATION-NEW-PASSWORD
+           END-IF. 
+
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CHANGE-PWORD-FIELD. 
+           IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF CHANGE-PWORD-CHOICE = "s" OR "S" THEN 
+               CALL 'update-password' USING USER-NAME 
+               UPDATED-PASSWORD
+               MOVE 'PASSWORD SUCCESSFULLY UPDATED' TO PWORD-CONFIRM-MSG
+           END-IF. 
+           
+           INITIALIZE CHANGE-PWORD-CHOICE.
+           DISPLAY CHANGE-PASSWORD-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           DISPLAY TIME-SCREEN.
+           ACCEPT CHANGE-PWORD-FIELD.
+           IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0120-DISPLAY-MENU
+           END-IF. 
 
 
+
+
+
+
+       
