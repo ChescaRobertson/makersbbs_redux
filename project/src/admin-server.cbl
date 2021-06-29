@@ -5,6 +5,7 @@
 
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
+         
              SELECT F-USERS-FILE ASSIGN TO 'users.dat'
                  ORGANIZATION IS SEQUENTIAL. 
 
@@ -45,16 +46,17 @@
 
            WORKING-STORAGE SECTION.
 
+           *>-------------- Admin Login Variables -----------------
            01 WS-FILE-IS-ENDED PIC 9 VALUE ZERO.
            01 WS-IDX UNSIGNED-INT.
            01 WS-FOUND PIC 9. 
-
-           01 USER-BANK-ACCOUNT PIC X(8).
-
            01 RAISE-ERROR PIC 9. 
            01 COUNTER UNSIGNED-INT. 
 
-      * message variables *    
+           *>-------------- Admin Menu Variables -----------------
+           01 ADMIN-CHOICE PIC X.
+
+           *>-------------- New Admin Variables -----------------   
            01 ERROR-MSG-1 PIC X(50).
            01 ERROR-MSG-2 PIC X(50).
            01 OK-MSG-1 PIC X(50).
@@ -76,9 +78,9 @@
                    10 WS-ADMIN-NAME PIC X(16).    
                    10 WS-ADMIN-PWORD PIC X(20).
 
-      *     01 CREDIT-AMOUNT PIC 999.
+           *>-------------- Payment Process Variables -----------------
            01 CAPS-PAID PIC 999.
-           01 ADMIN-CHOICE PIC X.
+           01 USER-BANK-ACCOUNT PIC X(8).
            01 PROCESS-PAGE-CHOICE PIC X.
            01 SINGLE-ENTRY-PROCESS-CHOICE PIC X.
            01 SINGLE-ENTRY-CHOICE PIC X.
@@ -86,7 +88,6 @@
            01 PAYMENT-STATUS-MESSAGE PIC X(30).
            01 BANK-STATEMENT-PROCESS-CHOICE PIC X.
 
-           01 FILE-BA-NUM PIC X(8).
 
            SCREEN SECTION.
 
@@ -110,11 +111,7 @@
                 USING ADMIN-ENTER.
 
            01 ADMIN-MENU-SCREEN.
-      *        BACKGROUND-COLOR IS 0.
               05 BLANK SCREEN.
-              *> 05 LINE 2 COL 2 PIC X(2) USING WS-FORMATTED-HOUR.
-              *> 05 LINE 2 COL 4 VALUE ":".
-              *> 05 LINE 2 COL 5 PIC X(2) USING WS-FORMATTED-MINS. 
               05 LINE 4 COL 10 VALUE "CONNECTED TO SERVER" BLINK
               HIGHLIGHT, FOREGROUND-COLOR IS 2.
               05 LINE 8 COL 10 VALUE "Welcome, ".
@@ -246,17 +243,17 @@
 
        PROCEDURE DIVISION.
 
-       0105-ADMIN-LOGIN-PAGE SECTION.
-      *    PERFORM 0500-TIME-AND-DATE.
-           PERFORM 0120-GENERATE-ADMIN-TABLE.
+      *>------------ Admin Login and Register Procedure ---------------
+       0100-ADMIN-LOGIN-PAGE SECTION.
+           PERFORM 0130-GENERATE-ADMIN-TABLE.
            MOVE SPACES TO ADMIN-ERR-MSG.
 
-           ENTER-ADMINISTRATOR-DETAILS. 
+       0110-ENTER-ADMINISTRATOR-DETAILS. 
            INITIALIZE ADMIN-NAME.
            INITIALIZE ADMIN-PASSWORD.
            INITIALIZE ADMIN-ENTER.
            DISPLAY ADMIN-LOGIN-SCREEN.
-      *    DISPLAY TIME-SCREEN.
+    
            ACCEPT ADMIN-NAME-FIELD.
            ACCEPT ADMIN-PASSWORD-FIELD.
            ACCEPT ADMIN-ENTER-FIELD. 
@@ -265,42 +262,23 @@
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
                IF ADMIN-NAME = WS-ADMIN-NAME(WS-IDX) AND 
-               ADMIN-PASSWORD = WS-ADMIN-PWORD(WS-IDX) THEN
+               ADMIN-PASSWORD = WS-ADMIN-PWORD(WS-IDX) 
                    MOVE 1 TO WS-FOUND 
                END-IF
                ADD 1 TO WS-IDX 
            END-PERFORM.
 
-           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
-               PERFORM 0110-ADMIN-MENU
-           ELSE IF  ADMIN-ENTER = "q" THEN 
+           IF ADMIN-ENTER = "l" AND WS-FOUND = 1 
+               PERFORM 0200-ADMIN-MENU
+           ELSE IF  ADMIN-ENTER = "q"  
                GOBACK
            ELSE 
                MOVE "* Administrator details not recognised *" TO 
                ADMIN-ERR-MSG
-               PERFORM ENTER-ADMINISTRATOR-DETAILS
+               PERFORM 0110-ENTER-ADMINISTRATOR-DETAILS
            END-IF. 
-           
-       0110-ADMIN-MENU.
-      *     PERFORM 0200-TIME-AND-DATE.
-           INITIALIZE ADMIN-CHOICE.
-           DISPLAY ADMIN-MENU-SCREEN.
-           ACCEPT ADMIN-CHOICE-FIELD.
-           IF ADMIN-CHOICE = "q" or "Q" THEN
-             STOP RUN
-           ELSE IF ADMIN-CHOICE = "l" or "L" THEN
-             PERFORM 0105-ADMIN-LOGIN-PAGE
-      *    Think about how to return to main server initial page here *
-           ELSE IF ADMIN-CHOICE = 'p' or 'P'
-             PERFORM 0300-PROCESS-PAYMENT
-           ELSE IF ADMIN-CHOICE = 'a' or 'A'
-             PERFORM 0130-REGISTER-ADMIN
-      *     Add other menu options for administrator here *
-           ELSE 
-             PERFORM 0110-ADMIN-MENU
-           END-IF.
-
-       0120-GENERATE-ADMIN-TABLE. 
+   
+       0130-GENERATE-ADMIN-TABLE. 
            SET COUNTER TO 0.
            OPEN INPUT F-ADMIN-FILE.
            MOVE 0 TO WS-FILE-IS-ENDED.
@@ -316,14 +294,13 @@
            END-PERFORM.
            CLOSE F-ADMIN-FILE.
 
-       0130-REGISTER-ADMIN SECTION. 
-
+       0140-REGISTER-ADMIN SECTION. 
            MOVE SPACES TO ERROR-MSG-1.
            MOVE SPACES TO ERROR-MSG-2.
            MOVE SPACES TO OK-MSG-1.
            MOVE SPACES TO OK-MSG-2.
            
-           VALIDATE-USERNAME.
+       0141-VALIDATE-USERNAME.
            INITIALIZE NEW-ADMIN-NAME. 
            INITIALIZE NEW-ADMIN-PASSWORD.
            INITIALIZE REGISTER-CHOICE.
@@ -340,28 +317,28 @@
            END-PERFORM.
            IF RAISE-ERROR > 0 
                MOVE 'OVERSEER NAME IN USE' TO ERROR-MSG-1
-               PERFORM VALIDATE-USERNAME
+               PERFORM 0141-VALIDATE-USERNAME
            ELSE 
                MOVE 'OVERSEER NAME OK' TO OK-MSG-1
-               PERFORM VALIDATE-PASSWORD
+               PERFORM 0142-VALIDATE-PASSWORD
            END-IF. 
 
-           VALIDATE-PASSWORD.
+       0142-VALIDATE-PASSWORD.
            INITIALIZE NEW-ADMIN-PASSWORD.
            DISPLAY REGISTER-ADMIN-SCREEN.
-      *    DISPLAY TIME-SCREEN.
+
            ACCEPT NEW-ADMIN-PASSWORD-FIELD.
            CALL 'validate-password' USING NEW-ADMIN-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
            IF RAISE-ERROR > 0 
-               PERFORM VALIDATE-PASSWORD
+               PERFORM 0142-VALIDATE-PASSWORD
            END-IF. 
 
            DISPLAY REGISTER-ADMIN-SCREEN.
-      *    DISPLAY TIME-SCREEN.
+    
            ACCEPT REGISTER-CHOICE-FIELD.
-           IF REGISTER-CHOICE = "q" THEN 
-               PERFORM 0110-ADMIN-MENU
+           IF REGISTER-CHOICE = "q" 
+               PERFORM 0200-ADMIN-MENU
            ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-ADMIN-FILE
                MOVE NEW-ADMIN-NAME TO ADMIN
@@ -370,74 +347,91 @@
                END-WRITE 
            END-IF.
            CLOSE F-ADMIN-FILE.
-           PERFORM 0110-ADMIN-MENU.
 
+           PERFORM 0200-ADMIN-MENU.
 
+       *>------------------ Admin Menu Procedure ---------------------
+       0200-ADMIN-MENU.
+           INITIALIZE ADMIN-CHOICE.
+           DISPLAY ADMIN-MENU-SCREEN.
+
+           ACCEPT ADMIN-CHOICE-FIELD.
+           IF ADMIN-CHOICE = "q" or "Q" 
+               STOP RUN
+           ELSE IF ADMIN-CHOICE = "l" or "L" 
+               PERFORM 0100-ADMIN-LOGIN-PAGE
+           ELSE IF ADMIN-CHOICE = 'p' or 'P'
+               PERFORM 0300-PROCESS-PAYMENT
+           ELSE IF ADMIN-CHOICE = 'a' or 'A'
+               PERFORM 0140-REGISTER-ADMIN
+           ELSE 
+               PERFORM 0200-ADMIN-MENU
+           END-IF.
+
+       *>---------------- Payment Process Procedure -------------------
        0300-PROCESS-PAYMENT.
-      *     PERFORM 0200-TIME-AND-DATE.
            INITIALIZE PROCESS-PAGE-CHOICE
            DISPLAY PROCESS-PAYMENT-SCREEN
+
            ACCEPT PROCESS-PAYMENT-FIELD
            IF PROCESS-PAGE-CHOICE = 's' OR 'S'
-             PERFORM 0320-SINGLE-ENTRY-CREDITS
+               PERFORM 0310-SINGLE-ENTRY-CREDITS
            ELSE IF PROCESS-PAGE-CHOICE = 'b' OR 'B'
-             PERFORM 0350-BANK-STATEMENT-PROCESS
+               PERFORM 0320-BANK-STATEMENT-PROCESS
            ELSE IF PROCESS-PAGE-CHOICE = 'g' OR 'G'
-             PERFORM 0110-ADMIN-MENU
+               PERFORM 0200-ADMIN-MENU
            ELSE 
                PERFORM 0300-PROCESS-PAYMENT
            END-IF.
 
-       0320-SINGLE-ENTRY-CREDITS.
-      *     PERFORM 0200-TIME-AND-DATE.
+       0310-SINGLE-ENTRY-CREDITS.
            INITIALIZE SINGLE-ENTRY-CHOICE
            INITIALIZE USER-BANK-ACCOUNT
            INITIALIZE CAPS-PAID
            DISPLAY SINGLE-ENTRY-CREDIT-SCREEN
+
            ACCEPT USER-BA-FIELD
            ACCEPT CAPS-PAID-FIELD
            ACCEPT SINGLE-ENTRY-CREDIT-FIELD
 
            IF SINGLE-ENTRY-CHOICE = 's' OR 'S'
-             PERFORM 0325-SINGLE-ENTRY-PROCESS
+             PERFORM 0311-SINGLE-ENTRY-PROCESS
            ELSE IF SINGLE-ENTRY-CHOICE = 'g' OR 'G'
-             PERFORM 0110-ADMIN-MENU
-           ELSE IF SINGLE-ENTRY-CHOICE = 'q' OR 'Q' THEN
+             PERFORM 0200-ADMIN-MENU
+           ELSE IF SINGLE-ENTRY-CHOICE = 'q' OR 'Q' 
                STOP RUN
            ELSE 
-               PERFORM 0320-SINGLE-ENTRY-CREDITS
+               PERFORM 0310-SINGLE-ENTRY-CREDITS
            END-IF.
 
-       0325-SINGLE-ENTRY-PROCESS.
-      *     PERFORM 0200-TIME-AND-DATE.
+       0311-SINGLE-ENTRY-PROCESS.
            INITIALIZE SINGLE-ENTRY-PROCESS-CHOICE
-          
            CALL 'process-single-payment' USING USER-BANK-ACCOUNT, 
            CAPS-PAID, PROCESS-STATUS-MESSAGE, FILE-BA-NUM.
-
-        
            DISPLAY SINGLE-ENTRY-PROCESS-SCREEN
+
            ACCEPT SINGLE-ENTRY-PROCESS-FIELD
           
            IF SINGLE-ENTRY-PROCESS-CHOICE = 'g' OR 'G'
-             PERFORM 0110-ADMIN-MENU
-           ELSE IF SINGLE-ENTRY-PROCESS-CHOICE = 'q' OR 'Q' THEN
+               PERFORM 0200-ADMIN-MENU
+           ELSE IF SINGLE-ENTRY-PROCESS-CHOICE = 'q' OR 'Q'
                STOP RUN
            ELSE 
-               PERFORM 0325-SINGLE-ENTRY-PROCESS
+               PERFORM 0311-SINGLE-ENTRY-PROCESS
            END-IF.
            
-       0350-BANK-STATEMENT-PROCESS.
+       0320-BANK-STATEMENT-PROCESS.
            INITIALIZE BANK-STATEMENT-PROCESS-CHOICE
            DISPLAY BANK-STATEMENT-PROCESS-SCREEN
            ACCEPT BANK-STATEMENT-PROCESS-FIELD
 
            IF BANK-STATEMENT-PROCESS-CHOICE = 'y' OR 'Y'
-              CALL 'process-bank-statement' USING PAYMENT-STATUS-MESSAGE
-               PERFORM 0350-BANK-STATEMENT-PROCESS
+               CALL 'process-bank-statement' 
+               USING PAYMENT-STATUS-MESSAGE
+               PERFORM 0320-BANK-STATEMENT-PROCESS
            ELSE IF BANK-STATEMENT-PROCESS-CHOICE = 'g' OR 'G'
-               PERFORM 0110-ADMIN-MENU
-           ELSE IF BANK-STATEMENT-PROCESS-CHOICE = 'q' OR 'Q' THEN
+               PERFORM 0200-ADMIN-MENU
+           ELSE IF BANK-STATEMENT-PROCESS-CHOICE = 'q' OR 'Q' 
                STOP RUN
            END-IF.
 
