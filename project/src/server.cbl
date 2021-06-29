@@ -354,16 +354,86 @@
 
            01 START-SCREEN. 
             05 BLANK SCREEN.
-            05 LINE 20 COLUMN 30 VALUE "Connected to Vault" 
+            05 LINE 10 COLUMN 30 VALUE "Connected to Vault" 
               UNDERLINE, BLINK
             HIGHLIGHT, FOREGROUND-COLOR IS 3.
-            05 LINE 21 COLUMN 30 VALUE "(l) Go to Log-in.".
-            05 LINE 22 COLUMN 30 VALUE "(c) Create an account.".
-            05 LINE 23 COLUMN 30 VALUE "(q) Quit.". 
-            05 LINE 24 COLUMN 30 VALUE "Pick: ".
-            05 START-CHOICE-FIELD LINE 24 COLUMN 36 PIC X
+            05 LINE 41 COLUMN 30 VALUE "(l) Go to Log-in."
+              HIGHLIGHT, FOREGROUND-COLOR IS 3.
+            05 LINE 42 COLUMN 30 VALUE "(c) Create an account."
+              HIGHLIGHT, FOREGROUND-COLOR IS 3.
+            05 LINE 43 COLUMN 30 VALUE "(q) Quit."
+              HIGHLIGHT, FOREGROUND-COLOR IS 3. 
+            05 LINE 44 COLUMN 30 VALUE "Pick: "
+              HIGHLIGHT, FOREGROUND-COLOR IS 2, BLINK.
+            05 START-CHOICE-FIELD LINE 44 COLUMN 36 PIC X
                 USING START-CHOICE.
-            05 LINE 25 COLUMN 30 VALUE "(a) Administrator.".
+            05 LINE 40 COLUMN 30 VALUE "(a) Administrator."
+              HIGHLIGHT, FOREGROUND-COLOR IS 3.
+                05 LINE 13 COL 30 VALUE
+           " ________ ________  ___       ___       ________  ___  ___  
+      -    "_________"
+           FOREGROUND-COLOR IS 2.
+           05 LINE 14 COL 30 VALUE   
+           "|\  _____|\   __  \|\  \     |\  \     |\   __  \|\  \|\  \|
+      -    "\___   ___\ "
+           FOREGROUND-COLOR IS 2.
+           05 LINE 15 COL 30 VALUE
+           "\ \  \__/\ \  \|\  \ \  \    \ \  \    \ \  \|\  \ \  \\\  \
+      -    "|___ \  \_|"
+           FOREGROUND-COLOR IS 2.
+           05 LINE 16 COL 30 VALUE   
+           " \ \   __\\ \   __  \ \  \    \ \  \    \ \  \\\  \ \  \\\  
+      -    "\   \ \  \  "
+           FOREGROUND-COLOR IS 2.
+           05 LINE 17 COL 30 VALUE
+           "  \ \  \_| \ \  \ \  \ \  \____\ \  \____\ \  \\\  \ \  \\\ 
+      -    " \   \ \  \ "
+           FOREGROUND-COLOR IS 2.
+           05 LINE 18 COL 30 VALUE
+           "   \ \__\   \ \__\ \__\ \_______\ \_______\ \_______\ \_____
+      -    "__\   \ \__\"
+           FOREGROUND-COLOR IS 2.
+           05 LINE 19 COL 30 VALUE
+           "    \|__|    \|__|\|__|\|_______|\|_______|\|_______|\|____
+      -    "___|    \|__|"
+           FOREGROUND-COLOR IS 2.
+            05 LINE 44 COLUMN 68 VALUE 
+            "                        (` ^''`-' ')"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 43 COLUMN 68 VALUE 
+            "                         <|i::|i|`."
+              FOREGROUND-COLOR IS 2.
+            05 LINE 42 COLUMN 68 VALUE 
+            "                          I;|.|.|"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 41 COLUMN 68 VALUE 
+            "                      ~ `-i' ::>|--'"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 40 COLUMN 68 VALUE 
+            "                   \_( _ <         >_>'"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 39 COLUMN 68 VALUE 
+            "                  (_ (   \  (     >    \)"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 38 COLUMN 68 VALUE 
+            "                  \/  ~'~'~'~'~'~\~'~)~'/"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 37 COLUMN 68 VALUE 
+            "- ------===;;;'====------------------===;;;===----- -  -"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 36 COLUMN 68 VALUE 
+            "               __ /        <    /   )  \___"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 35 COLUMN 68 VALUE 
+            "                   _/_,---(      ,    )"
+              FOREGROUND-COLOR IS 2.
+            05 LINE 34 COLUMN 68 VALUE 
+            "                     __,-~~/~    `---."
+              FOREGROUND-COLOR IS 2.
+            05 LINE 33 COLUMN 68 VALUE 
+            "                            ____"
+              FOREGROUND-COLOR IS 2.
+
 
            01 PIP-BOY-SCREEN.
                      
