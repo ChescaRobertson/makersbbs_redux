@@ -835,6 +835,7 @@
                END-READ
            END-PERFORM.
            CLOSE F-WORD-FILE.
+
            MOVE FUNCTION CURRENT-DATE(14:3) TO RANDOMNUMBER.
            MOVE WS-GUESSING-WORDS-WORD(RANDOMNUMBER) TO WS-WORD.
            MOVE WS-WORD TO WS-ANSWERWORD.
@@ -842,10 +843,10 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            MOVE 1 TO COUNTER.
            PERFORM UNTIL COUNTER = 20
-             IF '*' EQUALS WS-WORD(COUNTER:1) 
-              THEN ADD 1 TO WS-WORD-LENGTH
-             END-IF
-             ADD 1 TO COUNTER
+               IF '*' EQUALS WS-WORD(COUNTER:1) 
+                   THEN ADD 1 TO WS-WORD-LENGTH
+               END-IF
+               ADD 1 TO COUNTER
            END-PERFORM.
            PERFORM 0175-IN-GAME-SCREEN.
 
@@ -873,24 +874,24 @@
                  END-IF
                  ADD 1 TO COUNTER     
            END-PERFORM.
+
            SUBTRACT 1 FROM WS-GUESSES-LEFT.
            MOVE 1 TO COUNTER.
            MOVE 0 TO WS-LETTERS-LEFT.
            PERFORM UNTIL COUNTER = 20
-             IF '*' EQUALS WS-WORD(COUNTER:1) 
-              THEN ADD 1 TO WS-LETTERS-LEFT
-             END-IF
-             ADD 1 TO COUNTER
+               IF '*' EQUALS WS-WORD(COUNTER:1) 
+                   THEN ADD 1 TO WS-LETTERS-LEFT
+               END-IF
+               ADD 1 TO COUNTER
            END-PERFORM.
-             IF WS-LETTERS-LEFT = 0
-              THEN 
+
+           IF WS-LETTERS-LEFT = 0
               PERFORM 0185-WINNING-SCREEN
-             ELSE IF WS-GUESSES-LEFT = 0
-              THEN 
+           ELSE IF WS-GUESSES-LEFT = 0
               PERFORM 0186-LOSING-SCREEN
-             ELSE
+           ELSE
               PERFORM 0175-IN-GAME-SCREEN
-             END-IF.
+           END-IF.
 
        0185-WINNING-SCREEN.
            PERFORM 0500-TIME-AND-DATE.
@@ -916,11 +917,11 @@
 
            ACCEPT WS-GUESSING-CHOICE-WINNING-FIELD.
            IF WS-GUESSING-WINNING-CHOICE = 'p'
-               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+               PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF WS-GUESSING-WINNING-CHOICE = 'h'
-             THEN PERFORM 0187-HIGH-SCORE-TABLE
+               PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-WINNING-CHOICE = '!'
-             THEN PERFORM 0160-GAMES-MENU
+               PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0185-WINNING-SCREEN
            END-IF.
@@ -934,11 +935,11 @@
 
            ACCEPT WS-GUESSING-LOSING-CHOICE.
            IF WS-GUESSING-LOSING-CHOICE = 'p'
-               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+               PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF WS-GUESSING-LOSING-CHOICE = 'h'
-             THEN PERFORM 0187-HIGH-SCORE-TABLE
+               PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-LOSING-CHOICE = '!'
-             THEN PERFORM 0160-GAMES-MENU
+               PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0186-LOSING-SCREEN
            END-IF.
@@ -983,16 +984,16 @@
            PERFORM 0160-GAMES-MENU.
 
            GAME-LOOP-PARAGRAPH.
-               INITIALIZE WS-GAME-GRID
-               INITIALIZE WS-STATE
-               INITIALIZE WS-MOVES
-               MOVE "Make a move like 'A2'" TO WS-OANDXMESSAGE
-               PERFORM GAME-FRAME-PARAGRAPH
-                   WITH TEST AFTER UNTIL GAME-OVER
-               ADD 1 TO WS-GAMES END-ADD
-               EVALUATE WS-STATE
+           INITIALIZE WS-GAME-GRID
+           INITIALIZE WS-STATE
+           INITIALIZE WS-MOVES
+           MOVE "Make a move like 'A2'" TO WS-OANDXMESSAGE
+           PERFORM GAME-FRAME-PARAGRAPH
+           WITH TEST AFTER UNTIL GAME-OVER
+           ADD 1 TO WS-GAMES 
+           EVALUATE WS-STATE
                WHEN "WIN"
-                   ADD 1 TO WS-WINS END-ADD
+                   ADD 1 TO WS-WINS 
                    MOVE WS-COLOR-BLACK TO WS-FG
                    MOVE WS-COLOR-BLACK TO WS-FG-CELL
                    MOVE WS-COLOR-GREEN TO WS-BG
@@ -1004,72 +1005,66 @@
                    MOVE WS-COLOR-BLACK TO WS-FG
                    MOVE WS-COLOR-BLACK TO WS-FG-CELL
                    MOVE WS-COLOR-RED TO WS-BG
-               END-EVALUATE
-               MOVE "One more (y/n)? " TO WS-INSTRUCTION
-               MOVE "y" TO WS-NEXT-MOVE
-               DISPLAY BOARD-SCREEN.
-               DISPLAY PIP-BOY-SCREEN.
-              *>  ACCEPT NEXT-MOVE.
-               PERFORM 0113-DISPLAY-TIME-USER-INFO
-               ACCEPT NEXT-MOVE.
+           END-EVALUATE
+           MOVE "One more (y/n)? " TO WS-INSTRUCTION
+           MOVE "y" TO WS-NEXT-MOVE
+           DISPLAY BOARD-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO
+           ACCEPT NEXT-MOVE.
            
 
            GAME-FRAME-PARAGRAPH.
-               MOVE "Move to square: " TO WS-INSTRUCTION
-               MOVE WS-COLOR-GREEN TO WS-FG
-               MOVE WS-COLOR-WHITE TO WS-FG-CELL
-               MOVE WS-COLOR-BLACK TO WS-BG
-               INITIALIZE WS-MOVE-OUTCOME
-               IF COMPUTER-PLAYER
-                   INITIALIZE WS-COMPUTER-MOVED
-                   PERFORM UNTIL COMPUTER-MOVED
-                       COMPUTE WS-ROW = FUNCTION RANDOM * 3 + 1
-                       END-COMPUTE
-                       COMPUTE WS-COL = FUNCTION RANDOM * 3 + 1
-                       END-COMPUTE
-                       IF WS-CELL(WS-ROW,WS-COL) IS EQUAL TO " "
-                       THEN
-                           SET WS-COMPUTER-MOVED TO 1
-                           MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
-                       END-IF
-                   END-PERFORM
-               ELSE
-                   INITIALIZE WS-NEXT-MOVE
-                   DISPLAY BOARD-SCREEN
-                   DISPLAY PIP-BOY-SCREEN
-                  *>  ACCEPT NEXT-MOVE 
-                   PERFORM 0113-DISPLAY-TIME-USER-INFO
-                   ACCEPT NEXT-MOVE
-
-                   EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
-                       WHEN "A" SET WS-ROW TO 1
-                       WHEN "B" SET WS-ROW TO 2
-                       WHEN "C" SET WS-ROW TO 3
-                       WHEN OTHER MOVE "FAIL" TO WS-MOVE-OUTCOME
-                   END-EVALUATE
+           MOVE "Move to square: " TO WS-INSTRUCTION
+           MOVE WS-COLOR-GREEN TO WS-FG
+           MOVE WS-COLOR-WHITE TO WS-FG-CELL
+           MOVE WS-COLOR-BLACK TO WS-BG
+           INITIALIZE WS-MOVE-OUTCOME
+           IF COMPUTER-PLAYER
+               INITIALIZE WS-COMPUTER-MOVED
+               PERFORM UNTIL COMPUTER-MOVED
+                   COMPUTE WS-ROW = FUNCTION RANDOM * 3 + 1
+                   COMPUTE WS-COL = FUNCTION RANDOM * 3 + 1
+                   IF WS-CELL(WS-ROW,WS-COL) IS EQUAL TO " "
+                       SET WS-COMPUTER-MOVED TO 1
+                       MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
+                   END-IF
+               END-PERFORM
+           ELSE
+               INITIALIZE WS-NEXT-MOVE
+               DISPLAY BOARD-SCREEN
+               DISPLAY PIP-BOY-SCREEN 
+               PERFORM 0113-DISPLAY-TIME-USER-INFO
+               ACCEPT NEXT-MOVE
+               EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
+                   WHEN "A" SET WS-ROW TO 1
+                   WHEN "B" SET WS-ROW TO 2
+                   WHEN "C" SET WS-ROW TO 3
+                   WHEN OTHER MOVE "FAIL" TO WS-MOVE-OUTCOME
+               END-EVALUATE
                    SET WS-COL TO WS-NEXT-MOVE(2:1)
-                   IF
-                       WS-MOVE-OUTCOME IS NOT EQUAL TO "FAIL"
-                       AND WS-COL IS GREATER THAN 0
-                       AND WS-COL IS LESS THAN 4
-                       AND WS-CELL(WS-ROW,WS-COL) = " "
-                   THEN
+                   IF WS-MOVE-OUTCOME IS NOT EQUAL TO "FAIL"
+                   AND WS-COL IS GREATER THAN 0
+                   AND WS-COL IS LESS THAN 4
+                   AND WS-CELL(WS-ROW,WS-COL) = " "
                        MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
                    ELSE
                        MOVE "FAIL" TO WS-MOVE-OUTCOME
                    END-IF
-               END-IF
-               MOVE WS-GAME-GRID TO WS-FLAT-GAME-GRID
-               IF HUMAN-PLAYER
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "1"
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "0"
-               ELSE
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "0"
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "1"
-               END-IF
-               INSPECT WS-FLAT-GAME-GRID REPLACING ALL " " BY "0"
-               INITIALIZE WS-EOF
-               OPEN INPUT FD-WINMASKS
+           END-IF
+
+           MOVE WS-GAME-GRID TO WS-FLAT-GAME-GRID
+           IF HUMAN-PLAYER
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "1"
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "0"
+           ELSE
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "0"
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "1"
+           END-IF
+
+           INSPECT WS-FLAT-GAME-GRID REPLACING ALL " " BY "0"
+           INITIALIZE WS-EOF
+           OPEN INPUT FD-WINMASKS
                PERFORM UNTIL EOF OR MOVE-COMPLETE
                    READ FD-WINMASKS NEXT RECORD
                        AT END
@@ -1078,12 +1073,14 @@
                            PERFORM VALIDATE-WIN-PARAGRAPH
                    END-READ
                END-PERFORM
-               CLOSE FD-WINMASKS
-               IF NOT MOVE-COMPLETE AND WS-MOVES IS EQUAL TO 8
-                   MOVE "STALE" TO WS-MOVE-OUTCOME
-               END-IF
-               INITIALIZE WS-SWAP-PLAYERS
-               EVALUATE WS-MOVE-OUTCOME
+           CLOSE FD-WINMASKS
+
+           IF NOT MOVE-COMPLETE AND WS-MOVES IS EQUAL TO 8
+               MOVE "STALE" TO WS-MOVE-OUTCOME
+           END-IF
+
+           INITIALIZE WS-SWAP-PLAYERS
+           EVALUATE WS-MOVE-OUTCOME
                WHEN "WIN"
                    MOVE "WINNER! (^_^)" TO WS-OANDXMESSAGE
                    MOVE "WIN" TO WS-STATE
@@ -1100,37 +1097,36 @@
                WHEN OTHER
                    MOVE "Enter a move" TO WS-OANDXMESSAGE
                    SET WS-SWAP-PLAYERS TO 1
-                   ADD 1 TO WS-MOVES END-ADD
-               END-EVALUATE
-               IF SWAP-PLAYERS
-                   IF HUMAN-PLAYER
-                       MOVE "O" TO WS-PLAYER
-                   ELSE
-                       MOVE "X" TO WS-PLAYER
-                   END-IF
-               END-IF.
+                   ADD 1 TO WS-MOVES 
+           END-EVALUATE
+
+           IF SWAP-PLAYERS
+               IF HUMAN-PLAYER
+                   MOVE "O" TO WS-PLAYER
+               ELSE
+                   MOVE "X" TO WS-PLAYER
+               END-IF
+           END-IF.
 
            VALIDATE-WIN-PARAGRAPH.
-               INITIALIZE WS-MASK-DETECTED
-               SET WS-DETECT-LOOP-COUNT TO 1
-               PERFORM 9 TIMES
-                   IF
-                       FD-WINMASK(WS-DETECT-LOOP-COUNT:1)
-                       IS EQUAL TO
-                       WS-FLAT-GAME-GRID(WS-DETECT-LOOP-COUNT:1)
-                       AND IS EQUAL TO 1
-                   THEN
-                       ADD 1 TO WS-MASK-DETECTED END-ADD
-                   END-IF
-                   ADD 1 TO WS-DETECT-LOOP-COUNT END-ADD
-               END-PERFORM
-               IF WIN-DETECTED
-                   IF HUMAN-PLAYER
-                       MOVE "WIN" TO WS-MOVE-OUTCOME
-                   ELSE
-                       MOVE "LOSE" TO WS-MOVE-OUTCOME
-                   END-IF
-               END-IF.
+           INITIALIZE WS-MASK-DETECTED
+           SET WS-DETECT-LOOP-COUNT TO 1
+           PERFORM 9 TIMES
+               IF FD-WINMASK(WS-DETECT-LOOP-COUNT:1) IS EQUAL TO
+               WS-FLAT-GAME-GRID(WS-DETECT-LOOP-COUNT:1) 
+               AND IS EQUAL TO 1
+                   ADD 1 TO WS-MASK-DETECTED 
+               END-IF
+               ADD 1 TO WS-DETECT-LOOP-COUNT 
+           END-PERFORM
+
+           IF WIN-DETECTED
+               IF HUMAN-PLAYER
+                   MOVE "WIN" TO WS-MOVE-OUTCOME
+               ELSE
+                   MOVE "LOSE" TO WS-MOVE-OUTCOME
+               END-IF
+           END-IF.
 
        0210-RANDOM-NUMBER-GAME.
            INITIALIZE RANDOM-NUM-CHOICE.
@@ -1144,8 +1140,8 @@
            COMPUTE WINNINGS = BET-AMOUNT * 2.
            IF WINNINGS = "000" 
            OR (CHECK-LIMIT(WINNINGS, USER-INFO-CREDITS) = "FAIL")
-             MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
-             TO CREDIT-LIMIT-MESSAGE
+               MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
+               TO CREDIT-LIMIT-MESSAGE
                PERFORM 0210-RANDOM-NUMBER-GAME
            END-IF.
        
