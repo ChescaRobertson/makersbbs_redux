@@ -56,7 +56,12 @@
 
            01 ABOUT-PAGE-READ-CHOICE PIC X.
            01 ABOUT-TITLE-READ PIC X(31).
-           01 ABOUT-BODY-READ PIC X(500).
+           01 WS-ABOUT-BODY-SEGMENTS.
+               10 WS-ABOUT-BODY-SEGMENT-1 PIC X(60). 
+               10 WS-ABOUT-BODY-SEGMENT-2 PIC X(60). 
+               10 WS-ABOUT-BODY-SEGMENT-3 PIC X(60). 
+               10 WS-ABOUT-BODY-SEGMENT-4 PIC X(60). 
+               10 WS-ABOUT-BODY-SEGMENT-5 PIC X(60).
 
            01 ABOUT-INVALID-CHOICE-MESSAGE PIC X(15).
       
@@ -237,7 +242,7 @@
                  05 LINE 40 COL 124 VALUE
            "| |=|".
                  05 LINE 41 COL 10 VALUE
-           "|   |-e(x)it|   ||".
+           "|   |-------|   ||".
                  05 LINE 41 COL 124 VALUE
            "| |=|".
                  05 LINE 42 COL 10 VALUE
@@ -258,17 +263,17 @@
            .
                  05 LINE 46 COL 10 VALUE
            " \            ''|___________________________________________
-      -    "____|SUBMIT  QUIT|______________________________________/".
+      -    "____|------------|______________________________________/".
                  05 LINE 47 COL 10 VALUE
            "   \_________/     |===|                                    
-      -    "    | (s)     (q)|                                    /".
+      -    "    |------------|                                    /".
                  05 LINE 48 COL 10 VALUE
            "             \_____|___/____________________________________
-      -    "____||||||||||||||___________________________________/".
+      -    "____||||||||||||||____________________________________/".
                  05 LINE 50 COL 10 VALUE
            "============================================================
       -    "==========================================================="
-           . 
+           .  
 
            
    
@@ -363,7 +368,15 @@
                05 BLANK SCREEN.
                05 LINE 16 COL 45 PIC X(31) USING ABOUT-TITLE-READ
                    FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 45 PIC X(500) USING ABOUT-BODY-READ
+               05 LINE 18 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-1
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-2
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 20 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-3
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 21 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-4
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-5
                    FOREGROUND-COLOR IS 2.
                05 LINE 39 COL 45 VALUE "(q) Go Back"
                    FOREGROUND-COLOR IS 2.
@@ -446,7 +459,7 @@
                MOVE DISPLAY-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT) 
                TO ABOUT-TITLE-READ
                MOVE DISPLAY-BODY(ABOUT-OFFSET ABOUT-NUM WS-ABOUT)
-               TO ABOUT-BODY-READ
+               TO WS-ABOUT-BODY-SEGMENTS
            END-IF.
            DISPLAY ABOUT-PAGE-READ-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
