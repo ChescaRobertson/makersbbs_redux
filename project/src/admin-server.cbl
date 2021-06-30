@@ -92,83 +92,83 @@
 
            01 PIP-BOY-SCREEN.
                      
-                 05 LINE 5 COL 10 VALUE 
+               05 LINE 5 COL 10 VALUE 
            "============================================================
       -    "==========================================================="
            .
-                 05 LINE 6 COL 10 VALUE
+               05 LINE 6 COL 10 VALUE
            "   ______      _____________________________________________
       -    "________________________________________________________   "
            .
-                 05 LINE 7 COL 10 VALUE
+               05 LINE 7 COL 10 VALUE
            "   / |    \      /".
-                 05 LINE 7 COL 124 VALUE
+               05 LINE 7 COL 124 VALUE
            "\  ".
-                 05 LINE 8 COL 10 VALUE 
+               05 LINE 8 COL 10 VALUE 
            "  (  |)-   )  | 0|".
-                 05 line 8 COL 124 VALUE
+               05 line 8 COL 124 VALUE
            "| |__".
-                 05 LINE 9 COL 10 VALUE 
+               05 LINE 9 COL 10 VALUE 
            "  /\_|____/   |_ |".
-                 05 LINE 9 COL 124 VALUE
+               05 LINE 9 COL 124 VALUE
            "| |0|".
-                 05 LINE 14 COL 10 VALUE
+               05 LINE 14 COL 10 VALUE
            "|    _________  ||".
-                 05 LINE 14 COL 124 VALUE
+               05 LINE 14 COL 124 VALUE
            "| | |".
-                 05 LINE 15 COL 10 VALUE 
+               05 LINE 15 COL 10 VALUE 
            "|   |-Pip-Boy-|TT|".
-                 05 LINE 15 COL 124 VALUE
+               05 LINE 15 COL 124 VALUE
            "| | |".
-                 05 LINE 16 COL 10 VALUE
+               05 LINE 16 COL 10 VALUE
            "|   |-=======-|++|".
-                 05 LINE 16 COL 124 VALUE
+               05 LINE 16 COL 124 VALUE
            "| |_|".
-                 05 LINE 17 COL 10 VALUE
+               05 LINE 17 COL 10 VALUE
            "|   |-=======-|++|".
-                 05 LINE 17 COL 124 VALUE
+               05 LINE 17 COL 124 VALUE
            "| |=|".
-                 05 LINE 18 COL 10 VALUE
+               05 LINE 18 COL 10 VALUE
            "|   |- MODEL -|11|".
-                 05 LINE 18 COL 124 VALUE
+               05 LINE 18 COL 124 VALUE
            "| |=|".
-                 05 LINE 19 COL 10 VALUE
+               05 LINE 19 COL 10 VALUE
            "|   |- 3000  -| ||".
-                 05 LINE 19 COL 124 VALUE
+               05 LINE 19 COL 124 VALUE
            "| |=|".
-                 05 LINE 20 COL 10 VALUE
+               05 LINE 20 COL 10 VALUE
            "|   '---------' ||".
-                 05 LINE 20 COL 124 VALUE
+               05 LINE 20 COL 124 VALUE
            "| |=|".
-                 05 LINE 10 COL 10 VALUE
+               05 LINE 10 COL 10 VALUE
            "/ '             ||".
-                 05 LINE 10 COL 124 VALUE
+               05 LINE 10 COL 124 VALUE
            "| |=|".
-                 05 LINE 11 COL 10 VALUE
+               05 LINE 11 COL 10 VALUE
            "|               ||".
-                 05 LINE 11 COL 124 VALUE
+               05 LINE 11 COL 124 VALUE
            "| |=|".
-                 05 LINE 12 COL 10 VALUE
+               05 LINE 12 COL 10 VALUE
            "|               ||".
-                 05 LINE 12 COL 124 VALUE
+               05 LINE 12 COL 124 VALUE
            "| |=|".
-                 05 LINE 13 COL 10 VALUE
+               05 LINE 13 COL 10 VALUE
            "|               ||".
-                 05 LINE 13 COL 124 VALUE
+               05 LINE 13 COL 124 VALUE
            "| |=|".
-                 05 LINE 21 COL 10 VALUE
+               05 LINE 21 COL 10 VALUE
            "|               ||".
-                 05 LINE 21 COL 124 VALUE
+               05 LINE 21 COL 124 VALUE
            "| |=|".
-                 05 LINE 22 COL 10 VALUE
+               05 LINE 22 COL 10 VALUE
            "|               ||".
-                 05 LINE 22 COL 124 VALUE
+               05 LINE 22 COL 124 VALUE
            "| |=|".
-                 05 LINE 23 COL 10 VALUE
+               05 LINE 23 COL 10 VALUE
            "|               ||".
-                 05 LINE 23 COL 124 VALUE
+               05 LINE 23 COL 124 VALUE
            "| |=|".
-                 05 LINE 24 COL 10 VALUE
+               05 LINE 24 COL 10 VALUE
            "|               ||".
                  05 LINE 24 COL 124 VALUE
            "| |=|".
@@ -238,7 +238,7 @@
                  05 LINE 40 COL 124 VALUE
            "| |=|".
                  05 LINE 41 COL 10 VALUE
-           "|   |-e(x)it|   ||".
+           "|   |-------|   ||".
                  05 LINE 41 COL 124 VALUE
            "| |=|".
                  05 LINE 42 COL 10 VALUE
@@ -259,17 +259,17 @@
            .
                  05 LINE 46 COL 10 VALUE
            " \            ''|___________________________________________
-      -    "____|SUBMIT  QUIT|______________________________________/".
+      -    "____|-----------|_______________________________________/".
                  05 LINE 47 COL 10 VALUE
            "   \_________/     |===|                                    
-      -    "    | (s)     (q)|                                    /".
+      -    "    |-----------|                                      /".
                  05 LINE 48 COL 10 VALUE
            "             \_____|___/____________________________________
-      -    "____||||||||||||||___________________________________/".
+      -    "____|||||||||||||_____________________________________/".
                  05 LINE 50 COL 10 VALUE
            "============================================================
       -    "==========================================================="
-           . 
+           .   
 
            01 ADMIN-LOGIN-SCREEN
              BACKGROUND-COLOR IS 0.
