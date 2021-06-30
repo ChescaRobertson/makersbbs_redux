@@ -1880,10 +1880,10 @@
                05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
                UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
-               HIGHLIGHT, FOREGROUND-COLOR 2.
+               HIGHLIGHT, FOREGROUND-COLOR 2 .
                05 LINE 19 COLUMN 30 VALUE "Update your account password,
       -        " periodically changing your password will improve accoun
-      -        "t security". FOREGROUND-COLOR 2.
+      -        "t security" FOREGROUND-COLOR 2.
                05 LINE 21 COLUMN 30 VALUE "Enter current password:" 
                HIGHLIGHT FOREGROUND-COLOR 2.
                05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 
