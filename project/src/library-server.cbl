@@ -399,13 +399,13 @@
                BACKGROUND-COLOR IS 8.
                05 BLANK SCREEN.
                05 LINE 13 COL 49 VALUE "--------------------------------
-      -        "-----------------------" 
+      -        "------------------------" 
                    FOREGROUND-COLOR IS 3.
                05 LINE 14 COL 49 VALUE "*********************************
       -       "************************" 
                    FOREGROUND-COLOR IS 5.
                05 LINE 15 COL 49 VALUE "--------------------------------
-      -        "------------------------" 
+      -        "-------------------------" 
                    FOREGROUND-COLOR IS 2.
                
                
@@ -427,19 +427,19 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 22 COL 69 PIC X(50) USING TITLE
                    FOREGROUND-COLOR IS 2.
-               05 LINE 26 COLUMN 49 PIC X(60) USING 
+               05 LINE 26 COLUMN 48 PIC X(60) USING 
                WS-READ-BODY-SEGMENT-1
                    FOREGROUND-COLOR IS 2.
-               05 LINE 27 COLUMN 49 PIC X(60) USING 
+               05 LINE 27 COLUMN 48 PIC X(60) USING 
                WS-READ-BODY-SEGMENT-2
                    FOREGROUND-COLOR IS 2.
-               05 LINE 28 COLUMN 49 PIC X(60) USING 
+               05 LINE 28 COLUMN 48 PIC X(60) USING 
                WS-READ-BODY-SEGMENT-3
                    FOREGROUND-COLOR IS 2.            
-               05 LINE 29 COLUMN 49 PIC X(60) USING 
+               05 LINE 29 COLUMN 48 PIC X(60) USING 
                WS-READ-BODY-SEGMENT-4
                    FOREGROUND-COLOR IS 2.
-               05 LINE 30 COLUMN 49 PIC X(60) USING 
+               05 LINE 30 COLUMN 48 PIC X(60) USING 
                WS-READ-BODY-SEGMENT-5
                    FOREGROUND-COLOR IS 2.
                05 LINE 35 COLUMN 49 VALUE 'Author: '
