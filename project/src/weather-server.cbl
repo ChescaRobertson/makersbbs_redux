@@ -10,7 +10,6 @@
        DATA DIVISION.
            WORKING-STORAGE SECTION.
 
-           01 COST PIC 999.
            01 UPDATED-BALANCE PIC 999.
            01 INSUFFICIENT-FUNDS PIC X(20).
            01 USER-INFO-LOGGED-IN PIC X(15) VALUE "Logged in as:".
@@ -24,19 +23,21 @@
                   10 WS-FORMATTED-MINS  PIC  X(2).                   
       
            *>----- Weather Variables -----
+           01 CONFIRM-CHRG PIC X. 
            01 W1-CHOICE PIC X.
            01 W2-CHOICE PIC X.
            01 W3-CHOICE PIC X.
            01 W4-CHOICE PIC X.
 
            01 SEED PIC 9(8).
-           01 ANSWER PIC 99.
+           01 ANSWER PIC 99. 
       
            LINKAGE SECTION.
            01 USER-INFO-NAME PIC X(16).
            01 USER-INFO-CRED-DISPLAY.
                05 USER-INFO-CR-MESSAGE PIC X(9) VALUE "Credits: ".
                05 USER-INFO-CREDITS PIC 999.
+           01 COST PIC 999. 
 
            SCREEN SECTION.
            01 CONNECTED-SCREEN.
@@ -241,12 +242,32 @@
            "============================================================
       -    "==========================================================="
            . 
-   
-          01 WEATHER-SCREEN-1
+           
+           01 CONFIRM-CHRG-SCREEN
                BACKGROUND-COLOR IS 0.
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 14 COL 30 PIC X(20) USING INSUFFICIENT-FUNDS 
+               HIGHLIGHT, FOREGROUND-COLOR 4 .   
+               05 LINE 20 COL 69 VALUE "ATTENTION:"  
+               HIGHLIGHT, FOREGROUND-COLOR 6.
+               05 LINE 25 COL 50 VALUE "Generating a Weather Reoprt incu
+      -        "rs a charge of 2 Credits." FOREGROUND-COLOR 2 .
+               05 LINE 26 COL 50 VALUE "Credits can purchased by selecti
+      -        "ng the Buy Credits option" FOREGROUND-COLOR 2 . 
+               05 LINE 27 COL 50 VALUE "in the main menu." 
+               FOREGROUND-COLOR 2.
+               05 LINE 30 COL 60 VALUE "GENERATE WEATHER REPORT?" 
+               FOREGROUND-COLOR 2.
+               05 LINE 31 COL 70 VALUE "(y/n)" FOREGROUND-COLOR 2.
+               05 LINE 33 COL 70 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 CONFIRM-CHRG-FIELD LINE 33 COL 76 PIC X 
+               USING CONFIRM-CHRG BLINK.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
+                
+           01 WEATHER-SCREEN-1
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.
                05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
                HIGHLIGHT, FOREGROUND-COLOR 2.
                05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
@@ -318,8 +339,6 @@
 
            01 WEATHER-SCREEN-2.
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
                HIGHLIGHT FOREGROUND-COLOR 2.
                05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
@@ -387,8 +406,6 @@
 
            01 WEATHER-SCREEN-3.
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
                HIGHLIGHT, FOREGROUND-COLOR 2.
                05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
@@ -459,8 +476,6 @@
 
            01 WEATHER-SCREEN-4.
                05 BLANK SCREEN.
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
                HIGHLIGHT, FOREGROUND-COLOR 2.
                05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT, 
@@ -528,12 +543,39 @@
 
 
 
-       PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
+       PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY
+       COST.
 
        0113-DISPLAY-TIME-USER-INFO.
            DISPLAY TIME-SCREEN.
            DISPLAY USER-INFO-SCREEN.
            DISPLAY CONNECTED-SCREEN.
+
+       0200-CONFIRM-WEATHER-CHARGE.
+           INITIALIZE CONFIRM-CHRG. 
+           DISPLAY CONFIRM-CHRG-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT CONFIRM-CHRG-FIELD. 
+
+           IF CONFIRM-CHRG = "y" OR "Y" 
+               IF (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE")
+                   MOVE SPACES TO INSUFFICIENT-FUNDS
+                   CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
+                   UPDATED-BALANCE
+                   MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+                   PERFORM 0300-CHECK-WEATHER
+               ELSE 
+                   MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
+                   PERFORM 0200-CONFIRM-WEATHER-CHARGE
+               END-IF
+           ELSE IF CONFIRM-CHRG = "n" OR "N"
+               MOVE SPACES TO INSUFFICIENT-FUNDS
+               GOBACK 
+           ELSE 
+               PERFORM 0200-CONFIRM-WEATHER-CHARGE
+           END-IF.
+
 
        0300-CHECK-WEATHER SECTION.
            ACCEPT SEED FROM TIME.
