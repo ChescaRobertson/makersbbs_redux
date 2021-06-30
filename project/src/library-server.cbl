@@ -535,7 +535,7 @@
            DISPLAY PIP-BOY-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            
-           ACCEPT READ-CHOICE.
+           ACCEPT READ-CHOICE-FIELD.
            IF READ-CHOICE = 'q' THEN
                PERFORM 0230-LIBRARY-MENU
            ELSE IF (READ-CHOICE = 'a' )
