@@ -813,8 +813,8 @@
                   FOREGROUND-COLOR 2.
                05 LINE 21 COL 50 PIC X(16) USING USER-NAME
                   FOREGROUND-COLOR 2.
-               05 LINE 23 COL 46 VALUE "Welcome to TMNCT's state of the
-      -         "art Bulletin Board."
+               05 LINE 23 COL 46 VALUE "Welcome to Vaultecs interactive 
+      -    "pip boy application!"    
                   FOREGROUND-COLOR 2.
                05 LINE 24 COL 46 VALUE "Feel free to:"
                   FOREGROUND-COLOR 2.
