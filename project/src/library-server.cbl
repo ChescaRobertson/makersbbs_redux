@@ -268,10 +268,10 @@
            .
                  05 LINE 46 COL 10 VALUE
            " \            ''|___________________________________________
-      -    "____|SUBMIT  QUIT|______________________________________/".
+      -    "____|------  ----|______________________________________/".
                  05 LINE 47 COL 10 VALUE
            "   \_________/     |===|                                    
-      -    "    | (s)     (q)|                                    /".
+      -    "    | ---     ---|                                    /".
                  05 LINE 48 COL 10 VALUE
            "             \_____|___/____________________________________
       -    "____||||||||||||||___________________________________/".
@@ -284,90 +284,121 @@
    
 
            01 LIBRARY-SCREEN.
-           05 BLANK SCREEN.
-              05 LINE 09 COL 49 VALUE "---------------------------------
-      -      "----------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 10 COL 49 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-               05 LINE 11 COL 49 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-               
-               
-               05 LINE 12 COL 49 VALUE 
-           "-------------------------------------------------------".
-               05 LINE 13 COL 65 VALUE
-               "WELCOME TO THE LIBRARY".
-
-               05 LINE 14 COL 49 VALUE
-           "Please Choose Below which book you would like to have in"
-             .
-               05 LINE 15 COL 49 VALUE
-           "AudioBook Format, the charge will be 5 credits"
-             .
-                   
-               05 LINE 18 COL 45 VALUE "||   AUTHOR   ||".
-               05 LINE 18 COL 66 VALUE 
-
-
-
-               "||                  TITLE                ||".
-               05 LINE 19 COL 43 VALUE '1.'.
-               05 LINE 19 COL 49 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET).
-               05 LINE 19 COL 69 PIC X(31) USING WS-BOOK-TITLE(OFFSET).
-               05 LINE 20 COL 49 VALUE
-           "---------------------------------------------------------".
-               05 LINE 21 COL 43 VALUE '2.'.
-               05 LINE 21 COL 49 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
-               .
-               05 LINE 21 COL 69 PIC X(31) 
-               USING WS-BOOK-TITLE(OFFSET - 1)
-               .
-               05 LINE 22 COL 49 VALUE
-           "---------------------------------------------------------".
-               05 LINE 23 COL 43 VALUE '3.'.
-               05 LINE 23 COL 49 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
-               .
-               05 LINE 23 COL 69 PIC X(31) 
-               USING WS-BOOK-TITLE(OFFSET - 2)
-               .
+               05 BLANK SCREEN.
+               05 LINE 13 COL 49 VALUE 
+               "--------------------------------------------------------
+      -        ""
+                   FOREGROUND-COLOR IS 3.
+               05 LINE 14 COL 49 VALUE 
+               "********************************************************
+      -        ""
+                   FOREGROUND-COLOR IS 5.
+               05 LINE 15 COL 49 VALUE 
+               "--------------------------------------------------------
+      -        ""        
+                   FOREGROUND-COLOR IS 2.       
+               05 LINE 16 COL 49 VALUE 
+               "--------------------------------------------------------
+      -        ""
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 65 VALUE
+               "WELCOME TO THE LIBRARY"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 49 VALUE
+               "Please Choose Below which book you would like to have in
+      -        ""          
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 49 VALUE
+               "AudioBook Format, the charge will be 5 credits"
+                   FOREGROUND-COLOR IS 2.     
+               05 LINE 22 COL 45 VALUE "||   AUTHOR   ||"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 66 VALUE
+               "||                  TITLE                ||"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 43 VALUE '1.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 49 PIC X(12)
+               USING WS-BOOK-AUTHOR-NAME(OFFSET)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 69 PIC X(31) USING WS-BOOK-TITLE(OFFSET)
+                   FOREGROUND-COLOR IS 2.
                05 LINE 24 COL 49 VALUE
-           "---------------------------------------------------------".
-               05 LINE 25 COL 43 VALUE '4.'.
+               "--------------------------------------------------------
+      -        "-"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 25 COL 43 VALUE '2.'
+                   FOREGROUND-COLOR IS 2.
                05 LINE 25 COL 49 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
-               .
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 1)
+                   FOREGROUND-COLOR IS 2.
                05 LINE 25 COL 69 PIC X(31) 
-               USING WS-BOOK-TITLE(OFFSET - 3)
-               .
+               USING WS-BOOK-TITLE(OFFSET - 1)
+                   FOREGROUND-COLOR IS 2.              
                05 LINE 26 COL 49 VALUE
-           "---------------------------------------------------------".
-               05 LINE 27 COL 43 VALUE '5.'.
+               "--------------------------------------------------------
+      -        "-"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 27 COL 43 VALUE '3.'
+                   FOREGROUND-COLOR IS 2.
                05 LINE 27 COL 49 PIC X(12) 
-               USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
-               .
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 2)
+                   FOREGROUND-COLOR IS 2.               
                05 LINE 27 COL 69 PIC X(31) 
-               USING WS-BOOK-TITLE(OFFSET - 4)
-               .
+               USING WS-BOOK-TITLE(OFFSET - 2)
+                   FOREGROUND-COLOR IS 2.
                05 LINE 28 COL 49 VALUE
-           "---------------------------------------------------------".
+               "--------------------------------------------------------
+      -        "-"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 29 COL 43 VALUE '4.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 29 COL 49 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 3)
+                   FOREGROUND-COLOR IS 2.              
+               05 LINE 29 COL 69 PIC X(31) 
+               USING WS-BOOK-TITLE(OFFSET - 3)
+                   FOREGROUND-COLOR IS 2.             
+               05 LINE 30 COL 49 VALUE
+               "--------------------------------------------------------
+      -        "-"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 31 COL 43 VALUE '5.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 31 COL 49 PIC X(12) 
+               USING WS-BOOK-AUTHOR-NAME(OFFSET - 4)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 31 COL 69 PIC X(31) 
+               USING WS-BOOK-TITLE(OFFSET - 4)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 32 COL 49 VALUE
+               "--------------------------------------------------------
+      -        "-"
+                   FOREGROUND-COLOR IS 2.
 
                 
-           
-               05 LINE 31 COL 43 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
-               .
-               05 LINE 31 COL 77 VALUE 'Page No.'.
-               05 LINE 31 COL 86 PIC 99 USING PAGE-NUM.
-               05 LINE 35 COL 43 VALUE "( )Read the book by number".
-               05 LINE 35 COL 77 VALUE "(n) Next Page".
-               05 LINE 36 COL 43 VALUE "(p) Previous Page".
-               05 LINE 36 COL 77 VALUE "(q) Go back".
-               05 LINE 38 COL 78 VALUE "Pick: ".
-               05 LIBRARY-FIELD LINE 38 COLUMN 86 PIC X 
-               USING LIBRARY-CHOICE.
-               05 LINE 40 COL 78 PIC X(20) USING INSUFFICIENT-FUNDS.
+          
+               05 LINE 34 COL 43 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 34 COL 96 VALUE 'Page No.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 34 COL 105 PIC 99 USING PAGE-NUM
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 37 COL 43 VALUE "( )Read the book by number"
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 37 COL 77 VALUE "(n) Next Page"
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 38 COL 43 VALUE "(p) Previous Page"
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 38 COL 77 VALUE "(q) Go back"
+                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 40 COL 78 VALUE "Pick: "
+                   FOREGROUND-COLOR IS 2.
+               05 LIBRARY-FIELD LINE 40 COLUMN 86 PIC X 
+               USING LIBRARY-CHOICE
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 42 COL 78 PIC X(20) USING INSUFFICIENT-FUNDS
+                   FOREGROUND-COLOR IS 4.
                
                
            01 READ-BOOK-SCREEN
@@ -386,12 +417,10 @@
                05 LINE 13 COL 65 VALUE
                "WELCOME TO THE LIBRARY".
                05 LINE 14 COL 49 VALUE
-           "Please Choose Below which book you would like to have in"
-             .
-
+               "Please Choose Below which book you would like to have in"
+      -        "".
                05 LINE 15 COL 49 VALUE
-           "AudioBook Format, the charge will be 5 credits"
-             .
+               "AudioBook Format, the charge will be 5 credits".
                05 LINE 16 COL 49 PIC X(50) USING AUDIOBOOK-MSG
                     HIGHLIGHT, FOREGROUND-COLOR IS 4.
                05 LINE 18 COL 60 VALUE 'Title:'.
@@ -427,6 +456,7 @@
            PERFORM 0230-LIBRARY-MENU.
 
        0230-LIBRARY-MENU.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE LIBRARY-CHOICE.
            MOVE "10" TO COST.
            DISPLAY LIBRARY-SCREEN.
