@@ -97,7 +97,7 @@
            01 PROCESS-STATUS-MESSAGE PIC X(30).
            01 PAYMENT-STATUS-MESSAGE PIC X(30).
            01 BANK-STATEMENT-PROCESS-CHOICE PIC X.
-
+           01 PAYMNT-MSG PIC X(50).
            01 FILE-BA-NUM PIC X(8).
 
            SCREEN SECTION.
@@ -433,6 +433,8 @@
                05 BLANK SCREEN.
                05 LINE 18 COL 43 VALUE "Select yes to process all transa
       -        "ctions" FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 43 PIC X(50) USING PAYMNT-MSG
+               HIGHLIGHT FOREGROUND-COLOR IS 6 BLINK.
                05 LINE 20 COL 43 PIC X(30) USING PAYMENT-STATUS-MESSAGE
                HIGHLIGHT FOREGROUND-COLOR IS 2 BLINK.
                05 LINE 22 COL 43 VALUE "(y) Yes"

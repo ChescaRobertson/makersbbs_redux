@@ -310,7 +310,7 @@
              FOREGROUND-COLOR IS 2.
              05 LINE 28 COL 53 PIC 999 USING CREDIT-AMOUNT
              HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 28 COL 56 VALUE "Bottle Caps" 
+             05 LINE 28 COL 57 VALUE "Bottle Caps" 
              HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 29 COL 34 VALUE 
             "Please enter your password to confirm payment:"
