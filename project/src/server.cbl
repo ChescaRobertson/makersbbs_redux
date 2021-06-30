@@ -349,8 +349,19 @@
            01 UPDATED-PASSWORD PIC X(20).
            01 CONFIRM-NEW-PASSWORD PIC X(20).
            01 CHANGE-PWORD-CHOICE PIC X. 
-
-
+           
+           *>----- Change Account Num Variables ----- 
+           01 PWORD-ERROR PIC X(50).
+           01 ACNT-ERR-1 PIC X(50).
+           01 ACNT-ERR-2 PIC X(50).
+           01 PWORD-OK PIC X(50).
+           01 ACNT-OK-1 PIC X(50).
+           01 ACNT-OK-2 PIC X(50).
+           01 ACNT-CONFIRM-MSG PIC X(50).
+           01 CHECK-PASSWORD PIC X(20).
+           01 UPDATED-ACNT PIC X(8).
+           01 CONFIRM-ACNT PIC X(8).
+           01 CHANGE-ACNT-CHOICE PIC X. 
 
            LINKAGE SECTION.
            01 LS-COUNTER UNSIGNED-INT.
@@ -585,10 +596,7 @@
                  05 LINE 4 COL 12 VALUE "Connected to Vault" 
                    UNDERLINE, BLINK
                    HIGHLIGHT, FOREGROUND-COLOR IS 3.
-           
-      *>>  
-
-      *>>>>>End of the pip boy here                               
+                             
                  05 LINE 08 COl 30 VALUE
            "The TMNCT present:".                       
                  05 LINE 11 COl 30 VALUE   
@@ -776,15 +784,21 @@
                05 LINE 29 COL 48 VALUE "Most importantly. HAVE FUN!"
                   FOREGROUND-COLOR 2. 
              
-               05 LINE 34 COL 82 VALUE "(b) Library     "
+               05 LINE 34 COL 84 VALUE "(b) Library     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 34 COL 46 VALUE "(m) Messages    "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 34 COL 64 VALUE "(f) Fun & games "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 34 COL 100 VALUE "(p) Update Password    "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 100 VALUE "(u) Update Account Num "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 36 COL 46 VALUE "(l) Logout      "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.            
                05 LINE 36 COL 64 VALUE "(c) Buy Credits "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 84 VALUE "(w) Weather     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 38 COL 46 VALUE "Pick: "
                   FOREGROUND-COLOR IS 2.
@@ -866,8 +880,7 @@
                 BLINK, FOREGROUND-COLOR IS 2.
              05 LINE 35 COL 18 PIC X(20) USING INSUFFICIENT-FUNDS.
              05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE"
-               FOREGROUND-COLOR 2.
+      -      "VERY SERVICE" FOREGROUND-COLOR 2.
 
            01 MESSAGE-VIEW-SCREEN
              BACKGROUND-COLOR IS 0.
@@ -1295,225 +1308,289 @@
                USING READ-CHOICE.
                05 LINE 33 COL 60 VALUE 'Press q to leave'.
 
-           01 WEATHER-SCREEN-1.
+           01 WEATHER-SCREEN-1
+               BACKGROUND-COLOR IS 0.
                05 BLANK SCREEN.
-               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
-               HIGHLIGHT.
-               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
-               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
-               05 LINE 15 COL 29 VALUE "10 'C".
-               05 LINE 16 COL 29 VALUE "<- 3-4 km/h ".
-               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
-               05 LINE 15 COL 18 VALUE     ".--.".
-               05 LINE 16 COL 15 VALUE  ".-(    ).". 
-               05 LINE 17 COL 14 VALUE "(___.__)__)".
-               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
-               05 LINE 14 COL 64 VALUE "HEAVY RAIN" HIGHLIGHT.
-               05 LINE 15 COL 64 VALUE "16 'C".
-               05 LINE 16 COL 64 VALUE "<- 6-8 km/h ".
-               05 LINE 17 COL 64 VALUE "2.4 mm | 87%".
-               05 LINE 14 COL 53 VALUE     ".--.".
-               05 LINE 15 COL 50 VALUE  ".-(    ).". 
-               05 LINE 16 COL 49 VALUE "(___.__)__)".
-               05 LINE 17 COL 49 VALUE " , , , , ," FOREGROUND-COLOR IS 
-               3.
-               05 LINE 18 COL 49 VALUE ", , , , ," FOREGROUND-COLOR IS 
-               3.
-               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
-               05 LINE 23 COL 29 VALUE "PATCHY RAIN" HIGHLIGHT.
-               05 LINE 24 COL 29 VALUE "18 'C".
-               05 LINE 25 COL 29 VALUE "<- 4-6 km/h ".
-               05 LINE 26 COL 29 VALUE "1.7 mm | 68%".
-               05 LINE 23 COL 14 VALUE  "_`/''" FOREGROUND-COLOR IS 6 . 
-               05 LINE 23 COL 19 VALUE    ".-.".
-               05 LINE 24 COL 15 VALUE    ",\_" FOREGROUND-COLOR IS 6 .
-               05 LINE 24 COL 18 VALUE      "(   ).". 
-               05 LINE 25 COL 16 VALUE    "/" FOREGROUND-COLOR IS 6 .
-               05 LINE 25 COL 17 VALUE   "(___(__)".
-               05 LINE 26 COL 17 VALUE " , , , " FOREGROUND-COLOR IS 3.
-               05 LINE 27 COL 17 VALUE "  , , " FOREGROUND-COLOR IS 3.
-               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
-               05 LINE 23 COL 64 VALUE "PATCHY RAIN" HIGHLIGHT.
-               05 LINE 24 COL 64 VALUE "12 'C".
-               05 LINE 25 COL 64 VALUE "<- 2-4 km/h ".
-               05 LINE 26 COL 64 VALUE "1.4 mm | 64%".
-               05 LINE 23 COL 49 VALUE  "_`/''" FOREGROUND-COLOR IS 6 . 
-               05 LINE 23 COL 54 VALUE    ".-.".
-               05 LINE 24 COL 50 VALUE    ",\_" FOREGROUND-COLOR IS 6 .
-               05 LINE 24 COL 53 VALUE      "(   ).". 
-               05 LINE 25 COL 51 VALUE    "/" FOREGROUND-COLOR IS 6 .
-               05 LINE 25 COL 52 VALUE   "(___(__)".
-               05 LINE 26 COL 52 VALUE " , , , " FOREGROUND-COLOR IS 3.
-               05 LINE 27 COL 52 VALUE "  , , " FOREGROUND-COLOR IS 3.
-               05 LINE 29 COL 39 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.            
-               05 LINE 31 COL 39 VALUE "Pick: ".
-               05 W1-CHOICE-FIELD LINE 31 COL 45 PIC X 
-               USING W1-CHOICE.
-
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 59 VALUE "OVERCAST" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 59 VALUE "10 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 59 VALUE "<- 3-4 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 27 COL 59 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 25 COL 48 VALUE     ".--.".
+               05 LINE 26 COL 45 VALUE  ".-(    ).". 
+               05 LINE 27 COL 44 VALUE "(___.__)__)".
+               05 LINE 22 COL 80 VALUE "NOON: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 94 VALUE "HEAVY RAIN" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 94 VALUE "16 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 94 VALUE "<- 6-8 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 27 COL 94 VALUE "2.4 mm | 87%" FOREGROUND-COLOR 
+               2.
+               05 LINE 24 COL 83 VALUE     ".--.".
+               05 LINE 25 COL 80 VALUE  ".-(    ).". 
+               05 LINE 26 COL 79 VALUE "(___.__)__)".
+               05 LINE 27 COL 79 VALUE " , , , , ," FOREGROUND-COLOR 3.
+               05 LINE 28 COL 79 VALUE ", , , , ," FOREGROUND-COLOR 3.
+               05 LINE 31 COL 45 VALUE "EVENING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 59 VALUE "PATCHY RAIN" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 59 VALUE "18 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 59 VALUE "<- 4-6 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 36 COL 59 VALUE "1.7 mm | 68%" FOREGROUND-COLOR 
+               2.
+               05 LINE 33 COL 44 VALUE  "_`/''" FOREGROUND-COLOR 6 . 
+               05 LINE 33 COL 49 VALUE    ".-.".
+               05 LINE 34 COL 45 VALUE    ",\_" FOREGROUND-COLOR 6 .
+               05 LINE 34 COL 48 VALUE      "(   ).". 
+               05 LINE 35 COL 46 VALUE    "/" FOREGROUND-COLOR 6 .
+               05 LINE 35 COL 47 VALUE   "(___(__)".
+               05 LINE 36 COL 47 VALUE " , , , " FOREGROUND-COLOR 3.
+               05 LINE 37 COL 47 VALUE "  , , " FOREGROUND-COLOR 3.
+               05 LINE 31 COL 80 VALUE "NIGHT: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 94 VALUE "PATCHY RAIN" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 94 VALUE "12 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 94 VALUE "<- 2-4 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 36 COL 94 VALUE "1.4 mm | 64%" FOREGROUND-COLOR 
+               2.
+               05 LINE 33 COL 79 VALUE  "_`/''" FOREGROUND-COLOR 6 . 
+               05 LINE 33 COL 84 VALUE    ".-.".
+               05 LINE 34 COL 80 VALUE    ",\_" FOREGROUND-COLOR 6 .
+               05 LINE 34 COL 83 VALUE      "(   ).". 
+               05 LINE 35 COL 81 VALUE    "/" FOREGROUND-COLOR 6 .
+               05 LINE 35 COL 82 VALUE   "(___(__)".
+               05 LINE 36 COL 82 VALUE " , , , " FOREGROUND-COLOR 3.
+               05 LINE 37 COL 82 VALUE "  , , " FOREGROUND-COLOR 3.
+               05 LINE 40 COL 69 VALUE "(g) Go back"
+               HIGHLIGHT, FOREGROUND-COLOR 3 .            
+               05 LINE 42 COL 69 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 W1-CHOICE-FIELD LINE 42 COL 75 PIC X 
+               USING W1-CHOICE BLINK, FOREGROUND-COLOR 2.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
            01 WEATHER-SCREEN-2.
                05 BLANK SCREEN.
-               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
-               HIGHLIGHT.
-               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
-               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
-               05 LINE 15 COL 29 VALUE "9 'C".
-               05 LINE 16 COL 29 VALUE "-> 3-4 km/h ".
-               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
-               05 LINE 15 COL 18 VALUE     ".--.".
-               05 LINE 16 COL 15 VALUE  ".-(    ).". 
-               05 LINE 17 COL 14 VALUE "(___.__)__)".
-               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
-               05 LINE 14 COL 64 VALUE "PARTLY CLOUDY" HIGHLIGHT.
-               05 LINE 15 COL 64 VALUE "14 'C".
-               05 LINE 16 COL 64 VALUE "-> 2-4 km/h ".
-               05 LINE 17 COL 64 VALUE "0.0 mm | 0%".
-               05 LINE 14 COL 51 VALUE    "\  / " FOREGROUND-COLOR IS 6
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 59 VALUE "OVERCAST" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 59 VALUE "9 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 59 VALUE "-> 3-4 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 27 COL 59 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 25 COL 48 VALUE     ".--.".
+               05 LINE 26 COL 45 VALUE  ".-(    ).". 
+               05 LINE 27 COL 44 VALUE "(___.__)__)".
+               05 LINE 22 COL 80 VALUE "NOON: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 94 VALUE "PARTLY CLOUDY" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 94 VALUE "14 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 94 VALUE "-> 2-4 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 27 COL 94 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 24 COL 81 VALUE    "\  / " FOREGROUND-COLOR 6
                . 
-               05 LINE 15 COL 49 VALUE  "_ /''" FOREGROUND-COLOR IS 6 . 
-               05 LINE 15 COL 54 VALUE    ".-.".
-               05 LINE 16 COL 51 VALUE    "\_" FOREGROUND-COLOR IS 6 .
-               05 LINE 16 COL 53 VALUE      "(   ).". 
-               05 LINE 17 COL 51 VALUE    "/" FOREGROUND-COLOR IS 6 .
-               05 LINE 17 COL 52 VALUE   "(___(__)".
-               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
-               05 LINE 23 COL 29 VALUE "PARTLY CLOUDY" HIGHLIGHT.
-               05 LINE 24 COL 29 VALUE "12 'C".
-               05 LINE 25 COL 29 VALUE "-> 4-8 km/h ".
-               05 LINE 26 COL 29 VALUE "0.0 mm | 0%".
-               05 LINE 23 COL 16 VALUE    "\  / " FOREGROUND-COLOR IS 6
+               05 LINE 25 COL 79 VALUE  "_ /''" FOREGROUND-COLOR 6 . 
+               05 LINE 25 COL 84 VALUE    ".-.".
+               05 LINE 26 COL 81 VALUE    "\_" FOREGROUND-COLOR 6 .
+               05 LINE 26 COL 83 VALUE      "(   ).". 
+               05 LINE 27 COL 81 VALUE    "/" FOREGROUND-COLOR 6 .
+               05 LINE 27 COL 82 VALUE   "(___(__)".
+               05 LINE 31 COL 45 VALUE "EVENING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 59 VALUE "PARTLY CLOUDY" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 59 VALUE "12 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 59 VALUE "-> 4-8 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 36 COL 59 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 33 COL 46 VALUE    "\  / " FOREGROUND-COLOR 6
                . 
-               05 LINE 24 COL 14 VALUE  "_ /''" FOREGROUND-COLOR IS 6 . 
-               05 LINE 24 COL 19 VALUE    ".-.".
-               05 LINE 25 COL 16 VALUE    "\_" FOREGROUND-COLOR IS 6 .
-               05 LINE 25 COL 18 VALUE      "(   ).". 
-               05 LINE 26 COL 16 VALUE    "/" FOREGROUND-COLOR IS 6 .
-               05 LINE 26 COL 17 VALUE   "(___(__)".
-               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
-               05 LINE 23 COL 64 VALUE "OVERCAST" HIGHLIGHT.
-               05 LINE 24 COL 64 VALUE "10 'C".
-               05 LINE 25 COL 64 VALUE "-> 6-8 km/h ".
-               05 LINE 26 COL 64 VALUE "0.0 mm | 0%".
-               05 LINE 24 COL 53 VALUE     ".--.".
-               05 LINE 25 COL 50 VALUE  ".-(    ).". 
-               05 LINE 26 COL 49 VALUE "(___.__)__)".
-               05 LINE 29 COL 39 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.            
-               05 LINE 31 COL 39 VALUE "Pick: ".
-               05 W2-CHOICE-FIELD LINE 31 COL 45 PIC X 
-               USING W2-CHOICE.
+               05 LINE 34 COL 44 VALUE  "_ /''" FOREGROUND-COLOR 6 . 
+               05 LINE 34 COL 49 VALUE    ".-.".
+               05 LINE 35 COL 46 VALUE    "\_" FOREGROUND-COLOR 6 .
+               05 LINE 35 COL 48 VALUE      "(   ).". 
+               05 LINE 36 COL 46 VALUE    "/" FOREGROUND-COLOR 6 .
+               05 LINE 36 COL 47 VALUE   "(___(__)".
+               05 LINE 31 COL 80 VALUE "NIGHT: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 94 VALUE "OVERCAST" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 94 VALUE "10 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 94 VALUE "-> 6-8 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 36 COL 94 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 34 COL 83 VALUE     ".--.".
+               05 LINE 35 COL 80 VALUE  ".-(    ).". 
+               05 LINE 36 COL 79 VALUE "(___.__)__)".
+               05 LINE 40 COL 69 VALUE "(g) Go back"
+               HIGHLIGHT, FOREGROUND-COLOR 3 .            
+               05 LINE 42 COL 69 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 W2-CHOICE-FIELD LINE 42 COL 75 PIC X 
+               USING W2-CHOICE BLINK, FOREGROUND-COLOR 2.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
 
            01 WEATHER-SCREEN-3.
                05 BLANK SCREEN.
-               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
-               HIGHLIGHT.
-               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
-               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
-               05 LINE 15 COL 29 VALUE "14 'C".
-               05 LINE 16 COL 29 VALUE "-> 1-4 km/h ".
-               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
-               05 LINE 15 COL 18 VALUE     ".--.".
-               05 LINE 16 COL 15 VALUE  ".-(    ).". 
-               05 LINE 17 COL 14 VALUE "(___.__)__)".
-               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
-               05 LINE 13 COL 50 VALUE "SEVERE WEATHER: " BLINK, 
-               HIGHLIGHT, FOREGROUND-COLOR IS 4.
-               05 LINE 14 COL 64 VALUE "RADSTORM" HIGHLIGHT.
-               05 LINE 15 COL 64 VALUE "26 'C".
-               05 LINE 16 COL 64 VALUE "<- 14-20 km/h ".
-               05 LINE 17 COL 64 VALUE "3.8 mm | 87%".
-               05 LINE 14 COL 53 VALUE     ".--.".
-               05 LINE 15 COL 50 VALUE  ".-(    ).". 
-               05 LINE 16 COL 49 VALUE "(___.__)__)".
-               05 LINE 17 COL 49 VALUE " , * , * ," FOREGROUND-COLOR IS 
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 59 VALUE "OVERCAST" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 59 VALUE "14 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 59 VALUE "-> 1-4 km/h " FOREGROUND-COLOR 
                2.
-               05 LINE 18 COL 49 VALUE "* , * , *" FOREGROUND-COLOR IS 
+               05 LINE 27 COL 59 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 25 COL 48 VALUE     ".--.".
+               05 LINE 26 COL 45 VALUE  ".-(    ).". 
+               05 LINE 27 COL 44 VALUE "(___.__)__)".
+               05 LINE 22 COL 80 VALUE "NOON: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 23 COL 80 VALUE "SEVERE WEATHER: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR 4.
+               05 LINE 24 COL 94 VALUE "RADSTORM" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 94 VALUE "26 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 94 VALUE "<- 14-20 km/h " 
+               FOREGROUND-COLOR 2.
+               05 LINE 27 COL 94 VALUE "3.8 mm | 87%" FOREGROUND-COLOR 
                2.
-               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
-               05 LINE 22 COL 15 VALUE "SEVERE WEATHER: " BLINK, 
-               HIGHLIGHT, FOREGROUND-COLOR IS 4.
-               05 LINE 23 COL 29 VALUE "RADSTORM" HIGHLIGHT.
-               05 LINE 24 COL 29 VALUE "32 'C".
-               05 LINE 25 COL 29 VALUE "<- 12-18 km/h ".
-               05 LINE 26 COL 29 VALUE "4.1 mm | 81%".
-               05 LINE 23 COL 18 VALUE     ".--.".
-               05 LINE 24 COL 15 VALUE  ".-(    ).". 
-               05 LINE 25 COL 14 VALUE "(___.__)__)".
-               05 LINE 26 COL 14 VALUE " , * , * ," FOREGROUND-COLOR IS 
+               05 LINE 24 COL 83 VALUE     ".--.".
+               05 LINE 25 COL 80 VALUE  ".-(    ).". 
+               05 LINE 26 COL 79 VALUE "(___.__)__)".
+               05 LINE 27 COL 79 VALUE " , * , * ," FOREGROUND-COLOR 2.
+               05 LINE 28 COL 79 VALUE "* , * , *" FOREGROUND-COLOR 2.
+               05 LINE 31 COL 45 VALUE "EVENING: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 32 COL 45 VALUE "SEVERE WEATHER: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR 4.
+               05 LINE 33 COL 59 VALUE "RADSTORM" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 59 VALUE "32 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 59 VALUE "<- 12-18 km/h " 
+               FOREGROUND-COLOR 2.
+               05 LINE 36 COL 59 VALUE "4.1 mm | 81%" FOREGROUND-COLOR 
                2.
-               05 LINE 27 COL 14 VALUE "* , * , *" FOREGROUND-COLOR IS 
+               05 LINE 33 COL 48 VALUE     ".--.".
+               05 LINE 34 COL 45 VALUE  ".-(    ).". 
+               05 LINE 35 COL 44 VALUE "(___.__)__)".
+               05 LINE 36 COL 44 VALUE " , * , * ," FOREGROUND-COLOR 2.
+               05 LINE 37 COL 44 VALUE "* , * , *" FOREGROUND-COLOR 2.
+               05 LINE 31 COL 80 VALUE "NIGHT: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 94 VALUE "LIGHT RAIN" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 94 VALUE "18 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 94 VALUE "-> 4-8 km/h " FOREGROUND-COLOR 
                2.
-               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
-               05 LINE 23 COL 64 VALUE "LIGHT RAIN" HIGHLIGHT.
-               05 LINE 24 COL 64 VALUE "18 'C".
-               05 LINE 25 COL 64 VALUE "-> 4-8 km/h ".
-               05 LINE 26 COL 64 VALUE "1.4 mm | 62%".
-               05 LINE 23 COL 53 VALUE     ".--.".
-               05 LINE 24 COL 50 VALUE  ".-(    ).". 
-               05 LINE 25 COL 49 VALUE "(___.__)__)".
-               05 LINE 26 COL 49 VALUE " ` ` ` ` `" FOREGROUND-COLOR IS 
-               3.
-               05 LINE 27 COL 49 VALUE "` ` ` ` `" FOREGROUND-COLOR IS 
-               3.
-               05 LINE 29 COL 39 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.            
-               05 LINE 31 COL 39 VALUE "Pick: ".
-               05 W3-CHOICE-FIELD LINE 31 COL 45 PIC X 
-               USING W3-CHOICE.
+               05 LINE 36 COL 94 VALUE "1.4 mm | 62%" FOREGROUND-COLOR 
+               2.
+               05 LINE 33 COL 83 VALUE     ".--.".
+               05 LINE 34 COL 80 VALUE  ".-(    ).". 
+               05 LINE 35 COL 79 VALUE "(___.__)__)".
+               05 LINE 36 COL 79 VALUE " ` ` ` ` `" FOREGROUND-COLOR 3.
+               05 LINE 37 COL 79 VALUE "` ` ` ` `" FOREGROUND-COLOR 3.
+               05 LINE 40 COL 69 VALUE "(g) Go back" HIGHLIGHT, 
+               FOREGROUND-COLOR 3 .            
+               05 LINE 42 COL 69 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 W3-CHOICE-FIELD LINE 42 COL 75 PIC X 
+               USING W3-CHOICE FOREGROUND-COLOR 2.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
 
            01 WEATHER-SCREEN-4.
                05 BLANK SCREEN.
-               05 LINE 8 COL 39 VALUE "WEATHER REPORT: " UNDERLINE, 
-               HIGHLIGHT.
-               05 LINE 12 COL 15 VALUE "MORNING: " HIGHLIGHT.
-               05 LINE 14 COL 29 VALUE "OVERCAST" HIGHLIGHT.
-               05 LINE 15 COL 29 VALUE "2 'C".
-               05 LINE 16 COL 29 VALUE "-> 4-8 km/h ".
-               05 LINE 17 COL 29 VALUE "0.0 mm | 0%".
-               05 LINE 15 COL 18 VALUE     ".--.".
-               05 LINE 16 COL 15 VALUE  ".-(    ).". 
-               05 LINE 17 COL 14 VALUE "(___.__)__)".
-               05 LINE 12 COL 50 VALUE "NOON: " HIGHLIGHT.
-               05 LINE 14 COL 64 VALUE "SLEET SHOWERS" HIGHLIGHT.
-               05 LINE 15 COL 64 VALUE "1 'C".
-               05 LINE 16 COL 64 VALUE "<- 11-14 km/h ".
-               05 LINE 17 COL 64 VALUE "2.8 mm | 82%".
-               05 LINE 14 COL 53 VALUE     ".--.".
-               05 LINE 15 COL 50 VALUE  ".-(    ).". 
-               05 LINE 16 COL 49 VALUE "(___.__)__)".
-               05 LINE 17 COL 49 VALUE " ,   ,   ," FOREGROUND-COLOR IS 
-               3.
-               05 LINE 18 COL 49 VALUE "   *   *  " .
-               05 LINE 21 COL 15 VALUE "EVENING: " HIGHLIGHT.
-               05 LINE 22 COL 15 VALUE "CAUTION: " BLINK, 
-               HIGHLIGHT, FOREGROUND-COLOR IS 6.
-               05 LINE 23 COL 29 VALUE "HEAVY SNOW" HIGHLIGHT.
-               05 LINE 24 COL 29 VALUE "2 'C".
-               05 LINE 25 COL 29 VALUE "<- 12-18 km/h ".
-               05 LINE 26 COL 29 VALUE "4.1 mm | 81%".
-               05 LINE 23 COL 18 VALUE     ".--.".
-               05 LINE 24 COL 15 VALUE  ".-(    ).". 
-               05 LINE 25 COL 14 VALUE "(___.__)__)".
-               05 LINE 26 COL 14 VALUE " * * * * *".
-               05 LINE 27 COL 14 VALUE "* * * * *".
-               05 LINE 21 COL 50 VALUE "NIGHT: " HIGHLIGHT.
-               05 LINE 23 COL 64 VALUE "LIGHT SNOW" HIGHLIGHT.
-               05 LINE 24 COL 64 VALUE "-1 'C".
-               05 LINE 25 COL 64 VALUE "<- 4-8 km/h ".
-               05 LINE 26 COL 64 VALUE "1.4 mm | 62%".
-               05 LINE 23 COL 53 VALUE     ".--.".
-               05 LINE 24 COL 50 VALUE  ".-(    ).". 
-               05 LINE 25 COL 49 VALUE "(___.__)__)".
-               05 LINE 26 COL 49 VALUE " *   *   *".
-               05 LINE 27 COL 49 VALUE "  *   *  ".
-               05 LINE 29 COL 39 VALUE "(g) Go back"
-                REVERSE-VIDEO , HIGHLIGHT.            
-               05 LINE 31 COL 39 VALUE "Pick: ".
-               05 W4-CHOICE-FIELD LINE 31 COL 45 PIC X 
-               USING W4-CHOICE.
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 18 COL 69 VALUE "WEATHER REPORT: " UNDERLINE, 
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 22 COL 45 VALUE "MORNING: " HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 59 VALUE "OVERCAST" HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 59 VALUE "2 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 59 VALUE "-> 4-8 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 27 COL 59 VALUE "0.0 mm | 0%" FOREGROUND-COLOR 2.
+               05 LINE 25 COL 48 VALUE     ".--.".
+               05 LINE 26 COL 45 VALUE  ".-(    ).". 
+               05 LINE 27 COL 44 VALUE "(___.__)__)".
+               05 LINE 22 COL 80 VALUE "NOON: " HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 24 COL 94 VALUE "SLEET SHOWERS" HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COL 94 VALUE "1 'C" FOREGROUND-COLOR 2.
+               05 LINE 26 COL 94 VALUE "<- 11-14 km/h " FOREGROUND-COLOR
+                2.
+               05 LINE 27 COL 94 VALUE "2.8 mm | 82%" FOREGROUND-COLOR 
+               2.
+               05 LINE 24 COL 83 VALUE     ".--.".
+               05 LINE 25 COL 80 VALUE  ".-(    ).". 
+               05 LINE 26 COL 79 VALUE "(___.__)__)".
+               05 LINE 27 COL 79 VALUE " ,   ,   ," FOREGROUND-COLOR 3.
+               05 LINE 28 COL 79 VALUE "   *   *  " .
+               05 LINE 31 COL 45 VALUE "EVENING: " HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 32 COL 45 VALUE "CAUTION: " BLINK, 
+               HIGHLIGHT, FOREGROUND-COLOR 6.
+               05 LINE 33 COL 59 VALUE "HEAVY SNOW" HIGHLIGHT, 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 59 VALUE "2 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 59 VALUE "<- 12-18 km/h " 
+               FOREGROUND-COLOR 2.
+               05 LINE 36 COL 59 VALUE "4.1 mm | 81%" FOREGROUND-COLOR 
+               2.
+               05 LINE 33 COL 48 VALUE     ".--.".
+               05 LINE 34 COL 45 VALUE  ".-(    ).". 
+               05 LINE 35 COL 44 VALUE "(___.__)__)".
+               05 LINE 36 COL 44 VALUE " * * * * *".
+               05 LINE 37 COL 44 VALUE "* * * * *".
+               05 LINE 31 COL 80 VALUE "NIGHT: " HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 33 COL 94 VALUE "LIGHT SNOW" HIGHLIGHT 
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COL 94 VALUE "-1 'C" FOREGROUND-COLOR 2.
+               05 LINE 35 COL 94 VALUE "<- 4-8 km/h " FOREGROUND-COLOR 
+               2.
+               05 LINE 36 COL 94 VALUE "1.4 mm | 62%" FOREGROUND-COLOR 
+               2.
+               05 LINE 33 COL 83 VALUE     ".--.".
+               05 LINE 34 COL 80 VALUE  ".-(    ).". 
+               05 LINE 35 COL 79 VALUE "(___.__)__)".
+               05 LINE 36 COL 79 VALUE " *   *   *".
+               05 LINE 37 COL 79 VALUE "  *   *  ".
+               05 LINE 40 COL 69 VALUE "(g) Go back" HIGHLIGHT, 
+               FOREGROUND-COLOR 3 .            
+               05 LINE 42 COL 69 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 W4-CHOICE-FIELD LINE 42 COL 75 PIC X 
+               USING W4-CHOICE BLINK, FOREGROUND-COLOR 2.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
            01 TORCH-SCREEN
                BACKGROUND-COLOR IS 6 . 
@@ -1655,42 +1732,98 @@
                HIGHLIGHT, FOREGROUND-COLOR IS 4.
            05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
            ABOUT-PAGE-READ-CHOICE.
-           
+
            01 CHANGE-PASSWORD-SCREEN.
-             05 BLANK SCREEN.   
+             05 BLANK SCREEN.  
+             05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+             UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
              05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
-             HIGHLIGHT, FOREGROUND-COLOR IS 3.
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
              05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
       -      " BBS and everything you can do. Why we need bank details."  
-             FOREGROUND-COLOR IS 5.
-             05 LINE 21 COLUMN 30 VALUE "Enter current password:".
+             FOREGROUND-COLOR IS 2.
+             05 LINE 21 COLUMN 30 VALUE "Enter current password:" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 OLD-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
-                USING OLD-PASSWORD.
+                USING OLD-PASSWORD FOREGROUND-COLOR IS 2.
              05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK-1 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 25 COLUMN 30 VALUE "Enter new password:".
+             05 LINE 25 COLUMN 30 VALUE "Enter new password:" HIGHLIGHT
+             FOREGROUND-COLOR IS 2.
              05 LINE 25 COLUMN 52 VALUE " (Your password must be a minim
-      -      "um of 6 characters and 1 number.) ".
+      -      "um of 6 characters and 1 number.) " FOREGROUND-COLOR IS 2.
              05 LINE 26 COLUMN 30 PIC X(50) USING PWORD-ERR-2 HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 UPDATED-PASSWORD-FIELD LINE 27 COLUMN 30 PIC X(20)
-                USING UPDATED-PASSWORD.
+                USING UPDATED-PASSWORD FOREGROUND-COLOR IS 2.
              05 LINE 28 COLUMN 30 PIC X(50) USING PWORD-OK-2 HIGHLIGHT
              FOREGROUND-COLOR is 2.
-             05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:".
+             05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 30 COLUMN 30 PIC X(50) USING PWORD-ERR-3 HIGHLIGHT
              FOREGROUND-COLOR is 4.
              05 CONFIRM-NEW-PASSWORD-FIELD LINE 31 COLUMN 30 PIC X(20)
-                USING CONFIRM-NEW-PASSWORD.
+                USING CONFIRM-NEW-PASSWORD FOREGROUND-COLOR IS 2.
              05 LINE 32 COLUMN 30 PIC X(50) USING PWORD-OK-3 HIGHLIGHT
              FOREGROUND-COLOR is 2.
              05 LINE 34 COLUMN 30 PIC X(50) USING PWORD-CONFIRM-MSG
              HIGHLIGHT FOREGROUND-COLOR is 2 . 
-             05 LINE 36 COLUMN 30 VALUE "Pick: ".
-             05 CHANGE-PWORD-FIELD LINE 36 COLUMN 38 PIC X
+             05 LINE 37 COL 66 VALUE "(s) Submit "
+             HIGHLIGHT FOREGROUND-COLOR IS 3 . 
+             05 LINE 38 COL 66 VALUE "(q) Quit   "
+             HIGHLIGHT FOREGROUND-COLOR IS 3.
+             05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+             05 CHANGE-PWORD-FIELD LINE 40 COLUMN 73 PIC X
                 USING CHANGE-PWORD-CHOICE.
+             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
+      -      "VERY SERVICE" FOREGROUND-COLOR 2.
+
+           01 CHANGE-ACCOUNT-NUM-SCREEN.
+             05 BLANK SCREEN.  
+             05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+             UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+             05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR ACCOUNT DETAILS" 
+             HIGHLIGHT, FOREGROUND-COLOR IS 2.
+             05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
+      -      " BBS and everything you can do. Why we need bank details."  
+             FOREGROUND-COLOR IS 2.
+             05 LINE 21 COLUMN 30 VALUE "Enter your password:" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERROR HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 CHECK-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
+                USING CHECK-PASSWORD FOREGROUND-COLOR IS 2.
+             05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 25 COLUMN 30 VALUE "Enter new account number:" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 26 COLUMN 30 PIC X(50) USING ACNT-ERR-1 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 UPDATED-ACNT-FIELD LINE 27 COLUMN 30 PIC X(8)
+                USING UPDATED-ACNT FOREGROUND-COLOR IS 2.
+             05 LINE 28 COLUMN 30 PIC X(50) USING ACNT-OK-1 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 29 COLUMN 30 VALUE "Re-enter your account number:" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 30 COLUMN 30 PIC X(50) USING ACNT-ERR-2 HIGHLIGHT
+             FOREGROUND-COLOR is 4.
+             05 CONFIRM-ACNT-FIELD LINE 31 COLUMN 30 PIC X(8)
+                USING CONFIRM-ACNT FOREGROUND-COLOR IS 2.
+             05 LINE 32 COLUMN 30 PIC X(50) USING ACNT-OK-2 HIGHLIGHT
+             FOREGROUND-COLOR is 2.
+             05 LINE 34 COLUMN 30 PIC X(50) USING ACNT-CONFIRM-MSG
+             HIGHLIGHT FOREGROUND-COLOR is 2 . 
+             05 LINE 37 COL 66 VALUE "(s) Submit "
+             HIGHLIGHT FOREGROUND-COLOR IS 3 . 
+             05 LINE 38 COL 66 VALUE "(q) Quit   "
+             HIGHLIGHT FOREGROUND-COLOR IS 3.
+             05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+             05 CHANGE-ACNT-FIELD LINE 40 COLUMN 73 PIC X
+                USING CHANGE-ACNT-CHOICE.
+             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
+      -      "VERY SERVICE" FOREGROUND-COLOR 2.
 
        PROCEDURE DIVISION.
 
@@ -1888,8 +2021,6 @@
                PERFORM 0115-ERROR-PAGE 
            END-IF.
        
-
-       
        0120-DISPLAY-MENU.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE MENU-CHOICE.
@@ -1919,6 +2050,8 @@
            ELSE IF MENU-CHOICE = 't' or 'T' THEN 
                PERFORM 0350-TORCH
            ELSE IF MENU-CHOICE = 'u' or 'U' THEN 
+               PERFORM 0650-CHANGE-ACCOUNT-NUM
+           ELSE IF MENU-CHOICE = 'p' or 'P' THEN 
                PERFORM 0600-CHANGE-PASSWORD
            END-IF.
       
@@ -2570,6 +2703,8 @@
            WEATHER-ENVIRONMENT-1.
            INITIALIZE W1-CHOICE.
            DISPLAY WEATHER-SCREEN-1.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT W1-CHOICE-FIELD.
            IF W1-CHOICE = 'g' OR 'G' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2580,6 +2715,8 @@
            WEATHER-ENVIRONMENT-2.
            INITIALIZE W2-CHOICE.
            DISPLAY WEATHER-SCREEN-2.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT W2-CHOICE-FIELD.
            IF W2-CHOICE = 'g' OR 'G' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2590,6 +2727,8 @@
            WEATHER-ENVIRONMENT-3.
            INITIALIZE W3-CHOICE.
            DISPLAY WEATHER-SCREEN-3.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT W3-CHOICE-FIELD.
            IF W3-CHOICE = 'g' OR 'G' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2600,6 +2739,8 @@
            WEATHER-ENVIRONMENT-4.
            INITIALIZE W4-CHOICE.
            DISPLAY WEATHER-SCREEN-4.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT W4-CHOICE-FIELD.
            IF W4-CHOICE = 'g' OR 'G' THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2779,8 +2920,8 @@
            END-IF.
            
        0500-TIME-AND-DATE.
-           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME. 
-       
+           MOVE FUNCTION CURRENT-DATE TO WS-DATETIME.
+
        0600-CHANGE-PASSWORD SECTION.
            MOVE SPACES TO PWORD-ERR-1.
            MOVE SPACES TO PWORD-ERR-2.
@@ -2797,7 +2938,7 @@
            INITIALIZE CHANGE-PWORD-CHOICE.
            DISPLAY CHANGE-PASSWORD-SCREEN. 
            DISPLAY PIP-BOY-SCREEN.
-           DISPLAY TIME-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT OLD-PASSWORD-FIELD.
            IF OLD-PASSWORD = WS-PASSWORD THEN 
                MOVE "PASSWORD ACCEPTED" TO PWORD-OK-1
@@ -2812,7 +2953,7 @@
            INITIALIZE UPDATED-PASSWORD.
            DISPLAY CHANGE-PASSWORD-SCREEN. 
            DISPLAY PIP-BOY-SCREEN.
-           DISPLAY TIME-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT UPDATED-PASSWORD-FIELD. 
            CALL 'validate-password' USING UPDATED-PASSWORD PWORD-ERR-2 
            RAISE-ERROR PWORD-OK-2.
@@ -2826,10 +2967,11 @@
            INITIALIZE CONFIRM-NEW-PASSWORD.
            DISPLAY CHANGE-PASSWORD-SCREEN. 
            DISPLAY PIP-BOY-SCREEN.
-           DISPLAY TIME-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT CONFIRM-NEW-PASSWORD-FIELD.
            IF UPDATED-PASSWORD = CONFIRM-NEW-PASSWORD
                MOVE "PASSWORD MATCH" TO PWORD-OK-3
+               MOVE SPACES TO PWORD-ERR-3
            ELSE 
                MOVE "PASSWORDS DO NOT MATCH" TO PWORD-ERR-3
                PERFORM SECOND-VALIDATION-NEW-PASSWORD
@@ -2837,7 +2979,7 @@
 
            DISPLAY CHANGE-PASSWORD-SCREEN. 
            DISPLAY PIP-BOY-SCREEN.
-           DISPLAY TIME-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT CHANGE-PWORD-FIELD. 
            IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2850,7 +2992,7 @@
            INITIALIZE CHANGE-PWORD-CHOICE.
            DISPLAY CHANGE-PASSWORD-SCREEN. 
            DISPLAY PIP-BOY-SCREEN.
-           DISPLAY TIME-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT CHANGE-PWORD-FIELD.
            IF CHANGE-PWORD-CHOICE = "q" OR "Q" THEN 
                PERFORM 0120-DISPLAY-MENU
@@ -2858,3 +3000,81 @@
                PERFORM 0120-DISPLAY-MENU
            END-IF. 
 
+       0650-CHANGE-ACCOUNT-NUM SECTION.
+           MOVE SPACES TO PWORD-ERROR.
+           MOVE SPACES TO PWORD-ERR-1.
+           MOVE SPACES TO PWORD-ERR-2.
+           MOVE SPACES TO PWORD-OK.
+           MOVE SPACES TO ACNT-OK-1.
+           MOVE SPACES TO ACNT-OK-2.
+           MOVE SPACES TO ACNT-CONFIRM-MSG.
+
+           VALIDATE-USER-PASSWORD. 
+           INITIALIZE CHECK-PASSWORD.
+           INITIALIZE UPDATED-ACNT.
+           INITIALIZE CONFIRM-ACNT.
+           INITIALIZE CHANGE-ACNT-CHOICE.
+           DISPLAY CHANGE-ACCOUNT-NUM-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT CHECK-PASSWORD-FIELD.
+           IF CHECK-PASSWORD = WS-PASSWORD THEN 
+               MOVE "PASSWORD ACCEPTED" TO PWORD-OK
+               MOVE SPACES TO PWORD-ERROR
+               PERFORM VALIDATE-NEW-ACCOUNT
+           ELSE 
+               MOVE "INCORRECT PASSWORD" TO PWORD-ERROR
+               PERFORM VALIDATE-USER-PASSWORD
+           END-IF. 
+
+           VALIDATE-NEW-ACCOUNT. 
+           INITIALIZE UPDATED-ACNT.
+           DISPLAY CHANGE-ACCOUNT-NUM-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT UPDATED-ACNT-FIELD. 
+           CALL 'validate-bank-details' USING UPDATED-ACNT ACNT-ERR-1 
+           RAISE-ERROR ACNT-OK-1.
+           IF RAISE-ERROR > 0 
+               PERFORM VALIDATE-NEW-ACCOUNT
+           ELSE 
+               PERFORM SECOND-VALIDATION-ACCOUNT
+           END-IF. 
+
+           SECOND-VALIDATION-ACCOUNT.
+           INITIALIZE CONFIRM-ACNT.
+           DISPLAY CHANGE-ACCOUNT-NUM-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT CONFIRM-ACNT-FIELD.
+           IF UPDATED-ACNT = CONFIRM-ACNT
+               MOVE "ACCOUNT NUMBERS MATCH" TO ACNT-OK-2
+               MOVE SPACES TO ACNT-ERR-2
+           ELSE 
+               MOVE "ACCOUNT NUMBER DOES NOT MATCH" TO ACNT-ERR-2
+               PERFORM SECOND-VALIDATION-ACCOUNT
+           END-IF. 
+
+           DISPLAY CHANGE-ACCOUNT-NUM-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT CHANGE-ACNT-FIELD. 
+           IF CHANGE-ACNT-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE IF CHANGE-ACNT-CHOICE = "s" OR "S" THEN 
+               CALL 'update-account-num' USING USER-NAME 
+               UPDATED-ACNT
+               MOVE 'ACCOUNT NUMBER SUCCESSFULLY UPDATED' TO 
+               ACNT-CONFIRM-MSG
+           END-IF. 
+           
+           INITIALIZE CHANGE-ACNT-CHOICE.
+           DISPLAY CHANGE-ACCOUNT-NUM-SCREEN. 
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO.
+           ACCEPT CHANGE-ACNT-FIELD.
+           IF CHANGE-ACNT-CHOICE = "q" OR "Q" THEN 
+               PERFORM 0120-DISPLAY-MENU
+           ELSE 
+               PERFORM 0120-DISPLAY-MENU
+           END-IF. 
