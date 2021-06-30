@@ -790,7 +790,7 @@
            ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
                GOBACK
            ELSE IF (GAMES-MENU-CHOICE = "o" OR "O" )
-             AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
+           AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
@@ -809,7 +809,7 @@
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                MOVE SPACES TO INSUFFICIENT-FUNDS
-               PERFORM 0210-RANDOM-NUMBER-GAME           
+               PERFORM 0200-RANDOM-NUMBER-GAME           
            END-IF.
 
            IF CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE"
@@ -979,16 +979,16 @@
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
            MOVE "X" TO WS-PLAYER
-           PERFORM GAME-LOOP-PARAGRAPH
+           PERFORM 0191-GAME-LOOP-PARAGRAPH
                WITH TEST AFTER UNTIL FINISHED-PLAYING
            PERFORM 0160-GAMES-MENU.
 
-           GAME-LOOP-PARAGRAPH.
+       0191-GAME-LOOP-PARAGRAPH.
            INITIALIZE WS-GAME-GRID
            INITIALIZE WS-STATE
            INITIALIZE WS-MOVES
            MOVE "Make a move like 'A2'" TO WS-OANDXMESSAGE
-           PERFORM GAME-FRAME-PARAGRAPH
+           PERFORM 0192-GAME-FRAME-PARAGRAPH
            WITH TEST AFTER UNTIL GAME-OVER
            ADD 1 TO WS-GAMES 
            EVALUATE WS-STATE
@@ -1014,7 +1014,7 @@
            ACCEPT NEXT-MOVE.
            
 
-           GAME-FRAME-PARAGRAPH.
+       0192-GAME-FRAME-PARAGRAPH.
            MOVE "Move to square: " TO WS-INSTRUCTION
            MOVE WS-COLOR-GREEN TO WS-FG
            MOVE WS-COLOR-WHITE TO WS-FG-CELL
@@ -1070,7 +1070,7 @@
                        AT END
                            SET WS-EOF TO 1
                        NOT AT END
-                           PERFORM VALIDATE-WIN-PARAGRAPH
+                           PERFORM 0193-VALIDATE-WIN-PARAGRAPH
                    END-READ
                END-PERFORM
            CLOSE FD-WINMASKS
@@ -1108,7 +1108,7 @@
                END-IF
            END-IF.
 
-           VALIDATE-WIN-PARAGRAPH.
+       0193-VALIDATE-WIN-PARAGRAPH.
            INITIALIZE WS-MASK-DETECTED
            SET WS-DETECT-LOOP-COUNT TO 1
            PERFORM 9 TIMES
@@ -1128,7 +1128,7 @@
                END-IF
            END-IF.
 
-       0210-RANDOM-NUMBER-GAME.
+       0200-RANDOM-NUMBER-GAME.
            INITIALIZE RANDOM-NUM-CHOICE.
            INITIALIZE BET-AMOUNT.
            DISPLAY RANDOM-NUM-GAME-SCREEN.
@@ -1142,7 +1142,7 @@
            OR (CHECK-LIMIT(WINNINGS, USER-INFO-CREDITS) = "FAIL")
                MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
                TO CREDIT-LIMIT-MESSAGE
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               PERFORM 0200-RANDOM-NUMBER-GAME
            END-IF.
        
            ACCEPT RANDOM-NUM-CHOICE-FIELD.
@@ -1154,20 +1154,20 @@
                ACCEPT SEED FROM TIME
                COMPUTE ANSWER =
                    FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1  
-               PERFORM 0211-GAME-LOOP
+               PERFORM 0201-GAME-LOOP
            ELSE IF (RANDOM-NUM-CHOICE = 's' OR 'S')
            AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "FALSE")
                MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
            ELSE IF RANDOM-NUM-CHOICE = 'q' OR 'Q'
                STOP RUN
            ELSE
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               PERFORM 0200-RANDOM-NUMBER-GAME
            END-IF.
               
-       0211-GAME-LOOP.
+       0201-GAME-LOOP.
            INITIALIZE GUESS-INPUT.
            INITIALIZE WS-RANDOM-NUM-MSG.
            INITIALIZE RANDOM-NUM-GUESS-CHOICE.
@@ -1180,16 +1180,16 @@
            IF GUESS NOT = ANSWER
                MOVE "Incorrect, you lose."
                TO WS-RANDOM-NUM-MSG
-               PERFORM 0212-RESULT-PAGE
+               PERFORM 0202-RESULT-PAGE
            ELSE  
                MOVE "You Win!" TO WS-RANDOM-NUM-MSG
                CALL 'add-credits' USING USER-INFO-NAME, WINNINGS,
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
-               PERFORM 0212-RESULT-PAGE
+               PERFORM 0202-RESULT-PAGE
            END-IF.
        
-       0212-RESULT-PAGE.
+       0202-RESULT-PAGE.
            INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
@@ -1197,7 +1197,7 @@
 
            ACCEPT RANDOM-NUM-GUESS-CHOICE-FIELD
            IF RANDOM-NUM-GUESS-CHOICE = 'y' OR 'Y'
-             PERFORM 0210-RANDOM-NUMBER-GAME
+             PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-GUESS-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
            ELSE IF RANDOM-NUM-GUESS-CHOICE = 'q' OR 'Q'
