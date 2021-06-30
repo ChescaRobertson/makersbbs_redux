@@ -435,6 +435,8 @@
            IF MSG-MENU-CHOICE = "g" OR 'G' THEN
                MOVE SPACES TO INSUFFICIENT-FUNDS
                GOBACK
+           ELSE IF MSG-MENU-CHOICE = "x" OR 'X' THEN
+               STOP RUN
            ELSE IF MSG-MENU-CHOICE = "n" OR 'N' THEN
              COMPUTE ID-NUM = ID-NUM + 10
                IF ID-NUM IS GREATER THAN OR EQUAL TO NUM-FILE-LINES
@@ -482,6 +484,8 @@
            ACCEPT MSG-VIEW-CHOICE-FIELD.
            IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
+           ELSE IF MSG-VIEW-CHOICE = "x" OR 'X' THEN
+               STOP RUN
            ELSE 
                PERFORM 0140-MESSAGE-VIEW
   

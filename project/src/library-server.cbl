@@ -384,7 +384,7 @@
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 38 COL 43 VALUE "(p) Previous Page"
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 38 COL 77 VALUE "(q) Go back"
+               05 LINE 38 COL 77 VALUE "(g) Go back"
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 40 COL 78 VALUE "Pick: "
                    FOREGROUND-COLOR IS 2.
@@ -451,7 +451,7 @@
                05 READ-CHOICE-FIELD LINE 41 COLUMN 67 PIC X
                USING READ-CHOICE
                    FOREGROUND-COLOR IS 2.
-               05 LINE 48 COL 49 VALUE 'Press (q) to leave'
+               05 LINE 48 COL 49 VALUE 'Press (g) to leave'
                    BLINK, FOREGROUND-COLOR IS 2.
                
        PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
@@ -475,7 +475,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT LIBRARY-FIELD.
-           IF LIBRARY-CHOICE = 'q' THEN 
+           IF LIBRARY-CHOICE = 'g' THEN 
                GOBACK
            ELSE IF LIBRARY-CHOICE = 'n' THEN
                IF OFFSET > 10
@@ -486,6 +486,8 @@
                END-IF
                MOVE SPACES TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
+           ELSE IF LIBRARY-CHOICE = 'x' THEN
+               STOP RUN      
            ELSE IF LIBRARY-CHOICE = 'p' THEN
                IF PAGE-NUM = '01'
                  PERFORM 0230-LIBRARY-MENU
@@ -536,7 +538,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            
            ACCEPT READ-CHOICE-FIELD.
-           IF READ-CHOICE = 'q' THEN
+           IF READ-CHOICE = 'g' THEN
                PERFORM 0230-LIBRARY-MENU
            ELSE IF (READ-CHOICE = 'a' )
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
@@ -551,6 +553,8 @@
            AND (CHECK-BALANCE(COST, USER-INFO-CREDITS) = "TRUE") THEN
                MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
                PERFORM 0230-LIBRARY-MENU
+           ELSE IF READ-CHOICE = 'x' THEN
+               STOP RUN 
            END-IF.
 
            GOBACK.
