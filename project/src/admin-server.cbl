@@ -63,7 +63,8 @@
            01 USER-BANK-ACCOUNT PIC X(8).
 
            01 RAISE-ERROR PIC 9. 
-           01 COUNTER UNSIGNED-INT. 
+           01 COUNTER UNSIGNED-INT.
+           01 COUNTER2 UNSIGNED-INT.  
 
       * message variables *    
            01 ERROR-MSG-1 PIC X(50).
@@ -298,6 +299,8 @@
    
            01 ADMIN-LOGIN-SCREEN.
                05 BLANK SCREEN. 
+               05 LINE 18 COL 43 PIC X(50) USING ADMIN-ERR-MSG 
+               HIGHLIGHT FOREGROUND-COLOR is 4.
                05 LINE 20 COL 43 VALUE "Enter Administrator username:"
                HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 ADMIN-NAME-FIELD LINE 22 COL 43 PIC X(16) 
@@ -329,8 +332,6 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 27 COL 43 VALUE "(l) Logout           "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 29 COL 43 VALUE "(q) Quit             "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 31 COL 43 VALUE "Pick: " HIGHLIGHT 
                FOREGROUND-COLOR IS 2.
                05 ADMIN-CHOICE-FIELD LINE 31 COL 49 PIC X
@@ -349,16 +350,16 @@
                05 LINE 21 COLUMN 43 PIC X(50) USING OK-MSG-1 HIGHLIGHT
                FOREGROUND-COLOR IS 2.
 
-               05 LINE 22 COLUMN 43 VALUE "Enter a password:"
+               05 LINE 23 COLUMN 43 VALUE "Enter a password:"
                FOREGROUND-COLOR IS 2.
-               05 LINE 23 COLUMN 43 VALUE "(Your password must be a mini
+               05 LINE 24 COLUMN 43 VALUE "(Your password must be a mini
       -        "mum of 6 characters and include at least 1 number.) "
                FOREGROUND-COLOR IS 2.
-               05 NEW-ADMIN-PASSWORD-FIELD LINE 25 COLUMN 43 PIC X(20)
+               05 NEW-ADMIN-PASSWORD-FIELD LINE 27 COLUMN 43 PIC X(20)
                USING NEW-ADMIN-PASSWORD FOREGROUND-COLOR IS 2.
-               05 LINE 26 COLUMN 43 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+               05 LINE 28 COLUMN 43 PIC X(50) USING OK-MSG-2 HIGHLIGHT
                FOREGROUND-COLOR IS 2.
-               05 LINE 24 COLUMN 43 PIC X(50) 
+               05 LINE 26 COLUMN 43 PIC X(50) 
                USING ERROR-MSG-2 HIGHLIGHT FOREGROUND-COLOR is 4.
                05 LINE 30 COLUMN 43 VALUE "(s) Submit"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
@@ -382,10 +383,8 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 27 COL 43 VALUE "(l) Logout          "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 29 COL 43 VALUE "(q) Quit            "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 31 COL 43 VALUE "Pick: "
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 PROCESS-PAYMENT-FIELD LINE 31 COL 49 PIC X 
                USING PROCESS-PAGE-CHOICE.
   
@@ -403,10 +402,8 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 25 COL 43 VALUE "(g) Go back         "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 27 COL 43 VALUE "(q) Quit            "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 29 COL 43 VALUE "Pick: "
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 SINGLE-ENTRY-CREDIT-FIELD LINE 29 COL 49 PIC X 
                USING SINGLE-ENTRY-CHOICE.
          
@@ -422,9 +419,8 @@
                05 LINE 22 COL 65 PIC X(8) USING CAPS-PAID.
                05 LINE 25 COL 43 VALUE "(g) Go back"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 27 COL 43 VALUE "(q) Quit"
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 30 COL 43 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+               05 LINE 30 COL 43 VALUE "Pick: " HIGHLIGHT 
+               FOREGROUND-COLOR IS 2.
                05 SINGLE-ENTRY-PROCESS-FIELD LINE 30 COL 49 PIC X 
                USING SINGLE-ENTRY-PROCESS-CHOICE.
         
@@ -438,10 +434,8 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 24 COL 43 VALUE "(g) Go back"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 26 COL 43 VALUE "(q) Quit"
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 28 COL 43 VALUE "Pick: "
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 BANK-STATEMENT-PROCESS-FIELD LINE 28 COL 49 PIC X 
                USING BANK-STATEMENT-PROCESS-CHOICE.
                
@@ -493,7 +487,7 @@
            PERFORM 0113-DISPLAY-TIME-INFO.
 
            ACCEPT ADMIN-CHOICE-FIELD.
-           IF ADMIN-CHOICE = "q" or "Q" THEN
+           IF ADMIN-CHOICE = "x" or "X" THEN
              STOP RUN
            ELSE IF ADMIN-CHOICE = "l" or "L" THEN
              GOBACK
@@ -542,7 +536,7 @@
            MOVE 1 TO WS-IDX.
            ADD 1 TO COUNTER.
            PERFORM UNTIL WS-IDX = COUNTER
-               IF NEW-ADMIN-NAME = WS-ADMIN-NAME(ADMIN-IDX) 
+               IF NEW-ADMIN-NAME = WS-ADMIN-NAME(WS-IDX) 
                    ADD 1 TO RAISE-ERROR
                END-IF
                    ADD 1 TO WS-IDX
@@ -575,7 +569,7 @@
            PERFORM 0113-DISPLAY-TIME-INFO.
 
            ACCEPT REGISTER-CHOICE-FIELD.
-           IF REGISTER-CHOICE = "q" THEN 
+           IF REGISTER-CHOICE = "g" THEN 
                PERFORM 0110-ADMIN-MENU
            ELSE IF REGISTER-CHOICE = "s" 
                OPEN EXTEND F-ADMIN-FILE
@@ -583,6 +577,8 @@
                MOVE NEW-ADMIN-PASSWORD TO ADMIN-PWORD
                WRITE ADMINS
                END-WRITE 
+           ELSE 
+               PERFORM 0110-ADMIN-MENU
            END-IF.
            CLOSE F-ADMIN-FILE.
            PERFORM 0110-ADMIN-MENU.
@@ -623,8 +619,6 @@
                PERFORM 0325-SINGLE-ENTRY-PROCESS
            ELSE IF SINGLE-ENTRY-CHOICE = 'g' OR 'G'
                PERFORM 0110-ADMIN-MENU
-           ELSE IF SINGLE-ENTRY-CHOICE = 'q' OR 'Q' 
-               STOP RUN
            ELSE 
                PERFORM 0320-SINGLE-ENTRY-CREDITS
            END-IF.
@@ -642,8 +636,6 @@
           
            IF SINGLE-ENTRY-PROCESS-CHOICE = 'g' OR 'G'
                PERFORM 0110-ADMIN-MENU
-           ELSE IF SINGLE-ENTRY-PROCESS-CHOICE = 'q' OR 'Q' 
-               STOP RUN
            ELSE 
                PERFORM 0325-SINGLE-ENTRY-PROCESS
            END-IF.
@@ -662,8 +654,6 @@
                PERFORM 0350-BANK-STATEMENT-PROCESS
            ELSE IF BANK-STATEMENT-PROCESS-CHOICE = 'g' OR 'G'
                PERFORM 0110-ADMIN-MENU
-           ELSE IF BANK-STATEMENT-PROCESS-CHOICE = 'q' OR 'Q' 
-               STOP RUN
            END-IF.
 
        0113-DISPLAY-TIME-INFO.
