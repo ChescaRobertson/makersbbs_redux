@@ -30,7 +30,7 @@
           *>  SELECT F-HIGH-SCORES-FILE ASSIGN TO 'high-scores.dat'
           *>    ORGANIZATION IS LINE SEQUENTIAL.
           
-          *>  *>----- X AND O File Control-----    
+           *>----- X AND O File Control-----    
           *>    SELECT FD-WINMASKS ASSIGN TO "placement.dat"
           *>              ORGANIZATION IS LINE SEQUENTIAL.
 
@@ -187,7 +187,7 @@
           *>      01 WS-INSTRUCTION PIC X(16).
           *>      01 WS-FLAT-GAME-GRID PIC X(9).
 
-          *>  *>-----RANDOM-NUM-GAME WS-SECTION-----
+          *>-----RANDOM-NUM-GAME WS-SECTION-----
 
           *>  01 SEED PIC 9(8).
           *>  01 GUESS-INPUT PIC XX.
@@ -239,7 +239,7 @@
       *>              10 WS-GUESSING-WORDS-WORD PIC X(20).
       *>      01 WS-GUESS-CHOICE PIC X(20).
 
-      *>      *>----Variables related to high score screen-----
+            *>----Variables related to high score screen-----
       *>      01 WS-HIGH-SCORE-CHOICE PIC X.
       *>      01 WS-HIGH-SCORE PIC 99.
       *>      01 WS-HIGH-SCORES.  
@@ -249,17 +249,17 @@
       *>             10 WS-SCORE PIC 99.
       *>             10 WS-NAME PIC X(10).
 
-      *> *    Variables related to checking guesses  
+      *    Variables related to checking guesses  
       *>      01 WS-LETTERS-LEFT PIC 99.
       *>      01 WS-GUESSES-LEFT PIC 99.          
 
-      *> *    Variables related to winning and losing.
+      *>     Variables related to winning and losing.
       *>      01 WS-GUESSING-LOSING-CHOICE PIC X.
       *>      01 WS-GUESSING-WINNING-CHOICE PIC X.
       *>      01 WS-WORD-LENGTH PIC 99.
 
            
-          *>  *>----- Weather Variables -----
+           *>----- Weather Variables -----
           *>  01 W1-CHOICE PIC X.
           *>  01 W2-CHOICE PIC X.
           *>  01 W3-CHOICE PIC X.
@@ -268,7 +268,7 @@
            *>----- Torch Variables -----   
            01 TORCH-CHOICE PIC X. 
 
-          *>   *>----- Buy Credits Variables ----- 
+           *>----- Buy Credits Variables ----- 
           *>  01 CREDIT-AMOUNT PIC 999.
           *>  01 MON-AMOUNT PIC 999.99.
           *>  01 BUY-CREDITS-CHOICE PIC X.
@@ -2258,7 +2258,7 @@
       *>      DISPLAY WORD-GUESSING-LOSE-SCREEN.
 
       *>      DISPLAY PIP-BOY-SCREEN.
-      *>      *> DISPLAY USER-INFO-SCREEN.
+            *> DISPLAY USER-INFO-SCREEN.
 
       *>      PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
@@ -2308,7 +2308,7 @@
       *>          PERFORM 0188-HIGH-SCORE-SCREEN
       *>      END-IF.
 
-      *>      *>----- X AND O Procedure Div------    
+            *>----- X AND O Procedure Div------    
       *>  0190-O-AND-X-GAME.
       *>      MOVE "X" TO WS-PLAYER
       *>      PERFORM GAME-LOOP-PARAGRAPH
