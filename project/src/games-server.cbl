@@ -407,8 +407,6 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 36 COL 36 VALUE "(g) Go back "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 36 COL 54 VALUE "(q) Quit    "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 38 COL 36 VALUE "Pick: "
                FOREGROUND-COLOR IS 2.
                05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 41 PIC X
@@ -720,8 +718,6 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 25 COL 34 VALUE "(g) Go back"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 26 COL 34 VALUE "(q) Quit   "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 28 COL 34 VALUE "Pick: " FOREGROUND-COLOR IS 2.
                05 RANDOM-NUM-CHOICE-FIELD LINE 28 COL 40 PIC X 
                USING RANDOM-NUM-CHOICE.
@@ -760,8 +756,6 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 25 COL 34 VALUE "(g) Go back "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 26 COL 34 VALUE "(q) Quit   "
-               HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 28 COL 34 VALUE "Pick: " FOREGROUND-COLOR IS 2.
                05 RANDOM-NUM-GUESS-CHOICE-FIELD LINE 28 COL 40 PIC X 
                USING RANDOM-NUM-GUESS-CHOICE.
@@ -791,7 +785,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT GAMES-MENU-CHOICE-FIELD
-           IF GAMES-MENU-CHOICE = "q" or "Q" THEN
+           IF GAMES-MENU-CHOICE = "x" or "X" THEN
                STOP RUN
            ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
                GOBACK
@@ -815,7 +809,9 @@
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                MOVE SPACES TO INSUFFICIENT-FUNDS
-               PERFORM 0200-RANDOM-NUMBER-GAME           
+               PERFORM 0200-RANDOM-NUMBER-GAME 
+           ELSE IF GAMES-MENU-CHOICE = 'x' THEN
+               STOP RUN           
            END-IF.
 
            IF CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE"
@@ -1168,7 +1164,7 @@
                PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
-           ELSE IF RANDOM-NUM-CHOICE = 'q' OR 'Q'
+           ELSE IF RANDOM-NUM-CHOICE = 'x' OR 'X'
                STOP RUN
            ELSE
                PERFORM 0200-RANDOM-NUMBER-GAME
@@ -1207,7 +1203,7 @@
              PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-GUESS-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
-           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'q' OR 'Q'
+           ELSE IF RANDOM-NUM-GUESS-CHOICE = 'x' OR 'X'
                STOP RUN
            END-IF.
 

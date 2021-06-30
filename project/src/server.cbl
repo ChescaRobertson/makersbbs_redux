@@ -760,7 +760,7 @@
            ELSE IF START-CHOICE = "c" THEN 
                PERFORM 0105-DISPLAY-REGISTER-NEW-USER
            ELSE IF START-CHOICE = "x" THEN 
-               STOP RUN
+               STOP RUN     
            ELSE IF START-CHOICE = "a" THEN 
                CALL 'admin-server'
                PERFORM 0100-DISPLAY-START
@@ -934,6 +934,8 @@
                PERFORM 0105-DISPLAY-REGISTER-NEW-USER 
            ELSE IF ERROR-CHOICE = "g" THEN 
                PERFORM 0100-DISPLAY-START
+           ELSE IF ERROR-CHOICE = 'x' or 'X'
+               STOP RUN
            ELSE 
                PERFORM 0115-ERROR-PAGE 
            END-IF.
@@ -1067,6 +1069,10 @@
                CALL 'update-password' USING USER-NAME 
                UPDATED-PASSWORD
                MOVE 'PASSWORD SUCCESSFULLY UPDATED' TO PWORD-CONFIRM-MSG
+           ELSE IF CHANGE-PWORD-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF CHANGE-PWORD-CHOICE = 'x' or 'X' THEN 
+               STOP RUN
            END-IF. 
            
            INITIALIZE CHANGE-PWORD-CHOICE.
@@ -1076,8 +1082,12 @@
            ACCEPT CHANGE-PWORD-FIELD.
            IF CHANGE-PWORD-CHOICE = "g" OR "G" THEN 
                PERFORM 0120-DISPLAY-MENU
+           ELSE IF CHANGE-PWORD-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF CHANGE-PWORD-CHOICE = 'x' or 'X' THEN 
+               STOP RUN
            ELSE 
-               PERFORM 0120-DISPLAY-MENU
+               PERFORM 0120-DISPLAY-MENU  
            END-IF. 
 
        0650-CHANGE-ACCOUNT-NUM SECTION.
@@ -1146,6 +1156,10 @@
                UPDATED-ACNT
                MOVE 'ACCOUNT NUMBER SUCCESSFULLY UPDATED' TO 
                ACNT-CONFIRM-MSG
+           ELSE IF CHANGE-ACNT-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF CHANGE-ACNT-CHOICE = 'x' or 'X' THEN 
+               STOP RUN
            END-IF. 
            
            INITIALIZE CHANGE-ACNT-CHOICE.
@@ -1155,6 +1169,12 @@
            ACCEPT CHANGE-ACNT-FIELD.
            IF CHANGE-ACNT-CHOICE = "g" OR "G" THEN 
                PERFORM 0120-DISPLAY-MENU
+           ELSE IF CHANGE-ACNT-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF CHANGE-ACNT-CHOICE = 't' or 'T' THEN 
+               PERFORM 0350-TORCH
+           ELSE IF CHANGE-ACNT-CHOICE = 'x' or 'X' THEN 
+               STOP RUN
            ELSE 
                PERFORM 0120-DISPLAY-MENU
            END-IF. 

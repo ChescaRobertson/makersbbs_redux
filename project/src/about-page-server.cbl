@@ -360,7 +360,7 @@
                    FOREGROUND-COLOR IS 3.
                05 LINE 41 COL 45 VALUE "(p) Previous Page"
                    FOREGROUND-COLOR IS 3.
-               05 LINE 42 COL 45 VALUE "(q) Go back"
+               05 LINE 42 COL 45 VALUE "(g) Go back"
                    FOREGROUND-COLOR IS 3.          
                05 LINE 44 COL 45 VALUE "Pick:"
                    FOREGROUND-COLOR IS 2.
@@ -382,7 +382,7 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 22 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-5
                    FOREGROUND-COLOR IS 2.
-               05 LINE 39 COL 45 VALUE "(q) Go Back"
+               05 LINE 39 COL 45 VALUE "(g) Go Back"
                    FOREGROUND-COLOR IS 2.
                05 Line 37 COL 45 PIC X(15) USING 
                ABOUT-INVALID-CHOICE-MESSAGE
@@ -426,7 +426,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT ABOUT-PAGE-FIELD.
-           IF ABOUT-PAGE-CHOICE = 'q' OR 'Q' 
+           IF ABOUT-PAGE-CHOICE = 'g' OR 'G' 
                GOBACK 
            ELSE IF ABOUT-PAGE-CHOICE = 'n' OR 'N' 
                IF ABOUT-OFFSET > 20
@@ -450,6 +450,8 @@
              SET ABOUT-NUM TO CHOICE-TO-NUM(ABOUT-PAGE-CHOICE)
              MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
              PERFORM 0490-ABOUT-PAGE-READ
+           ELSE IF ABOUT-PAGE-CHOICE = 'x' OR 'X'
+               STOP RUN    
            ELSE
              MOVE "Invalid Choice!" TO ABOUT-INVALID-CHOICE-MESSAGE
              PERFORM 0480-ABOUT-PAGE 
@@ -472,6 +474,8 @@
            IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
                MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
                PERFORM 0480-ABOUT-PAGE
+           ELSE IF ABOUT-PAGE-CHOICE = 'x' OR 'X'
+               STOP RUN    
            ELSE 
                MOVE "Invalid Choice!" TO ABOUT-INVALID-CHOICE-MESSAGE
                PERFORM 0490-ABOUT-PAGE-READ              
