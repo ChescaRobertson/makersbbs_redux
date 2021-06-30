@@ -62,186 +62,192 @@
                USER-INFO-CRED-DISPLAY
                    FOREGROUND-COLOR IS 2.
            
-           01 PIP-BOY-SCREEN.
-                     
+           01 PIP-BOY-SCREEN.        
                05 LINE 5 COL 10 VALUE 
-           "============================================================
-      -    "==========================================================="
-           .
+               "========================================================
+      -        "========================================================
+      -        "=======".
                05 LINE 6 COL 10 VALUE
-           "   ______      _____________________________________________
-      -    "________________________________________________________   "
-           .
+               "   ______      _________________________________________
+      -        "________________________________________________________
+      -        "____".
                05 LINE 7 COL 10 VALUE
-           "   / |    \      /".
+               "   / |    \      /".
                05 LINE 7 COL 124 VALUE
-           "\  ".
+               "\  ".
                05 LINE 8 COL 10 VALUE 
-           "  (  |)-   )  | 0|".
+               "  (  |)-   )  | 0|".
                05 line 8 COL 124 VALUE
-           "| |__".
+               "| |__".
                05 LINE 9 COL 10 VALUE 
-           "  /\_|____/   |_ |".
+               "  /\_|____/   |_ |".
                05 LINE 9 COL 124 VALUE
-           "| |0|".
+               "| |0|".
                05 LINE 14 COL 10 VALUE
-           "|    _________  ||".
+               "|    _________  ||".
                05 LINE 14 COL 124 VALUE
-           "| | |".
+               "| | |".
                05 LINE 15 COL 10 VALUE 
-           "|   |-Pip-Boy-|TT|".
+               "|   |-Pip-Boy-|TT|".
                05 LINE 15 COL 124 VALUE
-           "| | |".
+               "| | |".
                05 LINE 16 COL 10 VALUE
-           "|   |-=======-|++|".
+               "|   |-=======-|++|".
                05 LINE 16 COL 124 VALUE
-           "| |_|".
+               "| |_|".
                05 LINE 17 COL 10 VALUE
-           "|   |-=======-|++|".
+               "|   |-=======-|++|".
                05 LINE 17 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 18 COL 10 VALUE
-           "|   |- MODEL -|11|".
+               "|   |- MODEL -|11|".
                05 LINE 18 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 19 COL 10 VALUE
-           "|   |- 3000  -| ||".
+               "|   |- 3000  -| ||".
                05 LINE 19 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 20 COL 10 VALUE
-           "|   '---------' ||".
+               "|   '---------' ||".
                05 LINE 20 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 10 COL 10 VALUE
-           "/ '             ||".
+               "/ '             ||".
                05 LINE 10 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 11 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 11 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 12 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 12 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 13 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 13 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 21 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 21 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 22 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 22 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 23 COL 10 VALUE
-           "|               ||".
+               "|               ||".
                05 LINE 23 COL 124 VALUE
-           "| |=|".
+               "| |=|".
                05 LINE 24 COL 10 VALUE
-           "|               ||".
-                 05 LINE 24 COL 124 VALUE
-           "| |=|".
-                 05 LINE 25 COL 10 VALUE
-           "|               ||".
-                 05 LINE 25 COL 124 VALUE
-           "| |=|".
-                 05 LINE 26 COL 10 VALUE
-           "|               ||".
-                 05 LINE 26 COL 124 VALUE
-           "| |=|".
-                 05 LINE 27 COL 10 VALUE
-           "|               ||".
-                 05 LINE 27 COL 124 VALUE
-           "| |=|".
-                 05 LINE 28 COL 10 VALUE
-           "|               ||".
-                 05 LINE 28 COL 124 VALUE
-           "| |=|".
-                 05 LINE 29 COL 10 VALUE
-           "|               ||".
-                 05 LINE 29 COL 124 VALUE
-           "| |=|".
-                 05 LINE 30 COL 10 VALUE
-           "|               ||".
-                 05 LINE 30 COL 124 VALUE
-           "| |=|".
-                 05 LINE 31 COL 10 VALUE
-           "|               ||".
-                 05 LINE 31 COL 124 VALUE
-           "| |=|".
-                 05 LINE 32 COL 10 VALUE
-           "|               ||".
-                 05 LINE 32 COL 124 VALUE
-           "| |=|".
+               "|               ||".
+               05 LINE 24 COL 124 VALUE
+               "| |=|".
+               05 LINE 25 COL 10 VALUE
+               "|               ||".
+               05 LINE 25 COL 124 VALUE
+               "| |=|".
+               05 LINE 26 COL 10 VALUE
+               "|               ||".
+               05 LINE 26 COL 124 VALUE
+               "| |=|".
+               05 LINE 27 COL 10 VALUE
+               "|               ||".
+               05 LINE 27 COL 124 VALUE
+               "| |=|".
+               05 LINE 28 COL 10 VALUE
+               "|               ||".
+               05 LINE 28 COL 124 VALUE
+               "| |=|".
+               05 LINE 29 COL 10 VALUE
+               "|               ||".
+               05 LINE 29 COL 124 VALUE
+               "| |=|".
+               05 LINE 30 COL 10 VALUE
+               "|               ||".
+               05 LINE 30 COL 124 VALUE
+               "| |=|".
+               05 LINE 31 COL 10 VALUE
+               "|               ||".
+               05 LINE 31 COL 124 VALUE
+               "| |=|".
+               05 LINE 32 COL 10 VALUE
+               "|               ||".
+               05 LINE 32 COL 124 VALUE
+               "| |=|".
+               05 LINE 33 COL 10 VALUE
+               "|               ||".
+               05 LINE 33 COL 124 VALUE
+               "| |=|".
+               05 LINE 34 COL 10 VALUE
+               "|               ||".
+               05 LINE 34 COL 124 VALUE
+               "| |=|".
+               05 LINE 35 COL 10 VALUE
+               "|               ||".
+               05 LINE 35 COL 124 VALUE
+               "| |=|".
+               05 LINE 36 COL 10 VALUE
+               "|               ||".
+               05 LINE 36 COL 124 VALUE
+               "| |=|".
+               05 LINE 37 COL 10 VALUE
+               "|               ||".
+               05 LINE 37 COL 124 VALUE
+               "| |=|".
+               05 LINE 38 COL 10 VALUE
+               "|               ||".
+               05 LINE 38 COL 124 VALUE
+               "| |=|".
+               05 LINE 39 COL 10 VALUE
+               "|     _____     ||".
+               05 LINE 39 COL 124 VALUE
+               "| |=|".
+               05 LINE 40 COL 10 VALUE
+               "|   .'\ | /'.   ||".
+               05 LINE 40 COL 124 VALUE
+               "| |=|".
+               05 LINE 41 COL 10 VALUE
+               "|   | e( )it|   ||".
+               05 LINE 41 COL 18 VALUE "x"
+                   HIGHLIGHT, FOREGROUND-COLOR 4.
+               05 LINE 41 COL 124 VALUE
+               "| |=|".
+               05 LINE 42 COL 10 VALUE
+               "|   './_|_\.'   ||".
+               05 LINE 42 COL 124 VALUE
+               "| | |".
+               05 LINE 43 COL 10 VALUE
+               "|               ||".
+               05 LINE 43 COL 124 VALUE
+               "| | |".
+               05 LINE 44 COL 10 VALUE
+               "|              _||".
+               05 LINE 44 COL 124 VALUE
+               "| | |".
+               05 LINE 45 COL 10 VALUE
+               "\              /0|______________________________________
+      -        "________________________________________________________
+      -        "__| |0|".          
+               05 LINE 46 COL 10 VALUE
+               " \            ''|_______________________________________
+      -        "________|---TORCH---|___________________________________
+      -        "____/".
+               05 LINE 47 COL 10 VALUE
+               "  \_________/     |===|                                    
+      -        "        |    ( )    |                                    
+      -        "   /".
+               05 LINE 47 COL 80 VALUE "T"
+                    HIGHLIGHT, FOREGROUND-COLOR 4.
+               05 LINE 48 COL 10 VALUE
+               "             \_____|___/________________________________
+      -        "________|||||||||||||___________________________________
+      -        "__/".
+               05 LINE 50 COL 10 VALUE
+               "========================================================
+      -        "========================================================
+      -        "=======". 
 
-                 05 LINE 33 COL 10 VALUE
-           "|               ||".
-                 05 LINE 33 COL 124 VALUE
-           "| |=|".
-                 05 LINE 34 COL 10 VALUE
-           "|               ||".
-                 05 LINE 34 COL 124 VALUE
-           "| |=|".
-                 05 LINE 35 COL 10 VALUE
-           "|               ||".
-                 05 LINE 35 COL 124 VALUE
-           "| |=|".
-                 05 LINE 36 COL 10 VALUE
-           "|               ||".
-                 05 LINE 36 COL 124 VALUE
-           "| |=|".
-                 05 LINE 37 COL 10 VALUE
-           "|               ||".
-                 05 LINE 37 COL 124 VALUE
-           "| |=|".
-                 05 LINE 38 COL 10 VALUE
-           "|               ||".
-                 05 LINE 38 COL 124 VALUE
-           "| |=|".
-                 05 LINE 39 COL 10 VALUE
-           "|     _____     ||".
-                 05 LINE 39 COL 124 VALUE
-           "| |=|".
-                 05 LINE 40 COL 10 VALUE
-           "|   .'\ | /'.   ||".
-                 05 LINE 40 COL 124 VALUE
-           "| |=|".
-                 05 LINE 41 COL 10 VALUE
-           "|   |-------|   ||".
-                 05 LINE 41 COL 124 VALUE
-           "| |=|".
-                 05 LINE 42 COL 10 VALUE
-           "|   './_|_\.'   ||".
-                 05 LINE 42 COL 124 VALUE
-           "| | |".
-                 05 LINE 43 COL 10 VALUE
-           "|               ||".
-                 05 LINE 43 COL 124 VALUE
-           "| | |".
-                 05 LINE 44 COL 10 VALUE
-           "|              _||".
-                 05 LINE 44 COL 124 VALUE
-           "| | |".
-                 05 LINE 45 COL 10 VALUE
-           "\              /0|_________________________________________
-      -    "______________________________________________________| |0|"
-           .
-                 05 LINE 46 COL 10 VALUE
-           " \            ''|___________________________________________
-      -    "____|-----------|_______________________________________/".
-                 05 LINE 47 COL 10 VALUE
-           "   \_________/     |===|                                    
-      -    "    |-----------|                                      /".
-                 05 LINE 48 COL 10 VALUE
-           "             \_____|___/____________________________________
-      -    "____|||||||||||||_____________________________________/".
-                 05 LINE 50 COL 10 VALUE
-           "============================================================
-      -    "==========================================================="
-           .  
            
            01 CONFIRM-CHRG-SCREEN
                BACKGROUND-COLOR IS 0.
