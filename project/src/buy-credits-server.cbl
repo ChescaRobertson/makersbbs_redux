@@ -278,21 +278,19 @@
 
            01 BUY-CREDITS-SCREEN.
              05 BLANK SCREEN.
-             05 LINE 26 COL 34 VALUE "Buy Credits" UNDERLINE
+             05 LINE 26 COL 34 VALUE "BUY CREDITS" HIGHLIGHT UNDERLINE
                FOREGROUND-COLOR IS 2.
              05 LINE 28 COL 34 VALUE 
-               "Please enter the amount of credits you would like to purchas
-      -        "e: " FOREGROUND-COLOR IS 2.   
+               "Please enter the amount of credits you would like to pur
+      -        "chase: " FOREGROUND-COLOR IS 2.   
              05 CREDIT-FIELD LINE 29 COLUMN 34 PIC 999 
              USING CREDIT-AMOUNT.
              05 LINE 31 COL 34 VALUE "(s) Submit "
                     HIGHLIGHT FOREGROUND-COLOR IS 3. 
-             05 LINE 32 COL 45 VALUE "(g) Go back"
-                    HIGHLIGHT FOREGROUND-COLOR IS 3.            
-             05 LINE 32 COL 34 VALUE "(q) Quit   "
-                   HIGHLIGHT FOREGROUND-COLOR IS 3.  
+             05 LINE 32 COL 34 VALUE "(g) Go back"
+                    HIGHLIGHT FOREGROUND-COLOR IS 3.             
              05 LINE 34 COL 34 VALUE "Pick: " 
-               FOREGROUND-COLOR 2 HIGHLIGHT.
+               BLINK FOREGROUND-COLOR 2 HIGHLIGHT.
              05 BUY-CREDITS-CHOICE-FIELD LINE 34 COL 40 PIC X 
                    USING BUY-CREDITS-CHOICE.
     
@@ -301,68 +299,62 @@
 
            01 CONFIRM-SCREEN.
              05 BLANK SCREEN.
-             05 LINE 26 COL 34 VALUE "Buy Credits" UNDERLINE
+             05 LINE 26 COL 34 VALUE "BUY CREDITS" HIGHLIGHT UNDERLINE
              FOREGROUND-COLOR IS 2.
-             05 LINE 28 COL 34 VALUE "Credits will cost:"
+             05 LINE 28 COL 34 VALUE "Credits will cost: "
              FOREGROUND-COLOR IS 2.
-             05 LINE 28 COL 52 PIC 999 USING CREDIT-AMOUNT
-             FOREGROUND-COLOR IS 2.
-             05 LINE 28 COL 56 VALUE "bottle caps" 
-             FOREGROUND-COLOR IS 2.
+             05 LINE 28 COL 53 PIC 999 USING CREDIT-AMOUNT
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 28 COL 56 VALUE "Bottle Caps" 
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 29 COL 34 VALUE 
-            "Please enter your password to confirm payment."
+            "Please enter your password to confirm payment:"
              FOREGROUND-COLOR IS 2.
-             05 LINE 30 COL 34 VALUE "Password: "
-             FOREGROUND-COLOR IS 2.
-             05 BUY-PASSWORD-FIELD LINE 30 COL 34 PIC X(20) 
+             05 BUY-PASSWORD-FIELD LINE 31 COL 34 PIC X(20) 
                 USING PASSWORD-ENTRY
              FOREGROUND-COLOR IS 2.
              05 LINE 32 COL 34 PIC X(20) USING INC-PASSWORD 
                  HIGHLIGHT, FOREGROUND-COLOR IS 4.
              05 LINE 36 COL 34 VALUE "(s) Submit "
-                 HIGHLIGHT, FOREGROUND-COLOR IS 2.
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 37 COL 34 VALUE "(g) Go back"
-                 HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 38 COL 34 VALUE "(q) Quit   "
-                 HIGHLIGHT, FOREGROUND-COLOR IS 2.
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 39 COL 34 VALUE "Pick: "
-               FOREGROUND-COLOR IS 2.
+               BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 CONFIRM-CHOICE-FIELD LINE 39 COL 40 PIC X 
                 USING CONFIRM-CHOICE.
           
 
            01 PAYMENT-PROCESS-SCREEN.
              05 BLANK SCREEN.
-             05 LINE 26 COL 34 VALUE "Buy Credits" UNDERLINE
+             05 LINE 26 COL 34 VALUE "BUY CREDITS" HIGHLIGHT UNDERLINE
              FOREGROUND-COLOR IS 2.
              05 LINE 28 COL 34 VALUE "Processing payment of caps: "
              FOREGROUND-COLOR IS 2.
              05 LINE 28 COL 62 PIC 999 USING CREDIT-AMOUNT
-             FOREGROUND-COLOR IS 2.
-             05 LINE 31 COL 34 VALUE "Confirming payment"
-             FOREGROUND-COLOR IS 2.
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
+             05 LINE 31 COL 34 VALUE "* Confirming payment *"
+             BLINK FOREGROUND-COLOR IS 2.
              05 LINE 35 COL 34 VALUE "This page will redirect in a few s
-      -        "econds" FOREGROUND-COLOR IS 2.
+      -        "econds." FOREGROUND-COLOR IS 2.
 
            01 PAY-CONFIRMATION-SCREEN.
              05 BLANK SCREEN.
-             05 LINE 26 COL 34 VALUE "Buy Credits" UNDERLINE
+             05 LINE 26 COL 34 VALUE "BUY CREDITS" HIGHLIGHT UNDERLINE
              FOREGROUND-COLOR 2.
              05 LINE 28 COL 34 VALUE "Thank you for your purchase "
              FOREGROUND-COLOR 2.
              05 LINE 30 COL 34 VALUE "Your transaction is pending"
              FOREGROUND-COLOR 2.
              05 LINE 31 COL 34 PIC 999 USING CREDIT-AMOUNT
-             FOREGROUND-COLOR IS 2.
+             HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 LINE 31 COL 38 VALUE "credits will be added to your acco
-      -       "unt within 24 hours" FOREGROUND-COLOR 2.
+      -       "unt within 24 hours." FOREGROUND-COLOR 2.
              05 LINE 36 COL 61 VALUE "(g) Go back"
-             FOREGROUND-COLOR 2, HIGHLIGHT.
-             05 LINE 36 COL 75 VALUE "(q) Quit   "
-             FOREGROUND-COLOR 2, HIGHLIGHT.  
-             05 LINE 37 COL 47 VALUE "Pick: "
-             FOREGROUND-COLOR 2.
-             05 PAY-CONFIRMATION-FIELD LINE 37 COL 54 PIC X 
+             FOREGROUND-COLOR 3, HIGHLIGHT.
+             05 LINE 38 COL 47 VALUE "Pick: "
+             HIGHLIGHT BLINK FOREGROUND-COLOR 2.
+             05 PAY-CONFIRMATION-FIELD LINE 38 COL 54 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
        
                
@@ -393,8 +385,6 @@
                PERFORM 0400-BUY-CREDITS
            ELSE IF BUY-CREDITS-CHOICE = 'g' OR 'G'
                GOBACK
-           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN  
            ELSE
               PERFORM 0400-BUY-CREDITS
            END-IF.
@@ -426,8 +416,6 @@
              PERFORM 0450-CONFIRM
            ELSE IF CONFIRM-CHOICE = 'g' OR 'G'
                PERFORM 0400-BUY-CREDITS
-           ELSE IF BUY-CREDITS-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN 
            ELSE
                PERFORM 0450-CONFIRM
            END-IF.
@@ -445,8 +433,6 @@
            ACCEPT PAY-CONFIRMATION-FIELD
            IF PAY-CONFIRMATION-CHOICE = 'g' OR 'G'
              GOBACK
-           ELSE IF PAY-CONFIRMATION-CHOICE = 'q' OR 'Q' then
-               STOP RUN 
            ELSE 
                DISPLAY PAY-CONFIRMATION-SCREEN
                PERFORM 0113-DISPLAY-TIME-USER-INFO
