@@ -330,66 +330,67 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 28 COL 47 PIC X(31) USING 
                WS-ABOUT-TITLE(ABOUT-OFFSET)
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 30 COL 45 VALUE '2.'
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 30 COL 47 PIC X(31) USING 
                WS-ABOUT-TITLE(ABOUT-OFFSET - 1)
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 32 COL 45 VALUE '3.'
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 32 COL 47 PIC X(31) USING 
                WS-ABOUT-TITLE(ABOUT-OFFSET - 2)
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 34 COL 45 VALUE '4.'
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 34 COL 47 PIC X(31) USING 
                WS-ABOUT-TITLE(ABOUT-OFFSET - 3)
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 36 COL 45 VALUE '5.'
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 36 COL 47 PIC X(31) USING 
                WS-ABOUT-TITLE(ABOUT-OFFSET - 4)
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 Line 38 COL 45 PIC X(15) USING
                ABOUT-INVALID-CHOICE-MESSAGE
                    HIGHLIGHT, FOREGROUND-COLOR IS 4.
                05 LINE 39 COL 45 VALUE "( ) What number to read"
-                   FOREGROUND-COLOR IS 3.
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 40 COL 45 VALUE "(n) Next Page"
-                   FOREGROUND-COLOR IS 3.
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 41 COL 45 VALUE "(p) Previous Page"
-                   FOREGROUND-COLOR IS 3.
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 42 COL 45 VALUE "(g) Go back"
-                   FOREGROUND-COLOR IS 3.          
+                  HIGHLIGHT FOREGROUND-COLOR IS 3 .          
                05 LINE 44 COL 45 VALUE "Pick:"
-                   FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 ABOUT-PAGE-FIELD LINE 44 COL 50 PIC X USING 
                ABOUT-PAGE-CHOICE
                    BLINK, FOREGROUND-COLOR IS 2.
       
            01 ABOUT-PAGE-READ-SCREEN.
                05 BLANK SCREEN.
-               05 LINE 16 COL 45 PIC X(31) USING ABOUT-TITLE-READ
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-1
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 19 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-2
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-3
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 21 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-4
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 22 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-5
-                   FOREGROUND-COLOR IS 2.
-               05 LINE 39 COL 45 VALUE "(g) Go Back"
-                   FOREGROUND-COLOR IS 2.
-               05 Line 37 COL 45 PIC X(15) USING 
+               05 LINE 21 COL 45 PIC X(31) USING ABOUT-TITLE-READ
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-1
+                  FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-2
+                  FOREGROUND-COLOR IS 2.
+               05 LINE 25 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-3
+                  FOREGROUND-COLOR IS 2.
+               05 LINE 26 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-4
+                  FOREGROUND-COLOR IS 2.
+               05 LINE 27 COL 45 PIC X(60) USING WS-ABOUT-BODY-SEGMENT-5
+                  FOREGROUND-COLOR IS 2.
+               05 LINE 35 COL 45 VALUE "(g) Go Back"
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 37 COL 45 VALUE "Pick: "
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 Line 33 COL 45 PIC X(15) USING 
                ABOUT-INVALID-CHOICE-MESSAGE
                    HIGHLIGHT, FOREGROUND-COLOR IS 4.
-               05 ABOUT-PAGE-READ-FIELD LINE 39 COL 57 PIC X USING
-               ABOUT-PAGE-READ-CHOICE
-                   FOREGROUND-COLOR IS 2.
+               05 ABOUT-PAGE-READ-FIELD LINE 37 COL 51 PIC X USING
+               ABOUT-PAGE-READ-CHOICE.
                
        PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
 
@@ -471,7 +472,7 @@
            DISPLAY PIP-BOY-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT ABOUT-PAGE-READ-FIELD.
-           IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
+           IF ABOUT-PAGE-READ-CHOICE = "g" or "G"
                MOVE SPACES TO ABOUT-INVALID-CHOICE-MESSAGE
                PERFORM 0480-ABOUT-PAGE
            ELSE IF ABOUT-PAGE-CHOICE = 'x' OR 'X'

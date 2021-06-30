@@ -266,7 +266,7 @@
                HIGHLIGHT FOREGROUND-COLOR 2.
                05 LINE 31 COL 70 VALUE "(y/n)" HIGHLIGHT 
                FOREGROUND-COLOR 2.
-               05 LINE 33 COL 70 VALUE "Pick: " BLINK HIGHLIGHT 
+               05 LINE 33 COL 70 VALUE "Pick: " HIGHLIGHT 
                FOREGROUND-COLOR 2.
                05 CONFIRM-CHRG-FIELD LINE 33 COL 76 PIC X 
                USING CONFIRM-CHRG BLINK.
@@ -339,7 +339,7 @@
                05 LINE 37 COL 82 VALUE "  , , " FOREGROUND-COLOR 3.
                05 LINE 40 COL 69 VALUE "(g) Go back"
                HIGHLIGHT, FOREGROUND-COLOR 3 .            
-               05 LINE 42 COL 69 VALUE "Pick: " BLINK HIGHLIGHT 
+               05 LINE 42 COL 69 VALUE "Pick: " HIGHLIGHT 
                FOREGROUND-COLOR 2.
                05 W1-CHOICE-FIELD LINE 42 COL 75 PIC X 
                USING W1-CHOICE BLINK, FOREGROUND-COLOR 2.
@@ -406,7 +406,7 @@
                05 LINE 36 COL 79 VALUE "(___.__)__)".
                05 LINE 40 COL 69 VALUE "(g) Go back"
                HIGHLIGHT, FOREGROUND-COLOR 3 .            
-               05 LINE 42 COL 69 VALUE "Pick: " BLINK HIGHLIGHT 
+               05 LINE 42 COL 69 VALUE "Pick: " HIGHLIGHT 
                FOREGROUND-COLOR 2.
                05 W2-CHOICE-FIELD LINE 42 COL 75 PIC X 
                USING W2-CHOICE BLINK, FOREGROUND-COLOR 2.
@@ -477,7 +477,7 @@
                05 LINE 37 COL 79 VALUE "` ` ` ` `" FOREGROUND-COLOR 3.
                05 LINE 40 COL 69 VALUE "(g) Go back" HIGHLIGHT, 
                FOREGROUND-COLOR 3 .            
-               05 LINE 42 COL 69 VALUE "Pick: " BLINK HIGHLIGHT 
+               05 LINE 42 COL 69 VALUE "Pick: " HIGHLIGHT 
                FOREGROUND-COLOR 2.
                05 W3-CHOICE-FIELD LINE 42 COL 75 PIC X 
                USING W3-CHOICE FOREGROUND-COLOR 2.
@@ -546,7 +546,7 @@
                05 LINE 37 COL 79 VALUE "  *   *  ".
                05 LINE 40 COL 69 VALUE "(g) Go back" HIGHLIGHT, 
                FOREGROUND-COLOR 3 .            
-               05 LINE 42 COL 69 VALUE "Pick: "  BLINK HIGHLIGHT 
+               05 LINE 42 COL 69 VALUE "Pick: "  HIGHLIGHT 
                FOREGROUND-COLOR 2.
                05 W4-CHOICE-FIELD LINE 42 COL 75 PIC X 
                USING W4-CHOICE BLINK, FOREGROUND-COLOR 2.
@@ -577,6 +577,14 @@
                    UPDATED-BALANCE
                    MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                    PERFORM 0300-CHECK-WEATHER
+               ELSE IF CONFIRM-CHRG = "1"
+                   PERFORM WEATHER-ENVIRONMENT-1
+               ELSE IF CONFIRM-CHRG = "2"
+                   PERFORM WEATHER-ENVIRONMENT-2
+               ELSE IF CONFIRM-CHRG = "3"
+                   PERFORM WEATHER-ENVIRONMENT-3
+               ELSE IF CONFIRM-CHRG = "4"
+                   PERFORM WEATHER-ENVIRONMENT-4
                ELSE 
                    MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
                    PERFORM 0200-CONFIRM-WEATHER-CHARGE

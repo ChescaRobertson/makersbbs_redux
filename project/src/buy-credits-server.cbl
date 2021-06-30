@@ -295,7 +295,7 @@
              05 LINE 32 COL 34 VALUE "(g) Go back"
                     HIGHLIGHT FOREGROUND-COLOR IS 3.             
              05 LINE 34 COL 34 VALUE "Pick: " 
-               BLINK FOREGROUND-COLOR 2 HIGHLIGHT.
+               FOREGROUND-COLOR 2 HIGHLIGHT.
              05 BUY-CREDITS-CHOICE-FIELD LINE 34 COL 40 PIC X 
                    USING BUY-CREDITS-CHOICE.
     
@@ -325,7 +325,7 @@
              05 LINE 37 COL 34 VALUE "(g) Go back"
                  HIGHLIGHT, FOREGROUND-COLOR IS 3.
              05 LINE 39 COL 34 VALUE "Pick: "
-               BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
              05 CONFIRM-CHOICE-FIELD LINE 39 COL 40 PIC X 
                 USING CONFIRM-CHOICE.
           
@@ -358,7 +358,7 @@
              05 LINE 36 COL 61 VALUE "(g) Go back"
              FOREGROUND-COLOR 3, HIGHLIGHT.
              05 LINE 38 COL 47 VALUE "Pick: "
-             HIGHLIGHT BLINK FOREGROUND-COLOR 2.
+             HIGHLIGHT FOREGROUND-COLOR 2.
              05 PAY-CONFIRMATION-FIELD LINE 38 COL 54 PIC X 
                USING PAY-CONFIRMATION-CHOICE. 
        

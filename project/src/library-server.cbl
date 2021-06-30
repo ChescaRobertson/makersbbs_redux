@@ -307,15 +307,15 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 17 COL 65 VALUE
                "WELCOME TO THE LIBRARY"
-                   FOREGROUND-COLOR IS 2.
+                   HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 18 COL 58 VALUE
                "Please select which book to read below"          
                    FOREGROUND-COLOR IS 2.    
                05 LINE 22 COL 45 VALUE "||   AUTHOR   ||"
-                   FOREGROUND-COLOR IS 2.
+                   HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 22 COL 66 VALUE
                "||                  TITLE                ||"
-                   FOREGROUND-COLOR IS 2.
+                   HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 23 COL 43 VALUE '1.'
                    FOREGROUND-COLOR IS 2.
                05 LINE 23 COL 49 PIC X(12)
@@ -375,9 +375,6 @@
                "--------------------------------------------------------
       -        "-"
                    FOREGROUND-COLOR IS 2.
-
-                
-          
                05 LINE 34 COL 43 PIC X(40) USING LIBRARY-DISPLAY-MESSAGE
                    FOREGROUND-COLOR IS 2.
                05 LINE 34 COL 96 VALUE 'Page No.'
@@ -393,7 +390,7 @@
                05 LINE 38 COL 77 VALUE "(g) Go back"
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 40 COL 78 VALUE "Pick: "
-                   FOREGROUND-COLOR IS 2.
+                   HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LIBRARY-FIELD LINE 40 COLUMN 86 PIC X 
                USING LIBRARY-CHOICE
                    FOREGROUND-COLOR IS 2.

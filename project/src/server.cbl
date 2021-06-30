@@ -159,7 +159,7 @@
                05 LINE 41 COLUMN 30 VALUE "(c) Create an account."
                HIGHLIGHT, FOREGROUND-COLOR IS 3.
                05 LINE 44 COLUMN 30 VALUE "Pick: "
-               HIGHLIGHT, FOREGROUND-COLOR IS 2, BLINK.
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
                05 START-CHOICE-FIELD LINE 44 COLUMN 36 PIC X
                USING START-CHOICE.
                05 LINE 42 COLUMN 30 VALUE "(a) Administrator."
@@ -481,7 +481,7 @@
       -        "s for processing credits to explore all features."  
                FOREGROUND-COLOR IS 2.
                05 LINE 26 COLUMN 30 VALUE "Enter a username:"
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 LINE 26 COLUMN 50 VALUE " (Usernames must be unique.)"
                FOREGROUND-COLOR IS 2.
                05 LINE 27 COLUMN 30 PIC X(50) USING ERROR-MSG-1 
@@ -490,33 +490,33 @@
                USING NEW-USER-NAME FOREGROUND-COLOR IS 2.
                05 LINE 29 COLUMN 30 PIC X(50) USING OK-MSG-1 HIGHLIGHT
                FOREGROUND-COLOR is 2.
-               05 LINE 30 COLUMN 30 VALUE "Enter a password:"
-               FOREGROUND-COLOR IS 2.
-               05 LINE 30 COLUMN 50 VALUE " (Your password must be a min
+               05 LINE 31 COLUMN 30 VALUE "Enter a password:"
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 LINE 31 COLUMN 50 VALUE " (Your password must be a min
       -        "imum of 6 characters and 1 number.) "
                FOREGROUND-COLOR IS 2.
-               05 LINE 31 COLUMN 30 PIC X(50) USING ERROR-MSG-2 
+               05 LINE 32 COLUMN 30 PIC X(50) USING ERROR-MSG-2 
                HIGHLIGHT FOREGROUND-COLOR is 4.
-               05 NEW-PASSWORD-FIELD LINE 32 COLUMN 30 PIC X(20)
+               05 NEW-PASSWORD-FIELD LINE 33 COLUMN 30 PIC X(20)
                USING NEW-PASSWORD FOREGROUND-COLOR IS 2.
-               05 LINE 33 COLUMN 30 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+               05 LINE 34 COLUMN 30 PIC X(50) USING OK-MSG-2 HIGHLIGHT
                FOREGROUND-COLOR is 2.
-               05 LINE 34 COLUMN 30 VALUE "Enter a valid Bank Account nu
+               05 LINE 36 COLUMN 30 VALUE "Enter a valid Bank Account nu
       -        "mber:"
-               FOREGROUND-COLOR IS 2.
-               05 LINE 35 COLUMN 30 PIC X(50) USING ERROR-MSG-3 
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 LINE 37 COLUMN 30 PIC X(50) USING ERROR-MSG-3 
                HIGHLIGHT FOREGROUND-COLOR is 4.
-               05 ACCOUNT-NUM-FIELD LINE 36 COLUMN 30 PIC X(8)
+               05 ACCOUNT-NUM-FIELD LINE 38 COLUMN 30 PIC X(8)
                USING ACCOUNT-NUM FOREGROUND-COLOR IS 2.
-               05 LINE 37 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
+               05 LINE 39 COLUMN 30 PIC X(50) USING OK-MSG-3 HIGHLIGHT
                FOREGROUND-COLOR is 2 . 
-               05 LINE 39 COLUMN 30 VALUE "(s) Submit" HIGHLIGHT 
+               05 LINE 41 COLUMN 30 VALUE "(s) Submit" HIGHLIGHT 
                FOREGROUND-COLOR IS 3 .  
-               05 LINE 40 COLUMN 30 VALUE "(g) Go Back" HIGHLIGHT 
+               05 LINE 42 COLUMN 30 VALUE "(g) Go Back" HIGHLIGHT 
                FOREGROUND-COLOR IS 3 .    
-               05 LINE 42 COLUMN 30 VALUE "Pick:"
-               BLINK HIGHLIGHT FOREGROUND-COLOR is 2 . 
-               05 REGISTER-CHOICE-FIELD LINE 42 COLUMN 37 PIC X
+               05 LINE 44 COLUMN 30 VALUE "Pick:"
+               HIGHLIGHT FOREGROUND-COLOR is 2 . 
+               05 REGISTER-CHOICE-FIELD LINE 44 COLUMN 37 PIC X
                USING REGISTER-CHOICE.
 
            01 LOGIN-SCREEN.
@@ -592,8 +592,8 @@
                05 LINE 31 COLUMN 30 VALUE "(g) Go Back.         "
                FOREGROUND-COLOR is 2 . 
                05 LINE 33 COLUMN 30 VALUE "Pick: "
-               BLINK HIGHLIGHT FOREGROUND-COLOR is 2 . 
-               05 LINE 37 COLUMN 37 VALUE "                       ".
+               HIGHLIGHT FOREGROUND-COLOR is 2 . 
+               05 LINE 33 COLUMN 37 VALUE "                       ".
                05 ERROR-CHOICE-FIELD LINE 33 COLUMN 36 PIC X
                USING ERROR-CHOICE BLINK.
 
@@ -640,7 +640,7 @@
                05 LINE 38 COL 46 VALUE "(a) About.      "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.              
               05 LINE 40 COL 46 VALUE "Pick: "
-                  BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
+                  HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 MENU-CHOICE-FIELD LINE 40 COL 53 PIC X
                   USING MENU-CHOICE BLINK.
 
@@ -652,8 +652,6 @@
 
            01 CHANGE-PASSWORD-SCREEN.
                05 BLANK SCREEN.  
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
                HIGHLIGHT, FOREGROUND-COLOR 2 .
                05 LINE 19 COLUMN 30 VALUE "Update your account password,
@@ -693,7 +691,7 @@
                05 LINE 38 COL 66 VALUE "(g) Go Back   "
                HIGHLIGHT FOREGROUND-COLOR 3.
                05 LINE 40 COLUMN 66 VALUE "Pick: " 
-               BLINK HIGHLIGHT FOREGROUND-COLOR 2.
+               HIGHLIGHT FOREGROUND-COLOR 2.
                05 CHANGE-PWORD-FIELD LINE 40 COLUMN 73 PIC X
                USING CHANGE-PWORD-CHOICE.
                05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
@@ -701,8 +699,6 @@
 
            01 CHANGE-ACCOUNT-NUM-SCREEN.
                05 BLANK SCREEN.  
-               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
                05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR ACCOUNT DETAILS" 
                HIGHLIGHT, FOREGROUND-COLOR 2.
                05 LINE 19 COLUMN 30 VALUE "Change the bank account detai
@@ -738,7 +734,7 @@
                05 LINE 38 COL 66 VALUE "(g) Go Back   "
                HIGHLIGHT FOREGROUND-COLOR 3.
                05 LINE 40 COLUMN 66 VALUE "Pick: " 
-               BLINK HIGHLIGHT FOREGROUND-COLOR 2.
+               HIGHLIGHT FOREGROUND-COLOR 2.
                05 CHANGE-ACNT-FIELD LINE 40 COLUMN 73 PIC X
                USING CHANGE-ACNT-CHOICE.
                05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
@@ -872,7 +868,7 @@
                PERFORM 0100-DISPLAY-START
            END-IF.
            CLOSE F-USERS-FILE.
-           PERFORM 0100-DISPLAY-START.
+           PERFORM 0110-DISPLAY-LOGIN.
           
        0110-DISPLAY-LOGIN.
            PERFORM 0500-TIME-AND-DATE.
