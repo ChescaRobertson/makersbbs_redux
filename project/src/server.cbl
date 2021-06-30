@@ -826,7 +826,6 @@
                   FOREGROUND-COLOR 2.
                05 LINE 24 COL 46 VALUE "Feel free to:"
                   FOREGROUND-COLOR 2.
-
                05 LINE 26 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
                05 LINE 26 COL 48 VALUE "Read our message board."
                   FOREGROUND-COLOR 2.
@@ -839,7 +838,6 @@
                05 LINE 29 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
                05 LINE 29 COL 48 VALUE "Most importantly. HAVE FUN!"
                   FOREGROUND-COLOR 2. 
-             
                05 LINE 34 COL 84 VALUE "(b) Library     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 34 COL 46 VALUE "(m) Messages    "
@@ -1878,96 +1876,96 @@
            
 
            01 CHANGE-PASSWORD-SCREEN.
-             05 BLANK SCREEN.  
-             05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-             UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
-      -      " BBS and everything you can do. Why we need bank details."  
-             FOREGROUND-COLOR IS 2.
-             05 LINE 21 COLUMN 30 VALUE "Enter current password:" 
-             HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 OLD-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
-                USING OLD-PASSWORD FOREGROUND-COLOR IS 2.
-             05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK-1 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 25 COLUMN 30 VALUE "Enter new password:" HIGHLIGHT
-             FOREGROUND-COLOR IS 2.
-             05 LINE 25 COLUMN 52 VALUE " (Your password must be a minim
-      -      "um of 6 characters and 1 number.) " FOREGROUND-COLOR IS 2.
-             05 LINE 26 COLUMN 30 PIC X(50) USING PWORD-ERR-2 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 UPDATED-PASSWORD-FIELD LINE 27 COLUMN 30 PIC X(20)
-                USING UPDATED-PASSWORD FOREGROUND-COLOR IS 2.
-             05 LINE 28 COLUMN 30 PIC X(50) USING PWORD-OK-2 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:" 
-             HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 30 COLUMN 30 PIC X(50) USING PWORD-ERR-3 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 CONFIRM-NEW-PASSWORD-FIELD LINE 31 COLUMN 30 PIC X(20)
-                USING CONFIRM-NEW-PASSWORD FOREGROUND-COLOR IS 2.
-             05 LINE 32 COLUMN 30 PIC X(50) USING PWORD-OK-3 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 34 COLUMN 30 PIC X(50) USING PWORD-CONFIRM-MSG
-             HIGHLIGHT FOREGROUND-COLOR is 2 . 
-             05 LINE 37 COL 66 VALUE "(s) Submit "
-             HIGHLIGHT FOREGROUND-COLOR IS 3 . 
-             05 LINE 38 COL 66 VALUE "(q) Quit   "
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR IS 2.
-             05 CHANGE-PWORD-FIELD LINE 40 COLUMN 73 PIC X
-                USING CHANGE-PWORD-CHOICE.
-             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE" FOREGROUND-COLOR 2.
+               05 BLANK SCREEN.  
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR PASSWORD" 
+               HIGHLIGHT, FOREGROUND-COLOR 2 .
+               05 LINE 19 COLUMN 30 VALUE "Update your account password,
+      -        " periodically changing your password will improve accoun
+      -        "t security" FOREGROUND-COLOR 2.
+               05 LINE 21 COLUMN 30 VALUE "Enter current password:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERR-1 
+               HIGHLIGHT FOREGROUND-COLOR 4.
+               05 OLD-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
+                USING OLD-PASSWORD FOREGROUND-COLOR 2.
+               05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK-1 HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COLUMN 30 VALUE "Enter new password:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 25 COLUMN 52 VALUE " (Your password must be a min
+      -        "imum of 6 characters and 1 number.) " 
+               FOREGROUND-COLOR 2.
+               05 LINE 26 COLUMN 30 PIC X(50) USING PWORD-ERR-2 
+               HIGHLIGHT FOREGROUND-COLOR 4.
+               05 UPDATED-PASSWORD-FIELD LINE 27 COLUMN 30 PIC X(20)
+               USING UPDATED-PASSWORD FOREGROUND-COLOR 2.
+               05 LINE 28 COLUMN 30 PIC X(50) USING PWORD-OK-2 HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 29 COLUMN 30 VALUE "Re-enter your new password:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 30 COLUMN 30 PIC X(50) USING PWORD-ERR-3 
+               HIGHLIGHT FOREGROUND-COLOR 4.
+               05 CONFIRM-NEW-PASSWORD-FIELD LINE 31 COLUMN 30 PIC X(20)
+               USING CONFIRM-NEW-PASSWORD FOREGROUND-COLOR 2.
+               05 LINE 32 COLUMN 30 PIC X(50) USING PWORD-OK-3 HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COLUMN 30 PIC X(50) USING PWORD-CONFIRM-MSG
+               HIGHLIGHT FOREGROUND-COLOR 2 . 
+               05 LINE 37 COL 66 VALUE "(s) Submit "
+               HIGHLIGHT FOREGROUND-COLOR 3 . 
+               05 LINE 38 COL 66 VALUE "(q) Quit   "
+               HIGHLIGHT FOREGROUND-COLOR 3.
+               05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 CHANGE-PWORD-FIELD LINE 40 COLUMN 73 PIC X
+               USING CHANGE-PWORD-CHOICE.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
            01 CHANGE-ACCOUNT-NUM-SCREEN.
-             05 BLANK SCREEN.  
-             05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
-             UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
-             05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR ACCOUNT DETAILS" 
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 19 COLUMN 30 VALUE "input intro text explaining the
-      -      " BBS and everything you can do. Why we need bank details."  
-             FOREGROUND-COLOR IS 2.
-             05 LINE 21 COLUMN 30 VALUE "Enter your password:" 
-             HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERROR HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 CHECK-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
-                USING CHECK-PASSWORD FOREGROUND-COLOR IS 2.
-             05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 25 COLUMN 30 VALUE "Enter new account number:" 
-             HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 26 COLUMN 30 PIC X(50) USING ACNT-ERR-1 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 UPDATED-ACNT-FIELD LINE 27 COLUMN 30 PIC X(8)
-                USING UPDATED-ACNT FOREGROUND-COLOR IS 2.
-             05 LINE 28 COLUMN 30 PIC X(50) USING ACNT-OK-1 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 29 COLUMN 30 VALUE "Re-enter your account number:" 
-             HIGHLIGHT FOREGROUND-COLOR IS 2.
-             05 LINE 30 COLUMN 30 PIC X(50) USING ACNT-ERR-2 HIGHLIGHT
-             FOREGROUND-COLOR is 4.
-             05 CONFIRM-ACNT-FIELD LINE 31 COLUMN 30 PIC X(8)
-                USING CONFIRM-ACNT FOREGROUND-COLOR IS 2.
-             05 LINE 32 COLUMN 30 PIC X(50) USING ACNT-OK-2 HIGHLIGHT
-             FOREGROUND-COLOR is 2.
-             05 LINE 34 COLUMN 30 PIC X(50) USING ACNT-CONFIRM-MSG
-             HIGHLIGHT FOREGROUND-COLOR is 2 . 
-             05 LINE 37 COL 66 VALUE "(s) Submit "
-             HIGHLIGHT FOREGROUND-COLOR IS 3 . 
-             05 LINE 38 COL 66 VALUE "(q) Quit   "
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR IS 2.
-             05 CHANGE-ACNT-FIELD LINE 40 COLUMN 73 PIC X
-                USING CHANGE-ACNT-CHOICE.
-             05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DELI
-      -      "VERY SERVICE" FOREGROUND-COLOR 2.
+               05 BLANK SCREEN.  
+               05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
+               UNDERLINE, BLINK, HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 17 COLUMN 30 VALUE "CHANGE YOUR ACCOUNT DETAILS" 
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 19 COLUMN 30 VALUE "Change the bank account detai
+      -        "ls registered to this account."  FOREGROUND-COLOR 2.
+               05 LINE 21 COLUMN 30 VALUE "Enter your password:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 22 COLUMN 30 PIC X(50) USING PWORD-ERROR 
+               HIGHLIGHT FOREGROUND-COLOR 4.
+               05 CHECK-PASSWORD-FIELD LINE 23 COLUMN 30 PIC X(16)
+               USING CHECK-PASSWORD FOREGROUND-COLOR 2.
+               05 LINE 24 COLUMN 30 PIC X(50) USING PWORD-OK HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 25 COLUMN 30 VALUE "Enter new account number:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 26 COLUMN 30 PIC X(50) USING ACNT-ERR-1 HIGHLIGHT
+               FOREGROUND-COLOR 4.
+               05 UPDATED-ACNT-FIELD LINE 27 COLUMN 30 PIC X(8)
+               USING UPDATED-ACNT FOREGROUND-COLOR 2.
+               05 LINE 28 COLUMN 30 PIC X(50) USING ACNT-OK-1 HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 29 COLUMN 30 VALUE "Re-enter account number:" 
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 30 COLUMN 30 PIC X(50) USING ACNT-ERR-2 HIGHLIGHT
+               FOREGROUND-COLOR 4.
+               05 CONFIRM-ACNT-FIELD LINE 31 COLUMN 30 PIC X(8)
+               USING CONFIRM-ACNT FOREGROUND-COLOR 2.
+               05 LINE 32 COLUMN 30 PIC X(50) USING ACNT-OK-2 HIGHLIGHT
+               FOREGROUND-COLOR 2.
+               05 LINE 34 COLUMN 30 PIC X(50) USING ACNT-CONFIRM-MSG
+               HIGHLIGHT FOREGROUND-COLOR 2 . 
+               05 LINE 37 COL 66 VALUE "(s) Submit "
+               HIGHLIGHT FOREGROUND-COLOR 3 . 
+               05 LINE 38 COL 66 VALUE "(q) Quit   "
+               HIGHLIGHT FOREGROUND-COLOR 3.
+               05 LINE 40 COLUMN 66 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 CHANGE-ACNT-FIELD LINE 40 COLUMN 73 PIC X
+               USING CHANGE-ACNT-CHOICE.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -        "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
        PROCEDURE DIVISION.
 
@@ -2181,7 +2179,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT MENU-CHOICE-FIELD.
-           MOVE '2' TO COST.
+           
            IF MENU-CHOICE = "q" or "Q" THEN
              STOP RUN
            ELSE IF MENU-CHOICE = "l" or "L" THEN
@@ -2213,12 +2211,9 @@
                PERFORM 0120-DISPLAY-MENU
               *>  PERFORM 0470-ABOUT-PAGE-TABLE
            ELSE IF (MENU-CHOICE = 'w' or 'W')
-           AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
-               CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
-               UPDATED-BALANCE
-               MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
+               MOVE '2' TO COST
                CALL "weather-server" USING USER-INFO-NAME, 
-               USER-INFO-CRED-DISPLAY
+               USER-INFO-CRED-DISPLAY COST
                PERFORM 0120-DISPLAY-MENU 
               *>  PERFORM 0300-CHECK-WEATHER
            ELSE IF MENU-CHOICE = 't' or 'T' THEN 
