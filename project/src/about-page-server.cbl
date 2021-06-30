@@ -274,70 +274,105 @@
    
 
            01 ABOUT-PAGE-SCREEN.
-           05 BLANK SCREEN.
-           05 LINE 6 COL 10 VALUE
-           "           _                 _     _____                 ".
-           05 LINE 7 COL 10 VALUE
-           "     /\   | |               | |   |  __ \                ".
-           05 LINE 8 COL 10 VALUE
-           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ ".
-           05 LINE 9 COL 10 VALUE
-           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \".
-           05 LINE 10 COL 10 VALUE
-           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/".
-           05 LINE 11 COL 10 VALUE
-           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|".
-           05 LINE 12 COL 10 VALUE
-           "                                               __/ |     ".
-           05 LINE 13 COL 10 VALUE
-           "                                              |___/      ".
-           05 LINE 18 COL 10 VALUE 
-           "Welcome to the BBS System, after extensive user feedback ".
-           05 line 19 col 10 value
-           "and the mass influx of users we have extended our ".
-           05 LINE 20 COL 10 VALUE
-           "functionality of the system, this has meant however we've ".
-           05 LINE 21 COL 10 VALUE
-           "had to implement a monetary payment system for upkeep ".
-           05 LINE 22 COL 10 VALUE
-           "below is a few bits of advice for using our credits ".
-           05 LINE 23 COL 10 VALUE 
-           "system and in general, the program itself.".
-           05 LINE 26 COL 10 VALUE '1.'.
-           05 LINE 26 COL 13 PIC X(31) USING 
-           WS-ABOUT-TITLE(ABOUT-OFFSET).
-           05 LINE 28 COL 10 VALUE '2.'.
-           05 LINE 28 COL 13 PIC X(31) USING 
-           WS-ABOUT-TITLE(ABOUT-OFFSET - 1).
-           05 LINE 30 COL 10 VALUE '3.'.
-           05 LINE 30 COL 13 PIC X(31) USING 
-           WS-ABOUT-TITLE(ABOUT-OFFSET - 2).
-           05 LINE 32 COL 10 VALUE '4.'.
-           05 LINE 32 COL 13 PIC X(31) USING 
-           WS-ABOUT-TITLE(ABOUT-OFFSET - 3).
-           05 LINE 34 COL 10 VALUE '5.'.
-           05 LINE 34 COL 13 PIC X(31) USING 
-           WS-ABOUT-TITLE(ABOUT-OFFSET - 4).
-           05 LINE 40 COL 10 VALUE "( ) What number to read".
-           05 LINE 41 COL 10 VALUE "(n) Next Page".
-           05 LINE 42 COL 10 VALUE "(p) Previous Page".
-           05 LINE 43 COL 10 VALUE "(q) Go back".
-           05 Line 38 COL 10 PIC X(15) USING
-           ABOUT-INVALID-CHOICE-MESSAGE
-               HIGHLIGHT, FOREGROUND-COLOR IS 4.
-           05 ABOUT-PAGE-FIELD LINE 44 COL 10 PIC X USING 
-           ABOUT-PAGE-CHOICE.
+               05 BLANK SCREEN.
+               05 LINE 12 COL 45 VALUE
+           "           _                 _     _____                 "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 13 COL 45 VALUE
+           "     /\   | |               | |   |  __ \                "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 14 COL 45 VALUE
+           "    /  \  | |__   ___  _   _| |_  | |__) |_ _  __ _  ___ "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 15 COL 45 VALUE
+           "   / /\ \ | '_ \ / _ \| | | | __| |  ___/ _` |/ _` |/ _ \"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 16 COL 45 VALUE
+           "  / ____ \| |_) | (_) | |_| | |_  | |  | (_| | (_| |  __/"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 45 VALUE
+           " /_/    \_\_.__/ \___/ \__,_|\__| |_|   \__,_|\__, |\___|"
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 45 VALUE
+           "                                               __/ |     "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 45 VALUE
+           "                                              |___/      "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 21 COL 45 VALUE 
+           "Welcome to the BBS System, after extensive user feedback "
+                   FOREGROUND-COLOR IS 2.
+               05 line 22 col 45 value
+           "and the mass influx of users we have extended our "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 23 COL 45 VALUE
+           "functionality of the system, this has meant however we've "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 45 VALUE
+           "had to implement a monetary payment system for upkeep "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 25 COL 45 VALUE
+           "below is a few bits of advice for using our credits "
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 26 COL 45 VALUE 
+           "system and in general, the program itself."
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 28 COL 45 VALUE '1.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 28 COL 47 PIC X(31) USING 
+               WS-ABOUT-TITLE(ABOUT-OFFSET)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 30 COL 45 VALUE '2.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 30 COL 47 PIC X(31) USING 
+               WS-ABOUT-TITLE(ABOUT-OFFSET - 1)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 32 COL 45 VALUE '3.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 32 COL 47 PIC X(31) USING 
+               WS-ABOUT-TITLE(ABOUT-OFFSET - 2)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 34 COL 45 VALUE '4.'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 34 COL 47 PIC X(31) USING 
+               WS-ABOUT-TITLE(ABOUT-OFFSET - 3)
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 36 COL 45 VALUE '5.'
+               FOREGROUND-COLOR IS 2.
+               05 LINE 36 COL 47 PIC X(31) USING 
+               WS-ABOUT-TITLE(ABOUT-OFFSET - 4)
+                   FOREGROUND-COLOR IS 2.
+               05 Line 38 COL 45 PIC X(15) USING
+               ABOUT-INVALID-CHOICE-MESSAGE
+                   HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 39 COL 45 VALUE "( ) What number to read"
+                   FOREGROUND-COLOR IS 3.
+               05 LINE 40 COL 45 VALUE "(n) Next Page"
+                   FOREGROUND-COLOR IS 3.
+               05 LINE 41 COL 45 VALUE "(p) Previous Page"
+                   FOREGROUND-COLOR IS 3.
+               05 LINE 42 COL 45 VALUE "(q) Go back"
+                   FOREGROUND-COLOR IS 3.          
+               05 LINE 44 COL 45 VALUE "Pick:"
+                   FOREGROUND-COLOR IS 2.
+               05 ABOUT-PAGE-FIELD LINE 44 COL 50 PIC X USING 
+               ABOUT-PAGE-CHOICE
+                   BLINK, FOREGROUND-COLOR IS 2.
       
-       01 ABOUT-PAGE-READ-SCREEN.
-           05 BLANK SCREEN.
-           05 LINE 30 COL 30 PIC X(31) USING ABOUT-TITLE-READ.
-           05 LINE 32 COL 30 PIC X(500) USING ABOUT-BODY-READ.
-           05 LINE 50 COL 30 VALUE "(q) Go Back".
-           05 Line 46 COL 30 PIC X(15) USING 
-           ABOUT-INVALID-CHOICE-MESSAGE
-               HIGHLIGHT, FOREGROUND-COLOR IS 4.
-           05 ABOUT-PAGE-READ-FIELD LINE 48 COL 30 PIC X USING
-           ABOUT-PAGE-READ-CHOICE.
+           01 ABOUT-PAGE-READ-SCREEN.
+               05 BLANK SCREEN.
+               05 LINE 16 COL 45 PIC X(31) USING ABOUT-TITLE-READ
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 45 PIC X(500) USING ABOUT-BODY-READ
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 39 COL 45 VALUE "(q) Go Back"
+                   FOREGROUND-COLOR IS 2.
+               05 Line 37 COL 45 PIC X(15) USING 
+               ABOUT-INVALID-CHOICE-MESSAGE
+                   HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 ABOUT-PAGE-READ-FIELD LINE 39 COL 57 PIC X USING
+               ABOUT-PAGE-READ-CHOICE
+                   FOREGROUND-COLOR IS 2.
                
        PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
 
@@ -346,7 +381,7 @@
            DISPLAY USER-INFO-SCREEN.
            DISPLAY CONNECTED-SCREEN.
 
-          0470-ABOUT-PAGE-TABLE.
+       0470-ABOUT-PAGE-TABLE.
            SET COUNTER TO 0. 
            OPEN INPUT F-ABOUT-FILE.
            MOVE 0 TO WS-FILE-IS-ENDED.
@@ -367,6 +402,7 @@
            PERFORM 0480-ABOUT-PAGE.
 
        0480-ABOUT-PAGE.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE ABOUT-PAGE-CHOICE.
            DISPLAY ABOUT-PAGE-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
@@ -404,6 +440,7 @@
            
 
        0490-ABOUT-PAGE-READ.
+           PERFORM 0500-TIME-AND-DATE.
            INITIALIZE ABOUT-PAGE-READ-CHOICE.
            IF ABOUT-NUM = 1 OR 2 OR 3 OR 4 OR 5
                MOVE DISPLAY-TITLE(ABOUT-OFFSET ABOUT-NUM WS-ABOUT) 
@@ -412,6 +449,7 @@
                TO ABOUT-BODY-READ
            END-IF.
            DISPLAY ABOUT-PAGE-READ-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            ACCEPT ABOUT-PAGE-READ-FIELD.
            IF ABOUT-PAGE-READ-CHOICE = "q" or "Q"
