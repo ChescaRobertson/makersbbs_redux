@@ -616,18 +616,10 @@
 
            01 REGISTER-NEW-USER-SCREEN
               BACKGROUND-COLOR IS 0.
-
-
-                 05 BLANK SCREEN.
-                   
+                 05 BLANK SCREEN.  
                  05 LINE 4 COL 12 VALUE "Connected to Vault" 
                    UNDERLINE, BLINK
-
-                 HIGHLIGHT, FOREGROUND-COLOR IS 3.
-           
-      *>>  
-
-      *>>>>>End of the pip boy here                               
+                 HIGHLIGHT, FOREGROUND-COLOR IS 3.                           
                 05 LINE 15 COL 90 VALUE
            "    _________"
            FOREGROUND-COLOR IS 2.
