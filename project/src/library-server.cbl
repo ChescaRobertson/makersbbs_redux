@@ -281,8 +281,6 @@
            . 
 
            
-   
-
            01 LIBRARY-SCREEN.
                05 BLANK SCREEN.
                05 LINE 13 COL 49 VALUE 
@@ -403,45 +401,63 @@
                
            01 READ-BOOK-SCREEN
                BACKGROUND-COLOR IS 8.
-                05 BLANK SCREEN.
-           05 LINE 09 COL 49 VALUE "---------------------------------
-      -      "----------------------" FOREGROUND-COLOR IS 3.
-              05 LINE 10 COL 49 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-              05 LINE 11 COL 49 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 BLANK SCREEN.
+               05 LINE 09 COL 49 VALUE "--------------------------------
+      -        "-----------------------" 
+                   FOREGROUND-COLOR IS 3.
+               05 LINE 10 COL 49 VALUE "*********************************
+      -       "************************" 
+                   FOREGROUND-COLOR IS 5.
+               05 LINE 11 COL 49 VALUE "--------------------------------
+      -        "------------------------" 
+                   FOREGROUND-COLOR IS 2.
                
                
                05 LINE 12 COL 49 VALUE 
-           "-------------------------------------------------------".
+               "-------------------------------------------------------"              
+                   FOREGROUND-COLOR IS 2.               
                05 LINE 13 COL 65 VALUE
-               "WELCOME TO THE LIBRARY".
+               "WELCOME TO THE LIBRARY"
+                   FOREGROUND-COLOR IS 2.
                05 LINE 14 COL 49 VALUE
-               "Please Choose Below which book you would like to have in"
-      -        "".
+               "Please Choose Below which book you would like to have in
+      -        ""
+                   FOREGROUND-COLOR IS 2.
                05 LINE 15 COL 49 VALUE
-               "AudioBook Format, the charge will be 5 credits".
+               "AudioBook Format, the charge will be 5 credits"
+                   FOREGROUND-COLOR IS 2.
                05 LINE 16 COL 49 PIC X(50) USING AUDIOBOOK-MSG
-                    HIGHLIGHT, FOREGROUND-COLOR IS 4.
-               05 LINE 18 COL 60 VALUE 'Title:'.
-               05 LINE 18 COL 69 PIC X(50) USING TITLE.
+                   HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 18 COL 60 VALUE 'Title:'
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 69 PIC X(50) USING TITLE
+                   FOREGROUND-COLOR IS 2.
                05 LINE 22 COLUMN 40 PIC X(60) USING 
-               WS-READ-BODY-SEGMENT-1.
+               WS-READ-BODY-SEGMENT-1
+                   FOREGROUND-COLOR IS 2.
                05 LINE 23 COLUMN 40 PIC X(60) USING 
-               WS-READ-BODY-SEGMENT-2.
+               WS-READ-BODY-SEGMENT-2
+                   FOREGROUND-COLOR IS 2.
                05 LINE 24 COLUMN 40 PIC X(60) USING 
-               WS-READ-BODY-SEGMENT-3.
-               
+               WS-READ-BODY-SEGMENT-3
+                   FOREGROUND-COLOR IS 2.            
                05 LINE 25 COLUMN 40 PIC X(60) USING 
-               WS-READ-BODY-SEGMENT-4.
+               WS-READ-BODY-SEGMENT-4
+                   FOREGROUND-COLOR IS 2.
                05 LINE 26 COLUMN 40 PIC X(60) USING 
-               WS-READ-BODY-SEGMENT-5.
-               05 LINE 31 COLUMN 69 VALUE 'Author: '.               
-               05 LINE 31 COLUMN 60 PIC X(12) USING BOOK-AUTHOR.
-               05 LINE 37 COL 60 VALUE "Pick: ".
+               WS-READ-BODY-SEGMENT-5
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 31 COLUMN 69 VALUE 'Author: '
+                   FOREGROUND-COLOR IS 2.               
+               05 LINE 31 COLUMN 60 PIC X(12) USING BOOK-AUTHOR
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 37 COL 60 VALUE "Pick: "
+                   FOREGROUND-COLOR IS 2.
                05 READ-CHOICE-FIELD LINE 37 COLUMN 67 PIC X
-               USING READ-CHOICE.
-               05 LINE 33 COL 60 VALUE 'Press q to leave'.
+               USING READ-CHOICE
+                   FOREGROUND-COLOR IS 2.
+               05 LINE 33 COL 60 VALUE 'Press q to leave'
+                   FOREGROUND-COLOR IS 2.
                
        PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
 
