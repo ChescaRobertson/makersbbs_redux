@@ -321,11 +321,9 @@
                    HIGHLIGHT FOREGROUND-COLOR IS 3. 
                05 LINE 38 COL 66 VALUE "(g) Go back       "
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 39 COL 66 VALUE "(q) Quit          "
-                   HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 41 COL 66 VALUE "Pick:"
-                   FOREGROUND-COLOR IS 2.
-               05 MSG-MENU-CHOICE-FIELD LINE 41 COL 71 PIC XXX
+               05 LINE 40 COL 66 VALUE "Pick:"
+                   BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 MSG-MENU-CHOICE-FIELD LINE 40 COL 71 PIC XXX
                    USING MSG-MENU-CHOICE
                    BLINK, FOREGROUND-COLOR IS 2.
                05 LINE 32 COL 66 PIC X(20) USING INSUFFICIENT-FUNDS
@@ -368,11 +366,9 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 37 COL 45 VALUE "(g) Go back"
                    HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 38 COL 45 VALUE "(q) Quit   "
-                   HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 39 COL 45 VALUE "Pick: "
-                   FOREGROUND-COLOR IS 2.
-               05 MSG-VIEW-CHOICE-FIELD LINE 39 COL 53 PIC X 
+               05 LINE 40 COL 45 VALUE "Pick: "
+                  BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 MSG-VIEW-CHOICE-FIELD LINE 40 COL 53 PIC X 
                USING MSG-VIEW-CHOICE
                    FOREGROUND-COLOR IS 2, BLINK. 
                05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
@@ -469,8 +465,8 @@
            AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "FALSE") THEN
              MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
              PERFORM 0130-MSG-MENU 
-           ELSE IF MSG-MENU-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN  
+           ELSE 
+               PERFORM 0130-MSG-MENU
            END-IF.
 
            PERFORM 0130-MSG-MENU.
@@ -486,8 +482,9 @@
            ACCEPT MSG-VIEW-CHOICE-FIELD.
            IF MSG-VIEW-CHOICE = 'g' OR 'G' THEN
                PERFORM 0130-MSG-MENU
-           ELSE IF MSG-VIEW-CHOICE = 'q' OR 'Q' THEN
-              STOP RUN  
+           ELSE 
+               PERFORM 0140-MESSAGE-VIEW
+  
            END-IF.
 
        0150-MESSAGE-WRITE.
