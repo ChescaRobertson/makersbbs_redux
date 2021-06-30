@@ -299,27 +299,28 @@
            01 ADMIN-LOGIN-SCREEN.
                05 BLANK SCREEN. 
                05 LINE 20 COL 43 VALUE "Enter Administrator username:"
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 ADMIN-NAME-FIELD LINE 22 COL 43 PIC X(16) 
-               USING ADMIN-NAME.
+               USING ADMIN-NAME FOREGROUND-COLOR IS 2.
                05 LINE 24 COL 43 VALUE "Enter Administrator password:"
-               FOREGROUND-COLOR IS 2.
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
                05 ADMIN-PASSWORD-FIELD LINE 26 COLUMN 43 PIC X(20)
-               USING ADMIN-PASSWORD.  
+               USING ADMIN-PASSWORD FOREGROUND-COLOR IS 2 .  
                05 LINE 28 COLUMN 43 VALUE "(l) Log-in."
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 29 COLUMN 43 VALUE "(q) Go Back."
+               05 LINE 29 COLUMN 43 VALUE "(g) Go Back."
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 30 COLUMN 43 VALUE "Pick: " 
-               FOREGROUND-COLOR IS 2.
-               05 ADMIN-ENTER-FIELD LINE 30 COLUMN 49 PIC X
+               05 LINE 31 COLUMN 43 VALUE "Pick: " 
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 ADMIN-ENTER-FIELD LINE 31 COLUMN 49 PIC X
                USING ADMIN-ENTER.
 
            01 ADMIN-MENU-SCREEN.
                05 BLANK SCREEN.
                05 LINE 18 COL 43 VALUE "Welcome, "
                FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 52 PIC X(16) USING ADMIN-NAME.
+               05 LINE 18 COL 52 PIC X(16) USING ADMIN-NAME 
+               FOREGROUND-COLOR IS 2.
                05 LINE 20 COL 43 VALUE "Please select from the below opt
       -         "ions." FOREGROUND-COLOR IS 2.
                05 LINE 23 COL 43 VALUE "(p) Process payments "
@@ -330,7 +331,8 @@
                HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 29 COL 43 VALUE "(q) Quit             "
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 31 COL 43 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+               05 LINE 31 COL 43 VALUE "Pick: " HIGHLIGHT 
+               FOREGROUND-COLOR IS 2.
                05 ADMIN-CHOICE-FIELD LINE 31 COL 49 PIC X
                USING ADMIN-CHOICE.
 
@@ -340,11 +342,11 @@
                FOREGROUND-COLOR IS 2.
                05 LINE 18 COLUMN 68 VALUE "(Overseer name must be unique
       -        ")" FOREGROUND-COLOR IS 2.
-               05 NEW-ADMIN-NAME-FIELD LINE 19 COLUMN 43 PIC X(16)
-               USING NEW-ADMIN-NAME.
-               05 LINE 20 COLUMN 43 PIC X(50) 
+               05 NEW-ADMIN-NAME-FIELD LINE 20 COLUMN 43 PIC X(16)
+               USING NEW-ADMIN-NAME FOREGROUND-COLOR IS 2.
+               05 LINE 19 COLUMN 43 PIC X(50) 
                USING ERROR-MSG-1 HIGHLIGHT FOREGROUND-COLOR is 4.
-               05 LINE 20 COLUMN 43 PIC X(50) USING OK-MSG-1 HIGHLIGHT
+               05 LINE 21 COLUMN 43 PIC X(50) USING OK-MSG-1 HIGHLIGHT
                FOREGROUND-COLOR IS 2.
 
                05 LINE 22 COLUMN 43 VALUE "Enter a password:"
@@ -352,19 +354,19 @@
                05 LINE 23 COLUMN 43 VALUE "(Your password must be a mini
       -        "mum of 6 characters and include at least 1 number.) "
                FOREGROUND-COLOR IS 2.
-               05 NEW-ADMIN-PASSWORD-FIELD LINE 24 COLUMN 43 PIC X(20)
-               USING NEW-ADMIN-PASSWORD.
-               05 LINE 25 COLUMN 43 PIC X(50) USING OK-MSG-2 HIGHLIGHT
+               05 NEW-ADMIN-PASSWORD-FIELD LINE 25 COLUMN 43 PIC X(20)
+               USING NEW-ADMIN-PASSWORD FOREGROUND-COLOR IS 2.
+               05 LINE 26 COLUMN 43 PIC X(50) USING OK-MSG-2 HIGHLIGHT
                FOREGROUND-COLOR IS 2.
-               05 LINE 25 COLUMN 43 PIC X(50) 
+               05 LINE 24 COLUMN 43 PIC X(50) 
                USING ERROR-MSG-2 HIGHLIGHT FOREGROUND-COLOR is 4.
                05 LINE 30 COLUMN 43 VALUE "(s) Submit"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 31 COLUMN 43 VALUE "(q) Go Back"
+               05 LINE 31 COLUMN 43 VALUE "(g) Go Back"
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 32 COLUMN 43 VALUE "Pick: "
-               FOREGROUND-COLOR IS 2.
-               05 REGISTER-CHOICE-FIELD LINE 32 COLUMN 49 PIC X
+               05 LINE 33 COLUMN 43 VALUE "Pick: "
+               HIGHLIGHT FOREGROUND-COLOR IS 2.
+               05 REGISTER-CHOICE-FIELD LINE 33 COLUMN 49 PIC X
                USING REGISTER-CHOICE. 
    
            01 PROCESS-PAYMENT-SCREEN.
@@ -475,7 +477,7 @@
 
            IF ADMIN-ENTER = "l" AND WS-FOUND = 1 THEN
                PERFORM 0110-ADMIN-MENU
-           ELSE IF  ADMIN-ENTER = "q" THEN 
+           ELSE IF  ADMIN-ENTER = "g" THEN 
                GOBACK
            ELSE 
                MOVE "* Administrator details not recognised *" TO 
@@ -550,6 +552,7 @@
                PERFORM VALIDATE-USERNAME
            ELSE 
                MOVE 'OVERSEER NAME OK' TO OK-MSG-1
+               MOVE SPACES TO ERROR-MSG-1
                PERFORM VALIDATE-PASSWORD
            END-IF. 
 
@@ -564,9 +567,7 @@
            CALL 'validate-password' USING NEW-ADMIN-PASSWORD ERROR-MSG-2 
            RAISE-ERROR OK-MSG-2.
            IF RAISE-ERROR > 0 
-               MOVE 'INVALID PASSWORD' TO ERROR-MSG-2
-           ELSE 
-               MOVE 'PASSWORD OK' TO OK-MSG-2
+               PERFORM VALIDATE-PASSWORD
            END-IF. 
 
            DISPLAY REGISTER-ADMIN-SCREEN.
