@@ -522,17 +522,17 @@
                HIGHLIGHT, FOREGROUND-COLOR 2.
                05 LINE 35 COLUMN 30 VALUE "Guess this word to break free
       -        ":" HIGHLIGHT, FOREGROUND-COLOR 2.
-               05 LINE 36 COLUMN 30 PIC X(20) USING WS-WORD
+               05 LINE 37 COLUMN 30 PIC X(20) USING WS-WORD
                HIGHLIGHT FOREGROUND-COLOR 2.
-               05 LINE 37 COLUMN 30 VALUE "Guesses left: "
+               05 LINE 39 COLUMN 30 VALUE "Guesses left: "
                HIGHLIGHT FOREGROUND-COLOR 3.
-               05 LINE 37 COLUMN 60 PIC 99 USING WS-GUESSES-LEFT.
-               05 LINE 38 COLUMN 30 VALUE "( ) Enter a letter to guess"
+               05 LINE 39 COLUMN 60 PIC 99 USING WS-GUESSES-LEFT.
+               05 LINE 40 COLUMN 30 VALUE "( ) Enter a letter to guess"
                HIGHLIGHT FOREGROUND-COLOR 3.
-               05 LINE 39 COLUMN 30 VALUE "(!) Quit game"
+               05 LINE 41 COLUMN 30 VALUE "(!) Quit game"
                HIGHLIGHT FOREGROUND-COLOR 3.
-               05 LINE 40 COLUMN 30 VALUE "Pick: " FOREGROUND-COLOR 2.
-               05 WS-GUESS-CHOICE-FIELD LINE 40 COLUMN 36 PIC X
+               05 LINE 42 COLUMN 30 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 WS-GUESS-CHOICE-FIELD LINE 42 COLUMN 36 PIC X
                USING WS-GUESS-CHOICE.
                05 LINE 13 COL 70 VALUE " ___________.._______" 
                FOREGROUND-COLOR IS 2.
@@ -568,25 +568,25 @@
            01 WORD-GUESSING-WINNING-SCREEN
                BACKGROUND-COLOR IS 8.
                05 BLANK SCREEN.
-               05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
+               05 LINE 25 COLUMN 30 VALUE "HANGMAN..."
                HIGHLIGHT, FOREGROUND-COLOR 2.
-               05 LINE 31 COLUMN 30 VALUE "You broke free and escaped to
+               05 LINE 26 COLUMN 30 VALUE "You broke free and escaped to
       -       " The Wasteland!"
                HIGHLIGHT, FOREGROUND-COLOR 6.
-               05 LINE 40 COLUMN 30 VALUE "You guessed the word!".
-               05 LINE 42 COLUMN 30 PIC X(20) USING WS-ANSWERWORD.
-               05 LINE 48 COLUMN 30 PIC 99 USING WS-GUESSES-LEFT.
-               05 LINE 50 COLUMN 30 VALUE "You scored: ".
-               05 LINE 48 COLUMN 90 PIC 99 USING WS-HIGH-SCORE.
-               05 LINE 52 COLUMN 30 VALUE "(p) Play Again"
+               05 LINE 30 COLUMN 30 VALUE "You guessed the word!".
+               05 LINE 31 COLUMN 30 PIC X(20) USING WS-ANSWERWORD.
+               05 LINE 35 COLUMN 30 PIC 99 USING WS-GUESSES-LEFT.
+               05 LINE 37 COLUMN 30 VALUE "You scored: ".
+               05 LINE 38 COLUMN 90 PIC 99 USING WS-HIGH-SCORE.
+               05 LINE 40 COLUMN 30 VALUE "(p) Play Again"
                HIGHLIGHT FOREGROUND-COLOR IS 6.
-               05 LINE 53 COLUMN 30 VALUE "(h) See High Scores"
+               05 LINE 41 COLUMN 30 VALUE "(h) See High Scores"
                HIGHLIGHT FOREGROUND-COLOR IS 6.
-               05 LINE 54 COLUMN 30 VALUE "(!) Quit game"
+               05 LINE 42 COLUMN 30 VALUE "(!) Quit game"
                HIGHLIGHT FOREGROUND-COLOR IS 6.
-               05 LINE 55 COLUMN 30 VALUE "Pick: " 
+               05 LINE 43 COLUMN 30 VALUE "Pick: " 
                FOREGROUND-COLOR IS 2.
-               05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 55 COLUMN 36 
+               05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 43 COLUMN 36 
                PIC X USING WS-GUESSING-WINNING-CHOICE.
                05 LINE 15 COL 70 VALUE "               ,'-',"
                FOREGROUND-COLOR IS 2.
@@ -612,29 +612,29 @@
            01 WORD-GUESSING-LOSE-SCREEN
                BACKGROUND-COLOR IS 8.
                05 BLANK SCREEN.
-               05 LINE 13 COL 30 VALUE "       ______"
+               05 LINE 14 COL 30 VALUE "       ______"
                FOREGROUND-COLOR IS 2.
-               05 LINE 14 COL 30 VALUE "    .-'      '-."
+               05 LINE 15 COL 30 VALUE "    .-'      '-."
                FOREGROUND-COLOR IS 2.
-               05 LINE 15 COL 30 VALUE "   /            \"
+               05 LINE 16 COL 30 VALUE "   /            \"
                FOREGROUND-COLOR IS 2.
-               05 LINE 16 COL 30 VALUE "  |              |"
+               05 LINE 17 COL 30 VALUE "  |              |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 17 COL 30 VALUE "  |,  .-.  .-.  ,|"
+               05 LINE 18 COL 30 VALUE "  |,  .-.  .-.  ,|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 30 VALUE "  | )(__/  \__)( |"
+               05 LINE 19 COL 30 VALUE "  | )(__/  \__)( |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 19 COL 30 VALUE "  |/     /\     \|"
+               05 LINE 20 COL 30 VALUE "  |/     /\     \|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 30 VALUE "  (_     ^^     _)"
+               05 LINE 21 COL 30 VALUE "  (_     ^^     _)"
                FOREGROUND-COLOR IS 2.
-               05 LINE 21 COL 30 VALUE "   \__|IIIIII|__/"
+               05 LINE 22 COL 30 VALUE "   \__|IIIIII|__/"
                FOREGROUND-COLOR IS 2.
-               05 LINE 22 COL 30 VALUE "    | \IIIIII/ |"
+               05 LINE 23 COL 30 VALUE "    | \IIIIII/ |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 23 COL 30 VALUE "    \          /|"
+               05 LINE 24 COL 30 VALUE "    \          /|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 24 COL 30 VALUE "     `--------`"
+               05 LINE 25 COL 30 VALUE "     `--------`"
                FOREGROUND-COLOR IS 2.
                05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
                HIGHLIGHT, FOREGROUND-COLOR 2.
