@@ -613,14 +613,20 @@
                05 LINE 26 COL 48 VALUE "Read our message board."
                   FOREGROUND-COLOR 2.
                05 LINE 27 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
-               05 LINE 27 COL 48 VALUE "Play a few games."
-                  FOREGROUND-COLOR 2.
+               05 LINE 27 COL 48 VALUE "Leave a message of your own for 
+      -        "fellow travellers." FOREGROUND-COLOR 2.
                05 LINE 28 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
-               05 LINE 28 COL 48 VALUE "Leave a message of your own."
-                  FOREGROUND-COLOR 2.
+               05 LINE 28 COL 48 VALUE "Play a few games & win some cred
+      -        "its! " FOREGROUND-COLOR 2.
                05 LINE 29 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
-               05 LINE 29 COL 48 VALUE "Most importantly. HAVE FUN!"
-                  FOREGROUND-COLOR 2. 
+               05 LINE 29 COL 48 VALUE "Visit our Library of the Worlds  
+      -        "last books!" FOREGROUND-COLOR 2.
+               05 LINE 30 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 30 COL 48 VALUE "Avoid that radioactive rain & ch'
+      -        "eck the Weather." FOREGROUND-COLOR 2 . 
+               05 LINE 31 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
+               05 LINE 31 COL 48 VALUE "Most importantly. HAVE FUN! It's
+      -        " only the apocolypse!" FOREGROUND-COLOR 2 .
                05 LINE 34 COL 84 VALUE "(b) Library     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 34 COL 46 VALUE "(m) Messages    "

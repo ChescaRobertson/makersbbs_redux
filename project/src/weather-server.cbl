@@ -577,18 +577,18 @@
                    UPDATED-BALANCE
                    MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                    PERFORM 0300-CHECK-WEATHER
-               ELSE IF CONFIRM-CHRG = "1"
-                   PERFORM WEATHER-ENVIRONMENT-1
-               ELSE IF CONFIRM-CHRG = "2"
-                   PERFORM WEATHER-ENVIRONMENT-2
-               ELSE IF CONFIRM-CHRG = "3"
-                   PERFORM WEATHER-ENVIRONMENT-3
-               ELSE IF CONFIRM-CHRG = "4"
-                   PERFORM WEATHER-ENVIRONMENT-4
                ELSE 
                    MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
                    PERFORM 0200-CONFIRM-WEATHER-CHARGE
                END-IF
+           ELSE IF CONFIRM-CHRG = "1"
+               PERFORM WEATHER-ENVIRONMENT-1
+           ELSE IF CONFIRM-CHRG = "2"
+               PERFORM WEATHER-ENVIRONMENT-2
+           ELSE IF CONFIRM-CHRG = "3"
+               PERFORM WEATHER-ENVIRONMENT-3
+           ELSE IF CONFIRM-CHRG = "4"
+               PERFORM WEATHER-ENVIRONMENT-4
            ELSE IF CONFIRM-CHRG = "n" OR "N"
                MOVE SPACES TO INSUFFICIENT-FUNDS
                GOBACK 
