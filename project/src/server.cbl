@@ -843,9 +843,11 @@
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
                05 LINE 36 COL 84 VALUE "(w) Weather     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
-               05 LINE 38 COL 46 VALUE "Pick: "
+               05 LINE 38 COL 46 VALUE "(a) About.      "
+                  HIGHLIGHT FOREGROUND-COLOR IS 3.              
+              05 LINE 40 COL 46 VALUE "Pick: "
                   BLINK HIGHLIGHT FOREGROUND-COLOR IS 2.
-               05 MENU-CHOICE-FIELD LINE 38 COL 53 PIC X
+               05 MENU-CHOICE-FIELD LINE 40 COL 53 PIC X
                   USING MENU-CHOICE BLINK.
            
 

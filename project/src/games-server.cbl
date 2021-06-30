@@ -177,7 +177,6 @@
                    FOREGROUND-COLOR IS 2.
            
            01 PIP-BOY-SCREEN.
-                     
                05 LINE 5 COL 10 VALUE 
            "============================================================
       -    "==========================================================="
@@ -357,447 +356,418 @@
       -    "==========================================================="
            . 
 
-           
    
 
            01 GAMES-MENU-SCREEN
-             BACKGROUND-COLOR IS 0.
-             05 BLANK SCREEN.
-             05 LINE 13 COL 30 VALUE
-               " ____"
+               BACKGROUND-COLOR IS 0.
+               05 BLANK SCREEN.
+               05 LINE 15 COL 30 VALUE " ____" FOREGROUND-COLOR IS 2.
+               05 LINE 15 COL 70 VALUE "   ,##.                   ,==."
                FOREGROUND-COLOR IS 2.
-             05 LINE 14 COL 30 VALUE   
-               "|  __ \                         "
+               05 LINE 16 COL 30 VALUE   
+               "|  __ \                         " FOREGROUND-COLOR IS 2.
+               05 LINE 16 COL 70 VALUE   
+               " ,#    #.                 \ o '," FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 30 VALUE
+              "| |  \/ __ _ _ __ ___   ___ ___ " FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 70 VALUE
+               "#        #     _     _     \    \" 
                FOREGROUND-COLOR IS 2.
-             05 LINE 15 COL 30 VALUE
-              "| |  \/ __ _ _ __ ___   ___ ___ "
-               FOREGROUND-COLOR IS 2.
-             05 LINE 16 COL 30 VALUE   
+               05 LINE 18 COL 30 VALUE 
                "| | __ / _` | '_ ` _ \ / _ / __|"
                FOREGROUND-COLOR IS 2.
-             05 LINE 17 COL 30 VALUE
-               "| |_\ | (_| | | | | | |  __\__ \"
-               FOREGROUND-COLOR IS 2.
-             05 LINE 18 COL 30 VALUE
-               " \____/\__,_|_| |_| |_|\___|___/"
-               FOREGROUND-COLOR IS 2.
-             05 LINE 13 COL 70 VALUE
-               "   ,##.                   ,==."
-               FOREGROUND-COLOR IS 2.
-             05 LINE 14 COL 70 VALUE   
-               " ,#    #.                 \ o ',"
-               FOREGROUND-COLOR IS 2.
-             05 LINE 15 COL 70 VALUE
-              "#        #     _     _     \    \"
-               FOREGROUND-COLOR IS 2.
-             05 LINE 16 COL 70 VALUE   
+               05 LINE 18 COL 70 VALUE 
                "#        #    (_)   (_)    /    ; "
                FOREGROUND-COLOR IS 2.
-             05 LINE 17 COL 70 VALUE
+               05 LINE 19 COL 30 VALUE
+               "| |_\ | (_| | | | | | |  __\__ \"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 70 VALUE
                " `#    #'                 /   .'  "
                FOREGROUND-COLOR IS 2.
-             05 LINE 18 COL 70 VALUE
+               05 LINE 20 COL 30 VALUE
+               " \____/\__,_|_| |_| |_|\___|___/"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 20 COL 70 VALUE
                "   `##'                   '=='"
                FOREGROUND-COLOR IS 2.
-             05 LINE 26 COL 40 VALUE "Games cost 5 credits: ".      
-             05 LINE 28 COL 43 VALUE "(h) Hangman"
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 30 COL 43 VALUE "(n) Guess The Number" 
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 32 COL 43 VALUE "(o) O and X         "  
-             HIGHLIGHT FOREGROUND-COLOR IS 3.          
-             05 LINE 36 COL 36 VALUE "(g) Go back "
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 36 COL 54 VALUE "(q) Quit    "
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 38 COL 36 VALUE "Pick: "
-             HIGHLIGHT FOREGROUND-COLOR IS 3 BLINK.
-             05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 41 PIC X
-                USING GAMES-MENU-CHOICE.              
-              05 LINE 40 COL 36 PIC X(20) USING INSUFFICIENT-FUNDS
-                HIGHLIGHT, FOREGROUND-COLOR IS 4.
+               05 LINE 26 COL 43 VALUE "Games cost 5 credits: "
+               FOREGROUND-COLOR IS 2.
+               05 LINE 28 COL 43 VALUE "(h) Hangman"
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 30 COL 43 VALUE "(n) Guess The Number" 
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 32 COL 43 VALUE "(o) O and X         "  
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 36 VALUE "(g) Go back "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 54 VALUE "(q) Quit    "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 38 COL 36 VALUE "Pick: "
+               FOREGROUND-COLOR IS 2.
+               05 GAMES-MENU-CHOICE-FIELD LINE 38 COL 41 PIC X
+               USING GAMES-MENU-CHOICE.              
+               05 LINE 40 COL 36 PIC X(20) USING INSUFFICIENT-FUNDS
+               HIGHLIGHT, FOREGROUND-COLOR IS 4.
       
            01 BOARD-SCREEN.
                05 BLANK SCREEN.
-               05 LINE 16 COL 50 VALUE "--------------------------------
-      -      "------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 17 COL 50 VALUE "********************************
-      -      "************************" FOREGROUND-COLOR IS 5.
-               05 LINE 18 COL 50 VALUE "--------------------------------
-      -      "------------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 19 COl 60 VALUE  "  ___       _    _   _ ____   _
-      -        "-  __" FOREGROUND-COLOR IS 3.
-               05 LINE 20 COl 60 VALUE " / _ \     / \  | \ | |  _ \  \ \
-      -        "/ /" FOREGROUND-COLOR IS 5.
-               05 LINE 21 COl 60 VALUE "| | | |   / _ \ |  \| | | | |  \  
-      -        " /" FOREGROUND-COLOR IS 3.
-               05 LINE 22 COl 60 VALUE "| |_| |  / ___ \| |\  | |_| |  /  
-      -         " \" FOREGROUND-COLOR IS 2.
-               05 LINE 23 COl 60 VALUE " \___/  /_/   \_\_| \_|____/  /_/
-      -        "\_\" FOREGROUND-COLOR IS 5.
-               05 LINE 25 COL 50 VALUE "--------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-               05 LINE 26 COL 50 VALUE "********************************
-      -      "************************" FOREGROUND-COLOR IS 5.
-               05 LINE 27 COL 50 VALUE "-------------------------------
-      -      "------------------------" FOREGROUND-COLOR IS 3.
-               05 LINE 28 COLUMN 49 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 29 COLUMN 49 VALUE IS " A |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 30 COLUMN 49 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 31 COLUMN 49 VALUE IS " B |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 32 COLUMN 49 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 33 COLUMN 49 VALUE IS " C |   |   |   |   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 34 COLUMN 49 VALUE IS "   +---+---+---+   "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 35 COLUMN 49 VALUE IS "     1   2   3     "
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
-               05 LINE 29 COLUMN 54 PIC A(1) FROM WS-CELL(1,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 29 COLUMN 58 PIC A(1) FROM WS-CELL(1,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 29 COLUMN 62 PIC A(1) FROM WS-CELL(1,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 31 COLUMN 54 PIC A(1) FROM WS-CELL(2,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 31 COLUMN 58 PIC A(1) FROM WS-CELL(2,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 31 COLUMN 62 PIC A(1) FROM WS-CELL(2,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 33 COLUMN 54 PIC A(1) FROM WS-CELL(3,1)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 33 COLUMN 58 PIC A(1) FROM WS-CELL(3,2)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
-               05 LINE 33 COLUMN 62 PIC A(1) FROM WS-CELL(3,3)
-                   BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 14 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 15 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 16 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
+               05 LINE 18 COl 60 VALUE  "  ___       _    _   _ ____   _
+      -        "_  __" FOREGROUND-COLOR IS 3.
+               05 LINE 19 COl 60 VALUE " / _ \     / \  | \ | |  _ \  \ 
+      -        "\/ /" FOREGROUND-COLOR IS 5.
+               05 LINE 20 COl 60 VALUE "| | | |   / _ \ |  \| | | | |  \
+      -        "  /" FOREGROUND-COLOR IS 3.
+               05 LINE 21 COl 60 VALUE "| |_| |  / ___ \| |\  | |_| |  /
+      -         "  \" FOREGROUND-COLOR IS 2.
+               05 LINE 22 COl 60 VALUE " \___/  /_/   \_\_| \_|____/  /_
+      -        "/\_\" FOREGROUND-COLOR IS 5.
+               05 LINE 25 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 26 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 27 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
+               05 LINE 28 COLUMN 67 VALUE IS "   +---+---+---+   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 29 COLUMN 67 VALUE IS " A |   |   |   |   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 30 COLUMN 67 VALUE IS "   +---+---+---+   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 31 COLUMN 67 VALUE IS " B |   |   |   |   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 32 COLUMN 67 VALUE IS "   +---+---+---+   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 33 COLUMN 67 VALUE IS " C |   |   |   |   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 34 COLUMN 67 VALUE IS "   +---+---+---+   "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 35 COLUMN 67 VALUE IS "     1   2   3     "
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG.
+               05 LINE 29 COLUMN 72 PIC A(1) FROM WS-CELL(1,1)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 29 COLUMN 76 PIC A(1) FROM WS-CELL(1,2)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 29 COLUMN 80 PIC A(1) FROM WS-CELL(1,3)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 31 COLUMN 72 PIC A(1) FROM WS-CELL(2,1)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 31 COLUMN 76 PIC A(1) FROM WS-CELL(2,2)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 31 COLUMN 80 PIC A(1) FROM WS-CELL(2,3)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 33 COLUMN 72 PIC A(1) FROM WS-CELL(3,1)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 33 COLUMN 80 PIC A(1) FROM WS-CELL(3,2)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 33 COLUMN 80 PIC A(1) FROM WS-CELL(3,3)
+               BACKGROUND-COLOR WS-BG FOREGROUND-COLOR WS-FG-CELL.
+               05 LINE 35 COLUMN 67 VALUE IS "Message: "
+               FOREGROUND-COLOR IS 2.
+               05 MSG PIC X(128) FROM WS-OANDXMESSAGE
+               FOREGROUND-COLOR IS 2.
+               05 LINE 36 COLUMN 67 PIC X(16) FROM WS-INSTRUCTION
+               FOREGROUND-COLOR IS 2.
+               05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
+               05 LINE 38 COLUMN 67 VALUE IS "Moves played = "
+               FOREGROUND-COLOR IS 2.
+               05 MOVES PIC 9(1) FROM WS-MOVES.
+               05 LINE 39 COLUMN 67 VALUE IS "Games won = "
+               FOREGROUND-COLOR IS 2.
+               05 WINS PIC 9(2) FROM WS-WINS.
+               05 LINE 39 COLUMN 81 VALUE IS "/" FOREGROUND-COLOR IS 2.
+               05 GAMES PIC 9(2) FROM WS-GAMES. 
+               05 LINE 41 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 42 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 43 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
 
-               05 LINE 35 COLUMN 49 VALUE IS "Message: "
-                   FOREGROUND-COLOR IS 6.
-                   05 MSG PIC X(128) FROM WS-OANDXMESSAGE.
-               05 LINE 36 COLUMN 49 PIC X(16) FROM WS-INSTRUCTION.
-                   05 NEXT-MOVE PIC X(2) USING WS-NEXT-MOVE.
-               05 LINE 37 COLUMN 49 VALUE IS "Stats: "
-                   FOREGROUND-COLOR IS 6.
-               05 LINE 38 COLUMN 49 VALUE IS "Moves played = "
-                   FOREGROUND-COLOR IS 2.
-                   05 MOVES PIC 9(1) FROM WS-MOVES.
-               05 LINE 39 COLUMN 49 VALUE IS "Games won = "
-                   FOREGROUND-COLOR IS 5.
-                   05 WINS PIC 9(2) FROM WS-WINS.
-               05 LINE 39 COLUMN 63 VALUE IS "/".
-                   05 GAMES PIC 9(2) FROM WS-GAMES. 
-              05 LINE 41 COL 50 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-              05 LINE 42 COL 50 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-              05 LINE 43 COL 50 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-      
            01 IN-GAME-SCREEN
                BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN. 
-             05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 31 COLUMN 30 VALUE "You wander into a small settleme
-      -      "nt, seeking shelter from the pounding sun of The Wasteland
-      -      "."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-            05 LINE 32 COLUMN 30 VALUE "The local Lawman mistakes you fo
-      -      "r a bandit. You're tied up and on the gallows faster"
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 33 COLUMN 30 VALUE "than you can wish the townsfolk 
-      -      "a friendly wasteland hello."
-
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 34 COLUMN 30 VALUE "You've Yee'd your last Haw."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 35 COLUMN 30 VALUE "Guess this word to break free:"
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 36 COLUMN 30 PIC X(20) USING WS-WORD
-             HIGHLIGHT FOREGROUND-COLOR 2.
-             05 LINE 37 COLUMN 30 VALUE "Guesses left: "
-              HIGHLIGHT FOREGROUND-COLOR 3.
-             05 LINE 37 COLUMN 60 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 38 COLUMN 30 VALUE "( ) Enter a letter to guess"
+               05 BLANK SCREEN. 
+               05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 31 COLUMN 30 VALUE "You wander into a small settl
+      -        "ement, seeking shelter from the pounding sun of The Wast
+      -        "eland."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 32 COLUMN 30 VALUE "The local Lawman mistakes you
+      -        " for a bandit. You're tied up and on the gallows faster"
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 33 COLUMN 30 VALUE "than you can wish the townsfo
+      -        "lk a friendly wasteland hello."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 34 COLUMN 30 VALUE "You've Yee'd your last Haw."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 35 COLUMN 30 VALUE "Guess this word to break free
+      -        ":" HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 36 COLUMN 30 PIC X(20) USING WS-WORD
+               HIGHLIGHT FOREGROUND-COLOR 2.
+               05 LINE 37 COLUMN 30 VALUE "Guesses left: "
                HIGHLIGHT FOREGROUND-COLOR 3.
-             05 LINE 39 COLUMN 30 VALUE "(!) Quit game"
+               05 LINE 37 COLUMN 60 PIC 99 USING WS-GUESSES-LEFT.
+               05 LINE 38 COLUMN 30 VALUE "( ) Enter a letter to guess"
                HIGHLIGHT FOREGROUND-COLOR 3.
-             05 LINE 40 COLUMN 30 VALUE "Pick: "
-               HIGHLIGHT FOREGROUND-COLOR 3 BLINK.
-             05 WS-GUESS-CHOICE-FIELD LINE 40 COLUMN 36 PIC X
+               05 LINE 39 COLUMN 30 VALUE "(!) Quit game"
+               HIGHLIGHT FOREGROUND-COLOR 3.
+               05 LINE 40 COLUMN 30 VALUE "Pick: " FOREGROUND-COLOR 2.
+               05 WS-GUESS-CHOICE-FIELD LINE 40 COLUMN 36 PIC X
                USING WS-GUESS-CHOICE.
-                05 LINE 13 COL 70 VALUE
-               " ___________.._______"
+               05 LINE 13 COL 70 VALUE " ___________.._______" 
                FOREGROUND-COLOR IS 2.
-               05 LINE 14 COL 70 VALUE   
-               "| .__________))______|"
+               05 LINE 14 COL 70 VALUE "| .__________))______|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 15 COL 70 VALUE
-              "| | / /      ||"
+               05 LINE 15 COL 70 VALUE "| | / /      ||"
                FOREGROUND-COLOR IS 2.
-               05 LINE 16 COL 70 VALUE   
-               "| |/ /       ||"
+               05 LINE 16 COL 70 VALUE "| |/ /       ||"
                FOREGROUND-COLOR IS 2.
-               05 LINE 17 COL 70 VALUE
-               "| | /        ||.-''."
+               05 LINE 17 COL 70 VALUE "| | /        ||.-''."
                FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 70 VALUE
-               "| |/         |/  _  \"
+               05 LINE 18 COL 70 VALUE "| |/         |/  _  \"
                FOREGROUND-COLOR IS 2.
-               05 LINE 19 COL 70 VALUE   
-               "| |          ||  `/,|"
+               05 LINE 19 COL 70 VALUE "| |          ||  `/,|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 70 VALUE
-              "| |          (\\`_.'"
+               05 LINE 20 COL 70 VALUE "| |          (\\`_.'"
                FOREGROUND-COLOR IS 2.
-               05 LINE 21 COL 70 VALUE   
-               "| |         .-`--'."
+               05 LINE 21 COL 70 VALUE "| |         .-`--'."
                FOREGROUND-COLOR IS 2.
-               05 LINE 22 COL 70 VALUE
-               "| |        /Y . . Y\"
+               05 LINE 22 COL 70 VALUE "| |        /Y . . Y\"
                FOREGROUND-COLOR IS 2.
-               05 LINE 23 COL 70 VALUE
-               "| |       // |   | \\"
+               05 LINE 23 COL 70 VALUE "| |       // |   | \\"
                FOREGROUND-COLOR IS 2.
-               05 LINE 24 COL 70 VALUE   
-               "| |      //  | . |  \\"
+               05 LINE 24 COL 70 VALUE "| |      //  | . |  \\"
                FOREGROUND-COLOR IS 2.
-               05 LINE 25 COL 70 VALUE
-              "| |     ')   |   |   (`"
+               05 LINE 25 COL 70 VALUE "| |     ')   |   |   (`"
                FOREGROUND-COLOR IS 2.
-               05 LINE 26 COL 70 VALUE   
-               "| |          ||'||"
+               05 LINE 26 COL 70 VALUE "| |          ||'||"
                FOREGROUND-COLOR IS 2.
-               05 LINE 27 COL 70 VALUE
-               "| |          || ||"
+               05 LINE 27 COL 70 VALUE "| |          || ||"
                FOREGROUND-COLOR IS 2.
 
            01 WORD-GUESSING-WINNING-SCREEN
                BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-             05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-            05 LINE 31 COLUMN 30 VALUE "You broke free and escaped to Th
-      -      "e Wasteland!"
-             HIGHLIGHT, FOREGROUND-COLOR 6.
-             05 LINE 40 COLUMN 30 VALUE "You guessed the word!".
-             05 LINE 42 COLUMN 30 PIC X(20) USING WS-ANSWERWORD.
-             05 LINE 48 COLUMN 30 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 50 COLUMN 30 VALUE "You scored: ".
-             05 LINE 48 COLUMN 90 PIC 99 USING WS-HIGH-SCORE.
-             05 LINE 52 COLUMN 30 VALUE "(p) Play Again"
-             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 5.
-             05 LINE 53 COLUMN 30 VALUE "(h) See High Scores"
-             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 6.
-             05 LINE 54 COLUMN 30 VALUE "(!) Quit game"
-             REVERSE-VIDEO HIGHLIGHT FOREGROUND-COLOR IS 7.
-             05 LINE 55 COLUMN 30 VALUE "Pick: ".
-             05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 55 COLUMN 36 PIC X
-               USING WS-GUESSING-WINNING-CHOICE.
-                   05 LINE 15 COL 70 VALUE
-                   "               ,'-',"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 14 COL 70 VALUE   
-                   "              :-----:"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 15 COL 70 VALUE
-                  "          (''' , - , ''')"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 16 COL 70 VALUE   
-                   "          \   ' .  , `  /"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 17 COL 70 VALUE
-                   "           \  '   ^  ? /"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 18 COL 70 VALUE
-                   "            \ `   -  ,'"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 19 COL 70 VALUE   
-                   "             `j_ _,'"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 20 COL 70 VALUE
-                  "        ,- -`\ \  /f"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 21 COL 70 VALUE   
-                   "      ,-      \_\/_/'-"
-                   FOREGROUND-COLOR IS 2.
-                   05 LINE 22 COL 70 VALUE
-                   "     ,                 `,"
-                   FOREGROUND-COLOR IS 2.
+               05 BLANK SCREEN.
+               05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 31 COLUMN 30 VALUE "You broke free and escaped to
+      -       " The Wasteland!"
+               HIGHLIGHT, FOREGROUND-COLOR 6.
+               05 LINE 40 COLUMN 30 VALUE "You guessed the word!".
+               05 LINE 42 COLUMN 30 PIC X(20) USING WS-ANSWERWORD.
+               05 LINE 48 COLUMN 30 PIC 99 USING WS-GUESSES-LEFT.
+               05 LINE 50 COLUMN 30 VALUE "You scored: ".
+               05 LINE 48 COLUMN 90 PIC 99 USING WS-HIGH-SCORE.
+               05 LINE 52 COLUMN 30 VALUE "(p) Play Again"
+               HIGHLIGHT FOREGROUND-COLOR IS 6.
+               05 LINE 53 COLUMN 30 VALUE "(h) See High Scores"
+               HIGHLIGHT FOREGROUND-COLOR IS 6.
+               05 LINE 54 COLUMN 30 VALUE "(!) Quit game"
+               HIGHLIGHT FOREGROUND-COLOR IS 6.
+               05 LINE 55 COLUMN 30 VALUE "Pick: " 
+               FOREGROUND-COLOR IS 2.
+               05 WS-GUESSING-CHOICE-WINNING-FIELD LINE 55 COLUMN 36 
+               PIC X USING WS-GUESSING-WINNING-CHOICE.
+               05 LINE 15 COL 70 VALUE "               ,'-',"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 14 COL 70 VALUE  "              :-----:"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 15 COL 70 VALUE "          (''' , - , ''')"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 16 COL 70 VALUE "          \   ' .  , `  /"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 17 COL 70 VALUE "           \  '   ^  ? /"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 70 VALUE "            \ `   -  ,'"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 19 COL 70 VALUE "             `j_ _,'"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 20 COL 70 VALUE "        ,- -`\ \  /f"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 21 COL 70 VALUE "      ,-      \_\/_/'-"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 22 COL 70 VALUE "     ,                 `,"
+               FOREGROUND-COLOR IS 2.
 
            01 WORD-GUESSING-LOSE-SCREEN
                BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-               05 LINE 13 COL 30 VALUE
-               "       ______"
+               05 BLANK SCREEN.
+               05 LINE 13 COL 30 VALUE "       ______"
                FOREGROUND-COLOR IS 2.
-               05 LINE 14 COL 30 VALUE   
-               "    .-'      '-."
+               05 LINE 14 COL 30 VALUE "    .-'      '-."
                FOREGROUND-COLOR IS 2.
-               05 LINE 15 COL 30 VALUE
-              "   /            \"
+               05 LINE 15 COL 30 VALUE "   /            \"
                FOREGROUND-COLOR IS 2.
-               05 LINE 16 COL 30 VALUE   
-               "  |              |"
+               05 LINE 16 COL 30 VALUE "  |              |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 17 COL 30 VALUE
-               "  |,  .-.  .-.  ,|"
+               05 LINE 17 COL 30 VALUE "  |,  .-.  .-.  ,|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 30 VALUE
-               "  | )(__/  \__)( |"
+               05 LINE 18 COL 30 VALUE "  | )(__/  \__)( |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 19 COL 30 VALUE   
-               "  |/     /\     \|"
+               05 LINE 19 COL 30 VALUE "  |/     /\     \|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 30 VALUE
-              "  (_     ^^     _)"
+               05 LINE 20 COL 30 VALUE "  (_     ^^     _)"
                FOREGROUND-COLOR IS 2.
-               05 LINE 21 COL 30 VALUE   
-               "   \__|IIIIII|__/"
+               05 LINE 21 COL 30 VALUE "   \__|IIIIII|__/"
                FOREGROUND-COLOR IS 2.
-               05 LINE 22 COL 30 VALUE
-               "    | \IIIIII/ |"
+               05 LINE 22 COL 30 VALUE "    | \IIIIII/ |"
                FOREGROUND-COLOR IS 2.
-               05 LINE 23 COL 30 VALUE
-               "    \          /|"
+               05 LINE 23 COL 30 VALUE "    \          /|"
                FOREGROUND-COLOR IS 2.
-               05 LINE 24 COL 30 VALUE
-               "     `--------`"
+               05 LINE 24 COL 30 VALUE "     `--------`"
                FOREGROUND-COLOR IS 2.
-             05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-            05 LINE 26 COLUMN 30 VALUE "You've been fed to the mudcrabs"
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 30 COLUMN 30 PIC X(20) USING WS-WORD
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 28 COLUMN 30 VALUE "The correct word was:".
-             05 LINE 30 COLUMN 45 PIC X(20) USING WS-ANSWERWORD 
-             HIGHLIGHT, FOREGROUND-COLOR IS 2.
-             05 LINE 32 COLUMN 30 VALUE "Guesses left: ".
-             05 LINE 32 COLUMN 50 PIC 99 USING WS-GUESSES-LEFT.
-             05 LINE 33 COLUMN 30 VALUE "(p) Play again" 
+               05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 26 COLUMN 30 VALUE "You've been fed to the mudcra
+      -        "bs" HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 30 COLUMN 30 PIC X(20) USING WS-WORD
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+               05 LINE 28 COLUMN 30 VALUE "The correct word was:".
+               05 LINE 30 COLUMN 45 PIC X(20) USING WS-ANSWERWORD 
+               HIGHLIGHT, FOREGROUND-COLOR IS 2.
+               05 LINE 32 COLUMN 30 VALUE "Guesses left: ".
+               05 LINE 32 COLUMN 50 PIC 99 USING WS-GUESSES-LEFT.
+               05 LINE 33 COLUMN 30 VALUE "(p) Play again" 
                HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 34 COLUMN 30 VALUE "(h) See high scores"
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 35 COLUMN 30 VALUE "(!) Quit game"
-             HIGHLIGHT FOREGROUND-COLOR IS 3.
-             05 LINE 36 COLUMN 30 VALUE "Pick: " 
-               HIGHLIGHT FOREGROUND-COLOR IS 3 BLINK.
-             05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 36 COLUMN 36 PIC X
+               05 LINE 34 COLUMN 30 VALUE "(h) See high scores"
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 35 COLUMN 30 VALUE "(!) Quit game"
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 36 COLUMN 30 VALUE "Pick: " 
+               FOREGROUND-COLOR IS 3.
+               05 WS-GUESSING-CHOICE-LOSE-FIELD LINE 36 COLUMN 36 PIC X
                USING WS-GUESSING-LOSING-CHOICE.
 
            01 HIGH-SCORE-SCREEN
                BACKGROUND-COLOR IS 8.
-             05 BLANK SCREEN.
-               05 LINE 13 COL 70 VALUE
-               "   .-=========-."
+               05 BLANK SCREEN.
+               05 LINE 13 COL 70 VALUE "   .-=========-."
                FOREGROUND-COLOR IS 2.
-               05 LINE 14 COL 70 VALUE   
-               "   \'-=======-'/"
+               05 LINE 14 COL 70 VALUE "   \'-=======-'/"
                FOREGROUND-COLOR IS 2.
-               05 LINE 15 COL 70 VALUE
-              "   _|   .=.   |_"
+               05 LINE 15 COL 70 VALUE "   _|   .=.   |_"
                FOREGROUND-COLOR IS 2.
-               05 LINE 16 COL 70 VALUE   
-               "  ((|  {{1}}  |))"
+               05 LINE 16 COL 70 VALUE "  ((|  {{1}}  |))"
                FOREGROUND-COLOR IS 2.
-               05 LINE 17 COL 70 VALUE
-               "   \|   /|\   |/"
+               05 LINE 17 COL 70 VALUE "   \|   /|\   |/"
                FOREGROUND-COLOR IS 2.
-               05 LINE 18 COL 70 VALUE
-               "    \__ '`' __/"
+               05 LINE 18 COL 70 VALUE "    \__ '`' __/"
                FOREGROUND-COLOR IS 2.
-               05 LINE 19 COL 70 VALUE   
-               "      _`) (`_"
+               05 LINE 19 COL 70 VALUE "      _`) (`_"
                FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 70 VALUE
-              "    _/_______\_"
+               05 LINE 20 COL 70 VALUE "    _/_______\_"
                FOREGROUND-COLOR IS 2.
-               05 LINE 21 COL 70 VALUE   
-               "   /___________\"
-               FOREGROUND-COLOR IS 2.          
-             05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 31 COLUMN 30 VALUE "WASTELAND LEGENDS:"
-             HIGHLIGHT, FOREGROUND-COLOR 2.
-             05 LINE 34 COLUMN 30 VALUE "High Scores:".
-             05 LINE 36 COLUMN 30 PIC XX USING WS-SCORE(1).
-             05 LINE 36 COLUMN 34 PIC X(10) USING WS-NAME(1).
-             05 LINE 38 COLUMN 30 PIC XX USING WS-SCORE(2).
-             05 LINE 38 COLUMN 34 PIC X(10) USING WS-NAME(2).
-             05 LINE 40 COLUMN 30 PIC XX USING WS-SCORE(3).
-             05 LINE 40 COLUMN 34 PIC X(10) USING WS-NAME(3).
-             05 LINE 42 COLUMN 30 VALUE "(b) Go back".
-             05 LINE 44 COLUMN 30 VALUE "Pick: ".
-             05 WS-HIGH-SCORE-FIELD LINE 44 COLUMN 36 PIC X
+               05 LINE 21 COL 70 VALUE "   /___________\"
+               FOREGROUND-COLOR IS 2.
+               05 LINE 30 COLUMN 30 VALUE "HANGMAN..."
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 31 COLUMN 30 VALUE "WASTELAND LEGENDS:"
+               HIGHLIGHT, FOREGROUND-COLOR 2.
+               05 LINE 34 COLUMN 30 VALUE "High Scores:".
+               05 LINE 36 COLUMN 30 PIC XX USING WS-SCORE(1).
+               05 LINE 36 COLUMN 34 PIC X(10) USING WS-NAME(1).
+               05 LINE 38 COLUMN 30 PIC XX USING WS-SCORE(2).
+               05 LINE 38 COLUMN 34 PIC X(10) USING WS-NAME(2).
+               05 LINE 40 COLUMN 30 PIC XX USING WS-SCORE(3).
+               05 LINE 40 COLUMN 34 PIC X(10) USING WS-NAME(3).
+               05 LINE 42 COLUMN 30 VALUE "(g) Go back"
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 44 COLUMN 30 VALUE "Pick: ".
+               05 WS-HIGH-SCORE-FIELD LINE 44 COLUMN 36 PIC X
                USING WS-HIGH-SCORE-CHOICE.
            
            01 RANDOM-NUM-GAME-SCREEN.
-            05 BLANK SCREEN.
-             05 LINE 12 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 13 COL 30 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 14 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-             
-            05 LINE 18 COLUMN 34 VALUE "Place a bet and guess a number b
-      -       "etween 1 and 10"
-            FOREGROUND-COLOR IS 6.
-            05 LINE 20 COLUMN 34 VALUE "Bet: ".
-            05 BET-FIELD LINE 20 COLUMN 39 PIC 999 USING BET-AMOUNT.
-            05 LINE 21 COLUMN 34 PIC X(20) USING INSUFFICIENT-FUNDS. 
-         
-            05 LINE 24 COL 34 VALUE "(s) Submit "
-                REVERSE-VIDEO, HIGHLIGHT. 
-             05 LINE 25 COL 34 VALUE "(g) Go back"
-                    REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 26 COL 34 VALUE "(q) Quit   "
-                    REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 28 COL 34 VALUE "Pick: ".
-             05 RANDOM-NUM-CHOICE-FIELD LINE 28 COL 40 PIC X 
-                   USING RANDOM-NUM-CHOICE.
-             05 LINE 29 COLUMN 34 PIC X(65) USING CREDIT-LIMIT-MESSAGE.
-             05 LINE 30 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 31 COL 30 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 32 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 BLANK SCREEN.
+               05 LINE 14 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 15 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 16 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
+               05 LINE 18 COLUMN 34 VALUE "Place a bet and guess a numbe
+      -        "r between 1 and 10" FOREGROUND-COLOR IS 2.
+               05 LINE 20 COLUMN 34 VALUE "Bet: " FOREGROUND-COLOR IS 2.
+               05 BET-FIELD LINE 20 COLUMN 39 PIC 999 USING BET-AMOUNT
+               FOREGROUND-COLOR IS 2.
+               05 LINE 21 COLUMN 34 PIC X(20) USING INSUFFICIENT-FUNDS
+               HIGHLIGHT FOREGROUND-COLOR IS 4.
+               05 LINE 24 COL 34 VALUE "(s) Submit " 
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 25 COL 34 VALUE "(g) Go back"
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 26 COL 34 VALUE "(q) Quit   "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 28 COL 34 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+               05 RANDOM-NUM-CHOICE-FIELD LINE 28 COL 40 PIC X 
+               USING RANDOM-NUM-CHOICE.
+               05 LINE 29 COLUMN 34 PIC X(65) 
+               USING CREDIT-LIMIT-MESSAGE 
+               HIGHLIGHT FOREGROUND-COLOR IS 4.
+               05 LINE 35 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 37 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
 
            01 GUESS-SCREEN.
-           05 BLANK SCREEN.
-             05 LINE 12 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 13 COL 30 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 14 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
-             05 LINE 16 COLUMN 34 VALUE IS "Potential winnings: "
-               FOREGROUND-COLOR IS 5.
-             05 LINE 16 COL 54 PIC 999 USING WINNINGS.
-             05 GUESS-FIELD LINE 19 COLUMN 34 PIC XX USING GUESS-INPUT.
-             05 LINE 20 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG.
-             05 LINE 24 COL 34 VALUE "(y) Play again "
-                REVERSE-VIDEO, HIGHLIGHT. 
-             05 LINE 25 COL 34 VALUE "(g) Go back"
-                    REVERSE-VIDEO , HIGHLIGHT.            
-             05 LINE 26 COL 34 VALUE "(q) Quit   "
-                    REVERSE-VIDEO, HIGHLIGHT.  
-             05 LINE 28 COL 34 VALUE "Pick: ".
-             05 RANDOM-NUM-GUESS-CHOICE-FIELD LINE 28 COL 40 PIC X 
-                   USING RANDOM-NUM-GUESS-CHOICE.
-             05 LINE 34 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 3.
-             05 LINE 35 COL 30 VALUE "*********************************
-      -      "***********************" FOREGROUND-COLOR IS 5.
-             05 LINE 36 COL 30 VALUE "---------------------------------
-      -      "-----------------------" FOREGROUND-COLOR IS 2.
+               05 BLANK SCREEN.
+               05 LINE 14 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 3.
+               05 LINE 15 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 16 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
+               05 LINE 18 COLUMN 34 VALUE IS "Potential winnings: "
+               FOREGROUND-COLOR IS 2.
+               05 LINE 18 COL 54 PIC 999 USING WINNINGS.
+               05 GUESS-FIELD LINE 20 COLUMN 34 PIC XX 
+               USING GUESS-INPUT.
+               05 LINE 22 COLUMN 34 PIC X(40) USING WS-RANDOM-NUM-MSG
+               FOREGROUND-COLOR IS 2.
+               05 LINE 24 COL 34 VALUE "(y) Play again "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 25 COL 34 VALUE "(g) Go back "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 26 COL 34 VALUE "(q) Quit   "
+               HIGHLIGHT FOREGROUND-COLOR IS 3.
+               05 LINE 28 COL 34 VALUE "Pick: " FOREGROUND-COLOR IS 2.
+               05 RANDOM-NUM-GUESS-CHOICE-FIELD LINE 28 COL 40 PIC X 
+               USING RANDOM-NUM-GUESS-CHOICE.
+               05 LINE 35 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -         "----" FOREGROUND-COLOR IS 3.
+               05 LINE 36 COL 30 VALUE "********************************
+      -        "********************************************************
+      -        "****" FOREGROUND-COLOR IS 5.
+               05 LINE 37 COL 30 VALUE "--------------------------------
+      -        "--------------------------------------------------------
+      -        "----" FOREGROUND-COLOR IS 2.
                
        PROCEDURE DIVISION USING USER-INFO-NAME, USER-INFO-CRED-DISPLAY.
 
@@ -809,9 +779,7 @@
        0160-GAMES-MENU.
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE GAMES-MENU-CHOICE.
-
            MOVE "5" TO COST.
-
            DISPLAY GAMES-MENU-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
@@ -822,7 +790,7 @@
            ELSE IF GAMES-MENU-CHOICE = "g" or "G" THEN
                GOBACK
            ELSE IF (GAMES-MENU-CHOICE = "o" OR "O" )
-             AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
+           AND (CHECK-BALANCE (COST, USER-INFO-CREDITS) = "TRUE") THEN
                CALL 'deduct-credits' USING USER-INFO-NAME, COST, 
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
@@ -841,7 +809,7 @@
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
                MOVE SPACES TO INSUFFICIENT-FUNDS
-               PERFORM 0210-RANDOM-NUMBER-GAME           
+               PERFORM 0200-RANDOM-NUMBER-GAME           
            END-IF.
 
            IF CHECK-BALANCE(COST, USER-INFO-CREDITS) = "FALSE"
@@ -867,6 +835,7 @@
                END-READ
            END-PERFORM.
            CLOSE F-WORD-FILE.
+
            MOVE FUNCTION CURRENT-DATE(14:3) TO RANDOMNUMBER.
            MOVE WS-GUESSING-WORDS-WORD(RANDOMNUMBER) TO WS-WORD.
            MOVE WS-WORD TO WS-ANSWERWORD.
@@ -874,10 +843,10 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
            MOVE 1 TO COUNTER.
            PERFORM UNTIL COUNTER = 20
-             IF '*' EQUALS WS-WORD(COUNTER:1) 
-              THEN ADD 1 TO WS-WORD-LENGTH
-             END-IF
-             ADD 1 TO COUNTER
+               IF '*' EQUALS WS-WORD(COUNTER:1) 
+                   THEN ADD 1 TO WS-WORD-LENGTH
+               END-IF
+               ADD 1 TO COUNTER
            END-PERFORM.
            PERFORM 0175-IN-GAME-SCREEN.
 
@@ -885,9 +854,7 @@
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESS-CHOICE.
            DISPLAY IN-GAME-SCREEN.
-
            DISPLAY PIP-BOY-SCREEN.
-      
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT WS-GUESS-CHOICE-FIELD.
@@ -907,24 +874,24 @@
                  END-IF
                  ADD 1 TO COUNTER     
            END-PERFORM.
+
            SUBTRACT 1 FROM WS-GUESSES-LEFT.
            MOVE 1 TO COUNTER.
            MOVE 0 TO WS-LETTERS-LEFT.
            PERFORM UNTIL COUNTER = 20
-             IF '*' EQUALS WS-WORD(COUNTER:1) 
-              THEN ADD 1 TO WS-LETTERS-LEFT
-             END-IF
-             ADD 1 TO COUNTER
+               IF '*' EQUALS WS-WORD(COUNTER:1) 
+                   THEN ADD 1 TO WS-LETTERS-LEFT
+               END-IF
+               ADD 1 TO COUNTER
            END-PERFORM.
-             IF WS-LETTERS-LEFT = 0
-              THEN 
+
+           IF WS-LETTERS-LEFT = 0
               PERFORM 0185-WINNING-SCREEN
-             ELSE IF WS-GUESSES-LEFT = 0
-              THEN 
+           ELSE IF WS-GUESSES-LEFT = 0
               PERFORM 0186-LOSING-SCREEN
-             ELSE
+           ELSE
               PERFORM 0175-IN-GAME-SCREEN
-             END-IF.
+           END-IF.
 
        0185-WINNING-SCREEN.
            PERFORM 0500-TIME-AND-DATE.
@@ -950,11 +917,11 @@
 
            ACCEPT WS-GUESSING-CHOICE-WINNING-FIELD.
            IF WS-GUESSING-WINNING-CHOICE = 'p'
-               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+               PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF WS-GUESSING-WINNING-CHOICE = 'h'
-             THEN PERFORM 0187-HIGH-SCORE-TABLE
+               PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-WINNING-CHOICE = '!'
-             THEN PERFORM 0160-GAMES-MENU
+               PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0185-WINNING-SCREEN
            END-IF.
@@ -963,19 +930,16 @@
            PERFORM 0500-TIME-AND-DATE.
            INITIALIZE WS-GUESSING-LOSING-CHOICE.
            DISPLAY WORD-GUESSING-LOSE-SCREEN.
-
            DISPLAY PIP-BOY-SCREEN.
-           *> DISPLAY USER-INFO-SCREEN.
-
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT WS-GUESSING-LOSING-CHOICE.
            IF WS-GUESSING-LOSING-CHOICE = 'p'
-               THEN PERFORM 0170-DISPLAY-GUESSING-GAME
+               PERFORM 0170-DISPLAY-GUESSING-GAME
            ELSE IF WS-GUESSING-LOSING-CHOICE = 'h'
-             THEN PERFORM 0187-HIGH-SCORE-TABLE
+               PERFORM 0187-HIGH-SCORE-TABLE
            ELSE IF WS-GUESSING-LOSING-CHOICE = '!'
-             THEN PERFORM 0160-GAMES-MENU
+               PERFORM 0160-GAMES-MENU
            ELSE
              PERFORM 0186-LOSING-SCREEN
            END-IF.
@@ -1006,7 +970,7 @@
            PERFORM 0113-DISPLAY-TIME-USER-INFO.
 
            ACCEPT WS-HIGH-SCORE-FIELD.
-           IF WS-HIGH-SCORE-CHOICE = 'b'
+           IF WS-HIGH-SCORE-CHOICE = 'g'
                GOBACK
            ELSE 
                PERFORM 0188-HIGH-SCORE-SCREEN
@@ -1015,21 +979,21 @@
            *>----- X AND O Procedure Div------    
        0190-O-AND-X-GAME.
            MOVE "X" TO WS-PLAYER
-           PERFORM GAME-LOOP-PARAGRAPH
+           PERFORM 0191-GAME-LOOP-PARAGRAPH
                WITH TEST AFTER UNTIL FINISHED-PLAYING
            PERFORM 0160-GAMES-MENU.
 
-           GAME-LOOP-PARAGRAPH.
-               INITIALIZE WS-GAME-GRID
-               INITIALIZE WS-STATE
-               INITIALIZE WS-MOVES
-               MOVE "Make a move like 'A2'" TO WS-OANDXMESSAGE
-               PERFORM GAME-FRAME-PARAGRAPH
-                   WITH TEST AFTER UNTIL GAME-OVER
-               ADD 1 TO WS-GAMES END-ADD
-               EVALUATE WS-STATE
+       0191-GAME-LOOP-PARAGRAPH.
+           INITIALIZE WS-GAME-GRID
+           INITIALIZE WS-STATE
+           INITIALIZE WS-MOVES
+           MOVE "Make a move like 'A2'" TO WS-OANDXMESSAGE
+           PERFORM 0192-GAME-FRAME-PARAGRAPH
+           WITH TEST AFTER UNTIL GAME-OVER
+           ADD 1 TO WS-GAMES 
+           EVALUATE WS-STATE
                WHEN "WIN"
-                   ADD 1 TO WS-WINS END-ADD
+                   ADD 1 TO WS-WINS 
                    MOVE WS-COLOR-BLACK TO WS-FG
                    MOVE WS-COLOR-BLACK TO WS-FG-CELL
                    MOVE WS-COLOR-GREEN TO WS-BG
@@ -1041,90 +1005,82 @@
                    MOVE WS-COLOR-BLACK TO WS-FG
                    MOVE WS-COLOR-BLACK TO WS-FG-CELL
                    MOVE WS-COLOR-RED TO WS-BG
-               END-EVALUATE
-               MOVE "One more (y/n)? " TO WS-INSTRUCTION
-               MOVE "y" TO WS-NEXT-MOVE
-               DISPLAY BOARD-SCREEN.
-
-               DISPLAY PIP-BOY-SCREEN.
-               ACCEPT NEXT-MOVE.
-
-               PERFORM 0113-DISPLAY-TIME-USER-INFO
-               ACCEPT NEXT-MOVE.
+           END-EVALUATE
+           MOVE "One more (y/n)? " TO WS-INSTRUCTION
+           MOVE "y" TO WS-NEXT-MOVE
+           DISPLAY BOARD-SCREEN.
+           DISPLAY PIP-BOY-SCREEN.
+           PERFORM 0113-DISPLAY-TIME-USER-INFO
+           ACCEPT NEXT-MOVE.
            
 
-           GAME-FRAME-PARAGRAPH.
-               MOVE "Move to square: " TO WS-INSTRUCTION
-               MOVE WS-COLOR-GREEN TO WS-FG
-               MOVE WS-COLOR-WHITE TO WS-FG-CELL
-               MOVE WS-COLOR-BLACK TO WS-BG
-               INITIALIZE WS-MOVE-OUTCOME
-               IF COMPUTER-PLAYER
-                   INITIALIZE WS-COMPUTER-MOVED
-                   PERFORM UNTIL COMPUTER-MOVED
-                       COMPUTE WS-ROW = FUNCTION RANDOM * 3 + 1
-                       END-COMPUTE
-                       COMPUTE WS-COL = FUNCTION RANDOM * 3 + 1
-                       END-COMPUTE
-                       IF WS-CELL(WS-ROW,WS-COL) IS EQUAL TO " "
-                       THEN
-                           SET WS-COMPUTER-MOVED TO 1
-                           MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
-                       END-IF
-                   END-PERFORM
-               ELSE
-                   INITIALIZE WS-NEXT-MOVE
-                   DISPLAY BOARD-SCREEN
-
-                   DISPLAY PIP-BOY-SCREEN
-                   ACCEPT NEXT-MOVE 
-
-                   PERFORM 0113-DISPLAY-TIME-USER-INFO
-                   ACCEPT NEXT-MOVE
-
-                   EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
-                       WHEN "A" SET WS-ROW TO 1
-                       WHEN "B" SET WS-ROW TO 2
-                       WHEN "C" SET WS-ROW TO 3
-                       WHEN OTHER MOVE "FAIL" TO WS-MOVE-OUTCOME
-                   END-EVALUATE
+       0192-GAME-FRAME-PARAGRAPH.
+           MOVE "Move to square: " TO WS-INSTRUCTION
+           MOVE WS-COLOR-GREEN TO WS-FG
+           MOVE WS-COLOR-WHITE TO WS-FG-CELL
+           MOVE WS-COLOR-BLACK TO WS-BG
+           INITIALIZE WS-MOVE-OUTCOME
+           IF COMPUTER-PLAYER
+               INITIALIZE WS-COMPUTER-MOVED
+               PERFORM UNTIL COMPUTER-MOVED
+                   COMPUTE WS-ROW = FUNCTION RANDOM * 3 + 1
+                   COMPUTE WS-COL = FUNCTION RANDOM * 3 + 1
+                   IF WS-CELL(WS-ROW,WS-COL) IS EQUAL TO " "
+                       SET WS-COMPUTER-MOVED TO 1
+                       MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
+                   END-IF
+               END-PERFORM
+           ELSE
+               INITIALIZE WS-NEXT-MOVE
+               DISPLAY BOARD-SCREEN
+               DISPLAY PIP-BOY-SCREEN 
+               PERFORM 0113-DISPLAY-TIME-USER-INFO
+               ACCEPT NEXT-MOVE
+               EVALUATE FUNCTION UPPER-CASE(WS-NEXT-MOVE(1:1))
+                   WHEN "A" SET WS-ROW TO 1
+                   WHEN "B" SET WS-ROW TO 2
+                   WHEN "C" SET WS-ROW TO 3
+                   WHEN OTHER MOVE "FAIL" TO WS-MOVE-OUTCOME
+               END-EVALUATE
                    SET WS-COL TO WS-NEXT-MOVE(2:1)
-                   IF
-                       WS-MOVE-OUTCOME IS NOT EQUAL TO "FAIL"
-                       AND WS-COL IS GREATER THAN 0
-                       AND WS-COL IS LESS THAN 4
-                       AND WS-CELL(WS-ROW,WS-COL) = " "
-                   THEN
+                   IF WS-MOVE-OUTCOME IS NOT EQUAL TO "FAIL"
+                   AND WS-COL IS GREATER THAN 0
+                   AND WS-COL IS LESS THAN 4
+                   AND WS-CELL(WS-ROW,WS-COL) = " "
                        MOVE WS-PLAYER TO WS-CELL(WS-ROW,WS-COL)
                    ELSE
                        MOVE "FAIL" TO WS-MOVE-OUTCOME
                    END-IF
-               END-IF
-               MOVE WS-GAME-GRID TO WS-FLAT-GAME-GRID
-               IF HUMAN-PLAYER
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "1"
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "0"
-               ELSE
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "0"
-                   INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "1"
-               END-IF
-               INSPECT WS-FLAT-GAME-GRID REPLACING ALL " " BY "0"
-               INITIALIZE WS-EOF
-               OPEN INPUT FD-WINMASKS
+           END-IF
+
+           MOVE WS-GAME-GRID TO WS-FLAT-GAME-GRID
+           IF HUMAN-PLAYER
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "1"
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "0"
+           ELSE
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "X" BY "0"
+               INSPECT WS-FLAT-GAME-GRID REPLACING ALL "O" BY "1"
+           END-IF
+
+           INSPECT WS-FLAT-GAME-GRID REPLACING ALL " " BY "0"
+           INITIALIZE WS-EOF
+           OPEN INPUT FD-WINMASKS
                PERFORM UNTIL EOF OR MOVE-COMPLETE
                    READ FD-WINMASKS NEXT RECORD
                        AT END
                            SET WS-EOF TO 1
                        NOT AT END
-                           PERFORM VALIDATE-WIN-PARAGRAPH
+                           PERFORM 0193-VALIDATE-WIN-PARAGRAPH
                    END-READ
                END-PERFORM
-               CLOSE FD-WINMASKS
-               IF NOT MOVE-COMPLETE AND WS-MOVES IS EQUAL TO 8
-                   MOVE "STALE" TO WS-MOVE-OUTCOME
-               END-IF
-               INITIALIZE WS-SWAP-PLAYERS
-               EVALUATE WS-MOVE-OUTCOME
+           CLOSE FD-WINMASKS
+
+           IF NOT MOVE-COMPLETE AND WS-MOVES IS EQUAL TO 8
+               MOVE "STALE" TO WS-MOVE-OUTCOME
+           END-IF
+
+           INITIALIZE WS-SWAP-PLAYERS
+           EVALUATE WS-MOVE-OUTCOME
                WHEN "WIN"
                    MOVE "WINNER! (^_^)" TO WS-OANDXMESSAGE
                    MOVE "WIN" TO WS-STATE
@@ -1141,39 +1097,38 @@
                WHEN OTHER
                    MOVE "Enter a move" TO WS-OANDXMESSAGE
                    SET WS-SWAP-PLAYERS TO 1
-                   ADD 1 TO WS-MOVES END-ADD
-               END-EVALUATE
-               IF SWAP-PLAYERS
-                   IF HUMAN-PLAYER
-                       MOVE "O" TO WS-PLAYER
-                   ELSE
-                       MOVE "X" TO WS-PLAYER
-                   END-IF
-               END-IF.
+                   ADD 1 TO WS-MOVES 
+           END-EVALUATE
 
-           VALIDATE-WIN-PARAGRAPH.
-               INITIALIZE WS-MASK-DETECTED
-               SET WS-DETECT-LOOP-COUNT TO 1
-               PERFORM 9 TIMES
-                   IF
-                       FD-WINMASK(WS-DETECT-LOOP-COUNT:1)
-                       IS EQUAL TO
-                       WS-FLAT-GAME-GRID(WS-DETECT-LOOP-COUNT:1)
-                       AND IS EQUAL TO 1
-                   THEN
-                       ADD 1 TO WS-MASK-DETECTED END-ADD
-                   END-IF
-                   ADD 1 TO WS-DETECT-LOOP-COUNT END-ADD
-               END-PERFORM
-               IF WIN-DETECTED
-                   IF HUMAN-PLAYER
-                       MOVE "WIN" TO WS-MOVE-OUTCOME
-                   ELSE
-                       MOVE "LOSE" TO WS-MOVE-OUTCOME
-                   END-IF
-               END-IF.
+           IF SWAP-PLAYERS
+               IF HUMAN-PLAYER
+                   MOVE "O" TO WS-PLAYER
+               ELSE
+                   MOVE "X" TO WS-PLAYER
+               END-IF
+           END-IF.
 
-       0210-RANDOM-NUMBER-GAME.
+       0193-VALIDATE-WIN-PARAGRAPH.
+           INITIALIZE WS-MASK-DETECTED
+           SET WS-DETECT-LOOP-COUNT TO 1
+           PERFORM 9 TIMES
+               IF FD-WINMASK(WS-DETECT-LOOP-COUNT:1) IS EQUAL TO
+               WS-FLAT-GAME-GRID(WS-DETECT-LOOP-COUNT:1) 
+               AND IS EQUAL TO 1
+                   ADD 1 TO WS-MASK-DETECTED 
+               END-IF
+               ADD 1 TO WS-DETECT-LOOP-COUNT 
+           END-PERFORM
+
+           IF WIN-DETECTED
+               IF HUMAN-PLAYER
+                   MOVE "WIN" TO WS-MOVE-OUTCOME
+               ELSE
+                   MOVE "LOSE" TO WS-MOVE-OUTCOME
+               END-IF
+           END-IF.
+
+       0200-RANDOM-NUMBER-GAME.
            INITIALIZE RANDOM-NUM-CHOICE.
            INITIALIZE BET-AMOUNT.
            DISPLAY RANDOM-NUM-GAME-SCREEN.
@@ -1185,9 +1140,10 @@
            COMPUTE WINNINGS = BET-AMOUNT * 2.
            IF WINNINGS = "000" 
            OR (CHECK-LIMIT(WINNINGS, USER-INFO-CREDITS) = "FAIL")
-             MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTED"
-             TO CREDIT-LIMIT-MESSAGE
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               MOVE "WINNINGS EXCEEDING MAX CREDIT AMOUNT, ACTION ABORTE
+      -         "D"
+               TO CREDIT-LIMIT-MESSAGE
+               PERFORM 0200-RANDOM-NUMBER-GAME
            END-IF.
        
            ACCEPT RANDOM-NUM-CHOICE-FIELD.
@@ -1199,20 +1155,20 @@
                ACCEPT SEED FROM TIME
                COMPUTE ANSWER =
                    FUNCTION REM(FUNCTION RANDOM(SEED) * 1000, 10) + 1  
-               PERFORM 0211-GAME-LOOP
+               PERFORM 0201-GAME-LOOP
            ELSE IF (RANDOM-NUM-CHOICE = 's' OR 'S')
            AND (CHECK-BALANCE(BET-AMOUNT, USER-INFO-CREDITS) = "FALSE")
                MOVE "INSUFFICIENT CREDITS" TO INSUFFICIENT-FUNDS
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
            ELSE IF RANDOM-NUM-CHOICE = 'q' OR 'Q'
                STOP RUN
            ELSE
-               PERFORM 0210-RANDOM-NUMBER-GAME
+               PERFORM 0200-RANDOM-NUMBER-GAME
            END-IF.
               
-       0211-GAME-LOOP.
+       0201-GAME-LOOP.
            INITIALIZE GUESS-INPUT.
            INITIALIZE WS-RANDOM-NUM-MSG.
            INITIALIZE RANDOM-NUM-GUESS-CHOICE.
@@ -1225,16 +1181,16 @@
            IF GUESS NOT = ANSWER
                MOVE "Incorrect, you lose."
                TO WS-RANDOM-NUM-MSG
-               PERFORM 0212-RESULT-PAGE
+               PERFORM 0202-RESULT-PAGE
            ELSE  
                MOVE "You Win!" TO WS-RANDOM-NUM-MSG
                CALL 'add-credits' USING USER-INFO-NAME, WINNINGS,
                UPDATED-BALANCE
                MOVE UPDATED-BALANCE TO USER-INFO-CREDITS
-               PERFORM 0212-RESULT-PAGE
+               PERFORM 0202-RESULT-PAGE
            END-IF.
        
-       0212-RESULT-PAGE.
+       0202-RESULT-PAGE.
            INITIALIZE RANDOM-NUM-GUESS-CHOICE.
            DISPLAY GUESS-SCREEN.
            DISPLAY PIP-BOY-SCREEN.
@@ -1242,7 +1198,7 @@
 
            ACCEPT RANDOM-NUM-GUESS-CHOICE-FIELD
            IF RANDOM-NUM-GUESS-CHOICE = 'y' OR 'Y'
-             PERFORM 0210-RANDOM-NUMBER-GAME
+             PERFORM 0200-RANDOM-NUMBER-GAME
            ELSE IF RANDOM-NUM-GUESS-CHOICE = 'g' OR 'G'
                PERFORM 0160-GAMES-MENU
            ELSE IF RANDOM-NUM-GUESS-CHOICE = 'q' OR 'Q'
