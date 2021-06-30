@@ -10,7 +10,7 @@
                ASCENDING KEY IS LS-AUTHOR-NAME
                INDEXED BY BOOK-IDX.
                    10 LS-AUTHOR-NAME PIC X(12).
-                   10 LS-TITLE PIC X(30).
+                   10 LS-TITLE PIC X(31).
                    10 LS-BODY PIC X(500).
            01 AUTHOR-NAME PIC X(12).
            

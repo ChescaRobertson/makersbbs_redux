@@ -17,7 +17,7 @@
 
        PROCEDURE DIVISION USING OFFSET LS-TABLE-NUM LS-TABLES
        RETURNING BODY.
-           
+       
            IF LS-TABLE-NUM = 1
                        MOVE LS-BODY(OFFSET) TO BODY    
            ELSE IF LS-TABLE-NUM = 2
