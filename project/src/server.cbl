@@ -1073,6 +1073,7 @@
                CALL 'update-password' USING USER-NAME 
                UPDATED-PASSWORD
                MOVE 'PASSWORD SUCCESSFULLY UPDATED' TO PWORD-CONFIRM-MSG
+               MOVE UPDATED-PASSWORD TO WS-PASSWORD
            ELSE IF CHANGE-PWORD-CHOICE = 't' or 'T' THEN 
                PERFORM 0350-TORCH
            ELSE IF CHANGE-PWORD-CHOICE = 'x' or 'X' THEN 
