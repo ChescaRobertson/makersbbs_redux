@@ -426,7 +426,7 @@
                05 LINE 19 COL 63 VALUE
                "AudioBook Charge: 5 credits"
                    FOREGROUND-COLOR IS 2.
-               05 LINE 20 COL 60 PIC X(50) USING AUDIOBOOK-MSG
+               05 LINE 20 COL 50 PIC X(50) USING AUDIOBOOK-MSG
                    HIGHLIGHT, FOREGROUND-COLOR IS 4.
                05 LINE 22 COL 60 VALUE 'Title:'
                    FOREGROUND-COLOR IS 2.
@@ -453,7 +453,7 @@
                    FOREGROUND-COLOR IS 2.
                05 LINE 40 COL 49 VALUE "Pick: "
                    FOREGROUND-COLOR IS 2.
-               05 READ-CHOICE-FIELD LINE 41 COLUMN 67 PIC X
+               05 READ-CHOICE-FIELD LINE 40 COLUMN 55 PIC X
                USING READ-CHOICE
                    FOREGROUND-COLOR IS 2.
                05 LINE 48 COL 49 VALUE 'Press (g) to leave'
