@@ -106,6 +106,8 @@
                05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
                   UNDERLINE, BLINK
                   HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -           "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
            01 TIME-SCREEN.
                05 LINE 8 COL 117 PIC X(2) USING WS-FORMATTED-HOUR

@@ -135,6 +135,8 @@
                05 LINE 8 COLUMN 30 VALUE "Connected to Vault" 
                   UNDERLINE, BLINK
                   HIGHLIGHT, FOREGROUND-COLOR 3.
+               05 LINE 44 COL 78 VALUE "Powered by the MOJAVE EXPRESS DE
+      -           "LIVERY SERVICE" FOREGROUND-COLOR 2.
 
            01 TIME-SCREEN.
                05 LINE 8 COL 117 PIC X(2) USING WS-FORMATTED-HOUR
@@ -625,7 +627,7 @@
                05 LINE 30 COL 48 VALUE "Avoid that radioactive rain & ch'
       -        "eck the Weather." FOREGROUND-COLOR 2 . 
                05 LINE 31 COL 46 VALUE "* " FOREGROUND-COLOR IS 7.
-               05 LINE 31 COL 48 VALUE "Most importantly. HAVE FUN! It's
+               05 LINE 315 COL 48 VALUE "Most importantly. HAVE FUN! It's
       -        " only the apocolypse!" FOREGROUND-COLOR 2 .
                05 LINE 34 COL 84 VALUE "(b) Library     "
                   HIGHLIGHT FOREGROUND-COLOR IS 3.
